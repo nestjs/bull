@@ -29,13 +29,50 @@ This is a [Bull](https://github.com/OptimalBits/bull) module for [Nest](https://
 ## Installation
 
 ```bash
-$ npm i --save @fwoelffel/nest-bull bull
+$ npm i --save nest-bull bull
 $ npm i --save-dev @types/bull
 ```
 
 ## Quick Start
 
-**TODO**
+```ts
+import { Body, Controller, Get, Module, Param, Post } from "@nestjs/common";
+import { DoneCallback, Job, Queue } from "bull";
+import { BullModule, InjectQueue } from "nest-bull";
+
+@Controller()
+export class AppController {
+
+  constructor(
+    @InjectQueue() readonly queue: Queue,
+  ) {}
+
+  @Post()
+  async addJob( @Body() value: any ) {
+    const job: Job = await this.queue.add(value);
+    return job.id;
+  }
+
+  @Get(':id')
+  async getJob( @Param('id') id: string ) {
+    return await this.queue.getJob(id);
+  }
+}
+
+@Module({
+  imports: [
+    BullModule.forRoot({
+      processors: [
+        function(job: Job, done: DoneCallback) { done(null, job.data); },
+      ],
+    }),
+  ],
+  controllers: [
+    AppController,
+  ]
+})
+export class ApplicationModule {}
+```
 
 ## People
 
