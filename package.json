@@ -1,13 +1,23 @@
 {
-  "name": "@fwoelffel/nest-bull",
+  "name": "nest-bull",
   "version": "0.1.0",
   "description": "Nest - modern, fast, powerful node.js web framework (@bull)",
-  "author": "Frederic Woelffel",
+  "author": "Frederic Woelffel <hello@fwoelffel.me>",
   "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "lint": "tslint -c tslint.json lib/**/*.ts"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fwoelffel/nest-bull.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fwoelffel/nest-bull/issues"
+  },
+  "homepage": "https://github.com/fwoelffel/nest-bull",
   "dependencies": {
     "@nestjs/common": "^4.6.4",
     "bull": "^3.3.10"
