@@ -5,13 +5,17 @@ import { BullQueueProcessor, isAdvancedProcessor } from './bull.types';
 import { getQueueToken } from './bull.utils';
 
 export function createQueues(options: BullModuleOptions[]): any[] {
-  return options.map((option) => ({
+  return options.map((option: BullModuleOptions) => ({
     provide: getQueueToken(option.name),
     useFactory: (): Queue => {
       const queue: Queue = new Bull(option.name, option.options);
       option.processors.forEach((processor: BullQueueProcessor) => {
         if (isAdvancedProcessor(processor)) {
-          queue.process(processor.name, processor.concurrency, processor.callback);
+          const hasName = !!processor.name;
+          const hasConcurrency = !!processor.concurrency;
+          hasName && hasConcurrency ? queue.process(processor.name, processor.concurrency, processor.callback)
+          : hasName ? queue.process(processor.name, processor.callback)
+          : queue.process(processor.concurrency, processor.callback);
         }
         else {
           queue.process(processor);
