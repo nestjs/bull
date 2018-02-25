@@ -36,15 +36,15 @@ $ npm i --save-dev @types/bull
 ## Quick Start
 
 ```ts
-import { Body, Controller, Get, Module, Param, Post } from "@nestjs/common";
-import { DoneCallback, Job, Queue } from "bull";
-import { BullModule, InjectQueue } from "nest-bull";
+import {Body, Controller, Get, Module, Param, Post} from '@nestjs/common';
+import {DoneCallback, Job, Queue} from 'bull';
+import {BullModule, InjectQueue} from 'nest-bull';
 
 @Controller()
 export class AppController {
 
   constructor(
-    @InjectQueue() readonly queue: Queue,
+    @InjectQueue('store') readonly queue: Queue,
   ) {}
 
   @Post()
@@ -62,14 +62,20 @@ export class AppController {
 @Module({
   imports: [
     BullModule.forRoot({
+      name: 'store',
+      options: {
+        redis: {
+          port: 6379,
+        },
+      },
       processors: [
-        function(job: Job, done: DoneCallback) { done(null, job.data); },
+        (job: Job, done: DoneCallback) => { done(null, job.data); },
       ],
     }),
   ],
   controllers: [
     AppController,
-  ]
+  ],
 })
 export class ApplicationModule {}
 ```
