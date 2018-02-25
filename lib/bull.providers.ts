@@ -8,7 +8,7 @@ export function createQueues(options: BullModuleOptions[]): any[] {
   return options.map((option: BullModuleOptions) => ({
     provide: getQueueToken(option.name),
     useFactory: (): Queue => {
-      const queue: Queue = new Bull(option.name, option.options);
+      const queue: Queue = new Bull(option.name ? option.name : 'default', option.options);
       option.processors.forEach((processor: BullQueueProcessor) => {
         if (isAdvancedProcessor(processor)) {
           const hasName = !!processor.name;
