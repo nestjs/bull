@@ -1,6 +1,6 @@
 {
   "name": "nest-bull",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Nest - modern, fast, powerful node.js web framework (@bull)",
   "author": "Frederic Woelffel <hello@fwoelffel.me>",
   "license": "MIT",
@@ -8,7 +8,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "lint": "tslint -c tslint.json lib/**/*.ts"
+    "lint": "tslint -c tslint.json lib/**/*.ts",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
