@@ -1,6 +1,6 @@
 {
   "name": "nest-bull",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Nest - modern, fast, powerful node.js web framework (@bull)",
   "author": "Frederic Woelffel <hello@fwoelffel.me>",
   "license": "MIT",
@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/fwoelffel/nest-bull",
   "dependencies": {
-    "@nestjs/common": "^4.6.4",
+    "@nestjs/common": "^5.0.1",
     "bull": "^3.3.10"
   },
   "devDependencies": {
