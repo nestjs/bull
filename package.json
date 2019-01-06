@@ -1,6 +1,6 @@
 {
   "name": "nest-bull",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Nest - modern, fast, powerful node.js web framework (@bull)",
   "author": "Frederic Woelffel <hello@fwoelffel.me>",
   "license": "MIT",
