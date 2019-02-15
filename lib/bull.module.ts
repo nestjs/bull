@@ -17,6 +17,7 @@ export class BullModule {
   static forRootAsync(options: BullModuleAsyncOptions): DynamicModule {
     const providers: Provider[] = createAsyncQueuesProviders([].concat(options));
     return {
+      imports: options.imports,
       module: BullModule,
       components: providers,
       exports: providers,
