@@ -9,7 +9,7 @@ export class BullModule {
     const providers: any[] = createQueuesProviders([].concat(options));
     return {
       module: BullModule,
-      components: providers,
+      providers,
       exports: providers,
     };
   }
@@ -19,7 +19,7 @@ export class BullModule {
     return {
       imports: options.imports,
       module: BullModule,
-      components: providers,
+      providers,
       exports: providers,
     };
   }
