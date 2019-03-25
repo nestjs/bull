@@ -8,8 +8,10 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "lint": "tslint -c tslint.json lib/**/*.ts",
-    "prepare": "npm run build"
+    "lint": "tslint -c tslint.json e2e/*.ts",
+    "prepublish": "npm run build",
+    "test": "npm run test:e2e",
+    "test:e2e": "jest --config=e2e/jest-e2e.json --detectOpenHandles --forceExit"
   },
   "repository": {
     "type": "git",
@@ -20,13 +22,20 @@
   },
   "homepage": "https://github.com/fwoelffel/nest-bull",
   "dependencies": {
-    "@nestjs/common": "^5.0.1",
     "bull": "^3.3.10"
   },
   "devDependencies": {
+    "@nestjs/common": "^5.7.4",
+    "@nestjs/core": "^5.7.4",
+    "@nestjs/testing": "^5.7.4",
     "@types/bull": "^3.3.6",
+    "@types/jest": "^24.0.11",
     "@types/node": "^7.0.41",
+    "jest": "^24.5.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.4.0",
+    "ts-jest": "^24.0.0",
     "tslint": "^5.9.1",
-    "typescript": "^2.7.2"
+    "typescript": "^2.9.2"
   }
 }
