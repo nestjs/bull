@@ -3,36 +3,59 @@
     "extends": [
         "tslint:recommended"
     ],
-    "jsRules": {},
+    "jsRules": {
+        "no-unused-expression": true
+    },
     "rules": {
-        "quotemark": [true, "single", "avoid-escape"],
-        "object-literal-sort-keys": false,
-        "ordered-imports": [true, {
-            "import-sources-order": "any",
-            "named-imports-order": "any"
-        }],
-        "no-console": [false],
-        "interface-name": [true, "never-prefix"],
         "eofline": false,
-        "linebreak-style": [
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "trailing-comma": false,
+        "member-access": false,
+        "indent": false,
+        "ordered-imports": [
             false
         ],
-        "indent": false,
-        "member-access": false,
-        "ban-types": false,
-        "max-classes-per-file": [
-            false
+        "no-implicit-dependencies": false,
+        "no-unnecessary-initializer": false,
+        "unified-signatures": false,
+        "callable-types": false,
+        "max-line-length": [
+            150
         ],
         "member-ordering": [
             false
         ],
-        "no-var-requires": false,
-        "one-line": [
+        "curly": false,
+        "interface-name": [
             false
         ],
         "array-type": [
             false
-        ]
+        ],
+        "no-empty-interface": false,
+        "no-empty": false,
+        "arrow-parens": false,
+        "object-literal-sort-keys": false,
+        "no-unused-expression": false,
+        "max-classes-per-file": [
+            false
+        ],
+        "ban-types": false,
+        "variable-name": [
+            false
+        ],
+        "one-line": [
+            false
+        ],
+        "one-variable-per-declaration": [
+            false
+        ],
+        "no-return-await": true,
+        "match-default-export-name": true,
+        "prefer-readonly": true
     },
     "rulesDirectory": []
 }
