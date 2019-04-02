@@ -1,59 +1,59 @@
 {
   "name": "nest-bull",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Nest - modern, fast, powerful node.js web framework (@bull)",
-  "author": "Frederic Woelffel <hello@fwoelffel.me>",
-  "license": "MIT",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "format": "prettier **/**/*.ts --ignore-path ./.prettierignore --write && git status",
-    "lint": "tslint -p tsconfig.json -c tslint.json {e2e,src}/**/*.ts",
-    "prepublish": "npm run build",
-    "test": "npm run test:e2e",
-    "test:e2e": "jest --config=e2e/jest-e2e.json --detectOpenHandles --forceExit"
+  "homepage": "https://github.com/fwoelffel/nest-bull",
+  "bugs": {
+    "url": "https://github.com/fwoelffel/nest-bull/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fwoelffel/nest-bull.git"
   },
-  "bugs": {
-    "url": "https://github.com/fwoelffel/nest-bull/issues"
-  },
-  "homepage": "https://github.com/fwoelffel/nest-bull",
-  "dependencies": {
-    "bull": "^3.3.10"
-  },
-  "devDependencies": {
-    "@nestjs/common": "^5.7.4",
-    "@nestjs/core": "^5.7.4",
-    "@nestjs/testing": "^5.7.4",
-    "@types/bull": "^3.3.6",
-    "@types/jest": "^24.0.11",
-    "@types/node": "^7.0.41",
-    "husky": "^1.3.1",
-    "jest": "^24.5.0",
-    "lint-staged": "^8.1.5",
-    "prettier": "^1.16.4",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.4.0",
-    "sort-package-json": "^1.22.0",
-    "ts-jest": "^24.0.0",
-    "tslint": "^5.9.1",
-    "typescript": "^2.9.2"
-  },
-  "lint-staged": {
-    "{src,e2e}/**/*.{ts,json}": [
-      "npm run format",
-      "npm run lint",
-      "sort-package-json",
-      "git add"
-    ]
+  "license": "MIT",
+  "author": "Frederic Woelffel <hello@fwoelffel.me>",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "format": "prettier --write **/*.{ts,json}",
+    "lint": "tslint -c tslint.json **/*.ts",
+    "prepublish": "npm run build",
+    "test": "npm run test:e2e",
+    "test:e2e": "jest --config=e2e/jest-e2e.json --detectOpenHandles --forceExit"
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{ts,json}": [
+      "prettier --write **/*.{ts,json}",
+      "tslint -c tslint.json **/*.ts",
+      "sort-package-json",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "@nestjs/common": "6.0.5",
+    "@nestjs/core": "6.0.5",
+    "@nestjs/testing": "6.0.5",
+    "@types/bull": "3.5.9",
+    "@types/jest": "24.0.11",
+    "@types/node": "11.11.4",
+    "bull": "3.7.0",
+    "jest": "24.6.0",
+    "prettier": "^1.16.4",
+    "reflect-metadata": "0.1.13",
+    "rxjs": "6.4.0",
+    "sort-package-json": "^1.22.1",
+    "ts-jest": "24.0.1",
+    "tslint": "5.14.0",
+    "typescript": "3.3.4000"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^5.0.0 || ^6.0.0",
+    "bull": "^3.3"
   }
 }
