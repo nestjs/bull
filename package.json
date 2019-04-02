@@ -59,7 +59,7 @@
     "rxjs": "6.4.0",
     "sort-package-json": "1.22.1",
     "ts-jest": "24.0.1",
-    "tslint": "5.14.0",
+    "tslint": "5.15.0",
     "typescript": "3.3.4000"
   },
   "peerDependencies": {
