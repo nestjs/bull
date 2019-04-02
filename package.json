@@ -19,7 +19,7 @@
     "format": "prettier --write **/*.{ts,json}",
     "lint": "tslint -c tslint.json **/*.ts",
     "prepublish": "npm run build",
-    "test": "npm run test:e2e",
+    "test": "jest --config=jest.json --detectOpenHandles --forceExit",
     "test:e2e": "jest --config=e2e/jest-e2e.json --detectOpenHandles --forceExit"
   },
   "husky": {
