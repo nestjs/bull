@@ -1,38 +1,41 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
-    ],
-    "jsRules": {},
-    "rules": {
-        "quotemark": [true, "single", "avoid-escape"],
-        "object-literal-sort-keys": false,
-        "ordered-imports": [true, {
-            "import-sources-order": "any",
-            "named-imports-order": "any"
-        }],
-        "no-console": [false],
-        "interface-name": [true, "never-prefix"],
-        "eofline": false,
-        "linebreak-style": [
-            false
-        ],
-        "indent": false,
-        "member-access": false,
-        "ban-types": false,
-        "max-classes-per-file": [
-            false
-        ],
-        "member-ordering": [
-            false
-        ],
-        "no-var-requires": false,
-        "one-line": [
-            false
-        ],
-        "array-type": [
-            false
-        ]
-    },
-    "rulesDirectory": []
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended"],
+  "jsRules": {
+    "no-unused-expression": true
+  },
+  "rules": {
+    "eofline": false,
+    "quotemark": [true, "single"],
+    "trailing-comma": false,
+    "member-access": false,
+    "indent": false,
+    "ordered-imports": [false],
+    "no-implicit-dependencies": false,
+    "no-unnecessary-initializer": false,
+    "unified-signatures": false,
+    "callable-types": false,
+    "max-line-length": [150],
+    "member-ordering": [false],
+    "curly": false,
+    "interface-name": [false],
+    "array-type": [false],
+    "no-empty-interface": false,
+    "no-empty": false,
+    "arrow-parens": false,
+    "object-literal-sort-keys": false,
+    "no-unused-expression": false,
+    "max-classes-per-file": [false],
+    "ban-types": false,
+    "variable-name": [false],
+    "one-line": [false],
+    "one-variable-per-declaration": [false],
+    "no-return-await": true,
+    "match-default-export-name": true,
+    "prefer-readonly": true
+  },
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": ["node_modules*", "dist*"]
+  }
 }

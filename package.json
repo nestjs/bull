@@ -2,28 +2,38 @@
   "name": "nest-bull",
   "version": "0.4.0",
   "description": "Nest - modern, fast, powerful node.js web framework (@bull)",
-  "author": "Frederic Woelffel <hello@fwoelffel.me>",
-  "license": "MIT",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "lint": "tslint -c tslint.json e2e/*.ts",
-    "prepublish": "npm run build",
-    "test": "npm run test:e2e",
-    "test:e2e": "jest --config=e2e/jest-e2e.json --detectOpenHandles --forceExit"
+  "homepage": "https://github.com/fwoelffel/nest-bull",
+  "bugs": {
+    "url": "https://github.com/fwoelffel/nest-bull/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fwoelffel/nest-bull.git"
   },
-  "bugs": {
-    "url": "https://github.com/fwoelffel/nest-bull/issues"
+  "license": "MIT",
+  "author": "Frederic Woelffel <hello@fwoelffel.me>",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "format": "prettier --write **/*.{ts,json}",
+    "lint": "tslint -c tslint.json **/*.ts",
+    "prepublish": "npm run build",
+    "test": "npm run test:e2e",
+    "test:e2e": "jest --config=e2e/jest-e2e.json --detectOpenHandles --forceExit"
   },
-  "homepage": "https://github.com/fwoelffel/nest-bull",
-  "peerDependencies": {
-    "@nestjs/common": "^5.0.0 || ^6.0.0",
-    "bull": "^3.3"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,json}": [
+      "prettier --write **/*.{ts,json}",
+      "tslint -c tslint.json **/*.ts",
+      "sort-package-json",
+      "git add"
+    ]
   },
   "devDependencies": {
     "@nestjs/common": "6.0.5",
@@ -34,10 +44,16 @@
     "@types/node": "11.11.4",
     "bull": "3.7.0",
     "jest": "24.6.0",
+    "prettier": "^1.16.4",
     "reflect-metadata": "0.1.13",
     "rxjs": "6.4.0",
+    "sort-package-json": "^1.22.1",
     "ts-jest": "24.0.1",
     "tslint": "5.14.0",
     "typescript": "3.3.4000"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^5.0.0 || ^6.0.0",
+    "bull": "^3.3"
   }
 }
