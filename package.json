@@ -24,8 +24,14 @@
   },
   "husky": {
     "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "lint-staged"
     }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "lint-staged": {
     "*.{ts,json}": [
@@ -36,6 +42,8 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^7.5.2",
+    "@commitlint/config-conventional": "^7.5.0",
     "@nestjs/common": "6.0.5",
     "@nestjs/core": "6.0.5",
     "@nestjs/testing": "6.0.5",
