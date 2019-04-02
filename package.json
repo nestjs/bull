@@ -26,7 +26,7 @@
     "bull": "^3.3"
   },
   "devDependencies": {
-    "@nestjs/common": "6.0.2",
+    "@nestjs/common": "6.0.5",
     "@nestjs/core": "6.0.5",
     "@nestjs/testing": "6.0.5",
     "@types/bull": "3.5.9",
