@@ -34,9 +34,12 @@
     ]
   },
   "lint-staged": {
-    "*.{ts,json}": [
+    "*.{ts}": [
       "prettier --write",
       "tslint -c tslint.json",
+      "git add"
+    ],
+    "package.json": [
       "sort-package-json",
       "git add"
     ]
