@@ -6,7 +6,7 @@ import {
   BullOptionsFactory,
 } from './bull.interfaces';
 import { BullQueueProcessor, isAdvancedProcessor } from './bull.types';
-import { getQueueToken } from './bull.utils';
+import {getQueueToken, getQueueOptionsToken} from './bull.utils';
 import { Provider } from '@nestjs/common';
 
 function buildQueue(option: BullModuleOptions): Queue {
@@ -38,7 +38,7 @@ function buildQueue(option: BullModuleOptions): Queue {
 
 export function createQueueOptionProviders(options: BullModuleOptions[]): any {
   return options.map(option => ({
-    provide: `${getQueueToken(option.name)}_CONFIG`,
+    provide: getQueueOptionsToken(option.name),
     useValue: option
   }));
 }
@@ -47,7 +47,7 @@ export function createQueueProviders(options: BullModuleOptions[]): any {
   return options.map(option => ({
     provide: getQueueToken(option.name),
     useFactory: o => buildQueue(o),
-    inject: [ `${getQueueToken(option.name)}_CONFIG` ]
+    inject: [ getQueueOptionsToken(option.name) ]
   }));
 }
 
