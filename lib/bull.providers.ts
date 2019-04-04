@@ -36,25 +36,19 @@ function buildQueue(option: BullModuleOptions): Queue {
   return queue;
 }
 
-export function createQueuesProviders(options: BullModuleOptions[]): any {
-  const configs = [];
-  const queues = [];
-  for (const option of options) {
-    const config = {
-      provide: `${getQueueToken(option.name)}_CONFIG`,
-      useValue: option
-    };
-    const factory = {
-      provide: getQueueToken(option.name),
-      useFactory: (o) => {
-        return buildQueue(o);
-      },
-      inject: [ `${getQueueToken(option.name)}_CONFIG` ]
-    };
-    configs.push(config);
-    queues.push(factory);
-  }
-  return { configs, queues };
+export function createQueueOptionProviders(options: BullModuleOptions[]): any {
+  return options.map(option => ({
+    provide: `${getQueueToken(option.name)}_CONFIG`,
+    useValue: option
+  }));
+}
+
+export function createQueueProviders(options: BullModuleOptions[]): any {
+  return options.map(option => ({
+    provide: getQueueToken(option.name),
+    useFactory: o => buildQueue(o),
+    inject: [ `${getQueueToken(option.name)}_CONFIG` ]
+  }));
 }
 
 export function createAsyncQueuesProviders(
