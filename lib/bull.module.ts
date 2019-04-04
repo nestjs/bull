@@ -10,12 +10,15 @@ export class BullModule {
   static forRoot(
     options: BullModuleOptions | BullModuleOptions[],
   ): DynamicModule {
-    const providers = createQueuesProviders([].concat(options));
-    return {
+    const module: DynamicModule = {
       module: BullModule,
-      providers: [ ...providers.configs, ...providers.queues ],
-      exports: providers.queues.map(f => f.provide),
+      providers: [],
+      exports: []
     };
+    const providers = createQueuesProviders([].concat(options));
+    module.providers.push(...providers.configs, ...providers.queues);
+    module.exports.push(...providers.queues.map(q => q.provide));
+    return module;
   }
 
   static forRootAsync(options: BullModuleAsyncOptions): DynamicModule {
