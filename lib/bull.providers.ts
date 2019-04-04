@@ -3,7 +3,6 @@ import { Queue } from 'bull';
 import {
   BullModuleOptions,
   BullModuleAsyncOptions,
-  BullOptionsFactory,
 } from './bull.interfaces';
 import { BullQueueProcessor, isAdvancedProcessor } from './bull.types';
 import {getQueueToken, getQueueOptionsToken} from './bull.utils';
