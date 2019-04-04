@@ -51,34 +51,14 @@ export function createQueueProviders(options: BullModuleOptions[]): any {
   }));
 }
 
-export function createAsyncQueuesProviders(
+export function createAsyncQueueOptionsProviders(
   options: BullModuleAsyncOptions[],
 ): Provider[] {
-  const classProviders: Provider[] = [];
-  return options
-    .map(
-      (option: BullModuleAsyncOptions): Provider => {
-        if (option.useFactory) {
-          return {
-            provide: getQueueToken(option.name),
-            useFactory: async (...args: any[]) =>
-              buildQueue(await option.useFactory(...args)),
-            inject: option.inject || [],
-          };
-        }
-        if (option.useClass) {
-          classProviders.push({
-            provide: option.useClass,
-            useClass: option.useClass,
-          });
-        }
-        return {
-          provide: getQueueToken(option.name),
-          useFactory: async (optionFactory: BullOptionsFactory) =>
-            buildQueue(await optionFactory.createBullOptions()),
-          inject: [option.useClass || option.useExisting],
-        };
-      },
-    )
-    .concat(classProviders);
+  return options.map(option => ({
+    provide: getQueueOptionsToken(option.name),
+    useFactory: option.useFactory,
+    useClass: option.useClass,
+    useExisting: option.useExisting,
+    inject: option.inject
+  }));
 }
