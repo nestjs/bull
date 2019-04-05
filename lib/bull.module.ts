@@ -1,32 +1,33 @@
-import { DynamicModule, Module, Provider } from '@nestjs/common';
-import { BullModuleOptions, BullModuleAsyncOptions } from './bull.interfaces';
-import {
-  createQueuesProviders,
-  createAsyncQueuesProviders,
-} from './bull.providers';
+import {DynamicModule, Module} from '@nestjs/common';
+import {BullModuleOptions, BullModuleAsyncOptions} from './bull.interfaces';
+import {createQueueOptionProviders, createQueueProviders, createAsyncQueueOptionsProviders} from './bull.providers';
 
 @Module({})
 export class BullModule {
   static forRoot(
-    options: BullModuleOptions | BullModuleOptions[],
+      options: BullModuleOptions | BullModuleOptions[],
   ): DynamicModule {
-    const providers: any[] = createQueuesProviders([].concat(options));
+    const queueProviders = createQueueProviders([].concat(options));
+    const queueOptionProviders = createQueueOptionProviders([].concat(options));
     return {
       module: BullModule,
-      providers,
-      exports: providers,
+      providers: [ ...queueOptionProviders, ...queueProviders ],
+      exports: queueProviders
     };
   }
 
-  static forRootAsync(options: BullModuleAsyncOptions): DynamicModule {
-    const providers: Provider[] = createAsyncQueuesProviders(
-      [].concat(options),
-    );
+  static forRootAsync(options: BullModuleAsyncOptions | BullModuleAsyncOptions[]): DynamicModule {
+    const optionsArr = [].concat(options);
+    const queueProviders = createQueueProviders(optionsArr);
+    const queueOptionProviders = createAsyncQueueOptionsProviders(optionsArr);
+    const imports = optionsArr
+        .map(option => option.imports)
+        .reduce((acc = [], i) => { acc.push(i); }) || [];
     return {
-      imports: options.imports,
+      imports,
       module: BullModule,
-      providers,
-      exports: providers,
+      providers: [ ...queueOptionProviders, ...queueProviders ],
+      exports: queueProviders
     };
   }
 }

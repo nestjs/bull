@@ -3,10 +3,9 @@ import { Queue } from 'bull';
 import {
   BullModuleOptions,
   BullModuleAsyncOptions,
-  BullOptionsFactory,
 } from './bull.interfaces';
 import { BullQueueProcessor, isAdvancedProcessor } from './bull.types';
-import { getQueueToken } from './bull.utils';
+import {getQueueToken, getQueueOptionsToken} from './bull.utils';
 import { Provider } from '@nestjs/common';
 
 function buildQueue(option: BullModuleOptions): Queue {
@@ -36,41 +35,29 @@ function buildQueue(option: BullModuleOptions): Queue {
   return queue;
 }
 
-export function createQueuesProviders(options: BullModuleOptions[]): any[] {
-  return options.map((option: BullModuleOptions) => ({
-    provide: getQueueToken(option.name),
-    useValue: buildQueue(option),
+export function createQueueOptionProviders(options: BullModuleOptions[]): any {
+  return options.map(option => ({
+    provide: getQueueOptionsToken(option.name),
+    useValue: option
   }));
 }
 
-export function createAsyncQueuesProviders(
+export function createQueueProviders(options: BullModuleOptions[]): any {
+  return options.map(option => ({
+    provide: getQueueToken(option.name),
+    useFactory: o => buildQueue(o),
+    inject: [ getQueueOptionsToken(option.name) ]
+  }));
+}
+
+export function createAsyncQueueOptionsProviders(
   options: BullModuleAsyncOptions[],
 ): Provider[] {
-  const classProviders: Provider[] = [];
-  return options
-    .map(
-      (option: BullModuleAsyncOptions): Provider => {
-        if (option.useFactory) {
-          return {
-            provide: getQueueToken(option.name),
-            useFactory: async (...args: any[]) =>
-              buildQueue(await option.useFactory(...args)),
-            inject: option.inject || [],
-          };
-        }
-        if (option.useClass) {
-          classProviders.push({
-            provide: option.useClass,
-            useClass: option.useClass,
-          });
-        }
-        return {
-          provide: getQueueToken(option.name),
-          useFactory: async (optionFactory: BullOptionsFactory) =>
-            buildQueue(await optionFactory.createBullOptions()),
-          inject: [option.useClass || option.useExisting],
-        };
-      },
-    )
-    .concat(classProviders);
+  return options.map(option => ({
+    provide: getQueueOptionsToken(option.name),
+    useFactory: option.useFactory,
+    useClass: option.useClass,
+    useExisting: option.useExisting,
+    inject: option.inject
+  }));
 }
