@@ -36,7 +36,7 @@ export class BullService {
     }
     return {
       methodKey,
-      targetCallback: targetCallback.bind(instancePrototype),
+      targetCallback: targetCallback.bind(instance),
       pattern,
     };
   }
