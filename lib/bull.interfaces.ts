@@ -22,3 +22,9 @@ export interface BullModuleAsyncOptions
   ) => Promise<BullModuleOptions> | BullModuleOptions;
   inject?: any[];
 }
+
+export interface PatternProperties {
+  pattern: string;
+  methodKey: string;
+  targetCallback: (...args: any[]) => any;
+}

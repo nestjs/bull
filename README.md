@@ -38,7 +38,7 @@ $ npm i --save-dev @types/bull
 ```ts
 import {Body, Controller, Get, Module, Param, Post} from '@nestjs/common';
 import {DoneCallback, Job, Queue} from 'bull';
-import {BullModule, InjectQueue} from 'nest-bull';
+import {BullModule, InjectQueue, ProcessQueue} from 'nest-bull';
 
 @Controller()
 export class AppController {
@@ -57,11 +57,16 @@ export class AppController {
   async getJob( @Param('id') id: string ) {
     return await this.queue.getJob(id);
   }
+  
+  @ProcessQueue('storeController')
+  processors(job: Job) {
+    
+  }
 }
 
 @Module({
   imports: [
-    BullModule.forRoot({
+    BullModule.forRoot([{
       name: 'store',
       options: {
         redis: {
@@ -71,7 +76,14 @@ export class AppController {
       processors: [
         (job: Job, done: DoneCallback) => { done(null, job.data); },
       ],
-    }),
+    },{
+      name: 'storeController',
+      options: {
+       redis: {
+        port: 6379,
+       },
+      },
+     }]),
   ],
   controllers: [
     AppController,
