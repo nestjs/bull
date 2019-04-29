@@ -62,8 +62,8 @@ export class BullService {
       }, [])
       .forEach(patternProperties => {
         try {
-          const queue: Queue = this.moduleRef.get<Queue>(getQueueToken(patternProperties.pattern));
-          queue.process(async (job: Job, done: DoneCallback) => {
+          const queue: Queue = this.moduleRef.get<Queue>(getQueueToken(patternProperties.pattern.name));
+          queue.process(patternProperties.pattern.count, async (job: Job, done: DoneCallback) => {
             const response$ = this.transformToObservable(
               await patternProperties.targetCallback(job),
             ) as Observable<any>;

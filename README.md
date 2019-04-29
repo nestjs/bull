@@ -58,7 +58,7 @@ export class AppController {
     return await this.queue.getJob(id);
   }
   
-  @ProcessQueue('storeController')
+  @ProcessQueue('storeController', 5)
   processors(job: Job) {
     
   }

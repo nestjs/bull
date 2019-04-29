@@ -23,8 +23,13 @@ export interface BullModuleAsyncOptions
   inject?: any[];
 }
 
+export interface MetadataValue {
+  name: string;
+  count: number;
+}
+
 export interface PatternProperties {
-  pattern: string;
+  pattern: MetadataValue;
   methodKey: string;
   targetCallback: (...args: any[]) => any;
 }
