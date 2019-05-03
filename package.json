@@ -50,7 +50,7 @@
     "@nestjs/common": "6.1.1",
     "@nestjs/core": "6.1.1",
     "@nestjs/testing": "6.1.1",
-    "@types/bull": "3.5.12",
+    "@types/bull": "3.5.13",
     "@types/jest": "24.0.12",
     "@types/node": "11.13.8",
     "bull": "3.8.1",
