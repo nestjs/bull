@@ -1,6 +1,6 @@
-import {BullModule, getQueueToken} from '../lib';
-import {Queue} from 'bull';
-import {Test, TestingModule} from '@nestjs/testing';
+import { BullModule, getQueueToken } from '../lib';
+import { Queue } from 'bull';
+import { Test, TestingModule } from '@nestjs/testing';
 
 describe('BullModule', () => {
   let module: TestingModule;
@@ -25,12 +25,7 @@ describe('BullModule', () => {
     describe('multiple configuration', () => {
       beforeAll(async () => {
         module = await Test.createTestingModule({
-          imports: [
-            BullModule.forRoot([
-              { name: 'test1' },
-              { name: 'test2' },
-            ]),
-          ],
+          imports: [BullModule.forRoot([{ name: 'test1' }, { name: 'test2' }])],
         }).compile();
       });
       it('should inject the queue with name "test1"', () => {

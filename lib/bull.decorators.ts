@@ -1,35 +1,39 @@
-import {Inject} from '@nestjs/common';
-import {getQueueToken} from './bull.utils';
-import {BULL_MODULE_QUEUE_LISTENER, BULL_MODULE_PROCESS, BULL_MODULE_ON_EVENT} from './bull.constants';
-import {BullQueueEvent} from './bull.types';
-import {BullQueueEvents, BullQueueGlobalEvents} from './bull.enums';
+import { Inject } from '@nestjs/common';
+import { getQueueToken } from './bull.utils';
+import {
+  BULL_MODULE_QUEUE_LISTENER,
+  BULL_MODULE_PROCESS,
+  BULL_MODULE_ON_EVENT,
+} from './bull.constants';
+import { BullQueueEvent } from './bull.types';
+import { BullQueueEvents, BullQueueGlobalEvents } from './bull.enums';
 
-export const InjectQueue = (name?: string): ParameterDecorator => Inject(getQueueToken(name));
+export const InjectQueue = (name?: string): ParameterDecorator =>
+  Inject(getQueueToken(name));
 
-export const QueueListener = (options?: { name?: string }): ClassDecorator => (target: any) => {
-    Reflect.defineMetadata(
-        BULL_MODULE_QUEUE_LISTENER,
-        options || {},
-        target
-    );
+export const QueueListener = (options?: { name?: string }): ClassDecorator => (
+  target: any,
+) => {
+  Reflect.defineMetadata(BULL_MODULE_QUEUE_LISTENER, options || {}, target);
 };
 
-export const Process = (options?: { name?: string, concurrency?: number }): MethodDecorator => (target: any, propertyName: string) => {
-    Reflect.defineMetadata(
-        BULL_MODULE_PROCESS,
-        options,
-        target,
-        propertyName,
-    );
+export const Process = (options?: {
+  name?: string;
+  concurrency?: number;
+}): MethodDecorator => (target: any, propertyName: string) => {
+  Reflect.defineMetadata(BULL_MODULE_PROCESS, options, target, propertyName);
 };
 
-export const OnEvent = (eventName: BullQueueEvent): MethodDecorator => (target: any, propertyName: string) => {
-    Reflect.defineMetadata(
-        BULL_MODULE_ON_EVENT,
-        { eventName },
-        target,
-        propertyName
-    );
+export const OnEvent = (eventName: BullQueueEvent): MethodDecorator => (
+  target: any,
+  propertyName: string,
+) => {
+  Reflect.defineMetadata(
+    BULL_MODULE_ON_EVENT,
+    { eventName },
+    target,
+    propertyName,
+  );
 };
 
 export const OnError = () => OnEvent(BullQueueEvents.ERROR);
