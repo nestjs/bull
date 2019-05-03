@@ -1,17 +1,16 @@
-import {DynamicModule, Module} from '@nestjs/common';
+import {DynamicModule, Module, OnModuleInit} from '@nestjs/common';
 import {BullModuleOptions, BullModuleAsyncOptions} from './bull.interfaces';
 import {createQueueOptionProviders, createQueueProviders, createAsyncQueueOptionsProviders} from './bull.providers';
+import {BullExplorer} from './bull.explorer';
 
 @Module({})
-export class BullModule {
-  static forRoot(
-      options: BullModuleOptions | BullModuleOptions[],
-  ): DynamicModule {
+export class BullModule implements OnModuleInit {
+  static forRoot(options: BullModuleOptions | BullModuleOptions[]): DynamicModule {
     const queueProviders = createQueueProviders([].concat(options));
     const queueOptionProviders = createQueueOptionProviders([].concat(options));
     return {
       module: BullModule,
-      providers: [ ...queueOptionProviders, ...queueProviders ],
+      providers: [ ...queueOptionProviders, ...queueProviders, BullExplorer ],
       exports: queueProviders
     };
   }
@@ -26,8 +25,14 @@ export class BullModule {
     return {
       imports,
       module: BullModule,
-      providers: [ ...queueOptionProviders, ...queueProviders ],
+      providers: [ ...queueOptionProviders, ...queueProviders, BullExplorer ],
       exports: queueProviders
     };
+  }
+
+  constructor(private readonly explorer: BullExplorer) {}
+
+  onModuleInit() {
+    this.explorer.explore();
   }
 }
