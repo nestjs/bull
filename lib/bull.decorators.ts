@@ -29,6 +29,7 @@ import {
     BULL_MODULE_ON_GLOBAL_REMOVED,
     BULL_MODULE_ON_EVENT
 } from './bull.constants';
+import {BullQueueEvent} from './bull.types';
 
 export function InjectQueue(name?: string): ParameterDecorator {
     return Inject(getQueueToken(name));
@@ -55,7 +56,7 @@ export const Process = (options?: { name?: string, concurrency?: number }) => {
     };
 };
 
-export const OnEvent = (eventName: string) => {
+export const OnEvent = (eventName: BullQueueEvent) => {
     return (target: any, propertyName: string) => {
         Reflect.defineMetadata(
             BULL_MODULE_ON_EVENT,
