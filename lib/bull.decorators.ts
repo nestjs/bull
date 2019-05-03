@@ -26,7 +26,8 @@ import {
     BULL_MODULE_ON_GLOBAL_RESUMED,
     BULL_MODULE_ON_GLOBAL_CLEANED,
     BULL_MODULE_ON_GLOBAL_DRAINED,
-    BULL_MODULE_ON_GLOBAL_REMOVED
+    BULL_MODULE_ON_GLOBAL_REMOVED,
+    BULL_MODULE_ON_EVENT
 } from './bull.constants';
 
 export function InjectQueue(name?: string): ParameterDecorator {
@@ -50,6 +51,17 @@ export const Process = (options?: { name?: string, concurrency?: number }) => {
             options,
             target,
             propertyName,
+        );
+    };
+};
+
+export const OnEvent = (eventName: string) => {
+    return (target: any, propertyName: string) => {
+        Reflect.defineMetadata(
+            BULL_MODULE_ON_EVENT,
+            { eventName },
+            target,
+            propertyName
         );
     };
 };

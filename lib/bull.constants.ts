@@ -1,5 +1,6 @@
 export const BULL_MODULE_QUEUE_LISTENER = '__bull_module_queue_listener';
 export const BULL_MODULE_PROCESS = '__bull_module_process';
+export const BULL_MODULE_ON_EVENT = '__bull_module_on_event';
 export const BULL_MODULE_ON_ERROR = '__bull_module_on_error';
 export const BULL_MODULE_ON_WAITING = '__bull_module_on_waiting';
 export const BULL_MODULE_ON_ACTIVE = '__bull_module_on_active';
