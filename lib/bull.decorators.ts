@@ -7,20 +7,21 @@ import {
 } from './bull.constants';
 import { BullQueueEvent } from './bull.types';
 import { BullQueueEvents, BullQueueGlobalEvents } from './bull.enums';
+import { ProcessOptions, QueueListenerOptions } from './bull.interfaces';
 
 export const InjectQueue = (name?: string): ParameterDecorator =>
   Inject(getQueueToken(name));
 
-export const QueueListener = (options?: { name?: string }): ClassDecorator => (
-  target: any,
-) => {
+export const QueueListener = (
+  options?: QueueListenerOptions,
+): ClassDecorator => (target: any) => {
   Reflect.defineMetadata(BULL_MODULE_QUEUE_LISTENER, options || {}, target);
 };
 
-export const Process = (options?: {
-  name?: string;
-  concurrency?: number;
-}): MethodDecorator => (target: any, propertyName: string) => {
+export const Process = (options?: ProcessOptions): MethodDecorator => (
+  target: any,
+  propertyName: string,
+) => {
   Reflect.defineMetadata(BULL_MODULE_PROCESS, options, target, propertyName);
 };
 
