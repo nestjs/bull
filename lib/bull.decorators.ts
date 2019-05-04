@@ -5,24 +5,31 @@ import {
   BULL_MODULE_QUEUE_PROCESS,
   BULL_MODULE_ON_QUEUE_EVENT,
 } from './bull.constants';
-import { BullQueueEvent } from './bull.types';
 import { BullQueueEvents, BullQueueGlobalEvents } from './bull.enums';
-import { ProcessOptions, QueueListenerOptions } from './bull.interfaces';
+import {
+  QueueProcessDecoratorOptions,
+  QueueDecoratorOptions,
+} from './bull.interfaces';
+import { BullQueueEvent } from './bull.types';
 
 export const InjectQueue = (name?: string): ParameterDecorator =>
   Inject(getQueueToken(name));
 
-export const Queue = (
-  options?: QueueListenerOptions,
-): ClassDecorator => (target: any) => {
+export const Queue = (options?: QueueDecoratorOptions): ClassDecorator => (
+  target: any,
+) => {
   Reflect.defineMetadata(BULL_MODULE_QUEUE, options || {}, target);
 };
 
-export const QueueProcess = (options?: ProcessOptions): MethodDecorator => (
-  target: any,
-  propertyName: string,
-) => {
-  Reflect.defineMetadata(BULL_MODULE_QUEUE_PROCESS, options, target, propertyName);
+export const QueueProcess = (
+  options?: QueueProcessDecoratorOptions,
+): MethodDecorator => (target: any, propertyName: string) => {
+  Reflect.defineMetadata(
+    BULL_MODULE_QUEUE_PROCESS,
+    options,
+    target,
+    propertyName,
+  );
 };
 
 export const OnQueueEvent = (eventName: BullQueueEvent): MethodDecorator => (
@@ -61,26 +68,38 @@ export const OnQueueDrained = () => OnQueueEvent(BullQueueEvents.DRAINED);
 
 export const OnQueueRemoved = () => OnQueueEvent(BullQueueEvents.REMOVED);
 
-export const OnGlobalQueueError = () => OnQueueEvent(BullQueueGlobalEvents.ERROR);
+export const OnGlobalQueueError = () =>
+  OnQueueEvent(BullQueueGlobalEvents.ERROR);
 
-export const OnGlobalQueueWaiting = () => OnQueueEvent(BullQueueGlobalEvents.WAITING);
+export const OnGlobalQueueWaiting = () =>
+  OnQueueEvent(BullQueueGlobalEvents.WAITING);
 
-export const OnGlobalQueueActive = () => OnQueueEvent(BullQueueGlobalEvents.ACTIVE);
+export const OnGlobalQueueActive = () =>
+  OnQueueEvent(BullQueueGlobalEvents.ACTIVE);
 
-export const OnGlobalQueueStalled = () => OnQueueEvent(BullQueueGlobalEvents.STALLED);
+export const OnGlobalQueueStalled = () =>
+  OnQueueEvent(BullQueueGlobalEvents.STALLED);
 
-export const OnGlobalQueueProgress = () => OnQueueEvent(BullQueueGlobalEvents.PROGRESS);
+export const OnGlobalQueueProgress = () =>
+  OnQueueEvent(BullQueueGlobalEvents.PROGRESS);
 
-export const OnGlobalQueueCompleted = () => OnQueueEvent(BullQueueGlobalEvents.COMPLETED);
+export const OnGlobalQueueCompleted = () =>
+  OnQueueEvent(BullQueueGlobalEvents.COMPLETED);
 
-export const OnGlobalQueueFailed = () => OnQueueEvent(BullQueueGlobalEvents.FAILED);
+export const OnGlobalQueueFailed = () =>
+  OnQueueEvent(BullQueueGlobalEvents.FAILED);
 
-export const OnGlobalQueuePaused = () => OnQueueEvent(BullQueueGlobalEvents.PAUSED);
+export const OnGlobalQueuePaused = () =>
+  OnQueueEvent(BullQueueGlobalEvents.PAUSED);
 
-export const OnGlobalQueueResumed = () => OnQueueEvent(BullQueueGlobalEvents.RESUMED);
+export const OnGlobalQueueResumed = () =>
+  OnQueueEvent(BullQueueGlobalEvents.RESUMED);
 
-export const OnGlobalQueueCleaned = () => OnQueueEvent(BullQueueGlobalEvents.CLEANED);
+export const OnGlobalQueueCleaned = () =>
+  OnQueueEvent(BullQueueGlobalEvents.CLEANED);
 
-export const OnGlobalQueueDrained = () => OnQueueEvent(BullQueueGlobalEvents.DRAINED);
+export const OnGlobalQueueDrained = () =>
+  OnQueueEvent(BullQueueGlobalEvents.DRAINED);
 
-export const OnGlobalQueueRemoved = () => OnQueueEvent(BullQueueGlobalEvents.REMOVED);
+export const OnGlobalQueueRemoved = () =>
+  OnQueueEvent(BullQueueGlobalEvents.REMOVED);

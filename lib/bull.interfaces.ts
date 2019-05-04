@@ -23,11 +23,11 @@ export interface BullModuleAsyncOptions
   inject?: any[];
 }
 
-export interface ProcessOptions {
+export interface QueueProcessDecoratorOptions {
   name?: string;
   concurrency?: number;
 }
 
-export interface QueueListenerOptions {
+export interface QueueDecoratorOptions {
   name?: string;
 }
