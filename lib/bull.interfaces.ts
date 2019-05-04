@@ -22,3 +22,12 @@ export interface BullModuleAsyncOptions
   ) => Promise<BullModuleOptions> | BullModuleOptions;
   inject?: any[];
 }
+
+export interface QueueProcessDecoratorOptions {
+  name?: string;
+  concurrency?: number;
+}
+
+export interface QueueDecoratorOptions {
+  name?: string;
+}

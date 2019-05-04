@@ -1,65 +1,38 @@
 {
   "defaultSeverity": "error",
-  "extends": [
-    "tslint:recommended"
-  ],
+  "extends": ["tslint:recommended"],
   "jsRules": {
     "no-unused-expression": true
   },
   "linterOptions": {
-    "exclude": [
-      "node_modules/**",
-      "dist/**",
-      "*.json"
-    ]
+    "exclude": ["node_modules/**", "dist/**", "*.json"]
   },
   "rules": {
     "eofline": false,
-    "quotemark": [
-      true,
-      "single"
-    ],
+    "quotemark": [true, "single"],
     "trailing-comma": false,
     "member-access": false,
     "indent": false,
-    "ordered-imports": [
-      false
-    ],
+    "ordered-imports": [false],
     "no-implicit-dependencies": false,
     "no-unnecessary-initializer": false,
     "unified-signatures": false,
     "callable-types": false,
-    "max-line-length": [
-      150
-    ],
-    "member-ordering": [
-      false
-    ],
+    "max-line-length": [150],
+    "member-ordering": [false],
     "curly": false,
-    "interface-name": [
-      false
-    ],
-    "array-type": [
-      false
-    ],
+    "interface-name": [false],
+    "array-type": [false],
     "no-empty-interface": false,
     "no-empty": false,
     "arrow-parens": false,
     "object-literal-sort-keys": false,
     "no-unused-expression": false,
-    "max-classes-per-file": [
-      false
-    ],
+    "max-classes-per-file": [false],
     "ban-types": false,
-    "variable-name": [
-      false
-    ],
-    "one-line": [
-      false
-    ],
-    "one-variable-per-declaration": [
-      false
-    ],
+    "variable-name": [false],
+    "one-line": [false],
+    "one-variable-per-declaration": [false],
     "no-return-await": true,
     "match-default-export-name": true,
     "prefer-readonly": true

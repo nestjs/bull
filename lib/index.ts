@@ -3,3 +3,4 @@ export * from './bull.interfaces';
 export * from './bull.module';
 export * from './bull.utils';
 export * from './bull.types';
+export * from './bull.enums';
