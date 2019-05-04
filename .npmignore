@@ -2,3 +2,10 @@ lib/
 .idea/
 tsconfig.json
 tslint.json
+e2e/
+.prettierignore
+.prettierrc
+.travis.yml
+docker-compose.yml
+jest.json
+renovate.json
