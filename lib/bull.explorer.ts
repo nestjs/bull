@@ -3,9 +3,9 @@ import { ModulesContainer, ModuleRef } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Module } from '@nestjs/core/injector/module';
 import {
-  BULL_MODULE_QUEUE_LISTENER,
-  BULL_MODULE_PROCESS,
-  BULL_MODULE_ON_EVENT,
+  BULL_MODULE_QUEUE,
+  BULL_MODULE_QUEUE_PROCESS,
+  BULL_MODULE_ON_QUEUE_EVENT,
 } from './bull.constants';
 import { Injectable } from '@nestjs/common/interfaces';
 import { MetadataScanner } from '@nestjs/core/metadata-scanner';
@@ -60,39 +60,39 @@ export class BullExplorer {
   }
 
   private static isClassDecorated(metatype: Type<Injectable>): boolean {
-    return Reflect.hasMetadata(BULL_MODULE_QUEUE_LISTENER, metatype);
+    return Reflect.hasMetadata(BULL_MODULE_QUEUE, metatype);
   }
 
   private static getClassMetadata(metatype: Type<Injectable>): any {
-    return Reflect.getMetadata(BULL_MODULE_QUEUE_LISTENER, metatype);
+    return Reflect.getMetadata(BULL_MODULE_QUEUE, metatype);
   }
 
   private static isMethodDecoratedAsProcessor(
     instance: Injectable,
     methodKey: string,
   ): boolean {
-    return Reflect.hasMetadata(BULL_MODULE_PROCESS, instance, methodKey);
+    return Reflect.hasMetadata(BULL_MODULE_QUEUE_PROCESS, instance, methodKey);
   }
 
   private static isMethodDecoratedAsEventListener(
     instance: Injectable,
     methodKey: string,
   ): boolean {
-    return Reflect.hasMetadata(BULL_MODULE_ON_EVENT, instance, methodKey);
+    return Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, instance, methodKey);
   }
 
   private static getProcessorMetadata(
     instance: Injectable,
     methodKey: string,
   ): any {
-    return Reflect.getMetadata(BULL_MODULE_PROCESS, instance, methodKey);
+    return Reflect.getMetadata(BULL_MODULE_QUEUE_PROCESS, instance, methodKey);
   }
 
   private static getEventListenerMetadata(
     instance: Injectable,
     methodKey: string,
   ): any {
-    return Reflect.getMetadata(BULL_MODULE_ON_EVENT, instance, methodKey);
+    return Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, instance, methodKey);
   }
 
   private static getBullQueue(moduleRef: ModuleRef, queueName?: string): Queue {
