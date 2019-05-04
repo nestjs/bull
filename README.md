@@ -22,6 +22,16 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
+- [Description](#description)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Decorators](#decorators)
+  - [@Queue()](#queue)
+  - [@QueueProcess()](#queueprocess)
+  - [@OnQueueEvent()](#onqueueevent)
+  - [Example](#example)
+- [People](#people)
+
 ## Description
 
 This is a [Bull](https://github.com/OptimalBits/bull) module for [Nest](https://github.com/nestjs/nest).
@@ -178,7 +188,7 @@ If you need more details about those events, head straight to [Bull's reference 
 Here is a pretty self-explanatory example on how this package's decorators should be used.
 
 ```ts
-import {Queue, QueueProcess, OnQueueActive, OnQueueEvent, BullQueueEvents,} from '../../lib';
+import {Queue, QueueProcess, OnQueueActive, OnQueueEvent, BullQueueEvents} from '../../lib';
 import {NumberService} from './number.service';
 import {Job, DoneCallback} from 'bull';
 
