@@ -1,4 +1,4 @@
-import { DynamicModule, Module, OnModuleInit } from '@nestjs/common';
+import { DynamicModule, Module, OnModuleInit, Logger } from '@nestjs/common';
 import { BullModuleOptions, BullModuleAsyncOptions } from './bull.interfaces';
 import {
   createQueueOptionProviders,
@@ -16,7 +16,12 @@ export class BullModule implements OnModuleInit {
     const queueOptionProviders = createQueueOptionProviders([].concat(options));
     return {
       module: BullModule,
-      providers: [...queueOptionProviders, ...queueProviders, BullExplorer],
+      providers: [
+        ...queueOptionProviders,
+        ...queueProviders,
+        BullExplorer,
+        { provide: Logger, useValue: new Logger('BullModule') },
+      ],
       exports: queueProviders,
     };
   }
@@ -36,7 +41,12 @@ export class BullModule implements OnModuleInit {
     return {
       imports,
       module: BullModule,
-      providers: [...queueOptionProviders, ...queueProviders, BullExplorer],
+      providers: [
+        ...queueOptionProviders,
+        ...queueProviders,
+        BullExplorer,
+        { provide: Logger, useValue: new Logger('BullModule') },
+      ],
       exports: queueProviders,
     };
   }

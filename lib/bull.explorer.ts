@@ -1,18 +1,27 @@
-import {Injectable as InjectableDecorator, Type} from '@nestjs/common';
-import {ModulesContainer, ModuleRef} from '@nestjs/core';
-import {InstanceWrapper} from '@nestjs/core/injector/instance-wrapper';
-import {Module} from '@nestjs/core/injector/module';
-import {BULL_MODULE_QUEUE, BULL_MODULE_QUEUE_PROCESS, BULL_MODULE_ON_QUEUE_EVENT,} from './bull.constants';
-import {Injectable} from '@nestjs/common/interfaces';
-import {MetadataScanner} from '@nestjs/core/metadata-scanner';
-import {getQueueToken} from './bull.utils';
-import {Queue} from 'bull';
+import {
+  Injectable as InjectableDecorator,
+  Type,
+  Logger,
+} from '@nestjs/common';
+import { ModulesContainer, ModuleRef } from '@nestjs/core';
+import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
+import { Module } from '@nestjs/core/injector/module';
+import {
+  BULL_MODULE_QUEUE,
+  BULL_MODULE_QUEUE_PROCESS,
+  BULL_MODULE_ON_QUEUE_EVENT,
+} from './bull.constants';
+import { Injectable } from '@nestjs/common/interfaces';
+import { MetadataScanner } from '@nestjs/core/metadata-scanner';
+import { getQueueToken } from './bull.utils';
+import { Queue } from 'bull';
 
 @InjectableDecorator()
 export class BullExplorer {
   constructor(
     private readonly moduleRef: ModuleRef,
     private readonly modulesContainer: ModulesContainer,
+    private readonly logger: Logger,
   ) {}
 
   explore() {
@@ -21,10 +30,19 @@ export class BullExplorer {
     ]);
     components.map((wrapper: InstanceWrapper) => {
       const { instance, metatype } = wrapper;
-      const queue = BullExplorer.getBullQueue(
-        this.moduleRef,
-        BullExplorer.getClassMetadata(metatype).name,
-      );
+      const queueName = BullExplorer.getClassMetadata(metatype).name;
+      const queueToken = getQueueToken(queueName);
+      let queue: Queue;
+      try {
+        queue = BullExplorer.getBullQueue(this.moduleRef, queueToken);
+      } catch (err) {
+        this.logger.error(
+          queueName
+            ? `No Queue was found with the given name (${queueName}). Check your configuration.`
+            : 'No Queue was found. Check your configuration.',
+        );
+        throw err;
+      }
       new MetadataScanner().scanFromPrototype(
         instance,
         Object.getPrototypeOf(instance),
@@ -34,15 +52,15 @@ export class BullExplorer {
               BullExplorer.getProcessorMetadata(instance, key) || {};
             options.name && options.concurrency
               ? queue.process(
-              options.name,
-              options.concurrency,
-              instance[key].bind(instance),
-              )
+                  options.name,
+                  options.concurrency,
+                  instance[key].bind(instance),
+                )
               : options.name
               ? queue.process(options.name, instance[key].bind(instance))
               : options.concurrency
-                ? queue.process(options.concurrency, instance[key].bind(instance))
-                : queue.process(instance[key].bind(instance));
+              ? queue.process(options.concurrency, instance[key].bind(instance))
+              : queue.process(instance[key].bind(instance));
           } else if (
             BullExplorer.isMethodDecoratedAsEventListener(instance, key)
           ) {
@@ -91,18 +109,8 @@ export class BullExplorer {
     return Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, instance, methodKey);
   }
 
-  private static getBullQueue(moduleRef: ModuleRef, queueName?: string): Queue {
-    const queue = moduleRef.get<Queue>(getQueueToken(queueName));
-    if (!queue) {
-      throw new Error(
-        queueName
-          ? `No Queue was found with the given name (${queueName}). Check your configuration.`
-          : 'No Queue was found. Check your configuration.'
-      );
-    }
-    else {
-      return queue;
-    }
+  private static getBullQueue(moduleRef: ModuleRef, queueToken: string): Queue {
+    return moduleRef.get<Queue>(queueToken);
   }
 
   private static getDecoratedComponents(
