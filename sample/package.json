@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@types/express": "4.16.1",
-    "@types/jest": "23.3.1",
+    "@types/jest": "24.0.12",
     "@types/node": "10.14.6"
   }
 }
