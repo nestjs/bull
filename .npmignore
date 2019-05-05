@@ -9,3 +9,5 @@ e2e/
 docker-compose.yml
 jest.json
 renovate.json
+coverage/
+cc-test-reporter

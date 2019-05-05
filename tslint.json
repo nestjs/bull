@@ -5,7 +5,7 @@
     "no-unused-expression": true
   },
   "linterOptions": {
-    "exclude": ["node_modules/**", "dist/**", "*.json"]
+    "exclude": ["node_modules/**", "dist/**", "*.json", "coverage/**"]
   },
   "rules": {
     "eofline": false,
