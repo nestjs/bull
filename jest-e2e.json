@@ -3,13 +3,13 @@
   "transform": {
     "^.+\\.tsx?$": "ts-jest"
   },
-  "testRegex": "/lib/.*\\.(test|spec).(ts|tsx|js)$",
+  "testRegex": "/e2e/.*\\.(e2e-test|e2e-spec).(ts|tsx|js)$",
   "collectCoverageFrom": [
     "lib/**/*.{js,jsx,tsx,ts}",
     "!**/node_modules/**",
     "!**/vendor/**"
   ],
   "coverageReporters": ["lcov"],
-  "coverageDirectory": "coverage/unit",
+  "coverageDirectory": "coverage/e2e",
   "testEnvironment": "node"
 }
