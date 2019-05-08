@@ -1,10 +1,17 @@
 import * as Bull from 'bull';
 import { Queue } from 'bull';
 import { BullModuleOptions, BullModuleAsyncOptions } from './bull.interfaces';
-import { BullQueueProcessor, isAdvancedProcessor } from './bull.types';
+import {
+  BullQueueProcessor,
+  isAdvancedProcessor,
+  isAdvancedSeparateProcessor,
+  isSeparateProcessor,
+  isProcessorCallback,
+} from './bull.types';
 import { getQueueToken, getQueueOptionsToken } from './bull.utils';
 import { Provider } from '@nestjs/common';
 
+// TODO Reduce complexity
 function buildQueue(option: BullModuleOptions): Queue {
   const queue: Queue = new Bull(
     option.name ? option.name : 'default',
@@ -24,7 +31,17 @@ function buildQueue(option: BullModuleOptions): Queue {
           : hasName
           ? queue.process(processor.name, processor.callback)
           : queue.process(processor.concurrency, processor.callback);
-      } else {
+      } else if (isAdvancedSeparateProcessor(processor)) {
+        const hasName = !!processor.name;
+        const hasConcurrency = !!processor.concurrency;
+        hasName && hasConcurrency
+          ? queue.process(processor.name, processor.concurrency, processor.path)
+          : hasName
+          ? queue.process(processor.name, processor.path)
+          : queue.process(processor.concurrency, processor.path);
+      } else if (isSeparateProcessor(processor)) {
+        queue.process(processor);
+      } else if (isProcessorCallback(processor)) {
         queue.process(processor);
       }
     });
