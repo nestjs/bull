@@ -213,6 +213,40 @@ export class MyQueue {
 }
 ```
 
+## Separate processes
+
+This module allows you to run your job handlers in fork processes.
+To do so, add the filesystem path to a file (or more) exporting your processor function to the `processors` property of the BullModule options.
+You can read more on this subject in Bull's [documentation](https://github.com/OptimalBits/bull#separate-processes).
+
+Please note that, your function being executed in a fork, Nestjs' DI won't be available.
+
+### Example
+
+```ts
+// app.module.ts
+import { Module } from '@nestjs/common';
+import { BullModule } from 'nest-bull';
+import { join } from 'path';
+
+@Module({
+  imports: [
+    BullModule.forRoot({
+      processors: [ join(__dirname, 'processor.ts') ]
+    }) 
+  ]
+})
+export class AppModule {}
+```
+```ts
+// processor.ts
+import { Job, DoneCallback } from 'bull';
+
+export default function(job: Job, cb: DoneCallback) {
+  cb(null, 'It works');
+}
+``` 
+
 ## People
 
 - Author - [Frederic Woelffel](https://fwoelffel.me)
