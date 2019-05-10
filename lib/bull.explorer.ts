@@ -48,29 +48,41 @@ export class BullExplorer {
         Object.getPrototypeOf(instance),
         (key: string) => {
           if (BullExplorer.isProcessor(instance, key)) {
-            const options =
-              BullExplorer.getProcessorMetadata(instance, key) || {};
-            options.name && options.concurrency
-              ? queue.process(
-                  options.name,
-                  options.concurrency,
-                  instance[key].bind(instance),
-                )
-              : options.name
-              ? queue.process(options.name, instance[key].bind(instance))
-              : options.concurrency
-              ? queue.process(options.concurrency, instance[key].bind(instance))
-              : queue.process(instance[key].bind(instance));
-          } else if (
-            BullExplorer.isListener(instance, key)
-          ) {
-            const options =
-              BullExplorer.getListenerMetadata(instance, key) || {};
-            queue.on(options.eventName, instance[key].bind(instance));
+            BullExplorer.handleProcessor(
+              instance,
+              key,
+              queue,
+              BullExplorer.getProcessorMetadata(instance, key),
+            );
+          } else if (BullExplorer.isListener(instance, key)) {
+            BullExplorer.handleListener(
+              instance,
+              key,
+              queue,
+              BullExplorer.getListenerMetadata(instance, key),
+            );
           }
         },
       );
     });
+  }
+
+  private static handleProcessor(instance, key, queue, options) {
+    options.name && options.concurrency
+      ? queue.process(
+          options.name,
+          options.concurrency,
+          instance[key].bind(instance),
+        )
+      : options.name
+      ? queue.process(options.name, instance[key].bind(instance))
+      : options.concurrency
+      ? queue.process(options.concurrency, instance[key].bind(instance))
+      : queue.process(instance[key].bind(instance));
+  }
+
+  private static handleListener(instance, key, queue, options) {
+    queue.on(options.eventName, instance[key].bind(instance));
   }
 
   private static isBullModuleQueue(metatype: Type<Injectable>): boolean {
@@ -81,17 +93,11 @@ export class BullExplorer {
     return Reflect.getMetadata(BULL_MODULE_QUEUE, metatype);
   }
 
-  private static isProcessor(
-    instance: Injectable,
-    methodKey: string,
-  ): boolean {
+  private static isProcessor(instance: Injectable, methodKey: string): boolean {
     return Reflect.hasMetadata(BULL_MODULE_QUEUE_PROCESS, instance, methodKey);
   }
 
-  private static isListener(
-    instance: Injectable,
-    methodKey: string,
-  ): boolean {
+  private static isListener(instance: Injectable, methodKey: string): boolean {
     return Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, instance, methodKey);
   }
 
