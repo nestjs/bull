@@ -67,18 +67,13 @@ export class BullExplorer {
     });
   }
 
-  private static handleProcessor(instance, key, queue, options) {
-    options.name && options.concurrency
-      ? queue.process(
-          options.name,
-          options.concurrency,
-          instance[key].bind(instance),
-        )
-      : options.name
-      ? queue.process(options.name, instance[key].bind(instance))
-      : options.concurrency
-      ? queue.process(options.concurrency, instance[key].bind(instance))
-      : queue.process(instance[key].bind(instance));
+  private static handleProcessor(instance, key, queue, options?) {
+    const args = [
+      options ? options.name : undefined,
+      options ? options.concurrency : undefined,
+      instance[key].bind(instance)
+    ].filter(arg => !!arg);
+    queue.process(...args);
   }
 
   private static handleListener(instance, key, queue, options) {
@@ -124,7 +119,7 @@ export class BullExplorer {
   ): InstanceWrapper<Injectable>[] {
     return modules
       .map(
-        (module: Module): Map<string, InstanceWrapper<Injectable>> =>
+        (module: Module) =>
           module.components,
       )
       .reduce((acc, map) => {
