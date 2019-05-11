@@ -1,17 +1,14 @@
 import { DoneCallback, Job } from 'bull';
+import { BullQueueAdvancedProcessor } from './bull.interfaces';
 
 export type BullQueueProcessor =
   | BullQueueProcessorCallback
   | BullQueueAdvancedProcessor;
+
 export type BullQueueProcessorCallback = (
   job: Job,
   done?: DoneCallback,
 ) => void;
-export interface BullQueueAdvancedProcessor {
-  concurrency?: number;
-  name?: string;
-  callback: BullQueueProcessorCallback;
-}
 
 export function isAdvancedProcessor(
   processor: BullQueueProcessor,

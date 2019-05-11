@@ -1,5 +1,5 @@
 import * as Bull from 'bull';
-import { BullQueueProcessor } from './bull.types';
+import { BullQueueProcessor, BullQueueProcessorCallback } from './bull.types';
 import { ModuleMetadata, Type } from '@nestjs/common/interfaces';
 
 export interface BullModuleOptions {
@@ -30,4 +30,10 @@ export interface QueueProcessDecoratorOptions {
 
 export interface QueueDecoratorOptions {
   name?: string;
+}
+
+export interface BullQueueAdvancedProcessor {
+  concurrency?: number;
+  name?: string;
+  callback: BullQueueProcessorCallback;
 }
