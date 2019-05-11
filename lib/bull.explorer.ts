@@ -30,7 +30,7 @@ export class BullExplorer {
     ]);
     components.map((wrapper: InstanceWrapper) => {
       const { instance, metatype } = wrapper;
-      const queueName = BullExplorer.getQueueMetadata(metatype).name;
+      const queueName = BullExplorer.getQueueComponentMetadata(metatype).name;
       const queueToken = getQueueToken(queueName);
       let queue: Queue;
       try {
@@ -80,11 +80,11 @@ export class BullExplorer {
     queue.on(options.eventName, instance[key].bind(instance));
   }
 
-  private static isBullModuleQueue(metatype: Type<Injectable>): boolean {
+  private static isQueueComponent(metatype: Type<Injectable>): boolean {
     return Reflect.hasMetadata(BULL_MODULE_QUEUE, metatype);
   }
 
-  private static getQueueMetadata(metatype: Type<Injectable>): any {
+  private static getQueueComponentMetadata(metatype: Type<Injectable>): any {
     return Reflect.getMetadata(BULL_MODULE_QUEUE, metatype);
   }
 
@@ -128,7 +128,7 @@ export class BullExplorer {
       }, [])
       .filter(
         (wrapper: InstanceWrapper) =>
-          wrapper.metatype && BullExplorer.isBullModuleQueue(wrapper.metatype),
+          wrapper.metatype && BullExplorer.isQueueComponent(wrapper.metatype),
       );
   }
 }
