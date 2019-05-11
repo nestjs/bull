@@ -67,7 +67,7 @@ export class BullExplorer {
     });
   }
 
-  private static handleProcessor(instance, key, queue, options?) {
+  static handleProcessor(instance, key, queue, options?) {
     const args = [
       options ? options.name : undefined,
       options ? options.concurrency : undefined,
@@ -76,45 +76,45 @@ export class BullExplorer {
     queue.process(...args);
   }
 
-  private static handleListener(instance, key, queue, options) {
+  static handleListener(instance, key, queue, options) {
     queue.on(options.eventName, instance[key].bind(instance));
   }
 
-  private static isQueueComponent(metatype: Type<Injectable>): boolean {
+  static isQueueComponent(metatype: Type<Injectable>): boolean {
     return Reflect.hasMetadata(BULL_MODULE_QUEUE, metatype);
   }
 
-  private static getQueueComponentMetadata(metatype: Type<Injectable>): any {
+  static getQueueComponentMetadata(metatype: Type<Injectable>): any {
     return Reflect.getMetadata(BULL_MODULE_QUEUE, metatype);
   }
 
-  private static isProcessor(instance: Injectable, methodKey: string): boolean {
+  static isProcessor(instance: Injectable, methodKey: string): boolean {
     return Reflect.hasMetadata(BULL_MODULE_QUEUE_PROCESS, instance, methodKey);
   }
 
-  private static isListener(instance: Injectable, methodKey: string): boolean {
+  static isListener(instance: Injectable, methodKey: string): boolean {
     return Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, instance, methodKey);
   }
 
-  private static getProcessorMetadata(
+  static getProcessorMetadata(
     instance: Injectable,
     methodKey: string,
   ): any {
     return Reflect.getMetadata(BULL_MODULE_QUEUE_PROCESS, instance, methodKey);
   }
 
-  private static getListenerMetadata(
+  static getListenerMetadata(
     instance: Injectable,
     methodKey: string,
   ): any {
     return Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, instance, methodKey);
   }
 
-  private static getQueue(moduleRef: ModuleRef, queueToken: string): Queue {
+  static getQueue(moduleRef: ModuleRef, queueToken: string): Queue {
     return moduleRef.get<Queue>(queueToken);
   }
 
-  private static getQueueComponents(
+  static getQueueComponents(
     modules: Module[],
   ): InstanceWrapper<Injectable>[] {
     return modules
