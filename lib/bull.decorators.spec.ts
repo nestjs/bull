@@ -46,9 +46,12 @@ describe('Decorators', () => {
       decorate(target);
       expect(Reflect.hasMetadata(BULL_MODULE_QUEUE, target)).toEqual(true);
     });
-    it.todo(
-      'should define the BULL_MODULE_QUEUE metadata with the given options',
-    );
+    it('should define the BULL_MODULE_QUEUE metadata with the given options', () => {
+      const target = Function;
+      const opts = { name: 'test' };
+      Queue(opts)(target);
+      expect(Reflect.getMetadata(BULL_MODULE_QUEUE, target)).toEqual(opts);
+    });
   });
 
   describe('@QueueProcess()', () => {
