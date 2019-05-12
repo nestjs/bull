@@ -25,16 +25,16 @@ export class BullExplorer {
   ) {}
 
   explore() {
-    const components = BullExplorer.getDecoratedComponents([
+    const components = BullExplorer.getQueueComponents([
       ...this.modulesContainer.values(),
     ]);
     components.map((wrapper: InstanceWrapper) => {
       const { instance, metatype } = wrapper;
-      const queueName = BullExplorer.getClassMetadata(metatype).name;
+      const queueName = BullExplorer.getQueueComponentMetadata(metatype).name;
       const queueToken = getQueueToken(queueName);
       let queue: Queue;
       try {
-        queue = BullExplorer.getBullQueue(this.moduleRef, queueToken);
+        queue = BullExplorer.getQueue(this.moduleRef, queueToken);
       } catch (err) {
         this.logger.error(
           queueName
@@ -47,78 +47,79 @@ export class BullExplorer {
         instance,
         Object.getPrototypeOf(instance),
         (key: string) => {
-          if (BullExplorer.isMethodDecoratedAsProcessor(instance, key)) {
-            const options =
-              BullExplorer.getProcessorMetadata(instance, key) || {};
-            options.name && options.concurrency
-              ? queue.process(
-                  options.name,
-                  options.concurrency,
-                  instance[key].bind(instance),
-                )
-              : options.name
-              ? queue.process(options.name, instance[key].bind(instance))
-              : options.concurrency
-              ? queue.process(options.concurrency, instance[key].bind(instance))
-              : queue.process(instance[key].bind(instance));
-          } else if (
-            BullExplorer.isMethodDecoratedAsEventListener(instance, key)
-          ) {
-            const options =
-              BullExplorer.getEventListenerMetadata(instance, key) || {};
-            queue.on(options.eventName, instance[key].bind(instance));
+          if (BullExplorer.isProcessor(instance, key)) {
+            BullExplorer.handleProcessor(
+              instance,
+              key,
+              queue,
+              BullExplorer.getProcessorMetadata(instance, key),
+            );
+          } else if (BullExplorer.isListener(instance, key)) {
+            BullExplorer.handleListener(
+              instance,
+              key,
+              queue,
+              BullExplorer.getListenerMetadata(instance, key),
+            );
           }
         },
       );
     });
   }
 
-  private static isClassDecorated(metatype: Type<Injectable>): boolean {
+  static handleProcessor(instance, key, queue, options?) {
+    const args = [
+      options ? options.name : undefined,
+      options ? options.concurrency : undefined,
+      instance[key].bind(instance)
+    ].filter(arg => !!arg);
+    queue.process(...args);
+  }
+
+  static handleListener(instance, key, queue, options) {
+    queue.on(options.eventName, instance[key].bind(instance));
+  }
+
+  static isQueueComponent(metatype: Type<Injectable>): boolean {
     return Reflect.hasMetadata(BULL_MODULE_QUEUE, metatype);
   }
 
-  private static getClassMetadata(metatype: Type<Injectable>): any {
+  static getQueueComponentMetadata(metatype: Type<Injectable>): any {
     return Reflect.getMetadata(BULL_MODULE_QUEUE, metatype);
   }
 
-  private static isMethodDecoratedAsProcessor(
-    instance: Injectable,
-    methodKey: string,
-  ): boolean {
+  static isProcessor(instance: Injectable, methodKey: string): boolean {
     return Reflect.hasMetadata(BULL_MODULE_QUEUE_PROCESS, instance, methodKey);
   }
 
-  private static isMethodDecoratedAsEventListener(
-    instance: Injectable,
-    methodKey: string,
-  ): boolean {
+  static isListener(instance: Injectable, methodKey: string): boolean {
     return Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, instance, methodKey);
   }
 
-  private static getProcessorMetadata(
+  static getProcessorMetadata(
     instance: Injectable,
     methodKey: string,
   ): any {
     return Reflect.getMetadata(BULL_MODULE_QUEUE_PROCESS, instance, methodKey);
   }
 
-  private static getEventListenerMetadata(
+  static getListenerMetadata(
     instance: Injectable,
     methodKey: string,
   ): any {
     return Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, instance, methodKey);
   }
 
-  private static getBullQueue(moduleRef: ModuleRef, queueToken: string): Queue {
+  static getQueue(moduleRef: ModuleRef, queueToken: string): Queue {
     return moduleRef.get<Queue>(queueToken);
   }
 
-  private static getDecoratedComponents(
+  static getQueueComponents(
     modules: Module[],
   ): InstanceWrapper<Injectable>[] {
     return modules
       .map(
-        (module: Module): Map<string, InstanceWrapper<Injectable>> =>
+        (module: Module) =>
           module.components,
       )
       .reduce((acc, map) => {
@@ -127,7 +128,7 @@ export class BullExplorer {
       }, [])
       .filter(
         (wrapper: InstanceWrapper) =>
-          wrapper.metatype && BullExplorer.isClassDecorated(wrapper.metatype),
+          wrapper.metatype && BullExplorer.isQueueComponent(wrapper.metatype),
       );
   }
 }
