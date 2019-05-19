@@ -2,7 +2,6 @@ import { BullModule, getQueueToken } from '../lib';
 import { Queue } from 'bull';
 import { Test, TestingModule } from '@nestjs/testing';
 import { BullOptionsFactory, BullModuleOptions } from './bull.interfaces';
-import { async } from 'rxjs/internal/scheduler/async';
 
 describe('BullModule', () => {
   let module: TestingModule;
