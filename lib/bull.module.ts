@@ -4,6 +4,7 @@ import {
   createQueueOptionProviders,
   createQueueProviders,
   createAsyncQueueOptionsProviders,
+  createAsyncQueueProviders,
 } from './bull.providers';
 import { BullExplorer } from './bull.explorer';
 
@@ -30,7 +31,7 @@ export class BullModule implements OnModuleInit {
     options: BullModuleAsyncOptions | BullModuleAsyncOptions[],
   ): DynamicModule {
     const optionsArr = [].concat(options);
-    const queueProviders = createQueueProviders(optionsArr);
+    const queueProviders = createAsyncQueueProviders(optionsArr);
     const queueOptionProviders = createAsyncQueueOptionsProviders(optionsArr);
     const imports =
       optionsArr

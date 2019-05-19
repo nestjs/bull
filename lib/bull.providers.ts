@@ -1,6 +1,6 @@
 import * as Bull from 'bull';
 import { Queue } from 'bull';
-import { BullModuleOptions, BullModuleAsyncOptions } from './bull.interfaces';
+import { BullModuleOptions, BullModuleAsyncOptions, BullOptionsFactory } from './bull.interfaces';
 import { BullQueueProcessor, isAdvancedProcessor } from './bull.types';
 import { getQueueToken, getQueueOptionsToken } from './bull.utils';
 import { Provider } from '@nestjs/common';
@@ -57,4 +57,21 @@ export function createAsyncQueueOptionsProviders(
     useExisting: option.useExisting,
     inject: option.inject,
   }));
+}
+
+export function createAsyncQueueProviders(options: BullModuleAsyncOptions[]): any {
+  return options.map(option => {
+    if (option.useFactory) {
+      return {
+        provide: getQueueToken(option.name),
+        useFactory: async (...o) => buildQueue(await option.useFactory(...o)),
+        inject: [getQueueOptionsToken(option.name)],
+      };
+    }
+    return {
+      provide: getQueueToken(option.name),
+      useFactory: async (o: BullOptionsFactory) => buildQueue(await o.createBullOptions()),
+      inject: [getQueueOptionsToken(option.name)],
+    };
+  });
 }

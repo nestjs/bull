@@ -1,6 +1,8 @@
 import { BullModule, getQueueToken } from '../lib';
 import { Queue } from 'bull';
 import { Test, TestingModule } from '@nestjs/testing';
+import { BullOptionsFactory, BullModuleOptions } from './bull.interfaces';
+import { async } from 'rxjs/internal/scheduler/async';
 
 describe('BullModule', () => {
   let module: TestingModule;
@@ -58,8 +60,49 @@ describe('BullModule', () => {
           const queue: Queue = module.get<Queue>(getQueueToken('test'));
           expect(queue).toBeDefined();
         });
-        it('the injected queue should have the given processor', () => {
+        it('the injected queue should have the given processor', async () => {
           const queue: Queue = module.get<Queue>(getQueueToken('test'));
+          await queue.add(null);
+          return new Promise(resolve => {
+            setTimeout(() => {
+              expect(fakeProcessor).toHaveBeenCalledTimes(1);
+              resolve();
+            }, 100);
+          });
+        });
+      });
+      describe('useClass', () => {
+        const fakeProcessor = jest.fn();
+        class OptionsMock implements BullOptionsFactory {
+          createBullOptions(): BullModuleOptions {
+            return {
+              processors: [fakeProcessor],
+            };
+          }
+        }
+        beforeAll(async () => {
+          module = await Test.createTestingModule({
+            imports: [
+              BullModule.forRootAsync({
+                name: 'test',
+                useClass: OptionsMock
+              }),
+            ],
+          }).compile();
+        });
+        it('should inject the queue with the given name', async () => {
+          const queue: Queue = module.get<Queue>(getQueueToken('test'));
+          expect(queue).toBeDefined();
+        });
+        it('the injected queue should have the given processor', async () => {
+          const queue: Queue = module.get<Queue>(getQueueToken('test'));
+          await queue.add(null);
+          return new Promise(resolve => {
+            setTimeout(() => {
+              expect(fakeProcessor).toHaveBeenCalledTimes(1);
+              resolve();
+            }, 100);
+          });
         });
       });
     });
