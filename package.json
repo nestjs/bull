@@ -19,6 +19,7 @@
     "format": "prettier --write **/*.{ts,json}",
     "lint": "tslint -c tslint.json **/*.ts",
     "prepublish": "npm run build",
+    "release": "standard-version",
     "test": "jest --config=jest.json --detectOpenHandles --forceExit --coverage",
     "test:e2e": "jest --config=jest-e2e.json --detectOpenHandles --forceExit --coverage"
   },
@@ -61,6 +62,7 @@
     "reflect-metadata": "0.1.13",
     "rxjs": "6.5.2",
     "sort-package-json": "1.22.1",
+    "standard-version": "^6.0.1",
     "ts-jest": "24.0.2",
     "tslint": "5.16.0",
     "typescript": "3.4.5"
