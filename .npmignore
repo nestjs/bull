@@ -8,6 +8,9 @@ e2e/
 .travis.yml
 docker-compose.yml
 jest.json
+jest-e2e.json
 renovate.json
 coverage/
 cc-test-reporter
+sample/
+.github/
