@@ -1,7 +1,13 @@
 import * as Bull from 'bull';
 import { Queue } from 'bull';
 import { BullModuleOptions, BullModuleAsyncOptions } from './bull.interfaces';
-import { BullQueueProcessor, isAdvancedProcessor } from './bull.types';
+import {
+  BullQueueProcessor,
+  isAdvancedProcessor,
+  isAdvancedSeparateProcessor,
+  isSeparateProcessor,
+  isProcessorCallback,
+} from './bull.types';
 import { getQueueToken, getQueueOptionsToken } from './bull.utils';
 import { Provider } from '@nestjs/common';
 
@@ -12,21 +18,19 @@ function buildQueue(option: BullModuleOptions): Queue {
   );
   if (option.processors) {
     option.processors.forEach((processor: BullQueueProcessor) => {
+      let args = [];
       if (isAdvancedProcessor(processor)) {
-        const hasName = !!processor.name;
-        const hasConcurrency = !!processor.concurrency;
-        hasName && hasConcurrency
-          ? queue.process(
-              processor.name,
-              processor.concurrency,
-              processor.callback,
-            )
-          : hasName
-          ? queue.process(processor.name, processor.callback)
-          : queue.process(processor.concurrency, processor.callback);
-      } else {
-        queue.process(processor);
+        args.push(processor.name, processor.concurrency, processor.callback);
+      } else if (isAdvancedSeparateProcessor(processor)) {
+        args.push(processor.name, processor.concurrency, processor.path);
+      } else if (
+        isSeparateProcessor(processor) ||
+        isProcessorCallback(processor)
+      ) {
+        args.push(processor);
       }
+      args = args.filter(arg => !!arg);
+      (queue.process as any)(...args);
     });
   }
   return queue;
