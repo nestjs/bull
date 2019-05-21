@@ -1,4 +1,4 @@
-import { Inject } from '@nestjs/common';
+import { Inject, SetMetadata } from '@nestjs/common';
 import { getQueueToken } from './bull.utils';
 import {
   BULL_MODULE_QUEUE,
@@ -15,34 +15,15 @@ import { BullQueueEvent } from './bull.types';
 export const InjectQueue = (name?: string): ParameterDecorator =>
   Inject(getQueueToken(name));
 
-export const Queue = (options?: QueueDecoratorOptions): ClassDecorator => (
-  target: any,
-) => {
-  Reflect.defineMetadata(BULL_MODULE_QUEUE, options || {}, target);
-};
+export const Queue = (options?: QueueDecoratorOptions): ClassDecorator =>
+  SetMetadata(BULL_MODULE_QUEUE, options || {});
 
 export const QueueProcess = (
   options?: QueueProcessDecoratorOptions,
-): MethodDecorator => (target: any, propertyName: string) => {
-  Reflect.defineMetadata(
-    BULL_MODULE_QUEUE_PROCESS,
-    options,
-    target,
-    propertyName,
-  );
-};
+): MethodDecorator => SetMetadata(BULL_MODULE_QUEUE_PROCESS, options);
 
-export const OnQueueEvent = (eventName: BullQueueEvent): MethodDecorator => (
-  target: any,
-  propertyName: string,
-) => {
-  Reflect.defineMetadata(
-    BULL_MODULE_ON_QUEUE_EVENT,
-    { eventName },
-    target,
-    propertyName,
-  );
-};
+export const OnQueueEvent = (eventName: BullQueueEvent): MethodDecorator =>
+  SetMetadata(BULL_MODULE_ON_QUEUE_EVENT, { eventName });
 
 export const OnQueueError = () => OnQueueEvent(BullQueueEvents.ERROR);
 
