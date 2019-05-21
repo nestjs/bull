@@ -23,7 +23,7 @@
 
 ## Description
 
-This is a [Bull](https://github.com/OptimalBits/bull) module for [Nest](https://github.com/nestjs/nest).
+This is a [Bull](https://github.com/OptimalBits/bull) module for [Nest 6](https://github.com/nestjs/nest).
 
 ## Installation
 
