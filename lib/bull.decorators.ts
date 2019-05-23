@@ -20,7 +20,7 @@ export const Queue = (options?: QueueDecoratorOptions): ClassDecorator =>
 
 export const QueueProcess = (
   options?: QueueProcessDecoratorOptions,
-): MethodDecorator => SetMetadata(BULL_MODULE_QUEUE_PROCESS, options);
+): MethodDecorator => SetMetadata(BULL_MODULE_QUEUE_PROCESS, options || {});
 
 export const OnQueueEvent = (eventName: BullQueueEvent): MethodDecorator =>
   SetMetadata(BULL_MODULE_ON_QUEUE_EVENT, { eventName });
