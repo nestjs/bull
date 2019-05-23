@@ -60,9 +60,9 @@ describe('BullExplorer', () => {
 
   describe('isQueueComponent', () => {
     it('should return true if the given class is a queue component', () => {
-      class TestClass {}
-      Queue()(TestClass);
-      expect(BullExplorer.isQueueComponent(TestClass)).toBe(true);
+      @Queue()
+      class MyQueue {}
+      expect(BullExplorer.isQueueComponent(MyQueue)).toBe(true);
     });
     it('should return false if the given class is not queue component', () => {
       class TestClass {}
@@ -72,71 +72,75 @@ describe('BullExplorer', () => {
 
   describe('getQueueComponentMetadata', () => {
     it('should return the given queue component metadata', () => {
-      class TestClass {}
       const opts = { name: 'test' };
-      Queue(opts)(TestClass);
-      expect(BullExplorer.getQueueComponentMetadata(TestClass)).toBe(opts);
+      @Queue(opts)
+      class MyQueue {
+        processor() {}
+      }
+      expect(BullExplorer.getQueueComponentMetadata(MyQueue)).toBe(opts);
     });
   });
 
   describe('isProcessor', () => {
     it('should return true if the given class property is a queue processor', () => {
-      const obj = { processor: jest.fn() };
-      QueueProcess()(
-        obj,
-        'processor',
-        Object.getOwnPropertyDescriptor(obj, 'processor'),
-      );
-      expect(BullExplorer.isProcessor(obj, 'processor')).toBe(true);
+      class MyQueue {
+        @QueueProcess()
+        processor() {}
+      }
+      const myQueueInstance = new MyQueue();
+      expect(BullExplorer.isProcessor(myQueueInstance, 'processor')).toBe(true);
     });
     it('should return false if the given class property is not a queue processor', () => {
-      const obj = { processor: jest.fn() };
-      expect(BullExplorer.isProcessor(obj, 'processor')).toBe(false);
+      class MyQueue {
+        processor() {}
+      }
+      const myQueueInstance = new MyQueue();
+      expect(BullExplorer.isProcessor(myQueueInstance, 'processor')).toBe(false);
     });
   });
 
   describe('getProcessorMetadata', () => {
     it('should return the given queue processor metadata', () => {
-      const obj = { processor: jest.fn() };
       const opts = { concurrency: 42, name: 'test' };
-      QueueProcess(opts)(
-        obj,
-        'processor',
-        Object.getOwnPropertyDescriptor(obj, 'processor'),
-      );
-      expect(BullExplorer.getProcessorMetadata(obj, 'processor')).toBe(opts);
+      class MyQueue {
+        @QueueProcess(opts)
+        processor() {}
+      }
+      const myQueueInstance = new MyQueue();
+      expect(BullExplorer.getProcessorMetadata(myQueueInstance, 'processor')).toBe(opts);
     });
   });
 
   describe('isListener', () => {
     it('should return true if the given class property is a queue listener', () => {
-      const obj = { listener: jest.fn() };
-      OnQueueEvent(BullQueueEvents.COMPLETED)(
-        obj,
-        'listener',
-        Object.getOwnPropertyDescriptor(obj, 'listener'),
-      );
-      expect(BullExplorer.isListener(obj, 'listener')).toBe(true);
+      class MyQueue {
+        @OnQueueEvent(BullQueueEvents.COMPLETED)
+        listener() {}
+      }
+      const myQueueInstance = new MyQueue();
+      expect(BullExplorer.isListener(myQueueInstance, 'listener')).toBe(true);
     });
     it('should return false if the given class property is not a queue listener', () => {
-      const obj = { listener: jest.fn() };
-      expect(BullExplorer.isListener(obj, 'listener')).toBe(false);
+      class MyQueue {
+        listener() {}
+      }
+      const myQueueInstance = new MyQueue();
+      expect(BullExplorer.isListener(myQueueInstance, 'listener')).toBe(false);
     });
   });
 
   describe('getListenerMetadata', () => {
     it('should return the given queue listener metadata', () => {
-      const obj = { listener: jest.fn() };
       const opts = { eventName: BullQueueEvents.COMPLETED };
-      OnQueueEvent(opts.eventName)(
-        obj,
-        'listener',
-        Object.getOwnPropertyDescriptor(obj, 'listener'),
-      );
-      expect(BullExplorer.getListenerMetadata(obj, 'listener')).toHaveProperty(
+      class MyQueue {
+        @OnQueueEvent(opts.eventName)
+        listener() {}
+      }
+      const myQueueInstance = new MyQueue();
+      expect(BullExplorer.getListenerMetadata(myQueueInstance, 'listener')).toHaveProperty(
         'eventName',
       );
-      expect(BullExplorer.getListenerMetadata(obj, 'listener').eventName).toBe(
+      expect(BullExplorer.getListenerMetadata(myQueueInstance, 'listener').eventName).toBe(
         opts.eventName,
       );
     });
