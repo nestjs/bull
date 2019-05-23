@@ -3,7 +3,7 @@ import {
   Type,
   Logger,
 } from '@nestjs/common';
-import { ModulesContainer, ModuleRef } from '@nestjs/core';
+import { ModulesContainer, ModuleRef, Reflector } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Module } from '@nestjs/core/injector/module';
 import {
@@ -22,6 +22,7 @@ export class BullExplorer {
     private readonly moduleRef: ModuleRef,
     private readonly modulesContainer: ModulesContainer,
     private readonly logger: Logger,
+    private readonly reflector: Reflector,
   ) {}
 
   explore() {
@@ -47,19 +48,19 @@ export class BullExplorer {
         instance,
         Object.getPrototypeOf(instance),
         (key: string) => {
-          if (BullExplorer.isProcessor(instance, key)) {
+          if (BullExplorer.isProcessor(instance[key], this.reflector)) {
             BullExplorer.handleProcessor(
               instance,
               key,
               queue,
-              BullExplorer.getProcessorMetadata(instance, key),
+              BullExplorer.getProcessorMetadata(instance[key], this.reflector),
             );
-          } else if (BullExplorer.isListener(instance, key)) {
+          } else if (BullExplorer.isListener(instance[key], this.reflector)) {
             BullExplorer.handleListener(
               instance,
               key,
               queue,
-              BullExplorer.getListenerMetadata(instance, key),
+              BullExplorer.getListenerMetadata(instance[key], this.reflector),
             );
           }
         },
@@ -71,7 +72,7 @@ export class BullExplorer {
     const args = [
       options ? options.name : undefined,
       options ? options.concurrency : undefined,
-      instance[key].bind(instance)
+      instance[key].bind(instance),
     ].filter(arg => !!arg);
     queue.process(...args);
   }
@@ -80,48 +81,55 @@ export class BullExplorer {
     queue.on(options.eventName, instance[key].bind(instance));
   }
 
-  static isQueueComponent(metatype: Type<Injectable>): boolean {
-    return Reflect.hasMetadata(BULL_MODULE_QUEUE, metatype);
+  static isQueueComponent(
+    target: Type<any>,
+    reflector: Reflector = new Reflector(),
+  ): boolean {
+    return !!reflector.get(BULL_MODULE_QUEUE, target);
   }
 
-  static getQueueComponentMetadata(metatype: Type<Injectable>): any {
-    return Reflect.getMetadata(BULL_MODULE_QUEUE, metatype);
+  static getQueueComponentMetadata(
+    target: Type<any>,
+    reflector: Reflector = new Reflector(),
+  ): any {
+    return reflector.get(BULL_MODULE_QUEUE, target);
   }
 
-  static isProcessor(instance: Injectable, methodKey: string): boolean {
-    return Reflect.hasMetadata(BULL_MODULE_QUEUE_PROCESS, instance[methodKey]);
+  static isProcessor(
+    target: Function,
+    reflector: Reflector = new Reflector(),
+  ): boolean {
+    return !!reflector.get(BULL_MODULE_QUEUE_PROCESS, target);
   }
 
-  static isListener(instance: Injectable, methodKey: string): boolean {
-    return Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, instance[methodKey]);
+  static isListener(
+    target: Function,
+    reflector: Reflector = new Reflector(),
+  ): boolean {
+    return !!reflector.get(BULL_MODULE_ON_QUEUE_EVENT, target);
   }
 
   static getProcessorMetadata(
-    instance: Injectable,
-    methodKey: string,
+    target: Function,
+    reflector: Reflector = new Reflector(),
   ): any {
-    return Reflect.getMetadata(BULL_MODULE_QUEUE_PROCESS, instance[methodKey]);
+    return reflector.get(BULL_MODULE_QUEUE_PROCESS, target);
   }
 
   static getListenerMetadata(
-    instance: Injectable,
-    methodKey: string,
+    target: Function,
+    reflector: Reflector = new Reflector(),
   ): any {
-    return Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, instance[methodKey]);
+    return reflector.get(BULL_MODULE_ON_QUEUE_EVENT, target);
   }
 
   static getQueue(moduleRef: ModuleRef, queueToken: string): Queue {
     return moduleRef.get<Queue>(queueToken);
   }
 
-  static getQueueComponents(
-    modules: Module[],
-  ): InstanceWrapper<Injectable>[] {
+  static getQueueComponents(modules: Module[]): InstanceWrapper<Injectable>[] {
     return modules
-      .map(
-        (module: Module) =>
-          module.components,
-      )
+      .map((module: Module) => module.components)
       .reduce((acc, map) => {
         acc.push(...map.values());
         return acc;

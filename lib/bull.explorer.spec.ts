@@ -1,9 +1,11 @@
-import {BullExplorer} from './bull.explorer';
-import {Queue, QueueProcess, OnQueueEvent} from './bull.decorators';
-import {BullQueueEvents} from './bull.enums';
+import { BullExplorer } from './bull.explorer';
+import { Queue, QueueProcess, OnQueueEvent } from './bull.decorators';
+import { BullQueueEvents } from './bull.enums';
 
 describe('BullExplorer', () => {
-  describe('explore', () => {});
+  describe('explore', () => {
+    // TODO
+  });
 
   describe('handleProcessor', () => {
     it('should add the given function to the queue handlers', () => {
@@ -88,14 +90,14 @@ describe('BullExplorer', () => {
         processor() {}
       }
       const myQueueInstance = new MyQueue();
-      expect(BullExplorer.isProcessor(myQueueInstance, 'processor')).toBe(true);
+      expect(BullExplorer.isProcessor(myQueueInstance.processor)).toBe(true);
     });
     it('should return false if the given class property is not a queue processor', () => {
       class MyQueue {
         processor() {}
       }
       const myQueueInstance = new MyQueue();
-      expect(BullExplorer.isProcessor(myQueueInstance, 'processor')).toBe(false);
+      expect(BullExplorer.isProcessor(myQueueInstance.processor)).toBe(false);
     });
   });
 
@@ -107,7 +109,9 @@ describe('BullExplorer', () => {
         processor() {}
       }
       const myQueueInstance = new MyQueue();
-      expect(BullExplorer.getProcessorMetadata(myQueueInstance, 'processor')).toBe(opts);
+      expect(BullExplorer.getProcessorMetadata(myQueueInstance.processor)).toBe(
+        opts,
+      );
     });
   });
 
@@ -118,14 +122,14 @@ describe('BullExplorer', () => {
         listener() {}
       }
       const myQueueInstance = new MyQueue();
-      expect(BullExplorer.isListener(myQueueInstance, 'listener')).toBe(true);
+      expect(BullExplorer.isListener(myQueueInstance.listener)).toBe(true);
     });
     it('should return false if the given class property is not a queue listener', () => {
       class MyQueue {
         listener() {}
       }
       const myQueueInstance = new MyQueue();
-      expect(BullExplorer.isListener(myQueueInstance, 'listener')).toBe(false);
+      expect(BullExplorer.isListener(myQueueInstance.listener)).toBe(false);
     });
   });
 
@@ -137,12 +141,12 @@ describe('BullExplorer', () => {
         listener() {}
       }
       const myQueueInstance = new MyQueue();
-      expect(BullExplorer.getListenerMetadata(myQueueInstance, 'listener')).toHaveProperty(
-        'eventName',
-      );
-      expect(BullExplorer.getListenerMetadata(myQueueInstance, 'listener').eventName).toBe(
-        opts.eventName,
-      );
+      expect(
+        BullExplorer.getListenerMetadata(myQueueInstance.listener),
+      ).toHaveProperty('eventName');
+      expect(
+        BullExplorer.getListenerMetadata(myQueueInstance.listener).eventName,
+      ).toBe(opts.eventName);
     });
   });
 
