@@ -27,8 +27,12 @@ import {
   OnGlobalQueueWaiting,
   OnGlobalQueueError,
 } from './bull.decorators';
-import {BullQueueEvents, BullQueueGlobalEvents} from './bull.enums';
-import {BULL_MODULE_ON_QUEUE_EVENT, BULL_MODULE_QUEUE_PROCESS, BULL_MODULE_QUEUE,} from './bull.constants';
+import { BullQueueEvents, BullQueueGlobalEvents } from './bull.enums';
+import {
+  BULL_MODULE_ON_QUEUE_EVENT,
+  BULL_MODULE_QUEUE_PROCESS,
+  BULL_MODULE_QUEUE,
+} from './bull.constants';
 
 describe('Decorators', () => {
   describe('@InjectQueue()', () => {
@@ -57,7 +61,7 @@ describe('Decorators', () => {
       }
       const myQueueInstance = new MyQueue();
       expect(
-        Reflect.hasMetadata(BULL_MODULE_QUEUE_PROCESS, myQueueInstance.prop)
+        Reflect.hasMetadata(BULL_MODULE_QUEUE_PROCESS, myQueueInstance.prop),
       ).toEqual(true);
     });
     it('should define the BULL_MODULE_QUEUE_PROCESS metadata with the given options', () => {
