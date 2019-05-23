@@ -89,25 +89,25 @@ export class BullExplorer {
   }
 
   static isProcessor(instance: Injectable, methodKey: string): boolean {
-    return Reflect.hasMetadata(BULL_MODULE_QUEUE_PROCESS, instance, methodKey);
+    return Reflect.hasMetadata(BULL_MODULE_QUEUE_PROCESS, instance[methodKey]);
   }
 
   static isListener(instance: Injectable, methodKey: string): boolean {
-    return Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, instance, methodKey);
+    return Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, instance[methodKey]);
   }
 
   static getProcessorMetadata(
     instance: Injectable,
     methodKey: string,
   ): any {
-    return Reflect.getMetadata(BULL_MODULE_QUEUE_PROCESS, instance, methodKey);
+    return Reflect.getMetadata(BULL_MODULE_QUEUE_PROCESS, instance[methodKey]);
   }
 
   static getListenerMetadata(
     instance: Injectable,
     methodKey: string,
   ): any {
-    return Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, instance, methodKey);
+    return Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, instance[methodKey]);
   }
 
   static getQueue(moduleRef: ModuleRef, queueToken: string): Queue {
