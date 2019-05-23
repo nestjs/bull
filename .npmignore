@@ -7,8 +7,8 @@ e2e/
 .prettierrc
 .travis.yml
 docker-compose.yml
-jest.json
-jest-e2e.json
+jest.config.js
+jest-e2e.config.js
 renovate.json
 coverage/
 cc-test-reporter

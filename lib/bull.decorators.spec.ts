@@ -41,517 +41,489 @@ describe('Decorators', () => {
 
   describe('@Queue()', () => {
     it('should decorate the class with BULL_MODULE_QUEUE', () => {
-      const decorate = Queue();
-      const target = Function;
-      decorate(target);
-      expect(Reflect.hasMetadata(BULL_MODULE_QUEUE, target)).toEqual(true);
+      @Queue()
+      class MyQueue {}
+      expect(Reflect.hasMetadata(BULL_MODULE_QUEUE, MyQueue)).toEqual(true);
     });
     it('should define the BULL_MODULE_QUEUE metadata with the given options', () => {
-      const target = Function;
       const opts = { name: 'test' };
-      Queue(opts)(target);
-      expect(Reflect.getMetadata(BULL_MODULE_QUEUE, target)).toEqual(opts);
+      @Queue(opts)
+      class MyQueue {}
+      expect(Reflect.getMetadata(BULL_MODULE_QUEUE, MyQueue)).toEqual(opts);
     });
   });
 
   describe('@QueueProcess()', () => {
     it('should decorate the method with BULL_MODULE_QUEUE_PROCESS', () => {
-      const target = { prop: () => 'foo' };
-      QueueProcess()(
-        target,
-        'prop',
-        Object.getOwnPropertyDescriptor(target, 'prop'),
-      );
+      class MyQueue {
+        @QueueProcess()
+        prop() {}
+      }
+      const myQueueInstance = new MyQueue();
       expect(
-        Reflect.hasMetadata(BULL_MODULE_QUEUE_PROCESS, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_QUEUE_PROCESS, myQueueInstance.prop),
       ).toEqual(true);
     });
     it('should define the BULL_MODULE_QUEUE_PROCESS metadata with the given options', () => {
-      const target = { prop: () => 'foo' };
       const opts = { name: 'test', concurrency: 42 };
-      QueueProcess(opts)(
-        target,
-        'prop',
-        Object.getOwnPropertyDescriptor(target, 'prop'),
-      );
+      class MyQueue {
+        @QueueProcess(opts)
+        prop() {}
+      }
+      const myQueueInstance = new MyQueue();
       expect(
-        Reflect.getMetadata(BULL_MODULE_QUEUE_PROCESS, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_QUEUE_PROCESS, myQueueInstance.prop),
       ).toEqual(opts);
     });
   });
 
   describe('@OnQueueEvent()', () => {
     const eventName = BullQueueEvents.COMPLETED;
-    const target = { prop: () => 'foo' };
-    OnQueueEvent(eventName)(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnQueueEvent(eventName)
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it('should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the given event name', () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName });
     });
   });
 
   describe('@OnQueueError()', () => {
-    const target = { prop: () => 'foo' };
-    OnQueueError()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnQueueError()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.ERROR });
     });
   });
 
   describe('@OnQueueWaiting()', () => {
-    const target = { prop: () => 'foo' };
-    OnQueueWaiting()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnQueueWaiting()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.WAITING });
     });
   });
 
   describe('@OnQueueActive()', () => {
-    const target = { prop: () => 'foo' };
-    OnQueueActive()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnQueueActive()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.ACTIVE });
     });
   });
 
   describe('@OnQueueStalled()', () => {
-    const target = { prop: () => 'foo' };
-    OnQueueStalled()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnQueueStalled()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.STALLED });
     });
   });
 
   describe('@OnQueueProgress()', () => {
-    const target = { prop: () => 'foo' };
-    OnQueueProgress()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnQueueProgress()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.PROGRESS });
     });
   });
 
   describe('@OnQueueCompleted()', () => {
-    const target = { prop: () => 'foo' };
-    OnQueueCompleted()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnQueueCompleted()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.COMPLETED });
     });
   });
 
   describe('@OnQueueFailed()', () => {
-    const target = { prop: () => 'foo' };
-    OnQueueFailed()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnQueueFailed()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.FAILED });
     });
   });
 
   describe('@OnQueuePaused()', () => {
-    const target = { prop: () => 'foo' };
-    OnQueuePaused()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnQueuePaused()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.PAUSED });
     });
   });
 
   describe('@OnQueueResumed()', () => {
-    const target = { prop: () => 'foo' };
-    OnQueueResumed()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnQueueResumed()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.RESUMED });
     });
   });
 
   describe('@OnQueueCleaned()', () => {
-    const target = { prop: () => 'foo' };
-    OnQueueCleaned()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnQueueCleaned()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.CLEANED });
     });
   });
 
   describe('@OnQueueDrained()', () => {
-    const target = { prop: () => 'foo' };
-    OnQueueDrained()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnQueueDrained()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.DRAINED });
     });
   });
 
   describe('@OnQueueRemoved()', () => {
-    const target = { prop: () => 'foo' };
-    OnQueueRemoved()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnQueueRemoved()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.REMOVED });
     });
   });
 
   describe('@OnGlobalQueueError()', () => {
-    const target = { prop: () => 'foo' };
-    OnGlobalQueueError()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnGlobalQueueError()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.ERROR });
     });
   });
 
   describe('@OnGlobalQueueWaiting()', () => {
-    const target = { prop: () => 'foo' };
-    OnGlobalQueueWaiting()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnGlobalQueueWaiting()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.WAITING });
     });
   });
 
   describe('@OnGlobalQueueActive()', () => {
-    const target = { prop: () => 'foo' };
-    OnGlobalQueueActive()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnGlobalQueueActive()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.ACTIVE });
     });
   });
 
   describe('@OnGlobalQueueStalled()', () => {
-    const target = { prop: () => 'foo' };
-    OnGlobalQueueStalled()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnGlobalQueueStalled()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.STALLED });
     });
   });
 
   describe('@OnGlobalQueueProgress()', () => {
-    const target = { prop: () => 'foo' };
-    OnGlobalQueueProgress()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnGlobalQueueProgress()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.PROGRESS });
     });
   });
 
   describe('@OnGlobalQueueCompleted()', () => {
-    const target = { prop: () => 'foo' };
-    OnGlobalQueueCompleted()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnGlobalQueueCompleted()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.COMPLETED });
     });
   });
 
   describe('@OnGlobalQueueFailed()', () => {
-    const target = { prop: () => 'foo' };
-    OnGlobalQueueFailed()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnGlobalQueueFailed()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.FAILED });
     });
   });
 
   describe('@OnGlobalQueuePaused()', () => {
-    const target = { prop: () => 'foo' };
-    OnGlobalQueuePaused()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnGlobalQueuePaused()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.PAUSED });
     });
   });
 
   describe('@OnGlobalQueueResumed()', () => {
-    const target = { prop: () => 'foo' };
-    OnGlobalQueueResumed()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnGlobalQueueResumed()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.RESUMED });
     });
   });
 
   describe('@OnGlobalQueueCleaned()', () => {
-    const target = { prop: () => 'foo' };
-    OnGlobalQueueCleaned()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnGlobalQueueCleaned()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.CLEANED });
     });
   });
 
   describe('@OnGlobalQueueDrained()', () => {
-    const target = { prop: () => 'foo' };
-    OnGlobalQueueDrained()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnGlobalQueueDrained()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.DRAINED });
     });
   });
 
   describe('@OnGlobalQueueRemoved()', () => {
-    const target = { prop: () => 'foo' };
-    OnGlobalQueueRemoved()(
-      target,
-      'prop',
-      Object.getOwnPropertyDescriptor(target, 'prop'),
-    );
+    class MyQueue {
+      @OnGlobalQueueRemoved()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
     it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
     it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, target, 'prop'),
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.REMOVED });
     });
   });

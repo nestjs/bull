@@ -19,8 +19,8 @@
     "format": "prettier --write **/*.{ts,json}",
     "lint": "tslint -c tslint.json **/*.ts",
     "prepublishOnly": "npm run build",
-    "test": "jest --config=jest.json --detectOpenHandles --forceExit --coverage",
-    "test:e2e": "jest --config=jest-e2e.json --detectOpenHandles --forceExit --coverage"
+    "test": "jest --detectOpenHandles --forceExit --coverage",
+    "test:e2e": "jest --config=jest-e2e.config.js --detectOpenHandles --forceExit --coverage"
   },
   "husky": {
     "hooks": {
