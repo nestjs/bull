@@ -47,9 +47,9 @@
   "devDependencies": {
     "@commitlint/cli": "7.6.1",
     "@commitlint/config-conventional": "7.6.0",
-    "@nestjs/common": "6.2.0",
-    "@nestjs/core": "6.2.0",
-    "@nestjs/testing": "6.2.0",
+    "@nestjs/common": "6.2.4",
+    "@nestjs/core": "6.2.4",
+    "@nestjs/testing": "6.2.4",
     "@types/bull": "3.5.14",
     "@types/jest": "24.0.13",
     "@types/node": "11.13.11",
