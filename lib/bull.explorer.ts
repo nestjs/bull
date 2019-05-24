@@ -82,42 +82,42 @@ export class BullExplorer {
   }
 
   static isQueueComponent(
-    target: Type<any>,
+    target: Type<any> | Function,
     reflector: Reflector = new Reflector(),
   ): boolean {
     return !!reflector.get(BULL_MODULE_QUEUE, target);
   }
 
   static getQueueComponentMetadata(
-    target: Type<any>,
+    target: Type<any> | Function,
     reflector: Reflector = new Reflector(),
   ): any {
     return reflector.get(BULL_MODULE_QUEUE, target);
   }
 
   static isProcessor(
-    target: Function,
+    target: Type<any> | Function,
     reflector: Reflector = new Reflector(),
   ): boolean {
     return !!reflector.get(BULL_MODULE_QUEUE_PROCESS, target);
   }
 
   static isListener(
-    target: Function,
+    target: Type<any> | Function,
     reflector: Reflector = new Reflector(),
   ): boolean {
     return !!reflector.get(BULL_MODULE_ON_QUEUE_EVENT, target);
   }
 
   static getProcessorMetadata(
-    target: Function,
+    target: Type<any> | Function,
     reflector: Reflector = new Reflector(),
   ): any {
     return reflector.get(BULL_MODULE_QUEUE_PROCESS, target);
   }
 
   static getListenerMetadata(
-    target: Function,
+    target: Type<any> | Function,
     reflector: Reflector = new Reflector(),
   ): any {
     return reflector.get(BULL_MODULE_ON_QUEUE_EVENT, target);
