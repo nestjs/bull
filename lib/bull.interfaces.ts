@@ -8,15 +8,10 @@ export interface BullModuleOptions {
   processors?: BullQueueProcessor[];
 }
 
-export interface BullOptionsFactory {
-  createBullOptions(): Promise<BullModuleOptions> | BullModuleOptions;
-}
-
 export interface BullModuleAsyncOptions
   extends Pick<ModuleMetadata, 'imports'> {
   name?: string;
   useClass?: Type<BullModuleOptions>;
-  useClass?: Type<BullOptionsFactory>;
   useFactory?: (
     ...args: any[]
   ) => Promise<BullModuleOptions> | BullModuleOptions;

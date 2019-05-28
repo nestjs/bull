@@ -1,4 +1,4 @@
-import { BullModule, getQueueToken } from '../lib';
+import {BullModule, getQueueToken, BullModuleOptions} from '../lib';
 import { Queue } from 'bull';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -60,6 +60,26 @@ describe('BullModule', () => {
         });
         it('the injected queue should have the given processor', () => {
           const queue: Queue = module.get<Queue>(getQueueToken('test'));
+        });
+      });
+      describe('useClass', () => {
+        const processorMock = jest.fn();
+        class BullModuleConfiguration {
+          processors = [ processorMock ];
+        }
+        beforeAll(async () => {
+          module = await Test.createTestingModule({
+            imports: [
+              BullModule.forRootAsync({
+                name: 'test',
+                useClass: BullModuleConfiguration,
+              })
+            ]
+          }).compile();
+        });
+        it('should inject the queue with the given name', () => {
+          const queue: Queue = module.get<Queue>(getQueueToken('test'));
+          expect(queue).toBeDefined();
         });
       });
     });
