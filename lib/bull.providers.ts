@@ -58,7 +58,6 @@ export function createAsyncQueueOptionsProviders(
     provide: getQueueOptionsToken(option.name),
     useFactory: option.useFactory,
     useClass: option.useClass,
-    useExisting: option.useExisting,
     inject: option.inject,
   }));
 }
