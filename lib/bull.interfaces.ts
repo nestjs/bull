@@ -1,6 +1,14 @@
 import * as Bull from 'bull';
-import {BullQueueProcessor, BullQueueProcessorCallback, BullQueueSeparateProcessor} from './bull.types';
-import { ModuleMetadata, Type } from '@nestjs/common/interfaces';
+import {
+  BullQueueProcessor,
+  BullQueueProcessorCallback,
+  BullQueueSeparateProcessor,
+} from './bull.types';
+import {
+  ModuleMetadata,
+  ClassProvider,
+  FactoryProvider,
+} from '@nestjs/common/interfaces';
 
 export interface BullModuleOptions {
   name?: string;
@@ -8,14 +16,18 @@ export interface BullModuleOptions {
   processors?: BullQueueProcessor[];
 }
 
-export interface BullModuleAsyncOptions
-  extends Pick<ModuleMetadata, 'imports'> {
+export interface BullModuleAsyncOptions {
   name?: string;
-  useClass?: Type<BullModuleOptions>;
-  useFactory?: (
-    ...args: any[]
-  ) => Promise<BullModuleOptions> | BullModuleOptions;
-  inject?: any[];
+  imports?: ModuleMetadata['imports'];
+  useClass?: ClassProvider<{
+    options?: Bull.QueueOptions;
+    processors?: BullQueueProcessor[];
+  }>['useClass'];
+  useFactory?: FactoryProvider<{
+    options?: Bull.QueueOptions;
+    processors?: BullQueueProcessor[];
+  }>['useFactory'];
+  inject?: FactoryProvider['inject'];
 }
 
 export interface QueueProcessDecoratorOptions {
