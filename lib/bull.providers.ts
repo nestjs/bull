@@ -17,6 +17,7 @@ function buildQueue(option: BullModuleOptions): Queue {
     option.options,
   );
   if (option.processors) {
+    console.warn(`The 'processors' property is deprecated and will soon be removed.`);
     option.processors.forEach((processor: BullQueueProcessor) => {
       let args = [];
       if (isAdvancedProcessor(processor)) {
