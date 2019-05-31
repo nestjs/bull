@@ -9,7 +9,8 @@ import {
   isProcessorCallback,
 } from './bull.types';
 import { getQueueToken, getQueueOptionsToken } from './bull.utils';
-import { Provider } from '@nestjs/common';
+import { Logger, Provider } from '@nestjs/common';
+
 
 function buildQueue(option: BullModuleOptions): Queue {
   const queue: Queue = new Bull(
@@ -17,7 +18,7 @@ function buildQueue(option: BullModuleOptions): Queue {
     option.options,
   );
   if (option.processors) {
-    console.warn(`The 'processors' property is deprecated and will soon be removed.`);
+    Logger.warn(`The 'processors' property is deprecated and will soon be removed.`, 'BullModule', false);
     option.processors.forEach((processor: BullQueueProcessor) => {
       let args = [];
       if (isAdvancedProcessor(processor)) {
