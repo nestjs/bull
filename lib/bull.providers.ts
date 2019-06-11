@@ -11,7 +11,6 @@ import {
 import { getQueueToken, getQueueOptionsToken } from './bull.utils';
 import { Logger, Provider } from '@nestjs/common';
 
-
 function buildQueue(option: BullModuleOptions): Queue {
   const queue: Queue = new Bull(
     option.name ? option.name : 'default',
