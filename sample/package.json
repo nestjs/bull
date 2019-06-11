@@ -11,7 +11,7 @@
     "@nestjs/common": "6.2.4",
     "@nestjs/core": "6.2.4",
     "@nestjs/platform-express": "6.2.4",
-    "bull": "3.9.1",
+    "bull": "3.10.0",
     "nest-bull": "..",
     "reflect-metadata": "0.1.13",
     "rxjs": "6.5.2",
