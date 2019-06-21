@@ -52,7 +52,7 @@
     "@nestjs/testing": "6.3.1",
     "@types/bull": "3.5.14",
     "@types/jest": "24.0.15",
-    "@types/node": "11.13.14",
+    "@types/node": "11.13.15",
     "bull": "3.10.0",
     "husky": "2.4.1",
     "jest": "24.8.0",
