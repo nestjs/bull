@@ -8,9 +8,9 @@
     "start": "ts-node -r tsconfig-paths/register src/main.ts"
   },
   "dependencies": {
-    "@nestjs/common": "6.3.2",
-    "@nestjs/core": "6.3.2",
-    "@nestjs/platform-express": "6.3.2",
+    "@nestjs/common": "6.4.1",
+    "@nestjs/core": "6.4.1",
+    "@nestjs/platform-express": "6.4.1",
     "bull": "3.10.0",
     "nest-bull": "..",
     "reflect-metadata": "0.1.13",
