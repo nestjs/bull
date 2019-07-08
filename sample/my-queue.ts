@@ -9,7 +9,7 @@ import { NumberService } from './number.service';
 import { Job, DoneCallback } from 'bull';
 import { Logger } from '@nestjs/common';
 
-@Queue()
+@Queue({ name: 'test_queue' })
 export class MyQueue {
   private readonly logger = new Logger(this.constructor.name);
 
@@ -35,9 +35,7 @@ export class MyQueue {
   @OnQueueEvent(BullQueueEvents.COMPLETED)
   onCompleted(job: Job) {
     this.logger.log(
-      `Completed job ${job.id} of type ${job.name} with result ${
-        job.returnvalue
-      }`,
+      `Completed job ${job.id} of type ${job.name} with result ${job.returnvalue}`,
     );
   }
 }

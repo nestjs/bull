@@ -4,7 +4,7 @@ import { Queue } from 'bull';
 
 @Controller()
 export class AppController {
-  constructor(@InjectQueue() private readonly queue: Queue) {}
+  constructor(@InjectQueue('test_queue') private readonly queue: Queue) {}
 
   @Get('twice/:x')
   async createTwiceJob(@Param('x', new ParseIntPipe()) x: number) {

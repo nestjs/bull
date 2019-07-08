@@ -5,7 +5,7 @@ import { MyQueue } from './my-queue';
 import { BullModule } from 'nest-bull';
 
 @Module({
-  imports: [BullModule.forRoot({})],
+  imports: [BullModule.forRoot({ name: 'test_queue' })],
   controllers: [AppController],
   providers: [NumberService, MyQueue],
 })
