@@ -11,7 +11,11 @@
     "sourceMap": false,
     "outDir": "./dist",
     "rootDir": "./lib",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "nest-bull": ["./lib"]
+    }
   },
   "include": ["lib/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
