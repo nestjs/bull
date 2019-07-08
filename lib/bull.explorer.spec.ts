@@ -1,6 +1,10 @@
 import { BullExplorer } from './bull.explorer';
 import { Queue, QueueProcess, OnQueueEvent } from './bull.decorators';
 import { BullQueueEvents } from './bull.enums';
+import { Test } from '@nestjs/testing';
+import { BullModule } from './bull.module';
+import { ModuleRef, ModulesContainer } from '@nestjs/core';
+import { getQueueToken } from './bull.utils';
 
 describe('BullExplorer', () => {
   describe('explore', () => {
@@ -151,10 +155,42 @@ describe('BullExplorer', () => {
   });
 
   describe('getQueue', () => {
-    // TODO
+    it('should return the queue matching the given token', async () => {
+      const queueToken = getQueueToken('test');
+      const fakeQueue = 'I am a fake queue';
+      const module = await Test.createTestingModule({
+        imports: [BullModule.forRoot({ name: 'test' })],
+      })
+        .overrideProvider(queueToken)
+        .useValue(fakeQueue)
+        .compile();
+      const moduleRef = module.get(ModuleRef);
+      const queue = BullExplorer.getQueue(moduleRef, queueToken);
+      expect(queue).toBeDefined();
+      expect(queue).toBe(fakeQueue);
+    });
   });
 
   describe('getQueueComponents', () => {
-    // TODO
+    it('should return the queue components of the module', async () => {
+      @Queue()
+      class MyQueue {}
+      const module = await Test.createTestingModule({
+        imports: [BullModule.forRoot({})],
+        providers: [MyQueue],
+      }).compile();
+      const queueComponent = module.get(MyQueue);
+      const container = module.get(ModulesContainer);
+      const foundComponents = BullExplorer.getQueueComponents([
+        ...container.values(),
+      ]);
+      expect(foundComponents).toBeInstanceOf(Array);
+      expect(foundComponents.length).toBe(1);
+      expect(
+        foundComponents
+          .map(({ instance }) => instance)
+          .includes(queueComponent),
+      ).toBe(true);
+    });
   });
 });
