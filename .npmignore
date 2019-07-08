@@ -14,3 +14,5 @@ coverage/
 cc-test-reporter
 sample/
 .github/
+FUNDING.yml
+sample.tsconfig.json
