@@ -52,7 +52,7 @@
     "@nestjs/core": "6.4.1",
     "@nestjs/platform-express": "6.4.1",
     "@nestjs/testing": "6.4.1",
-    "@types/bull": "3.5.15",
+    "@types/bull": "3.10.0",
     "@types/jest": "24.0.15",
     "@types/node": "11.13.17",
     "@types/reflect-metadata": "0.1.0",
