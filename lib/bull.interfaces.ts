@@ -1,5 +1,9 @@
 import * as Bull from 'bull';
-import {BullQueueProcessor, BullQueueProcessorCallback, BullQueueSeparateProcessor} from './bull.types';
+import {
+  BullQueueProcessor,
+  BullQueueProcessorCallback,
+  BullQueueSeparateProcessor,
+} from './bull.types';
 import { ModuleMetadata, Type } from '@nestjs/common/interfaces';
 
 export interface BullModuleOptions {

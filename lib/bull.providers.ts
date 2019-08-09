@@ -17,17 +17,25 @@ function buildQueue(option: BullModuleOptions): Queue {
     option.options,
   );
   if (option.processors) {
-    Logger.warn(`The 'processors' property is deprecated and will soon be removed.`, 'BullModule', false);
     option.processors.forEach((processor: BullQueueProcessor) => {
       let args = [];
       if (isAdvancedProcessor(processor)) {
+        Logger.warn(
+          `The 'AdvancedProcessors' are deprecated and will soon be removed.`,
+          'BullModule',
+          false,
+        );
         args.push(processor.name, processor.concurrency, processor.callback);
       } else if (isAdvancedSeparateProcessor(processor)) {
         args.push(processor.name, processor.concurrency, processor.path);
-      } else if (
-        isSeparateProcessor(processor) ||
-        isProcessorCallback(processor)
-      ) {
+      } else if (isSeparateProcessor(processor)) {
+        args.push(processor);
+      } else if (isProcessorCallback(processor)) {
+        Logger.warn(
+          `The 'ProcessorCallbacks' are deprecated and will soon be removed.`,
+          'BullModule',
+          false,
+        );
         args.push(processor);
       }
       args = args.filter(arg => !!arg);
