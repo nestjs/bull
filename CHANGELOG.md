@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.8.2](https://github.com/fwoelffel/nest-bull/compare/v0.8.1...v0.8.2) (2019-08-09)
+
+
+### Bug Fixes
+
+* undeprecate separate processors ([1dd0303](https://github.com/fwoelffel/nest-bull/commit/1dd0303))
+
 ### [0.8.1](https://github.com/fwoelffel/nest-bull/compare/v0.8.0...v0.8.1) (2019-07-08)
 
 
