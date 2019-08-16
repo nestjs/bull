@@ -36,8 +36,9 @@ export class BullModule implements OnModuleInit {
       optionsArr
         .map(option => option.imports)
         .reduce((acc = [], i) => {
-          acc.push(i);
-        }) || [];
+          return acc.concat(i);
+        }, [])
+        .filter((v, i, a) => a.indexOf(v) === i) || [];
     return {
       imports,
       module: BullModule,
