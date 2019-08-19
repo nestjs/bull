@@ -12,6 +12,17 @@ export class BullModule implements OnModuleInit {
   static forRoot(
     options: BullModuleOptions | BullModuleOptions[],
   ): DynamicModule {
+    Logger.warn(
+      `The 'forRoot' method is deprecated in favor of 'register' and will soon be removed.`,
+      'BullModule',
+      false,
+    );
+    return BullModule.register(options);
+  }
+
+  static register(
+    options: BullModuleOptions | BullModuleOptions[],
+  ): DynamicModule {
     const queueProviders = createQueueProviders([].concat(options));
     const queueOptionProviders = createQueueOptionProviders([].concat(options));
     return {
@@ -27,6 +38,17 @@ export class BullModule implements OnModuleInit {
   }
 
   static forRootAsync(
+    options: BullModuleAsyncOptions | BullModuleAsyncOptions[],
+  ): DynamicModule {
+    Logger.warn(
+      `The 'forRootAsync' method is deprecated in favor of 'registerAsync' and will soon be removed.`,
+      'BullModule',
+      false,
+    );
+    return BullModule.registerAsync(options);
+  }
+
+  static registerAsync(
     options: BullModuleAsyncOptions | BullModuleAsyncOptions[],
   ): DynamicModule {
     const optionsArr = [].concat(options);
