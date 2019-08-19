@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.8.3](https://github.com/fwoelffel/nest-bull/compare/v0.8.2...v0.8.3) (2019-08-19)
+
+
+### Bug Fixes
+
+* [#161](https://github.com/fwoelffel/nest-bull/issues/161) forRootAsync imports array concat ([0740395](https://github.com/fwoelffel/nest-bull/commit/0740395))
+* failing tests ([d5c1eb0](https://github.com/fwoelffel/nest-bull/commit/d5c1eb0))
+
 ### [0.8.2](https://github.com/fwoelffel/nest-bull/compare/v0.8.1...v0.8.2) (2019-08-09)
 
 
