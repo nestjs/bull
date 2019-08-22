@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.8.4](https://github.com/fwoelffel/nest-bull/compare/v0.8.3...v0.8.4) (2019-08-22)
+
+* **decorators:** rename Queue and QueueProcess ([#156](https://github.com/nestjsx/nest-bull/issues/156)) ([0405e70](https://github.com/fwoelffel/nest-bull/commit/0405e70))
+* **module:** rename forRoot and forRootAsync ([#116](https://github.com/nestjsx/nest-bull/issues/116)) ([457e080](https://github.com/fwoelffel/nest-bull/commit/457e080))
+
 ### [0.8.3](https://github.com/fwoelffel/nest-bull/compare/v0.8.2...v0.8.3) (2019-08-19)
 
 

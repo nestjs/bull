@@ -15,8 +15,8 @@
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Decorators](#decorators)
-  - [@Queue()](#queue)
-  - [@QueueProcess()](#queueprocess)
+  - [@Processor()](#queue)
+  - [@Process()](#queueprocess)
   - [@OnQueueEvent()](#onqueueevent)
   - [Example](#example)
 - [People](#people)
@@ -60,7 +60,7 @@ export class AppController {
 
 @Module({
   imports: [
-    BullModule.forRoot({
+    BullModule.register({
       name: 'store',
       options: {
         redis: {
@@ -83,9 +83,9 @@ export class ApplicationModule {}
 
 This module provides some decorators that will help you to set up your queue listeners.
 
-### @Queue()
+### @Processor()
 
-The `@Queue()` class decorator is mandatory if you plan to use this package's decorators.
+The `@Processor()` class decorator is mandatory if you plan to use this package's decorators.
 
 It accepts an optional `QueueDecoratorOptions` argument:
 ````ts
@@ -94,9 +94,9 @@ export interface QueueDecoratorOptions {
 }
 ````
 
-### @QueueProcess()
+### @Process()
 
-The `@QueueProcess()` method decorator flags a method as a processing function for the queued jobs.
+The `@Process()` method decorator flags a method as a processing function for the queued jobs.
 
 It accepts an optional `QueueProcessDecoratorOptions` argument:
 ```ts
@@ -177,22 +177,22 @@ If you need more details about those events, head straight to [Bull's reference 
 Here is a pretty self-explanatory example on how this package's decorators should be used.
 
 ```ts
-import {Queue, QueueProcess, OnQueueActive, OnQueueEvent, BullQueueEvents} from '../../lib';
+import {Processor, Process, OnQueueActive, OnQueueEvent, BullQueueEvents} from '../../lib';
 import {NumberService} from './number.service';
 import {Job, DoneCallback} from 'bull';
 
-@Queue()
+@Processor()
 export class MyQueue {
   private readonly logger = new Logger('MyQueue');
 
   constructor(private readonly service: NumberService) {}
 
-  @QueueProcess({ name: 'twice' })
+  @Process({ name: 'twice' })
   processTwice(job: Job<number>) {
     return this.service.twice(job.data);
   }
 
-  @QueueProcess({ name: 'thrice' })
+  @Process({ name: 'thrice' })
   processThrice(job: Job<number>, callback: DoneCallback) {
     callback(null, this.service.thrice(job.data));
   }
@@ -231,7 +231,7 @@ import { join } from 'path';
 
 @Module({
   imports: [
-    BullModule.forRoot({
+    BullModule.register({
       processors: [ join(__dirname, 'processor.ts') ]
     }) 
   ]
