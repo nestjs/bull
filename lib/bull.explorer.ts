@@ -14,7 +14,7 @@ import {
 import { Injectable } from '@nestjs/common/interfaces';
 import { MetadataScanner } from '@nestjs/core/metadata-scanner';
 import { getQueueToken } from './bull.utils';
-import { Queue } from 'bull';
+import { Queue, Job } from 'bull';
 
 @InjectableDecorator()
 export class BullExplorer {
@@ -78,7 +78,15 @@ export class BullExplorer {
   }
 
   static handleListener(instance, key, queue, options) {
-    queue.on(options.eventName, instance[key].bind(instance));
+    if (options.name) {
+      queue.on(options.eventName, (job: Job) => {
+        if (job.name === options.name) {
+          return instance[key].call(instance, job);
+        }
+      });
+    } else {
+      queue.on(options.eventName, instance[key].bind(instance));
+    }
   }
 
   static isQueueComponent(

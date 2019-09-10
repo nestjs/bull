@@ -74,3 +74,20 @@ export type BullQueueEvent =
   | 'global:cleaned'
   | 'global:drained'
   | 'global:removed';
+
+export interface BullQueueEventOptions {
+  eventName:
+    | 'error'
+    | 'waiting'
+    | 'active'
+    | 'stalled'
+    | 'progress'
+    | 'completed'
+    | 'failed'
+    | 'paused'
+    | 'resumed'
+    | 'cleaned'
+    | 'drained'
+    | 'removed';
+  name: string;
+}

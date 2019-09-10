@@ -152,6 +152,21 @@ describe('BullExplorer', () => {
         BullExplorer.getListenerMetadata(myQueueInstance.listener).eventName,
       ).toBe(opts.eventName);
     });
+    it('should return the given queue listener metadata by specified job name', () => {
+      const opts = { eventName: BullQueueEvents.COMPLETED, name: 'test' };
+      class MyQueue {
+        @OnQueueEvent(opts)
+        listener() {}
+      }
+      const myQueueInstance = new MyQueue();
+      const metadata = BullExplorer.getListenerMetadata(
+        myQueueInstance.listener,
+      );
+      expect(metadata).toHaveProperty('eventName');
+      expect(metadata).toHaveProperty('name');
+      expect(metadata.eventName).toBe(opts.eventName);
+      expect(metadata.name).toBe(opts.name);
+    });
   });
 
   describe('getQueue', () => {

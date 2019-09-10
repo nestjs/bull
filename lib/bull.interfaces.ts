@@ -32,6 +32,10 @@ export interface QueueProcessDecoratorOptions {
   concurrency?: number;
 }
 
+export interface QueueEventDecoratorOptions {
+  name: string;
+}
+
 export interface QueueDecoratorOptions {
   name?: string;
 }
