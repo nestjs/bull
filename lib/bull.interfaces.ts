@@ -6,6 +6,16 @@ import {
 } from './bull.types';
 import { ModuleMetadata, Type } from '@nestjs/common/interfaces';
 
+// @see https://stackoverflow.com/a/49725198
+export type RequireOnlyOne<T, Keys extends keyof T = keyof T> = Pick<
+  T,
+  Exclude<keyof T, Keys>
+> &
+  {
+    [K in Keys]-?: Required<Pick<T, K>> &
+      Partial<Record<Exclude<Keys, K>, undefined>>
+  }[Keys];
+
 export interface BullModuleOptions {
   name?: string;
   options?: Bull.QueueOptions;
@@ -32,9 +42,10 @@ export interface QueueProcessDecoratorOptions {
   concurrency?: number;
 }
 
-export interface QueueEventDecoratorOptions {
-  name: string;
-}
+export type QueueEventDecoratorOptions = RequireOnlyOne<
+  { id?: string; name?: string },
+  'id' | 'name'
+>;
 
 export interface QueueDecoratorOptions {
   name?: string;

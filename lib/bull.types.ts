@@ -2,6 +2,7 @@ import { DoneCallback, Job } from 'bull';
 import {
   BullQueueAdvancedProcessor,
   BullQueueAdvancedSeparateProcessor,
+  RequireOnlyOne,
 } from './bull.interfaces';
 
 export type BullQueueProcessor =
@@ -75,19 +76,23 @@ export type BullQueueEvent =
   | 'global:drained'
   | 'global:removed';
 
-export interface BullQueueEventOptions {
-  eventName:
-    | 'error'
-    | 'waiting'
-    | 'active'
-    | 'stalled'
-    | 'progress'
-    | 'completed'
-    | 'failed'
-    | 'paused'
-    | 'resumed'
-    | 'cleaned'
-    | 'drained'
-    | 'removed';
-  name: string;
-}
+export type BullQueueEventOptions = RequireOnlyOne<
+  {
+    eventName:
+      | 'error'
+      | 'waiting'
+      | 'active'
+      | 'stalled'
+      | 'progress'
+      | 'completed'
+      | 'failed'
+      | 'paused'
+      | 'resumed'
+      | 'cleaned'
+      | 'drained'
+      | 'removed';
+    name?: string;
+    id?: string;
+  },
+  'id' | 'name'
+>;

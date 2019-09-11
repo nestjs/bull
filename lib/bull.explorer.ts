@@ -78,9 +78,9 @@ export class BullExplorer {
   }
 
   static handleListener(instance, key, queue, options) {
-    if (options.name) {
+    if (options.name || options.id) {
       queue.on(options.eventName, (job: Job) => {
-        if (job.name === options.name) {
+        if (job.name === options.name || job.id === options.id) {
           return instance[key].call(instance, job);
         }
       });
