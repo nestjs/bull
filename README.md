@@ -219,7 +219,7 @@ This module allows you to run your job handlers in fork processes.
 To do so, add the filesystem path to a file (or more) exporting your processor function to the `processors` property of the BullModule options.
 You can read more on this subject in Bull's [documentation](https://github.com/OptimalBits/bull#separate-processes).
 
-Please note that, your function being executed in a fork, Nestjs' DI won't be available.
+Please note that because your function is being executed in a fork, Nestjs' DI won't be available unless you create an application context for the process as shown in the example.
 
 ### Example
 
@@ -240,10 +240,23 @@ export class AppModule {}
 ```
 ```ts
 // processor.ts
+import { NestFactory } from '@nestjs/core';
 import { Job, DoneCallback } from 'bull';
+import { YourWorkerModule } from './your-worker.module.ts';
+import { YourWorkerService } from './your-worker.service.ts';
 
 export default function(job: Job, cb: DoneCallback) {
-  cb(null, 'It works');
+  async function bootstrap() {
+  
+    const app = await NestFactory.createApplicationContext(YourWorkerModule);
+    const workerService = app.get(YourWorkerService);
+    await workerService.doWork();
+    await app.close();
+    
+    cb(null, 'It works');
+  }
+
+  bootstrap();
 }
 ``` 
 
