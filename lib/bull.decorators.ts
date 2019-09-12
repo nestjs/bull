@@ -9,9 +9,12 @@ import { BullQueueEvents, BullQueueGlobalEvents } from './bull.enums';
 import {
   QueueProcessDecoratorOptions,
   QueueDecoratorOptions,
-  QueueEventDecoratorOptions,
 } from './bull.interfaces';
-import { BullQueueEvent, BullQueueEventOptions } from './bull.types';
+import {
+  BullQueueEvent,
+  BullQueueEventOptions,
+  QueueEventDecoratorOptions,
+} from './bull.types';
 
 export const InjectQueue = (name?: string): ParameterDecorator =>
   Inject(getQueueToken(name));
@@ -89,38 +92,38 @@ export const OnQueueDrained = (options?: QueueEventDecoratorOptions) =>
 export const OnQueueRemoved = (options?: QueueEventDecoratorOptions) =>
   OnQueueEvent({ ...options, eventName: BullQueueEvents.REMOVED });
 
-export const OnGlobalQueueError = () =>
-  OnQueueEvent(BullQueueGlobalEvents.ERROR);
+export const OnGlobalQueueError = (options?: QueueEventDecoratorOptions) =>
+  OnQueueEvent({ ...options, eventName: BullQueueGlobalEvents.ERROR });
 
-export const OnGlobalQueueWaiting = () =>
-  OnQueueEvent(BullQueueGlobalEvents.WAITING);
+export const OnGlobalQueueWaiting = (options?: QueueEventDecoratorOptions) =>
+  OnQueueEvent({ ...options, eventName: BullQueueGlobalEvents.WAITING });
 
-export const OnGlobalQueueActive = () =>
-  OnQueueEvent(BullQueueGlobalEvents.ACTIVE);
+export const OnGlobalQueueActive = (options?: QueueEventDecoratorOptions) =>
+  OnQueueEvent({ ...options, eventName: BullQueueGlobalEvents.ACTIVE });
 
-export const OnGlobalQueueStalled = () =>
-  OnQueueEvent(BullQueueGlobalEvents.STALLED);
+export const OnGlobalQueueStalled = (options?: QueueEventDecoratorOptions) =>
+  OnQueueEvent({ ...options, eventName: BullQueueGlobalEvents.STALLED });
 
-export const OnGlobalQueueProgress = () =>
-  OnQueueEvent(BullQueueGlobalEvents.PROGRESS);
+export const OnGlobalQueueProgress = (options?: QueueEventDecoratorOptions) =>
+  OnQueueEvent({ ...options, eventName: BullQueueGlobalEvents.PROGRESS });
 
-export const OnGlobalQueueCompleted = () =>
-  OnQueueEvent(BullQueueGlobalEvents.COMPLETED);
+export const OnGlobalQueueCompleted = (options?: QueueEventDecoratorOptions) =>
+  OnQueueEvent({ ...options, eventName: BullQueueGlobalEvents.COMPLETED });
 
-export const OnGlobalQueueFailed = () =>
-  OnQueueEvent(BullQueueGlobalEvents.FAILED);
+export const OnGlobalQueueFailed = (options?: QueueEventDecoratorOptions) =>
+  OnQueueEvent({ ...options, eventName: BullQueueGlobalEvents.FAILED });
 
-export const OnGlobalQueuePaused = () =>
-  OnQueueEvent(BullQueueGlobalEvents.PAUSED);
+export const OnGlobalQueuePaused = (options?: QueueEventDecoratorOptions) =>
+  OnQueueEvent({ ...options, eventName: BullQueueGlobalEvents.PAUSED });
 
-export const OnGlobalQueueResumed = () =>
-  OnQueueEvent(BullQueueGlobalEvents.RESUMED);
+export const OnGlobalQueueResumed = (options?: QueueEventDecoratorOptions) =>
+  OnQueueEvent({ ...options, eventName: BullQueueGlobalEvents.RESUMED });
 
-export const OnGlobalQueueCleaned = () =>
-  OnQueueEvent(BullQueueGlobalEvents.CLEANED);
+export const OnGlobalQueueCleaned = (options?: QueueEventDecoratorOptions) =>
+  OnQueueEvent({ ...options, eventName: BullQueueGlobalEvents.CLEANED });
 
-export const OnGlobalQueueDrained = () =>
-  OnQueueEvent(BullQueueGlobalEvents.DRAINED);
+export const OnGlobalQueueDrained = (options?: QueueEventDecoratorOptions) =>
+  OnQueueEvent({ ...options, eventName: BullQueueGlobalEvents.DRAINED });
 
-export const OnGlobalQueueRemoved = () =>
-  OnQueueEvent(BullQueueGlobalEvents.REMOVED);
+export const OnGlobalQueueRemoved = (options?: QueueEventDecoratorOptions) =>
+  OnQueueEvent({ ...options, eventName: BullQueueGlobalEvents.REMOVED });
