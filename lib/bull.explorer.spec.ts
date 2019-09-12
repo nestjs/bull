@@ -178,7 +178,7 @@ describe('BullExplorer', () => {
         myQueueInstance.listener,
       );
       expect(metadata).toHaveProperty('eventName');
-      expect(metadata).toHaveProperty('name');
+      expect(metadata).toHaveProperty('id');
       expect(metadata.eventName).toBe(opts.eventName);
       expect(metadata.id).toBe(opts.id);
     });
