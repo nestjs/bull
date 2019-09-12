@@ -152,7 +152,7 @@ describe('BullExplorer', () => {
         BullExplorer.getListenerMetadata(myQueueInstance.listener).eventName,
       ).toBe(opts.eventName);
     });
-    it('should return the given queue listener metadata by specified job name', () => {
+    it('should return the given queue listener metadata with specified job name', () => {
       const opts = { eventName: BullQueueEvents.COMPLETED, name: 'test' };
       class MyQueue {
         @OnQueueEvent(opts)
@@ -167,7 +167,7 @@ describe('BullExplorer', () => {
       expect(metadata.eventName).toBe(opts.eventName);
       expect(metadata.name).toBe(opts.name);
     });
-    it('should return the given queue listener metadata by specified job id', () => {
+    it('should return the given queue listener metadata with specified job id', () => {
       const opts = { eventName: BullQueueEvents.COMPLETED, id: '1' };
       class MyQueue {
         @OnQueueEvent(opts)
