@@ -79,7 +79,11 @@ export class BullExplorer {
 
   static handleListener(instance, key, queue, options) {
     if (options.name || options.id) {
-      queue.on(options.eventName, (job: Job, ...args) => {
+      queue.on(options.eventName, async (jobOrJobId: Job | string, ...args) => {
+        const job: Job =
+          typeof jobOrJobId === 'string'
+            ? await queue.getJob(jobOrJobId)
+            : jobOrJobId;
         if (job.name === options.name || job.id === options.id) {
           return instance[key].apply(instance, [job, ...args]);
         }
