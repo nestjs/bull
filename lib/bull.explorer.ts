@@ -82,7 +82,7 @@ export class BullExplorer {
       queue.on(options.eventName, async (jobOrJobId: Job | string, ...args) => {
         const job: Job =
           typeof jobOrJobId === 'string'
-            ? await queue.getJob(jobOrJobId)
+            ? (await queue.getJob(jobOrJobId)) || { name: false, id: false }
             : jobOrJobId;
         if (job.name === options.name || job.id === options.id) {
           return instance[key].apply(instance, [job, ...args]);
