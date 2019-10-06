@@ -152,6 +152,36 @@ describe('BullExplorer', () => {
         BullExplorer.getListenerMetadata(myQueueInstance.listener).eventName,
       ).toBe(opts.eventName);
     });
+    it('should return the given queue listener metadata with specified job name', () => {
+      const opts = { eventName: BullQueueEvents.COMPLETED, name: 'test' };
+      class MyQueue {
+        @OnQueueEvent(opts)
+        listener() {}
+      }
+      const myQueueInstance = new MyQueue();
+      const metadata = BullExplorer.getListenerMetadata(
+        myQueueInstance.listener,
+      );
+      expect(metadata).toHaveProperty('eventName');
+      expect(metadata).toHaveProperty('name');
+      expect(metadata.eventName).toBe(opts.eventName);
+      expect(metadata.name).toBe(opts.name);
+    });
+    it('should return the given queue listener metadata with specified job id', () => {
+      const opts = { eventName: BullQueueEvents.COMPLETED, id: '1' };
+      class MyQueue {
+        @OnQueueEvent(opts)
+        listener() {}
+      }
+      const myQueueInstance = new MyQueue();
+      const metadata = BullExplorer.getListenerMetadata(
+        myQueueInstance.listener,
+      );
+      expect(metadata).toHaveProperty('eventName');
+      expect(metadata).toHaveProperty('id');
+      expect(metadata.eventName).toBe(opts.eventName);
+      expect(metadata.id).toBe(opts.id);
+    });
   });
 
   describe('getQueue', () => {
