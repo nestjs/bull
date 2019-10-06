@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0](https://github.com/fwoelffel/nest-bull/compare/v0.8.4...v0.9.0) (2019-10-06)
+
+
+### Features
+
+* handle job event by specified job name. ([06735c1](https://github.com/fwoelffel/nest-bull/commit/06735c1)), closes [#165](https://github.com/fwoelffel/nest-bull/issues/165)
+
 ### [0.8.4](https://github.com/fwoelffel/nest-bull/compare/v0.8.3...v0.8.4) (2019-08-22)
 
 * **decorators:** rename Queue and QueueProcess ([#156](https://github.com/nestjsx/nest-bull/issues/156)) ([0405e70](https://github.com/fwoelffel/nest-bull/commit/0405e70))
