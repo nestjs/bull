@@ -1,4 +1,4 @@
-import { DynamicModule, Module, OnModuleInit, Logger } from '@nestjs/common';
+import { DynamicModule, Module, OnModuleInit, Logger, Global } from '@nestjs/common';
 import { BullModuleOptions, BullModuleAsyncOptions } from './bull.interfaces';
 import {
   createQueueOptionProviders,
@@ -7,6 +7,7 @@ import {
 } from './bull.providers';
 import { BullExplorer } from './bull.explorer';
 
+@Global()
 @Module({})
 export class BullModule implements OnModuleInit {
   static forRoot(
@@ -74,7 +75,7 @@ export class BullModule implements OnModuleInit {
     };
   }
 
-  constructor(private readonly explorer: BullExplorer) {}
+  constructor(private readonly explorer: BullExplorer) { }
 
   onModuleInit() {
     this.explorer.explore();
