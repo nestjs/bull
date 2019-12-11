@@ -1,8 +1,12 @@
+# source
+e2e/
 lib/
 .idea/
+coverage/
+
+# config
 tsconfig.json
 tslint.json
-e2e/
 .prettierignore
 .prettierrc
 .travis.yml
@@ -10,9 +14,10 @@ docker-compose.yml
 jest.config.js
 jest-e2e.config.js
 renovate.json
-coverage/
+sample.tsconfig.json
 cc-test-reporter
+
+# misc
 sample/
 .github/
 FUNDING.yml
-sample.tsconfig.json

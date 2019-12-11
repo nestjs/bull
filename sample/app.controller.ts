@@ -1,6 +1,6 @@
 import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
-import { InjectQueue } from 'nest-bull';
 import { Queue } from 'bull';
+import { InjectQueue } from 'nest-bull';
 
 @Controller()
 export class AppController {
