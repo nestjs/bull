@@ -1,7 +1,13 @@
 import {
+  BULL_MODULE_ON_QUEUE_EVENT,
+  BULL_MODULE_QUEUE,
+  BULL_MODULE_QUEUE_PROCESS,
+} from '../bull.constants';
+import {
+  Processor,
+  Process,
+  BullQueueEvents,
   OnQueueEvent,
-  QueueProcess,
-  Queue,
   OnQueueError,
   OnQueueWaiting,
   OnQueueActive,
@@ -14,49 +20,44 @@ import {
   OnQueueCleaned,
   OnQueueDrained,
   OnQueueRemoved,
-  OnGlobalQueueRemoved,
-  OnGlobalQueueDrained,
-  OnGlobalQueueCleaned,
-  OnGlobalQueueResumed,
-  OnGlobalQueuePaused,
-  OnGlobalQueueFailed,
-  OnGlobalQueueCompleted,
-  OnGlobalQueueProgress,
-  OnGlobalQueueStalled,
-  OnGlobalQueueActive,
-  OnGlobalQueueWaiting,
   OnGlobalQueueError,
-} from './bull.decorators';
-import { BullQueueEvents, BullQueueGlobalEvents } from './bull.enums';
-import {
-  BULL_MODULE_ON_QUEUE_EVENT,
-  BULL_MODULE_QUEUE_PROCESS,
-  BULL_MODULE_QUEUE,
-} from './bull.constants';
+  BullQueueGlobalEvents,
+  OnGlobalQueueWaiting,
+  OnGlobalQueueActive,
+  OnGlobalQueueStalled,
+  OnGlobalQueueProgress,
+  OnGlobalQueueCompleted,
+  OnGlobalQueueFailed,
+  OnGlobalQueuePaused,
+  OnGlobalQueueResumed,
+  OnGlobalQueueCleaned,
+  OnGlobalQueueDrained,
+  OnGlobalQueueRemoved,
+} from '..';
 
 describe('Decorators', () => {
   describe('@InjectQueue()', () => {
     it.todo('should enhance class with expected constructor params metadata');
   });
 
-  describe('@Queue()', () => {
+  describe('@Processor()', () => {
     it('should decorate the class with BULL_MODULE_QUEUE', () => {
-      @Queue()
+      @Processor()
       class MyQueue {}
       expect(Reflect.hasMetadata(BULL_MODULE_QUEUE, MyQueue)).toEqual(true);
     });
     it('should define the BULL_MODULE_QUEUE metadata with the given options', () => {
       const opts = { name: 'test' };
-      @Queue(opts)
+      @Processor(opts)
       class MyQueue {}
       expect(Reflect.getMetadata(BULL_MODULE_QUEUE, MyQueue)).toEqual(opts);
     });
   });
 
-  describe('@QueueProcess()', () => {
+  describe('@Process()', () => {
     it('should decorate the method with BULL_MODULE_QUEUE_PROCESS', () => {
       class MyQueue {
-        @QueueProcess()
+        @Process()
         prop() {}
       }
       const myQueueInstance = new MyQueue();
@@ -67,7 +68,7 @@ describe('Decorators', () => {
     it('should define the BULL_MODULE_QUEUE_PROCESS metadata with the given options', () => {
       const opts = { name: 'test', concurrency: 42 };
       class MyQueue {
-        @QueueProcess(opts)
+        @Process(opts)
         prop() {}
       }
       const myQueueInstance = new MyQueue();

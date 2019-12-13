@@ -1,24 +1,27 @@
-import { DynamicModule, Module, OnModuleInit, Logger } from '@nestjs/common';
-import { BullModuleOptions, BullModuleAsyncOptions } from './bull.interfaces';
+import { DynamicModule, Logger, Module, OnModuleInit } from '@nestjs/common';
+import { DiscoveryModule } from '@nestjs/core';
+import { BullMetadataAccessor } from './bull-metadata.accessor';
+import { BullExplorer } from './bull.explorer';
 import {
+  createAsyncQueueOptionsProviders,
   createQueueOptionProviders,
   createQueueProviders,
-  createAsyncQueueOptionsProviders,
 } from './bull.providers';
-import { BullExplorer } from './bull.explorer';
+import {
+  BullModuleAsyncOptions,
+  BullModuleOptions,
+} from './interfaces/bull-module-options.interface';
 
-@Module({})
+@Module({
+  imports: [DiscoveryModule],
+  providers: [
+    BullExplorer,
+    BullMetadataAccessor,
+    { provide: Logger, useValue: new Logger('BullModule') },
+  ],
+})
 export class BullModule implements OnModuleInit {
-  static forRoot(
-    options: BullModuleOptions | BullModuleOptions[],
-  ): DynamicModule {
-    Logger.warn(
-      `The 'forRoot' method is deprecated in favor of 'register' and will soon be removed.`,
-      'BullModule',
-      false,
-    );
-    return BullModule.register(options);
-  }
+  constructor(private readonly explorer: BullExplorer) {}
 
   static register(
     options: BullModuleOptions | BullModuleOptions[],
@@ -27,25 +30,9 @@ export class BullModule implements OnModuleInit {
     const queueOptionProviders = createQueueOptionProviders([].concat(options));
     return {
       module: BullModule,
-      providers: [
-        ...queueOptionProviders,
-        ...queueProviders,
-        BullExplorer,
-        { provide: Logger, useValue: new Logger('BullModule') },
-      ],
+      providers: [...queueOptionProviders, ...queueProviders],
       exports: queueProviders,
     };
-  }
-
-  static forRootAsync(
-    options: BullModuleAsyncOptions | BullModuleAsyncOptions[],
-  ): DynamicModule {
-    Logger.warn(
-      `The 'forRootAsync' method is deprecated in favor of 'registerAsync' and will soon be removed.`,
-      'BullModule',
-      false,
-    );
-    return BullModule.registerAsync(options);
   }
 
   static registerAsync(
@@ -54,27 +41,24 @@ export class BullModule implements OnModuleInit {
     const optionsArr = [].concat(options);
     const queueProviders = createQueueProviders(optionsArr);
     const queueOptionProviders = createAsyncQueueOptionsProviders(optionsArr);
-    const imports =
-      optionsArr
-        .map(option => option.imports)
-        .reduce((acc, i) => {
-          return acc.concat(i || []);
-        }, [])
-        .filter((v, i, a) => a.indexOf(v) === i) || [];
+    const imports = this.getUniqImports(optionsArr);
+
     return {
       imports,
       module: BullModule,
-      providers: [
-        ...queueOptionProviders,
-        ...queueProviders,
-        BullExplorer,
-        { provide: Logger, useValue: new Logger('BullModule') },
-      ],
+      providers: [...queueOptionProviders, ...queueProviders],
       exports: queueProviders,
     };
   }
 
-  constructor(private readonly explorer: BullExplorer) {}
+  private static getUniqImports(options: BullModuleAsyncOptions[]) {
+    return (
+      options
+        .map(option => option.imports)
+        .reduce((acc, i) => acc.concat(i || []), [])
+        .filter((v, i, a) => a.indexOf(v) === i) || []
+    );
+  }
 
   onModuleInit() {
     this.explorer.explore();

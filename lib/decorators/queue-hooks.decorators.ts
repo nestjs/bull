@@ -1,50 +1,11 @@
-import { Inject, SetMetadata, Logger } from '@nestjs/common';
-import { getQueueToken } from './bull.utils';
-import {
-  BULL_MODULE_QUEUE,
-  BULL_MODULE_QUEUE_PROCESS,
-  BULL_MODULE_ON_QUEUE_EVENT,
-} from './bull.constants';
-import { BullQueueEvents, BullQueueGlobalEvents } from './bull.enums';
-import {
-  QueueProcessDecoratorOptions,
-  QueueDecoratorOptions,
-} from './bull.interfaces';
+import { SetMetadata } from '@nestjs/common';
+import { BULL_MODULE_ON_QUEUE_EVENT } from '../bull.constants';
 import {
   BullQueueEvent,
   BullQueueEventOptions,
   QueueEventDecoratorOptions,
-} from './bull.types';
-
-export const InjectQueue = (name?: string): ParameterDecorator =>
-  Inject(getQueueToken(name));
-
-export const Queue = (options?: QueueDecoratorOptions): ClassDecorator => {
-  Logger.warn(
-    `The 'Queue' decorator is deprecated in favor of 'Processor' and will soon be removed.`,
-    'BullModule',
-    false,
-  );
-  return Processor(options);
-};
-
-export const Processor = (options?: QueueDecoratorOptions): ClassDecorator =>
-  SetMetadata(BULL_MODULE_QUEUE, options || {});
-
-export const QueueProcess = (
-  options?: QueueProcessDecoratorOptions,
-): MethodDecorator => {
-  Logger.warn(
-    `The 'QueueProcess' decorator is deprecated in favor of 'Process' and will soon be removed.`,
-    'BullModule',
-    false,
-  );
-  return Process(options);
-};
-
-export const Process = (
-  options?: QueueProcessDecoratorOptions,
-): MethodDecorator => SetMetadata(BULL_MODULE_QUEUE_PROCESS, options || {});
+} from '../bull.types';
+import { BullQueueEvents, BullQueueGlobalEvents } from '../enums';
 
 export const OnQueueEvent = (
   eventNameOrOptions: BullQueueEvent | BullQueueEventOptions,

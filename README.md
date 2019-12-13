@@ -1,59 +1,55 @@
 <p align="center">
-  <a href="https://nestjs.com/" target="_blank"><img src="http://kamilmysliwiec.com/public/nest-logo.png#1" alt="Nest Logo" /></a>
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-![Master branch build](https://img.shields.io/travis/fwoelffel/nest-bull/master.svg?label=master%20build)
-![Dev branch build](https://img.shields.io/travis/fwoelffel/nest-bull/dev.svg?label=dev%20build)
-![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/fwoelffel/nest-bull.svg)
-![Code Climate coverage](https://img.shields.io/codeclimate/coverage/fwoelffel/nest-bull.svg)
-![npm](https://img.shields.io/npm/dm/nest-bull.svg)
-![NPM](https://img.shields.io/npm/l/nest-bull.svg)
-![npm peer dependency version](https://img.shields.io/npm/dependency-version/nest-bull/peer/@nestjs/common.svg)
-![npm peer dependency version](https://img.shields.io/npm/dependency-version/nest-bull/peer/bull.svg)
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-- [Description](#description)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Decorators](#decorators)
-  - [@Processor()](#queue)
-  - [@Process()](#queueprocess)
-  - [@OnQueueEvent()](#onqueueevent)
-  - [Example](#example)
-- [People](#people)
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+</p>
 
 ## Description
 
-This is a [Bull](https://github.com/OptimalBits/bull) module for [Nest 6](https://github.com/nestjs/nest).
+[Bull](https://github.com/OptimalBits/bull) module for [Nest 6](https://github.com/nestjs/nest).
 
 ## Installation
 
 ```bash
-$ npm i --save nest-bull bull
+$ npm i --save @nestjs/bull bull
 $ npm i --save-dev @types/bull
 ```
 
 ## Quick Start
 
 ```ts
-import {Body, Controller, Get, Module, Param, Post} from '@nestjs/common';
-import {DoneCallback, Job, Queue} from 'bull';
-import {BullModule, InjectQueue} from 'nest-bull';
+import { Body, Controller, Get, Module, Param, Post } from '@nestjs/common';
+import { DoneCallback, Job, Queue } from 'bull';
+import { BullModule, InjectQueue } from 'nest-bull';
 
 @Controller()
 export class AppController {
-
-  constructor(
-    @InjectQueue('store') readonly queue: Queue,
-  ) {}
+  constructor(@InjectQueue('store') readonly queue: Queue) {}
 
   @Post()
-  async addJob( @Body() value: any ) {
+  async addJob(@Body() value: any) {
     const job: Job = await this.queue.add(value);
     return job.id;
   }
 
   @Get(':id')
-  async getJob( @Param('id') id: string ) {
+  async getJob(@Param('id') id: string) {
     return await this.queue.getJob(id);
   }
 }
@@ -68,13 +64,13 @@ export class AppController {
         },
       },
       processors: [
-        (job: Job, done: DoneCallback) => { done(null, job.data); },
+        (job: Job, done: DoneCallback) => {
+          done(null, job.data);
+        },
       ],
     }),
   ],
-  controllers: [
-    AppController,
-  ],
+  controllers: [AppController],
 })
 export class ApplicationModule {}
 ```
@@ -88,17 +84,19 @@ This module provides some decorators that will help you to set up your queue lis
 The `@Processor()` class decorator is mandatory if you plan to use this package's decorators.
 
 It accepts an optional `QueueDecoratorOptions` argument:
-````ts
+
+```ts
 export interface QueueDecoratorOptions {
   name?: string; // Name of the queue
 }
-````
+```
 
 ### @Process()
 
 The `@Process()` method decorator flags a method as a processing function for the queued jobs.
 
 It accepts an optional `QueueProcessDecoratorOptions` argument:
+
 ```ts
 export interface QueueProcessDecoratorOptions {
   name?: string; // Name of the job
@@ -114,6 +112,7 @@ Such method is expected to have the following signature `(job: Job, done?: DoneC
 The `OnQueueEvent()` method decorator flags a method as an event listener for the related queue.
 
 It requires a `BullQueueEvent` argument:
+
 ```ts
 export type BullQueueEvent =
   | 'error'
@@ -145,31 +144,32 @@ export type BullQueueEvent =
 You can also use the `BullQueueEvents` and `BullQueueGlobalEvents` enums.
 
 Fortunately, there is a shorthand decorator for each of the Bull events:
-  - `@OnQueueError()`
-  - `@OnQueueWaiting()`
-  - `@OnQueueActive()`
-  - `@OnQueueStalled()`
-  - `@OnQueueProgress()`
-  - `@OnQueueCompleted()`
-  - `@OnQueueFailed()`
-  - `@OnQueuePaused()`
-  - `@OnQueueResumed()`
-  - `@OnQueueCleaned()`
-  - `@OnQueueDrained()`
-  - `@OnQueueRemoved()`
-  - `@OnGlobalQueueError()`  
-  - `@OnGlobalQueueWaiting()` 
-  - `@OnGlobalQueueActive()` 
-  - `@OnGlobalQueueStalled()`
-  - `@OnGlobalQueueProgress()`
-  - `@OnGlobalQueueCompleted()`
-  - `@OnGlobalQueueFailed()`
-  - `@OnGlobalQueuePaused()`
-  - `@OnGlobalQueueResumed()`
-  - `@OnGlobalQueueCleaned()`
-  - `@OnGlobalQueueDrained()`
-  - `@OnGlobalQueueRemoved()`
-  
+
+- `@OnQueueError()`
+- `@OnQueueWaiting()`
+- `@OnQueueActive()`
+- `@OnQueueStalled()`
+- `@OnQueueProgress()`
+- `@OnQueueCompleted()`
+- `@OnQueueFailed()`
+- `@OnQueuePaused()`
+- `@OnQueueResumed()`
+- `@OnQueueCleaned()`
+- `@OnQueueDrained()`
+- `@OnQueueRemoved()`
+- `@OnGlobalQueueError()`
+- `@OnGlobalQueueWaiting()`
+- `@OnGlobalQueueActive()`
+- `@OnGlobalQueueStalled()`
+- `@OnGlobalQueueProgress()`
+- `@OnGlobalQueueCompleted()`
+- `@OnGlobalQueueFailed()`
+- `@OnGlobalQueuePaused()`
+- `@OnGlobalQueueResumed()`
+- `@OnGlobalQueueCleaned()`
+- `@OnGlobalQueueDrained()`
+- `@OnGlobalQueueRemoved()`
+
 If you need more details about those events, head straight to [Bull's reference doc](https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#events).
 
 ### Example
@@ -177,9 +177,15 @@ If you need more details about those events, head straight to [Bull's reference 
 Here is a pretty self-explanatory example on how this package's decorators should be used.
 
 ```ts
-import {Processor, Process, OnQueueActive, OnQueueEvent, BullQueueEvents} from '../../lib';
-import {NumberService} from './number.service';
-import {Job, DoneCallback} from 'bull';
+import {
+  Processor,
+  Process,
+  OnQueueActive,
+  OnQueueEvent,
+  BullQueueEvents,
+} from '../../lib';
+import { NumberService } from './number.service';
+import { Job, DoneCallback } from 'bull';
 
 @Processor()
 export class MyQueue {
@@ -232,12 +238,13 @@ import { join } from 'path';
 @Module({
   imports: [
     BullModule.register({
-      processors: [ join(__dirname, 'processor.ts') ]
-    }) 
-  ]
+      processors: [join(__dirname, 'processor.ts')],
+    }),
+  ],
 })
 export class AppModule {}
 ```
+
 ```ts
 // processor.ts
 import { Job, DoneCallback } from 'bull';
@@ -245,7 +252,7 @@ import { Job, DoneCallback } from 'bull';
 export default function(job: Job, cb: DoneCallback) {
   cb(null, 'It works');
 }
-``` 
+```
 
 ## People
 
