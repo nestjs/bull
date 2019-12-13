@@ -12,6 +12,11 @@ describe('BullModule', () => {
           imports: [
             BullModule.register({
               name: 'test',
+              options: {
+                redis: {
+                  port: 6380,
+                },
+              },
               processors: [fakeProcessor],
             }),
           ],
