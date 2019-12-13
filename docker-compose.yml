@@ -1,6 +1,7 @@
 version: "3"
 services:
   redis:
-    image: redis:alpine
+    image: redis
     ports:
-      - 6380:6379
+      - "6379:6379"
+    restart: always
