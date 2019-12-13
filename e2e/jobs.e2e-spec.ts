@@ -14,7 +14,7 @@ describe('BullModule', () => {
           options: {
             redis: {
               host: '0.0.0.0',
-              port: 6379,
+              port: 6380,
             },
           },
           processors: [fakeProcessor],

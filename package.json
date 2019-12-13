@@ -23,7 +23,7 @@
     "publish:npm": "npm publish --access public",
     "sample-app": "ts-node --require tsconfig-paths/register --project sample/tsconfig.json sample/main.ts",
     "test": "jest --detectOpenHandles --forceExit --coverage",
-    "test:e2e": "jest --config=jest-e2e.config.js --detectOpenHandles --forceExit --coverage"
+    "test:e2e": "jest --config=jest-e2e.config.js --detectOpenHandles --forceExit --coverage --runInBand"
   },
   "husky": {
     "hooks": {
