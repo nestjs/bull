@@ -84,8 +84,8 @@ workflows:
     jobs:
       - build
       - unit_tests:
-        requires:
-          - build
+          requires:
+            - build
       - integration_tests:
           requires:
             - build
