@@ -4,6 +4,7 @@ import { BullModule, getQueueToken } from '../lib';
 
 describe('BullModule', () => {
   let module: TestingModule;
+
   describe('register', () => {
     describe('single configuration', () => {
       const fakeProcessor = jest.fn();
@@ -136,6 +137,38 @@ describe('BullModule', () => {
           const queue: Queue = module.get<Queue>(getQueueToken('test2'));
           expect(queue).toBeDefined();
         });
+      });
+    });
+  });
+  describe('full flow (job handling)', () => {
+    const fakeProcessor = jest.fn();
+    let testingModule: TestingModule;
+
+    beforeAll(async () => {
+      testingModule = await Test.createTestingModule({
+        imports: [
+          BullModule.register({
+            name: 'full_flow',
+            options: {
+              redis: {
+                host: '0.0.0.0',
+                port: 6380,
+              },
+            },
+            processors: [fakeProcessor],
+          }),
+        ],
+      }).compile();
+    });
+
+    it('should process jobs with the given processors', async () => {
+      const queue: Queue = testingModule.get<Queue>(getQueueToken('full_flow'));
+      await queue.add(null);
+      return new Promise(resolve => {
+        setTimeout(() => {
+          expect(fakeProcessor).toHaveBeenCalledTimes(1);
+          resolve();
+        }, 100);
       });
     });
   });
