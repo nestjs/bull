@@ -13,6 +13,7 @@ describe('BullModule', () => {
           name: 'test',
           options: {
             redis: {
+              host: '0.0.0.0',
               port: 6380,
             },
           },

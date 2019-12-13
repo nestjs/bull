@@ -14,6 +14,7 @@ describe('BullModule', () => {
               name: 'test',
               options: {
                 redis: {
+                  host: '0.0.0.0',
                   port: 6380,
                 },
               },
@@ -36,6 +37,7 @@ describe('BullModule', () => {
                 name: 'test1',
                 options: {
                   redis: {
+                    host: '0.0.0.0',
                     port: 6380,
                   },
                 },
@@ -44,6 +46,7 @@ describe('BullModule', () => {
                 name: 'test2',
                 options: {
                   redis: {
+                    host: '0.0.0.0',
                     port: 6380,
                   },
                 },
@@ -75,6 +78,7 @@ describe('BullModule', () => {
                   processors: [fakeProcessor],
                   options: {
                     redis: {
+                      host: '0.0.0.0',
                       port: 6380,
                     },
                   },
@@ -103,6 +107,7 @@ describe('BullModule', () => {
                   useFactory: () => ({
                     options: {
                       redis: {
+                        host: '0.0.0.0',
                         port: 6380,
                       },
                     },
@@ -113,6 +118,7 @@ describe('BullModule', () => {
                   useFactory: () => ({
                     options: {
                       redis: {
+                        host: '0.0.0.0',
                         port: 6380,
                       },
                     },
