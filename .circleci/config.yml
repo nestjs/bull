@@ -72,6 +72,11 @@ jobs:
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - *install-deps
       - run:
+          name: Prepare
+          command: |
+            docker-compose up -d
+            sleep 10
+      - run:
           name: List containers
           command: docker ps
       - run:
