@@ -28,32 +28,29 @@ This is a [Bull](https://github.com/OptimalBits/bull) module for [Nest 6](https:
 ## Installation
 
 ```bash
-$ npm i --save nest-bull bull
+$ npm i --save @nestjs/bull bull
 $ npm i --save-dev @types/bull
 ```
 
 ## Quick Start
 
 ```ts
-import {Body, Controller, Get, Module, Param, Post} from '@nestjs/common';
-import {DoneCallback, Job, Queue} from 'bull';
-import {BullModule, InjectQueue} from 'nest-bull';
+import { Body, Controller, Get, Module, Param, Post } from '@nestjs/common';
+import { DoneCallback, Job, Queue } from 'bull';
+import { BullModule, InjectQueue } from 'nest-bull';
 
 @Controller()
 export class AppController {
-
-  constructor(
-    @InjectQueue('store') readonly queue: Queue,
-  ) {}
+  constructor(@InjectQueue('store') readonly queue: Queue) {}
 
   @Post()
-  async addJob( @Body() value: any ) {
+  async addJob(@Body() value: any) {
     const job: Job = await this.queue.add(value);
     return job.id;
   }
 
   @Get(':id')
-  async getJob( @Param('id') id: string ) {
+  async getJob(@Param('id') id: string) {
     return await this.queue.getJob(id);
   }
 }
@@ -68,13 +65,13 @@ export class AppController {
         },
       },
       processors: [
-        (job: Job, done: DoneCallback) => { done(null, job.data); },
+        (job: Job, done: DoneCallback) => {
+          done(null, job.data);
+        },
       ],
     }),
   ],
-  controllers: [
-    AppController,
-  ],
+  controllers: [AppController],
 })
 export class ApplicationModule {}
 ```
@@ -88,17 +85,19 @@ This module provides some decorators that will help you to set up your queue lis
 The `@Processor()` class decorator is mandatory if you plan to use this package's decorators.
 
 It accepts an optional `QueueDecoratorOptions` argument:
-````ts
+
+```ts
 export interface QueueDecoratorOptions {
   name?: string; // Name of the queue
 }
-````
+```
 
 ### @Process()
 
 The `@Process()` method decorator flags a method as a processing function for the queued jobs.
 
 It accepts an optional `QueueProcessDecoratorOptions` argument:
+
 ```ts
 export interface QueueProcessDecoratorOptions {
   name?: string; // Name of the job
@@ -114,6 +113,7 @@ Such method is expected to have the following signature `(job: Job, done?: DoneC
 The `OnQueueEvent()` method decorator flags a method as an event listener for the related queue.
 
 It requires a `BullQueueEvent` argument:
+
 ```ts
 export type BullQueueEvent =
   | 'error'
@@ -145,31 +145,32 @@ export type BullQueueEvent =
 You can also use the `BullQueueEvents` and `BullQueueGlobalEvents` enums.
 
 Fortunately, there is a shorthand decorator for each of the Bull events:
-  - `@OnQueueError()`
-  - `@OnQueueWaiting()`
-  - `@OnQueueActive()`
-  - `@OnQueueStalled()`
-  - `@OnQueueProgress()`
-  - `@OnQueueCompleted()`
-  - `@OnQueueFailed()`
-  - `@OnQueuePaused()`
-  - `@OnQueueResumed()`
-  - `@OnQueueCleaned()`
-  - `@OnQueueDrained()`
-  - `@OnQueueRemoved()`
-  - `@OnGlobalQueueError()`  
-  - `@OnGlobalQueueWaiting()` 
-  - `@OnGlobalQueueActive()` 
-  - `@OnGlobalQueueStalled()`
-  - `@OnGlobalQueueProgress()`
-  - `@OnGlobalQueueCompleted()`
-  - `@OnGlobalQueueFailed()`
-  - `@OnGlobalQueuePaused()`
-  - `@OnGlobalQueueResumed()`
-  - `@OnGlobalQueueCleaned()`
-  - `@OnGlobalQueueDrained()`
-  - `@OnGlobalQueueRemoved()`
-  
+
+- `@OnQueueError()`
+- `@OnQueueWaiting()`
+- `@OnQueueActive()`
+- `@OnQueueStalled()`
+- `@OnQueueProgress()`
+- `@OnQueueCompleted()`
+- `@OnQueueFailed()`
+- `@OnQueuePaused()`
+- `@OnQueueResumed()`
+- `@OnQueueCleaned()`
+- `@OnQueueDrained()`
+- `@OnQueueRemoved()`
+- `@OnGlobalQueueError()`
+- `@OnGlobalQueueWaiting()`
+- `@OnGlobalQueueActive()`
+- `@OnGlobalQueueStalled()`
+- `@OnGlobalQueueProgress()`
+- `@OnGlobalQueueCompleted()`
+- `@OnGlobalQueueFailed()`
+- `@OnGlobalQueuePaused()`
+- `@OnGlobalQueueResumed()`
+- `@OnGlobalQueueCleaned()`
+- `@OnGlobalQueueDrained()`
+- `@OnGlobalQueueRemoved()`
+
 If you need more details about those events, head straight to [Bull's reference doc](https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#events).
 
 ### Example
@@ -177,9 +178,15 @@ If you need more details about those events, head straight to [Bull's reference 
 Here is a pretty self-explanatory example on how this package's decorators should be used.
 
 ```ts
-import {Processor, Process, OnQueueActive, OnQueueEvent, BullQueueEvents} from '../../lib';
-import {NumberService} from './number.service';
-import {Job, DoneCallback} from 'bull';
+import {
+  Processor,
+  Process,
+  OnQueueActive,
+  OnQueueEvent,
+  BullQueueEvents,
+} from '../../lib';
+import { NumberService } from './number.service';
+import { Job, DoneCallback } from 'bull';
 
 @Processor()
 export class MyQueue {
@@ -232,12 +239,13 @@ import { join } from 'path';
 @Module({
   imports: [
     BullModule.register({
-      processors: [ join(__dirname, 'processor.ts') ]
-    }) 
-  ]
+      processors: [join(__dirname, 'processor.ts')],
+    }),
+  ],
 })
 export class AppModule {}
 ```
+
 ```ts
 // processor.ts
 import { Job, DoneCallback } from 'bull';
@@ -245,7 +253,7 @@ import { Job, DoneCallback } from 'bull';
 export default function(job: Job, cb: DoneCallback) {
   cb(null, 'It works');
 }
-``` 
+```
 
 ## People
 

@@ -1,16 +1,16 @@
-import { BullModule, getQueueToken } from '../lib';
-import { Queue } from 'bull';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Queue } from 'bull';
+import { BullModule, getQueueToken } from '../lib';
 
 describe('BullModule', () => {
   let module: TestingModule;
-  describe('forRoot', () => {
+  describe('register', () => {
     describe('single configuration', () => {
       const fakeProcessor = jest.fn();
       beforeAll(async () => {
         module = await Test.createTestingModule({
           imports: [
-            BullModule.forRoot({
+            BullModule.register({
               name: 'test',
               processors: [fakeProcessor],
             }),
@@ -25,7 +25,9 @@ describe('BullModule', () => {
     describe('multiple configuration', () => {
       beforeAll(async () => {
         module = await Test.createTestingModule({
-          imports: [BullModule.forRoot([{ name: 'test1' }, { name: 'test2' }])],
+          imports: [
+            BullModule.register([{ name: 'test1' }, { name: 'test2' }]),
+          ],
         }).compile();
       });
       it('should inject the queue with name "test1"', () => {
@@ -38,14 +40,14 @@ describe('BullModule', () => {
       });
     });
   });
-  describe('forRootAsync', () => {
+  describe('registerAsync', () => {
     describe('single configuration', () => {
       describe('useFactory', () => {
         const fakeProcessor = jest.fn();
         beforeAll(async () => {
           module = await Test.createTestingModule({
             imports: [
-              BullModule.forRootAsync({
+              BullModule.registerAsync({
                 name: 'test',
                 useFactory: () => ({
                   processors: [fakeProcessor],
@@ -68,7 +70,7 @@ describe('BullModule', () => {
         beforeAll(async () => {
           module = await Test.createTestingModule({
             imports: [
-              BullModule.forRootAsync([
+              BullModule.registerAsync([
                 { name: 'test1', useFactory: () => ({}) },
                 { name: 'test2', useFactory: () => ({}) },
               ]),

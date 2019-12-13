@@ -1,22 +1,29 @@
-import { BullModule, getQueueToken } from '../lib';
-import { Queue } from 'bull';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Queue } from 'bull';
+import { BullModule, getQueueToken } from '../lib';
 
 describe('BullModule', () => {
-  let module: TestingModule;
+  let testingModule: TestingModule;
+
   const fakeProcessor = jest.fn();
   beforeAll(async () => {
-    module = await Test.createTestingModule({
+    testingModule = await Test.createTestingModule({
       imports: [
-        BullModule.forRoot({
+        BullModule.register({
           name: 'test',
+          options: {
+            redis: {
+              port: 6380,
+            },
+          },
           processors: [fakeProcessor],
         }),
       ],
     }).compile();
   });
+
   it('should process jobs with the given processors', async () => {
-    const queue: Queue = module.get<Queue>(getQueueToken('test'));
+    const queue: Queue = testingModule.get<Queue>(getQueueToken('test'));
     await queue.add(null);
     return new Promise(resolve => {
       setTimeout(() => {
