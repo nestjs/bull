@@ -31,7 +31,24 @@ describe('BullModule', () => {
       beforeAll(async () => {
         module = await Test.createTestingModule({
           imports: [
-            BullModule.register([{ name: 'test1' }, { name: 'test2' }]),
+            BullModule.register([
+              {
+                name: 'test1',
+                options: {
+                  redis: {
+                    port: 6380,
+                  },
+                },
+              },
+              {
+                name: 'test2',
+                options: {
+                  redis: {
+                    port: 6380,
+                  },
+                },
+              },
+            ]),
           ],
         }).compile();
       });
@@ -56,6 +73,11 @@ describe('BullModule', () => {
                 name: 'test',
                 useFactory: () => ({
                   processors: [fakeProcessor],
+                  options: {
+                    redis: {
+                      port: 6380,
+                    },
+                  },
                 }),
               }),
             ],
@@ -76,8 +98,26 @@ describe('BullModule', () => {
           module = await Test.createTestingModule({
             imports: [
               BullModule.registerAsync([
-                { name: 'test1', useFactory: () => ({}) },
-                { name: 'test2', useFactory: () => ({}) },
+                {
+                  name: 'test1',
+                  useFactory: () => ({
+                    options: {
+                      redis: {
+                        port: 6380,
+                      },
+                    },
+                  }),
+                },
+                {
+                  name: 'test2',
+                  useFactory: () => ({
+                    options: {
+                      redis: {
+                        port: 6380,
+                      },
+                    },
+                  }),
+                },
               ]),
             ],
           }).compile();
