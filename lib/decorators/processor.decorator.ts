@@ -5,5 +5,5 @@ export interface ProcessorOptions {
   name?: string;
 }
 
-export const Processor = (options?: ProcessorOptions): ClassDecorator =>
-  SetMetadata(BULL_MODULE_QUEUE, options || {});
+export const Processor = (queueName?: string): ClassDecorator =>
+  SetMetadata(BULL_MODULE_QUEUE, { name: queueName });

@@ -1,39 +1,39 @@
 import {
+  BullQueueEvents,
+  BullQueueGlobalEvents,
+  OnGlobalQueueActive,
+  OnGlobalQueueCleaned,
+  OnGlobalQueueCompleted,
+  OnGlobalQueueDrained,
+  OnGlobalQueueError,
+  OnGlobalQueueFailed,
+  OnGlobalQueuePaused,
+  OnGlobalQueueProgress,
+  OnGlobalQueueRemoved,
+  OnGlobalQueueResumed,
+  OnGlobalQueueStalled,
+  OnGlobalQueueWaiting,
+  OnQueueActive,
+  OnQueueCleaned,
+  OnQueueCompleted,
+  OnQueueDrained,
+  OnQueueError,
+  OnQueueEvent,
+  OnQueueFailed,
+  OnQueuePaused,
+  OnQueueProgress,
+  OnQueueRemoved,
+  OnQueueResumed,
+  OnQueueStalled,
+  OnQueueWaiting,
+  Process,
+  Processor,
+} from '..';
+import {
   BULL_MODULE_ON_QUEUE_EVENT,
   BULL_MODULE_QUEUE,
   BULL_MODULE_QUEUE_PROCESS,
 } from '../bull.constants';
-import {
-  Processor,
-  Process,
-  BullQueueEvents,
-  OnQueueEvent,
-  OnQueueError,
-  OnQueueWaiting,
-  OnQueueActive,
-  OnQueueStalled,
-  OnQueueProgress,
-  OnQueueCompleted,
-  OnQueueFailed,
-  OnQueuePaused,
-  OnQueueResumed,
-  OnQueueCleaned,
-  OnQueueDrained,
-  OnQueueRemoved,
-  OnGlobalQueueError,
-  BullQueueGlobalEvents,
-  OnGlobalQueueWaiting,
-  OnGlobalQueueActive,
-  OnGlobalQueueStalled,
-  OnGlobalQueueProgress,
-  OnGlobalQueueCompleted,
-  OnGlobalQueueFailed,
-  OnGlobalQueuePaused,
-  OnGlobalQueueResumed,
-  OnGlobalQueueCleaned,
-  OnGlobalQueueDrained,
-  OnGlobalQueueRemoved,
-} from '..';
 
 describe('Decorators', () => {
   describe('@InjectQueue()', () => {
@@ -48,7 +48,7 @@ describe('Decorators', () => {
     });
     it('should define the BULL_MODULE_QUEUE metadata with the given options', () => {
       const opts = { name: 'test' };
-      @Processor(opts)
+      @Processor(opts.name)
       class MyQueue {}
       expect(Reflect.getMetadata(BULL_MODULE_QUEUE, MyQueue)).toEqual(opts);
     });
@@ -75,6 +75,17 @@ describe('Decorators', () => {
       expect(
         Reflect.getMetadata(BULL_MODULE_QUEUE_PROCESS, myQueueInstance.prop),
       ).toEqual(opts);
+    });
+    it('should define the BULL_MODULE_QUEUE_PROCESS metadata with the given name', () => {
+      const opts = { name: 'test', concurrency: 42 };
+      class MyQueue {
+        @Process(opts.name)
+        prop() {}
+      }
+      const myQueueInstance = new MyQueue();
+      expect(
+        Reflect.getMetadata(BULL_MODULE_QUEUE_PROCESS, myQueueInstance.prop),
+      ).toStrictEqual({ name: opts.name });
     });
   });
 

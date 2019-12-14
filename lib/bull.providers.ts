@@ -15,10 +15,7 @@ import {
 } from './utils/helpers';
 
 function buildQueue(option: BullModuleOptions): Queue {
-  const queue: Queue = new Bull(
-    option.name ? option.name : 'default',
-    option.options,
-  );
+  const queue: Queue = new Bull(option.name ? option.name : 'default', option);
   if (option.processors) {
     option.processors.forEach((processor: BullQueueProcessor) => {
       let args = [];

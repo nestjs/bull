@@ -13,11 +13,9 @@ describe('BullModule', () => {
           imports: [
             BullModule.register({
               name: 'test',
-              options: {
-                redis: {
-                  host: '0.0.0.0',
-                  port: 6380,
-                },
+              redis: {
+                host: '0.0.0.0',
+                port: 6380,
               },
               processors: [fakeProcessor],
             }),
@@ -36,20 +34,16 @@ describe('BullModule', () => {
             BullModule.register([
               {
                 name: 'test1',
-                options: {
-                  redis: {
-                    host: '0.0.0.0',
-                    port: 6380,
-                  },
+                redis: {
+                  host: '0.0.0.0',
+                  port: 6380,
                 },
               },
               {
                 name: 'test2',
-                options: {
-                  redis: {
-                    host: '0.0.0.0',
-                    port: 6380,
-                  },
+                redis: {
+                  host: '0.0.0.0',
+                  port: 6380,
                 },
               },
             ]),
@@ -77,11 +71,9 @@ describe('BullModule', () => {
                 name: 'test',
                 useFactory: () => ({
                   processors: [fakeProcessor],
-                  options: {
-                    redis: {
-                      host: '0.0.0.0',
-                      port: 6380,
-                    },
+                  redis: {
+                    host: '0.0.0.0',
+                    port: 6380,
                   },
                 }),
               }),
@@ -106,22 +98,18 @@ describe('BullModule', () => {
                 {
                   name: 'test1',
                   useFactory: () => ({
-                    options: {
-                      redis: {
-                        host: '0.0.0.0',
-                        port: 6380,
-                      },
+                    redis: {
+                      host: '0.0.0.0',
+                      port: 6380,
                     },
                   }),
                 },
                 {
                   name: 'test2',
                   useFactory: () => ({
-                    options: {
-                      redis: {
-                        host: '0.0.0.0',
-                        port: 6380,
-                      },
+                    redis: {
+                      host: '0.0.0.0',
+                      port: 6380,
                     },
                   }),
                 },
@@ -149,11 +137,9 @@ describe('BullModule', () => {
         imports: [
           BullModule.register({
             name: 'full_flow',
-            options: {
-              redis: {
-                host: '0.0.0.0',
-                port: 6380,
-              },
+            redis: {
+              host: '0.0.0.0',
+              port: 6380,
             },
             processors: [fakeProcessor],
           }),

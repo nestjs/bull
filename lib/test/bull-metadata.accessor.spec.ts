@@ -24,11 +24,13 @@ describe('BullMetadataAccessor', () => {
   describe('getQueueComponentMetadata', () => {
     it('should return the given queue component metadata', () => {
       const opts = { name: 'test' };
-      @Processor(opts)
+      @Processor(opts.name)
       class MyQueue {
         processor() {}
       }
-      expect(metadataAccessor.getQueueComponentMetadata(MyQueue)).toBe(opts);
+      expect(metadataAccessor.getQueueComponentMetadata(MyQueue)).toStrictEqual(
+        opts,
+      );
     });
   });
 
