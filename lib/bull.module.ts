@@ -1,4 +1,4 @@
-import { DynamicModule, Logger, Module, OnModuleInit } from '@nestjs/common';
+import { DynamicModule, Logger, Module } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
 import { BullExplorer } from './bull.explorer';
@@ -12,31 +12,21 @@ import {
   BullModuleOptions,
 } from './interfaces/bull-module-options.interface';
 
-@Module({
-  imports: [DiscoveryModule],
-  providers: [
-    BullExplorer,
-    BullMetadataAccessor,
-    { provide: Logger, useValue: new Logger('BullModule') },
-  ],
-})
-export class BullModule implements OnModuleInit {
-  constructor(private readonly explorer: BullExplorer) {}
-
-  static register(
-    options: BullModuleOptions | BullModuleOptions[],
-  ): DynamicModule {
+@Module({})
+export class BullModule {
+  static registerQueue(...options: BullModuleOptions[]): DynamicModule {
     const queueProviders = createQueueProviders([].concat(options));
     const queueOptionProviders = createQueueOptionProviders([].concat(options));
     return {
       module: BullModule,
+      imports: [BullModule.forRoot()],
       providers: [...queueOptionProviders, ...queueProviders],
       exports: queueProviders,
     };
   }
 
-  static registerAsync(
-    options: BullModuleAsyncOptions | BullModuleAsyncOptions[],
+  static registerQueueAsync(
+    ...options: BullModuleAsyncOptions[]
   ): DynamicModule {
     const optionsArr = [].concat(options);
     const queueProviders = createQueueProviders(optionsArr);
@@ -44,10 +34,24 @@ export class BullModule implements OnModuleInit {
     const imports = this.getUniqImports(optionsArr);
 
     return {
-      imports,
+      global: true,
+      imports: imports.concat(BullModule.forRoot()),
       module: BullModule,
       providers: [...queueOptionProviders, ...queueProviders],
       exports: queueProviders,
+    };
+  }
+
+  private static forRoot() {
+    return {
+      global: true,
+      module: BullModule,
+      imports: [DiscoveryModule],
+      providers: [
+        BullExplorer,
+        BullMetadataAccessor,
+        { provide: Logger, useValue: new Logger('BullModule') },
+      ],
     };
   }
 
@@ -58,9 +62,5 @@ export class BullModule implements OnModuleInit {
         .reduce((acc, i) => acc.concat(i || []), [])
         .filter((v, i, a) => a.indexOf(v) === i) || []
     );
-  }
-
-  onModuleInit() {
-    this.explorer.explore();
   }
 }
