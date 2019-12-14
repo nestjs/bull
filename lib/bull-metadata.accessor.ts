@@ -14,21 +14,21 @@ export class BullMetadataAccessor {
 
   isQueueComponent(target: Type<any> | Function): boolean {
     if (!target) {
-      false;
+      return false;
     }
     return !!this.reflector.get(BULL_MODULE_QUEUE, target);
   }
 
   isProcessor(target: Type<any> | Function): boolean {
     if (!target) {
-      false;
+      return false;
     }
     return !!this.reflector.get(BULL_MODULE_QUEUE_PROCESS, target);
   }
 
   isListener(target: Type<any> | Function): boolean {
     if (!target) {
-      false;
+      return false;
     }
     return !!this.reflector.get(BULL_MODULE_ON_QUEUE_EVENT, target);
   }

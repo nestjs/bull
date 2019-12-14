@@ -19,5 +19,6 @@ cc-test-reporter
 
 # misc
 sample/
+.circleci/
 .github/
 FUNDING.yml
