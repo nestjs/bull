@@ -57,11 +57,9 @@ export class AppController {
 @Module({
   imports: [
     BullModule.register({
-      name: 'store',
-      options: {
-        redis: {
-          port: 6379,
-        },
+      name: 'store', // name of the queue
+      redis: {
+        port: 6379,
       },
       processors: [
         (job: Job, done: DoneCallback) => {
@@ -90,6 +88,8 @@ export interface QueueDecoratorOptions {
   name?: string; // Name of the queue
 }
 ```
+
+However, if you have specified a queue name when registering the module, make sure you also specify it to the decorator. For example, if you were to use the code above for registering BullModule, you will need to add `@Processor('store')` to your class.
 
 ### @Process()
 
@@ -187,7 +187,7 @@ import {
 import { NumberService } from './number.service';
 import { Job, DoneCallback } from 'bull';
 
-@Processor()
+@Processor('queue')
 export class MyQueue {
   private readonly logger = new Logger('MyQueue');
 
@@ -217,6 +217,41 @@ export class MyQueue {
     );
   }
 }
+```
+
+Adding a job to the queue shown above would be done through code such as the following:
+
+```ts
+@Injectable()
+export class SomeService {
+  constructor(@InjectQueue('queue') readonly queue: Queue) {}
+
+  async addJobTwice(value: number) {
+    const job: Job = await this.queue.add('twice', value);
+    return job.id;
+  }
+  
+  async addJobThrice(value: number) {
+    const job: Job = await this.queue.add('thrice', value);
+    return job.id;
+  }
+}
+```
+
+Also make sure you have registered the queue properly, such as the following:
+
+```ts
+@Module({
+  imports: [
+    BullModule.registerQueue({
+      name: 'queue',
+      redis: {
+        port: 6379,
+      },
+    }),
+    ...
+  ])
+export class MyModule {}
 ```
 
 ## Separate processes
