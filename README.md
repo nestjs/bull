@@ -89,7 +89,7 @@ export interface QueueDecoratorOptions {
 }
 ```
 
-However, if you have specified a queue name when registering the module, make sure you also specify it to the decorator. For example, if you were to use the code above for registering BullModule, you will need to add `@Processor('store')` to your class.
+If you have specified a queue name when registering the module, make sure you also specify it in the decorator. For example, if you were to use the code in the Quick Start for registering BullModule, you will need to add `@Processor('store')` to your class.
 
 ### @Process()
 
@@ -250,7 +250,7 @@ Also make sure you have registered the queue properly, such as the following:
       },
     }),
     ...
-  ])
+  ]})
 export class MyModule {}
 ```
 
