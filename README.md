@@ -36,7 +36,7 @@ $ npm i --save-dev @types/bull
 ```ts
 import { Body, Controller, Get, Module, Param, Post } from '@nestjs/common';
 import { DoneCallback, Job, Queue } from 'bull';
-import { BullModule, InjectQueue } from 'nest-bull';
+import { BullModule, InjectQueue } from '@nestjs/bull';
 
 @Controller()
 export class AppController {
@@ -183,7 +183,7 @@ import {
   OnQueueActive,
   OnQueueEvent,
   BullQueueEvents,
-} from '../../lib';
+} from '@nestjs/bull';
 import { NumberService } from './number.service';
 import { Job, DoneCallback } from 'bull';
 
@@ -267,7 +267,7 @@ Please note that, your function being executed in a fork, Nestjs' DI won't be av
 ```ts
 // app.module.ts
 import { Module } from '@nestjs/common';
-import { BullModule } from 'nest-bull';
+import { BullModule } from '@nestjs/bull';
 import { join } from 'path';
 
 @Module({
