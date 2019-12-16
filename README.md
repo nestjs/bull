@@ -44,3 +44,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 - Author - [Frederic Woelffel](https://fwoelffel.me)
 - Maintainers - [Frederic Woelffel](https://fwoelffel.me) & [Kamil Myśliwiec](https://kamilmysliwiec.com)
 - Website - [https://nestjs.com](https://nestjs.com/)
+
+## License
+
+Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
