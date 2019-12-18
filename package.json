@@ -56,7 +56,7 @@
     "@nestjs/testing": "6.10.11",
     "@types/bull": "3.10.6",
     "@types/jest": "24.0.23",
-    "@types/node": "12.12.17",
+    "@types/node": "12.12.21",
     "@types/reflect-metadata": "0.1.0",
     "bull": "3.12.1",
     "husky": "3.1.0",
