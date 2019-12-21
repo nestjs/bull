@@ -1,6 +1,6 @@
 {
   "name": "@nestjs/bull",
-  "version": "0.0.1-beta.3",
+  "version": "0.0.1-beta.4",
   "description": "Nest - modern, fast, powerful node.js web framework (@bull)",
   "homepage": "https://github.com/nestjs/bull",
   "bugs": {

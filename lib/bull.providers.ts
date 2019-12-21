@@ -1,4 +1,4 @@
-import { Provider } from '@nestjs/common';
+import { OnModuleDestroy, Provider } from '@nestjs/common';
 import * as Bull from 'bull';
 import { Queue } from 'bull';
 import { BullQueueProcessor } from './bull.types';
@@ -32,6 +32,11 @@ function buildQueue(option: BullModuleOptions): Queue {
       queue.process.call(queue, ...args);
     });
   }
+  ((queue as unknown) as OnModuleDestroy).onModuleDestroy = function(
+    this: Queue,
+  ) {
+    return this.close();
+  };
   return queue;
 }
 
