@@ -154,7 +154,7 @@ describe('BullModule', () => {
         setTimeout(() => {
           expect(fakeProcessor).toHaveBeenCalledTimes(1);
           resolve();
-        }, 100);
+        }, 1000);
       });
     });
   });
