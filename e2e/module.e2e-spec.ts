@@ -5,13 +5,13 @@ import { BullModule, getQueueToken } from '../lib';
 describe('BullModule', () => {
   let module: TestingModule;
 
-  describe('register', () => {
+  describe('registerQueueQueue', () => {
     describe('single configuration', () => {
       const fakeProcessor = jest.fn();
       beforeAll(async () => {
         module = await Test.createTestingModule({
           imports: [
-            BullModule.register({
+            BullModule.registerQueueQueue({
               name: 'test',
               redis: {
                 host: '0.0.0.0',
@@ -31,7 +31,7 @@ describe('BullModule', () => {
       beforeAll(async () => {
         module = await Test.createTestingModule({
           imports: [
-            BullModule.register([
+            BullModule.registerQueue(
               {
                 name: 'test1',
                 redis: {
@@ -46,7 +46,7 @@ describe('BullModule', () => {
                   port: 6380,
                 },
               },
-            ]),
+            ),
           ],
         }).compile();
       });
@@ -60,14 +60,14 @@ describe('BullModule', () => {
       });
     });
   });
-  describe('registerAsync', () => {
+  describe('registerQueueAsync', () => {
     describe('single configuration', () => {
       describe('useFactory', () => {
         const fakeProcessor = jest.fn();
         beforeAll(async () => {
           module = await Test.createTestingModule({
             imports: [
-              BullModule.registerAsync({
+              BullModule.registerQueueAsync({
                 name: 'test',
                 useFactory: () => ({
                   processors: [fakeProcessor],
@@ -94,7 +94,7 @@ describe('BullModule', () => {
         beforeAll(async () => {
           module = await Test.createTestingModule({
             imports: [
-              BullModule.registerAsync([
+              BullModule.registerQueueAsync(
                 {
                   name: 'test1',
                   useFactory: () => ({
@@ -113,7 +113,7 @@ describe('BullModule', () => {
                     },
                   }),
                 },
-              ]),
+              ),
             ],
           }).compile();
         });
@@ -135,7 +135,7 @@ describe('BullModule', () => {
     beforeAll(async () => {
       testingModule = await Test.createTestingModule({
         imports: [
-          BullModule.register({
+          BullModule.registerQueue({
             name: 'full_flow',
             redis: {
               host: '0.0.0.0',
