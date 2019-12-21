@@ -7,7 +7,7 @@ describe('bullExplorer', () => {
   let bullExplorer: BullExplorer;
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [BullModule.register({ name: 'test' })],
+      imports: [BullModule.registerQueue({ name: 'test' })],
     }).compile();
 
     bullExplorer = moduleRef.get(BullExplorer);
@@ -73,7 +73,7 @@ describe('bullExplorer', () => {
       const fakeQueue = 'I am a fake queue';
 
       const moduleRef = await Test.createTestingModule({
-        imports: [BullModule.register({ name: 'test' })],
+        imports: [BullModule.registerQueue({ name: 'test' })],
       })
         .overrideProvider(queueToken)
         .useValue(fakeQueue)

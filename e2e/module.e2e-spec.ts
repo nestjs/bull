@@ -11,7 +11,7 @@ describe('BullModule', () => {
       beforeAll(async () => {
         module = await Test.createTestingModule({
           imports: [
-            BullModule.registerQueueQueue({
+            BullModule.registerQueue({
               name: 'test',
               redis: {
                 host: '0.0.0.0',
