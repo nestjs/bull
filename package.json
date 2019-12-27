@@ -65,7 +65,7 @@
     "prettier": "1.19.1",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.0",
-    "rxjs": "6.5.3",
+    "rxjs": "6.5.4",
     "sort-package-json": "1.31.0",
     "ts-jest": "24.2.0",
     "ts-node": "8.5.4",
