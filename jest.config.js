@@ -14,5 +14,4 @@ module.exports = {
   ],
   coverageReporters: ['lcov'],
   coverageDirectory: 'coverage/unit',
-  testEnvironment: 'node',
 };
