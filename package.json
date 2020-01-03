@@ -48,8 +48,8 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "8.3.3",
-    "@commitlint/config-conventional": "8.3.3",
+    "@commitlint/cli": "8.3.4",
+    "@commitlint/config-conventional": "8.3.4",
     "@nestjs/common": "6.10.13",
     "@nestjs/core": "6.10.13",
     "@nestjs/platform-express": "6.10.13",
