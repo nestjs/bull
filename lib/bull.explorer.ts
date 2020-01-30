@@ -79,7 +79,7 @@ export class BullExplorer implements OnModuleInit {
       options && options.concurrency,
       instance[key].bind(instance) as ProcessCallbackFunction<unknown>,
     ];
-    args = args.filter(item => item);
+    args = args.filter(item => item !== undefined);
     queue.process.call(queue, ...args);
   }
 
