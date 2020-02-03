@@ -29,6 +29,16 @@ describe('bullExplorer', () => {
         expect.any(Function),
       );
     });
+    it('should add the given function to the queue handlers with concurrency with a 0 value', () => {
+      const instance = { handler: jest.fn() };
+      const queue = { process: jest.fn() } as any;
+      const opts = { concurrency: 0 };
+      bullExplorer.handleProcessor(instance, 'handler', queue, opts);
+      expect(queue.process).toHaveBeenCalledWith(
+        opts.concurrency,
+        expect.any(Function),
+      );
+    });
     it('should add the given function to the queue handlers with name', () => {
       const instance = { handler: jest.fn() };
       const queue = { process: jest.fn() } as any;
