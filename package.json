@@ -11,44 +11,43 @@
     "url": "git+https://github.com/nestjs/bull.git"
   },
   "license": "MIT",
+  "contributors": [
+    "Frederic Woelffel <hello@fwoelffel.me>",
+    "Kamil Mysliwiec <mail@kamilmysliwiec.com>"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rimraf -rf dist && tsc -p tsconfig.json",
     "format": "prettier --write **/*.{ts,json}",
-    "lint": "tslint -c tslint.json **/*.ts",
+    "lint": "eslint \"lib/**/*.ts\" --fix",
     "prepublish:next": "npm run build",
     "publish:next": "npm publish --access public --tag next",
     "prepublish:npm": "npm run build",
     "publish:npm": "npm publish --access public",
+    "prerelease": "npm run build",
+    "release": "release-it",
     "sample-app": "ts-node --require tsconfig-paths/register --project sample/tsconfig.json sample/main.ts",
     "test": "jest --detectOpenHandles --forceExit --coverage",
     "test:e2e": "jest --config=jest-e2e.config.js --detectOpenHandles --forceExit --coverage --runInBand"
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -c .commitlintrc.json -E HUSKY_GIT_PARAMS"
     }
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
   },
   "lint-staged": {
     "*.{ts}": [
-      "prettier --write",
-      "tslint -c tslint.json",
-      "git add"
+      "prettier --write"
     ],
     "package.json": [
-      "sort-package-json",
-      "git add"
+      "sort-package-json"
     ]
   },
   "devDependencies": {
     "@commitlint/cli": "8.3.5",
+    "@commitlint/config-angular": "^8.3.4",
     "@commitlint/config-conventional": "8.3.4",
     "@nestjs/common": "6.11.7",
     "@nestjs/core": "6.11.7",
@@ -58,7 +57,12 @@
     "@types/jest": "25.1.2",
     "@types/node": "12.12.17",
     "@types/reflect-metadata": "0.1.0",
+    "@typescript-eslint/eslint-plugin": "2.19.2",
+    "@typescript-eslint/parser": "2.19.2",
     "bull": "3.13.0",
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "6.10.0",
+    "eslint-plugin-import": "2.20.1",
     "husky": "4.2.3",
     "jest": "25.1.0",
     "lint-staged": "10.0.7",
@@ -77,9 +81,5 @@
     "@nestjs/common": "^6.10.11",
     "@nestjs/core": "^6.10.11",
     "bull": "^3.3"
-  },
-  "contributors": [
-    "Frederic Woelffel <hello@fwoelffel.me>",
-    "Kamil Mysliwiec <mail@kamilmysliwiec.com>"
-  ]
+  }
 }
