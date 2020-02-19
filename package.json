@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "8.3.5",
-    "@commitlint/config-angular": "^8.3.4",
+    "@commitlint/config-angular": "8.3.4",
     "@commitlint/config-conventional": "8.3.4",
     "@nestjs/common": "6.11.7",
     "@nestjs/core": "6.11.7",
@@ -68,7 +68,7 @@
     "lint-staged": "10.0.7",
     "prettier": "1.19.1",
     "reflect-metadata": "0.1.13",
-    "release-it": "^12.5.0",
+    "release-it": "12.5.0",
     "rimraf": "3.0.2",
     "rxjs": "6.5.4",
     "sort-package-json": "1.39.1",
