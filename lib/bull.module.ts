@@ -1,16 +1,17 @@
-import { DynamicModule, Logger, Module } from '@nestjs/common';
+import { DynamicModule, Logger, Module, Provider, Type } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
 import { BullExplorer } from './bull.explorer';
 import {
-  createAsyncQueueOptionsProviders,
   createQueueOptionProviders,
   createQueueProviders,
 } from './bull.providers';
 import {
   BullModuleAsyncOptions,
   BullModuleOptions,
+  BullOptionsFactory,
 } from './interfaces/bull-module-options.interface';
+import { getQueueOptionsToken } from './utils/get-queue-options-token.util';
 
 @Module({})
 export class BullModule {
@@ -30,15 +31,54 @@ export class BullModule {
   ): DynamicModule {
     const optionsArr = [].concat(options);
     const queueProviders = createQueueProviders(optionsArr);
-    const queueOptionProviders = createAsyncQueueOptionsProviders(optionsArr);
     const imports = this.getUniqImports(optionsArr);
+    const asyncQueueOptionsProviders = options
+      .map(queueOptions => this.createAsyncProviders(queueOptions))
+      .reduce((a, b) => a.concat(b), []);
 
     return {
-      global: true,
       imports: imports.concat(BullModule.forRoot()),
       module: BullModule,
-      providers: [...queueOptionProviders, ...queueProviders],
+      providers: [...asyncQueueOptionsProviders, ...queueProviders],
       exports: queueProviders,
+    };
+  }
+
+  private static createAsyncProviders(
+    options: BullModuleAsyncOptions,
+  ): Provider[] {
+    if (options.useExisting || options.useFactory) {
+      return [this.createAsyncOptionsProvider(options)];
+    }
+    const useClass = options.useClass as Type<BullOptionsFactory>;
+    return [
+      this.createAsyncOptionsProvider(options),
+      {
+        provide: useClass,
+        useClass,
+      },
+    ];
+  }
+
+  private static createAsyncOptionsProvider(
+    options: BullModuleAsyncOptions,
+  ): Provider {
+    if (options.useFactory) {
+      return {
+        provide: getQueueOptionsToken(options.name),
+        useFactory: options.useFactory,
+        inject: options.inject || [],
+      };
+    }
+    // `as Type<BullOptionsFactory>` is a workaround for microsoft/TypeScript#31603
+    const inject = [
+      (options.useClass || options.useExisting) as Type<BullOptionsFactory>,
+    ];
+    return {
+      provide: getQueueOptionsToken(options.name),
+      useFactory: async (optionsFactory: BullOptionsFactory) =>
+        optionsFactory.createBullOptions(),
+      inject,
     };
   }
 
