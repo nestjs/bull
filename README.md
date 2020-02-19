@@ -33,7 +33,7 @@ $ npm i --save-dev @types/bull
 
 ## Quick Start
 
-TBD
+[Overview & Tutorial](https://docs.nestjs.com/techniques/queues)
 
 ## Support
 
