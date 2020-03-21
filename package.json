@@ -68,7 +68,7 @@
     "lint-staged": "10.0.8",
     "prettier": "1.19.1",
     "reflect-metadata": "0.1.13",
-    "release-it": "13.1.1",
+    "release-it": "13.1.2",
     "rimraf": "3.0.2",
     "rxjs": "6.5.4",
     "sort-package-json": "1.40.0",
