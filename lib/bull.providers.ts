@@ -28,11 +28,11 @@ function buildQueue(option: BullModuleOptions): Queue {
       } else if (isProcessorCallback(processor)) {
         args.push(processor);
       }
-      args = args.filter(arg => !!arg);
+      args = args.filter((arg) => !!arg);
       queue.process.call(queue, ...args);
     });
   }
-  ((queue as unknown) as OnApplicationShutdown).onApplicationShutdown = function(
+  ((queue as unknown) as OnApplicationShutdown).onApplicationShutdown = function (
     this: Queue,
   ) {
     return this.close();
@@ -41,16 +41,19 @@ function buildQueue(option: BullModuleOptions): Queue {
 }
 
 export function createQueueOptionProviders(options: BullModuleOptions[]): any {
-  return options.map(option => ({
+  return options.map((option) => ({
     provide: getQueueOptionsToken(option.name),
     useValue: option,
   }));
 }
 
 export function createQueueProviders(options: BullModuleOptions[]): any {
-  return options.map(option => ({
+  return options.map((option) => ({
     provide: getQueueToken(option.name),
-    useFactory: (o: BullModuleOptions) => buildQueue(o),
+    useFactory: (o: BullModuleOptions) => {
+      const queueName = o.name || option.name;
+      return buildQueue({ ...o, name: queueName });
+    },
     inject: [getQueueOptionsToken(option.name)],
   }));
 }
@@ -58,7 +61,7 @@ export function createQueueProviders(options: BullModuleOptions[]): any {
 export function createAsyncQueueOptionsProviders(
   options: BullModuleAsyncOptions[],
 ): Provider[] {
-  return options.map(option => ({
+  return options.map((option) => ({
     provide: getQueueOptionsToken(option.name),
     useFactory: option.useFactory,
     useClass: option.useClass,
