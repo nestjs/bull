@@ -25,6 +25,7 @@ describe('BullModule', () => {
       it('should inject the queue with the given name', () => {
         const queue: Queue = module.get<Queue>(getQueueToken('test'));
         expect(queue).toBeDefined();
+        expect(queue.name).toEqual('test');
       });
     });
     describe('multiple configuration', () => {
@@ -53,10 +54,12 @@ describe('BullModule', () => {
       it('should inject the queue with name "test1"', () => {
         const queue: Queue = module.get<Queue>(getQueueToken('test1'));
         expect(queue).toBeDefined();
+        expect(queue.name).toEqual('test1');
       });
       it('should inject the queue with name "test2"', () => {
         const queue: Queue = module.get<Queue>(getQueueToken('test2'));
         expect(queue).toBeDefined();
+        expect(queue.name).toEqual('test2');
       });
     });
   });
@@ -83,6 +86,7 @@ describe('BullModule', () => {
         it('should inject the queue with the given name', () => {
           const queue: Queue = module.get<Queue>(getQueueToken('test'));
           expect(queue).toBeDefined();
+          expect(queue.name).toEqual('test');
         });
         it('the injected queue should have the given processor', () => {
           const queue: Queue = module.get<Queue>(getQueueToken('test'));
@@ -120,10 +124,12 @@ describe('BullModule', () => {
         it('should inject the queue with name "test1"', () => {
           const queue: Queue = module.get<Queue>(getQueueToken('test1'));
           expect(queue).toBeDefined();
+          expect(queue.name).toEqual('test1');
         });
         it('should inject the queue with name "test2"', () => {
           const queue: Queue = module.get<Queue>(getQueueToken('test2'));
           expect(queue).toBeDefined();
+          expect(queue.name).toEqual('test2');
         });
       });
     });
@@ -150,7 +156,7 @@ describe('BullModule', () => {
     it('should process jobs with the given processors', async () => {
       const queue: Queue = testingModule.get<Queue>(getQueueToken('full_flow'));
       await queue.add(null);
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           expect(fakeProcessor).toHaveBeenCalledTimes(1);
           resolve();
