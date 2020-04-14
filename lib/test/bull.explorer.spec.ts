@@ -16,14 +16,21 @@ describe('bullExplorer', () => {
     it('should add the given function to the queue handlers', () => {
       const instance = { handler: jest.fn() };
       const queue = { process: jest.fn() } as any;
-      bullExplorer.handleProcessor(instance, 'handler', queue);
+      bullExplorer.handleProcessor(instance, 'handler', queue, null, false);
       expect(queue.process).toHaveBeenCalledWith(expect.any(Function));
     });
     it('should add the given function to the queue handlers with concurrency', () => {
       const instance = { handler: jest.fn() };
       const queue = { process: jest.fn() } as any;
       const opts = { concurrency: 42 };
-      bullExplorer.handleProcessor(instance, 'handler', queue, opts);
+      bullExplorer.handleProcessor(
+        instance,
+        'handler',
+        queue,
+        null,
+        false,
+        opts,
+      );
       expect(queue.process).toHaveBeenCalledWith(
         opts.concurrency,
         expect.any(Function),
@@ -33,7 +40,14 @@ describe('bullExplorer', () => {
       const instance = { handler: jest.fn() };
       const queue = { process: jest.fn() } as any;
       const opts = { concurrency: 0 };
-      bullExplorer.handleProcessor(instance, 'handler', queue, opts);
+      bullExplorer.handleProcessor(
+        instance,
+        'handler',
+        queue,
+        null,
+        false,
+        opts,
+      );
       expect(queue.process).toHaveBeenCalledWith(
         opts.concurrency,
         expect.any(Function),
@@ -43,7 +57,14 @@ describe('bullExplorer', () => {
       const instance = { handler: jest.fn() };
       const queue = { process: jest.fn() } as any;
       const opts = { name: 'test' };
-      bullExplorer.handleProcessor(instance, 'handler', queue, opts);
+      bullExplorer.handleProcessor(
+        instance,
+        'handler',
+        queue,
+        null,
+        false,
+        opts,
+      );
       expect(queue.process).toHaveBeenCalledWith(
         opts.name,
         expect.any(Function),
@@ -54,7 +75,14 @@ describe('bullExplorer', () => {
       const queue = { process: jest.fn() } as any;
       const opts = { name: 'test', concurrency: 42 };
 
-      bullExplorer.handleProcessor(instance, 'handler', queue, opts);
+      bullExplorer.handleProcessor(
+        instance,
+        'handler',
+        queue,
+        null,
+        false,
+        opts,
+      );
       expect(queue.process).toHaveBeenCalledWith(
         opts.name,
         opts.concurrency,

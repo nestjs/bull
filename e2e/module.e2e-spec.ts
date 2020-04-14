@@ -156,7 +156,7 @@ describe('BullModule', () => {
     it('should process jobs with the given processors', async () => {
       const queue: Queue = testingModule.get<Queue>(getQueueToken('full_flow'));
       await queue.add(null);
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         setTimeout(() => {
           expect(fakeProcessor).toHaveBeenCalledTimes(1);
           resolve();

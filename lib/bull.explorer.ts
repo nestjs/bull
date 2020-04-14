@@ -1,6 +1,8 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { DiscoveryService, ModuleRef } from '@nestjs/core';
+import { createContextId, DiscoveryService, ModuleRef } from '@nestjs/core';
+import { Injector } from '@nestjs/core/injector/injector';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
+import { Module } from '@nestjs/core/injector/module';
 import { MetadataScanner } from '@nestjs/core/metadata-scanner';
 import { Job, ProcessCallbackFunction, Queue } from 'bull';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
@@ -11,6 +13,8 @@ import { getQueueToken } from './utils';
 
 @Injectable()
 export class BullExplorer implements OnModuleInit {
+  private readonly injector = new Injector();
+
   constructor(
     private readonly moduleRef: ModuleRef,
     private readonly discoveryService: DiscoveryService,
@@ -32,9 +36,10 @@ export class BullExplorer implements OnModuleInit {
 
     providers.forEach((wrapper: InstanceWrapper) => {
       const { instance, metatype } = wrapper;
-      const queueName = this.metadataAccessor.getQueueComponentMetadata(
-        metatype,
-      ).name;
+      const isRequestScoped = !wrapper.isDependencyTreeStatic();
+      const {
+        name: queueName,
+      } = this.metadataAccessor.getQueueComponentMetadata(metatype);
 
       const queueToken = getQueueToken(queueName);
       const bullQueue = this.getQueue(queueToken, queueName);
@@ -47,7 +52,14 @@ export class BullExplorer implements OnModuleInit {
             const metadata = this.metadataAccessor.getProcessMetadata(
               instance[key],
             );
-            this.handleProcessor(instance, key, bullQueue, metadata);
+            this.handleProcessor(
+              instance,
+              key,
+              bullQueue,
+              wrapper.host,
+              isRequestScoped,
+              metadata,
+            );
           } else if (this.metadataAccessor.isListener(instance[key])) {
             const metadata = this.metadataAccessor.getListenerMetadata(
               instance[key],
@@ -72,13 +84,34 @@ export class BullExplorer implements OnModuleInit {
     instance: object,
     key: string,
     queue: Queue,
+    moduleRef: Module,
+    isRequestScoped: boolean,
     options?: ProcessOptions,
   ) {
-    let args = [
+    let args: unknown[] = [
       options && options.name,
       options && options.concurrency,
-      instance[key].bind(instance) as ProcessCallbackFunction<unknown>,
     ];
+
+    if (isRequestScoped) {
+      const callback: ProcessCallbackFunction<unknown> = async (
+        ...args: unknown[]
+      ) => {
+        const contextId = createContextId();
+        const contextInstance = await this.injector.loadPerContext(
+          instance,
+          moduleRef,
+          moduleRef.providers,
+          contextId,
+        );
+        return contextInstance[key].call(contextInstance, ...args);
+      };
+      args.push(callback);
+    } else {
+      args.push(
+        instance[key].bind(instance) as ProcessCallbackFunction<unknown>,
+      );
+    }
     args = args.filter(item => item !== undefined);
     queue.process.call(queue, ...args);
   }
