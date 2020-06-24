@@ -54,7 +54,7 @@
     "@nestjs/platform-express": "7.2.0",
     "@nestjs/testing": "7.2.0",
     "@types/bull": "3.14.0",
-    "@types/jest": "26.0.2",
+    "@types/jest": "26.0.3",
     "@types/node": "12.12.31",
     "@types/reflect-metadata": "0.1.0",
     "@typescript-eslint/eslint-plugin": "3.4.0",
