@@ -13,6 +13,7 @@ import { getQueueToken } from './utils';
 
 @Injectable()
 export class BullExplorer implements OnModuleInit {
+  private readonly logger = new Logger('BullModule');
   private readonly injector = new Injector();
 
   constructor(
@@ -20,7 +21,6 @@ export class BullExplorer implements OnModuleInit {
     private readonly discoveryService: DiscoveryService,
     private readonly metadataAccessor: BullMetadataAccessor,
     private readonly metadataScanner: MetadataScanner,
-    private readonly logger: Logger,
   ) {}
 
   onModuleInit() {

@@ -1,4 +1,4 @@
-import { DynamicModule, Logger, Module, Provider, Type } from '@nestjs/common';
+import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
 import { BullExplorer } from './bull.explorer';
@@ -87,11 +87,7 @@ export class BullModule {
       global: true,
       module: BullModule,
       imports: [DiscoveryModule],
-      providers: [
-        BullExplorer,
-        BullMetadataAccessor,
-        { provide: Logger, useValue: new Logger('BullModule') },
-      ],
+      providers: [BullExplorer, BullMetadataAccessor],
     };
   }
 
