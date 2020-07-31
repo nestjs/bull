@@ -70,7 +70,7 @@
     "reflect-metadata": "0.1.13",
     "release-it": "13.6.6",
     "rimraf": "3.0.2",
-    "rxjs": "6.6.0",
+    "rxjs": "6.6.2",
     "sort-package-json": "1.44.0",
     "ts-jest": "26.1.4",
     "ts-node": "8.10.2",
