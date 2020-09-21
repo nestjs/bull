@@ -1,12 +1,14 @@
-import { OnApplicationShutdown, Provider } from '@nestjs/common';
+import { flatten, OnApplicationShutdown, Provider } from '@nestjs/common';
 import * as Bull from 'bull';
 import { Queue } from 'bull';
 import { BullQueueProcessor } from './bull.types';
+import { createConditionalDepHolder, IConditionalDepHolder } from './helpers';
+import { BullModuleOptions } from './interfaces/bull-module-options.interface';
 import {
-  BullModuleAsyncOptions,
-  BullModuleOptions,
-} from './interfaces/bull-module-options.interface';
-import { getQueueOptionsToken, getQueueToken } from './utils';
+  getQueueOptionsToken,
+  getQueueToken,
+  getSharedConfigToken,
+} from './utils';
 import {
   isAdvancedProcessor,
   isAdvancedSeparateProcessor,
@@ -40,14 +42,31 @@ function buildQueue(option: BullModuleOptions): Queue {
   return queue;
 }
 
-export function createQueueOptionProviders(options: BullModuleOptions[]): any {
-  return options.map(option => ({
-    provide: getQueueOptionsToken(option.name),
-    useValue: option,
-  }));
+export function createQueueOptionProviders(
+  options: BullModuleOptions[],
+): Provider[] {
+  const providers = options.map(option => {
+    const optionalSharedConfigHolder = createConditionalDepHolder(
+      getSharedConfigToken(option.configKey),
+    );
+    return [
+      optionalSharedConfigHolder,
+      {
+        provide: getQueueOptionsToken(option.name),
+        useFactory: (optionalDepHolder: IConditionalDepHolder<Bull.Queue>) => {
+          return {
+            ...optionalDepHolder.getDependencyRef(option.name),
+            ...option,
+          };
+        },
+        inject: [optionalSharedConfigHolder],
+      },
+    ];
+  });
+  return flatten(providers);
 }
 
-export function createQueueProviders(options: BullModuleOptions[]): any {
+export function createQueueProviders(options: BullModuleOptions[]): Provider[] {
   return options.map(option => ({
     provide: getQueueToken(option.name),
     useFactory: (o: BullModuleOptions) => {
@@ -55,17 +74,5 @@ export function createQueueProviders(options: BullModuleOptions[]): any {
       return buildQueue({ ...o, name: queueName });
     },
     inject: [getQueueOptionsToken(option.name)],
-  }));
-}
-
-export function createAsyncQueueOptionsProviders(
-  options: BullModuleAsyncOptions[],
-): Provider[] {
-  return options.map(option => ({
-    provide: getQueueOptionsToken(option.name),
-    useFactory: option.useFactory,
-    useClass: option.useClass,
-    useExisting: option.useExisting,
-    inject: option.inject,
   }));
 }
