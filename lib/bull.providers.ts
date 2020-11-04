@@ -30,11 +30,11 @@ function buildQueue(option: BullModuleOptions): Queue {
       } else if (isProcessorCallback(processor)) {
         args.push(processor);
       }
-      args = args.filter(arg => !!arg);
+      args = args.filter((arg) => typeof arg !== 'undefined');
       queue.process.call(queue, ...args);
     });
   }
-  ((queue as unknown) as OnApplicationShutdown).onApplicationShutdown = function(
+  ((queue as unknown) as OnApplicationShutdown).onApplicationShutdown = function (
     this: Queue,
   ) {
     return this.close();
@@ -45,7 +45,7 @@ function buildQueue(option: BullModuleOptions): Queue {
 export function createQueueOptionProviders(
   options: BullModuleOptions[],
 ): Provider[] {
-  const providers = options.map(option => {
+  const providers = options.map((option) => {
     const optionalSharedConfigHolder = createConditionalDepHolder(
       getSharedConfigToken(option.configKey),
     );
@@ -67,7 +67,7 @@ export function createQueueOptionProviders(
 }
 
 export function createQueueProviders(options: BullModuleOptions[]): Provider[] {
-  return options.map(option => ({
+  return options.map((option) => ({
     provide: getQueueToken(option.name),
     useFactory: (o: BullModuleOptions) => {
       const queueName = o.name || option.name;

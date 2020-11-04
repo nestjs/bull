@@ -88,10 +88,7 @@ export class BullExplorer implements OnModuleInit {
     isRequestScoped: boolean,
     options?: ProcessOptions,
   ) {
-    let args: unknown[] = [
-      options && options.name,
-      options && options.concurrency,
-    ];
+    let args: unknown[] = [options?.name, options?.concurrency];
 
     if (isRequestScoped) {
       const callback: ProcessCallbackFunction<unknown> = async (
@@ -112,7 +109,7 @@ export class BullExplorer implements OnModuleInit {
         instance[key].bind(instance) as ProcessCallbackFunction<unknown>,
       );
     }
-    args = args.filter(item => item !== undefined);
+    args = args.filter((item) => item !== undefined);
     queue.process.call(queue, ...args);
   }
 
