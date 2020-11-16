@@ -1,3 +1,3 @@
 import { REQUEST } from '@nestjs/core';
 
-export const JOB_DATA = REQUEST;
+export const JOB_REF = REQUEST;
