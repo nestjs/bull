@@ -101,6 +101,12 @@ export class BullExplorer implements OnModuleInit {
           moduleRef.providers,
           contextId,
         );
+        if (this.moduleRef.registerRequestByContextId) {
+          // Additional condition to prevent breaking changes in
+          // applications that use @nestjs/bull older than v7.4.0.
+          const jobRef = args[0];
+          this.moduleRef.registerRequestByContextId(jobRef, contextId);
+        }
         return contextInstance[key].call(contextInstance, ...args);
       };
       args.push(callback);
