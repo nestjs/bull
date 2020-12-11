@@ -64,7 +64,7 @@ export class BullExplorer implements OnModuleInit {
             const metadata = this.metadataAccessor.getListenerMetadata(
               instance[key],
             );
-            this.handleListener(instance, key, bullQueue, metadata);
+            this.handleListener(instance, key, wrapper, bullQueue, metadata);
           }
         },
       );
@@ -124,9 +124,16 @@ export class BullExplorer implements OnModuleInit {
   handleListener(
     instance: object,
     key: string,
+    wrapper: InstanceWrapper,
     queue: Queue,
     options: BullQueueEventOptions,
   ) {
+    if (!wrapper.isDependencyTreeStatic()) {
+      this.logger.warn(
+        `Warning! "${wrapper.name}" class is request-scoped and it defines an event listener ("${wrapper.name}#${key}"). Since event listeners cannot be registered on scoped providers, this handler will be ignored.`,
+      );
+      return;
+    }
     if (options.name || options.id) {
       queue.on(
         options.eventName,
