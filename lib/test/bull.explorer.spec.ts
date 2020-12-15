@@ -1,3 +1,4 @@
+import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Test } from '@nestjs/testing';
 import { BullExplorer } from '../bull.explorer';
 import { BullModule } from '../bull.module';
@@ -96,8 +97,15 @@ describe('bullExplorer', () => {
       const instance = { handler: jest.fn() };
       const queue = { on: jest.fn() } as any;
       const opts = { eventName: 'test' } as any;
+      const wrapper = InstanceWrapper;
 
-      bullExplorer.handleListener(instance, 'handler', queue, opts);
+      bullExplorer.handleListener(
+        instance,
+        'handler',
+        new wrapper(),
+        queue,
+        opts,
+      );
       expect(queue.on).toHaveBeenCalledWith(
         opts.eventName,
         expect.any(Function),
