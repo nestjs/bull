@@ -1,16 +1,25 @@
-import { Test } from '@nestjs/testing';
+import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
+import { Test, TestingModule } from '@nestjs/testing';
 import { BullExplorer } from '../bull.explorer';
 import { BullModule } from '../bull.module';
 import { getQueueToken } from '../utils';
 
-describe('bullExplorer', () => {
+describe('BullExplorer', () => {
   let bullExplorer: BullExplorer;
-  beforeEach(async () => {
-    const moduleRef = await Test.createTestingModule({
-      imports: [BullModule.registerQueue({ name: 'test' })],
+  let moduleRef: TestingModule;
+
+  beforeAll(async () => {
+    moduleRef = await Test.createTestingModule({
+      imports: [
+        BullModule.registerQueue({ name: 'test', redis: { port: 6380 } }),
+      ],
     }).compile();
 
     bullExplorer = moduleRef.get(BullExplorer);
+  });
+  afterAll(async () => {
+    await moduleRef.get(getQueueToken('test')).close();
+    await moduleRef.close();
   });
   describe('handleProcessor', () => {
     it('should add the given function to the queue handlers', () => {
@@ -97,7 +106,13 @@ describe('bullExplorer', () => {
       const queue = { on: jest.fn() } as any;
       const opts = { eventName: 'test' } as any;
 
-      bullExplorer.handleListener(instance, 'handler', queue, opts);
+      bullExplorer.handleListener(
+        instance,
+        'handler',
+        new InstanceWrapper(),
+        queue,
+        opts,
+      );
       expect(queue.on).toHaveBeenCalledWith(
         opts.eventName,
         expect.any(Function),
@@ -122,6 +137,8 @@ describe('bullExplorer', () => {
       const queue = explorer.getQueue(queueToken, 'test');
       expect(queue).toBeDefined();
       expect(queue).toBe(fakeQueue);
+
+      await moduleRef.close();
     });
   });
 });

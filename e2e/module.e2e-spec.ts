@@ -23,6 +23,9 @@ describe('BullModule', () => {
           ],
         }).compile();
       });
+      afterAll(async () => {
+        await moduleRef.close();
+      });
       it('should inject the queue with the given name', () => {
         const queue = moduleRef.get<Queue>(getQueueToken('test'));
 
@@ -53,6 +56,9 @@ describe('BullModule', () => {
             ),
           ],
         }).compile();
+      });
+      afterAll(async () => {
+        await moduleRef.close();
       });
       it('should inject the queue with name "test1"', () => {
         const queue: Queue = moduleRef.get<Queue>(getQueueToken('test1'));
@@ -88,6 +94,10 @@ describe('BullModule', () => {
           ],
         }).compile();
       });
+      afterAll(async () => {
+        await moduleRef.close();
+      });
+
       it('should inject the queue with the given name', () => {
         const queue: Queue = moduleRef.get<Queue>(getQueueToken('test'));
         expect(queue).toBeDefined();
@@ -108,6 +118,9 @@ describe('BullModule', () => {
             BullModule.registerQueue({ name: 'test1' }, { name: 'test2' }),
           ],
         }).compile();
+      });
+      afterAll(async () => {
+        await moduleRef.close();
       });
       it('should inject the queue with name "test1"', () => {
         const queue = moduleRef.get<Queue>(getQueueToken('test1'));
@@ -146,6 +159,9 @@ describe('BullModule', () => {
             ],
           }).compile();
         });
+        afterAll(async () => {
+          await moduleRef.close();
+        });
         it('should inject the queue with the given name', () => {
           const queue: Queue = moduleRef.get<Queue>(getQueueToken('test'));
           expect(queue).toBeDefined();
@@ -183,6 +199,9 @@ describe('BullModule', () => {
               ),
             ],
           }).compile();
+        });
+        afterAll(async () => {
+          await moduleRef.close();
         });
         it('should inject the queue with name "test1"', () => {
           const queue: Queue = moduleRef.get<Queue>(getQueueToken('test1'));
@@ -224,6 +243,9 @@ describe('BullModule', () => {
             ],
           }).compile();
         });
+        afterAll(async () => {
+          await moduleRef.close();
+        });
         it('should inject the queue with the given name', () => {
           const queue = moduleRef.get<Queue>(getQueueToken('test'));
 
@@ -253,6 +275,9 @@ describe('BullModule', () => {
               BullModule.registerQueue({ name: 'test2' }),
             ],
           }).compile();
+        });
+        afterAll(async () => {
+          await moduleRef.close();
         });
         it('should inject the queue with name "test1"', () => {
           const queue = moduleRef.get<Queue>(getQueueToken('test1'));
@@ -296,6 +321,9 @@ describe('BullModule', () => {
             ],
           }).compile();
         });
+        afterAll(async () => {
+          await moduleRef.close();
+        });
         it('should inject the queue with the given name', () => {
           const queue = moduleRef.get<Queue>(getQueueToken('test'));
 
@@ -324,6 +352,9 @@ describe('BullModule', () => {
               }),
             ],
           }).compile();
+        });
+        afterAll(async () => {
+          await moduleRef.close();
         });
         it('should inject the queue with name "test1"', () => {
           const queue = moduleRef.get<Queue>(getQueueToken('test1'));
@@ -359,12 +390,15 @@ describe('BullModule', () => {
         ],
       }).compile();
     });
+    afterAll(async () => {
+      await testingModule.close();
+    });
 
     it('should process jobs with the given processors', async () => {
       const queue = testingModule.get<Queue>(getQueueToken('full_flow'));
 
       await queue.add(null);
-      return new Promise(resolve => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(fakeProcessor).toHaveBeenCalledTimes(1);
           resolve();
