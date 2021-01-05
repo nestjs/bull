@@ -18,7 +18,6 @@ describe('BullExplorer', () => {
     bullExplorer = moduleRef.get(BullExplorer);
   });
   afterAll(async () => {
-    await moduleRef.get(getQueueToken('test')).close();
     await moduleRef.close();
   });
   describe('handleProcessor', () => {
