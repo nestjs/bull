@@ -18,7 +18,6 @@ describe('BullExplorer', () => {
     bullExplorer = moduleRef.get(BullExplorer);
   });
   afterAll(async () => {
-    await moduleRef.get(getQueueToken('test')).close();
     await moduleRef.close();
   });
   describe('handleProcessor', () => {
@@ -105,11 +104,11 @@ describe('BullExplorer', () => {
       const instance = { handler: jest.fn() };
       const queue = { on: jest.fn() } as any;
       const opts = { eventName: 'test' } as any;
-
+      const wrapper = new InstanceWrapper();
       bullExplorer.handleListener(
         instance,
         'handler',
-        new InstanceWrapper(),
+        wrapper,
         queue,
         opts,
       );
