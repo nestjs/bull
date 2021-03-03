@@ -53,13 +53,13 @@
     "@nestjs/core": "7.6.17",
     "@nestjs/platform-express": "7.6.17",
     "@nestjs/testing": "7.6.17",
-    "@types/bull": "3.15.1",
     "@types/jest": "26.0.23",
     "@types/node": "14.17.3",
     "@types/reflect-metadata": "0.1.0",
     "@typescript-eslint/eslint-plugin": "4.26.1",
     "@typescript-eslint/parser": "4.26.1",
     "bull": "3.22.7",
+    "bullmq": "^1.32.0",
     "eslint": "7.28.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "2.23.4",
@@ -81,6 +81,6 @@
   "peerDependencies": {
     "@nestjs/common": "^6.10.11 || ^7.0.0",
     "@nestjs/core": "^6.10.11 || ^7.0.0",
-    "bull": "^3.3 || ^3.22.0"
+    "bullmq": "^1.32.0"
   }
 }

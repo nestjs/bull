@@ -1,6 +1,7 @@
 import { flatten, OnApplicationShutdown, Provider } from '@nestjs/common';
-import * as Bull from 'bull';
-import { Queue } from 'bull';
+import * as Bull from 'bullmq';
+import { Queue, Worker } from 'bullmq';
+import { worker } from 'cluster';
 import { BullQueueProcessor } from './bull.types';
 import { createConditionalDepHolder, IConditionalDepHolder } from './helpers';
 import { BullModuleOptions } from './interfaces/bull-module-options.interface';
@@ -17,27 +18,44 @@ import {
 } from './utils/helpers';
 
 function buildQueue(option: BullModuleOptions): Queue {
-  const queue: Queue = new Bull(option.name ? option.name : 'default', option);
+  const queue: Queue = new Queue(option.name ? option.name : 'default', option);
+  const workers: Worker[] = [];
+
   if (option.processors) {
     option.processors.forEach((processor: BullQueueProcessor) => {
-      let args = [];
       if (isAdvancedProcessor(processor)) {
-        args.push(processor.name, processor.concurrency, processor.callback);
+        workers.push(
+          new Worker(queue.name, processor.callback, {
+            concurrency: processor.concurrency,
+            connection: option.connection,
+          }),
+        );
       } else if (isAdvancedSeparateProcessor(processor)) {
-        args.push(processor.name, processor.concurrency, processor.path);
+        workers.push(
+          new Worker(queue.name, processor.path, {
+            concurrency: processor.concurrency,
+            connection: option.connection,
+          }),
+        );
       } else if (isSeparateProcessor(processor)) {
-        args.push(processor);
+        workers.push(
+          new Worker(queue.name, processor, {
+            connection: option.connection,
+          }),
+        );
       } else if (isProcessorCallback(processor)) {
-        args.push(processor);
+        workers.push(
+          new Worker(queue.name, processor, {
+            connection: option.connection,
+          }),
+        );
       }
-      args = args.filter((arg) => typeof arg !== 'undefined');
-      queue.process.call(queue, ...args);
     });
   }
   ((queue as unknown) as OnApplicationShutdown).onApplicationShutdown = function (
     this: Queue,
   ) {
-    return this.close();
+    return Promise.all([...workers.map((w) => w.close()), this.close()]);
   };
   return queue;
 }
