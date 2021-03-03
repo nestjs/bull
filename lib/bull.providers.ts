@@ -1,7 +1,6 @@
 import { flatten, OnApplicationShutdown, Provider } from '@nestjs/common';
 import * as Bull from 'bullmq';
-import { Queue, Worker } from 'bullmq';
-import { worker } from 'cluster';
+import { Queue, Worker, QueueScheduler } from 'bullmq';
 import { BullQueueProcessor } from './bull.types';
 import { createConditionalDepHolder, IConditionalDepHolder } from './helpers';
 import { BullModuleOptions } from './interfaces/bull-module-options.interface';
@@ -20,6 +19,8 @@ import {
 function buildQueue(option: BullModuleOptions): Queue {
   const queue: Queue = new Queue(option.name ? option.name : 'default', option);
   const workers: Worker[] = [];
+
+  const scheduler = new QueueScheduler(queue.name, option);
 
   if (option.processors) {
     option.processors.forEach((processor: BullQueueProcessor) => {
@@ -55,7 +56,7 @@ function buildQueue(option: BullModuleOptions): Queue {
   ((queue as unknown) as OnApplicationShutdown).onApplicationShutdown = function (
     this: Queue,
   ) {
-    return Promise.all([...workers.map((w) => w.close()), this.close()]);
+    return Promise.all([...workers.map((w) => w.close()), this.close(), scheduler.close()]);
   };
   return queue;
 }
