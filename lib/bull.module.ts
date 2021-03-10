@@ -225,7 +225,7 @@ export class BullModule {
     if (options.useExisting || options.useFactory) {
       return [this.createAsyncSharedConfigurationProvider(configKey, options)];
     }
-    const useClass = options.useClass as Type<SharedBullConfigurationFactory>;
+    const useClass = options.useClass as unknown as Type<SharedBullConfigurationFactory>;
     return [
       this.createAsyncSharedConfigurationProvider(configKey, options),
       {

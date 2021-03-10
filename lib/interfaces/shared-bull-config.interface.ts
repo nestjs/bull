@@ -4,6 +4,7 @@ import {
   Type,
 } from '@nestjs/common/interfaces';
 import * as Bull from 'bull';
+import { BullOptionsFactory } from './bull-module-options.interface';
 
 export interface SharedBullConfigurationFactory {
   createSharedConfiguration(): Promise<Bull.QueueOptions> | Bull.QueueOptions;
@@ -19,7 +20,7 @@ export interface SharedBullAsyncConfiguration
   /**
    * Type (class name) of provider (instance to be registered and injected).
    */
-  useClass?: Type<SharedBullConfigurationFactory>;
+  useClass?: Type<BullOptionsFactory>;
 
   /**
    * Factory function that returns an instance of the provider to be injected.
