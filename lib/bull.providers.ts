@@ -18,9 +18,11 @@ import {
 
 function buildQueue(option: BullModuleOptions): Queue {
   const queue: Queue = new Queue(option.name ? option.name : 'default', option);
-  const workers: Worker[] = [];
+  const workers: (Worker|QueueScheduler)[] = [];
 
-  const scheduler = new QueueScheduler(queue.name, option);
+  if (!option.disableScheduler) {
+    workers.push(new QueueScheduler(queue.name, option))
+  }
 
   if (option.processors) {
     option.processors.forEach((processor: BullQueueProcessor) => {
@@ -56,7 +58,7 @@ function buildQueue(option: BullModuleOptions): Queue {
   ((queue as unknown) as OnApplicationShutdown).onApplicationShutdown = function (
     this: Queue,
   ) {
-    return Promise.all([...workers.map((w) => w.close()), this.close(), scheduler.close()]);
+    return Promise.all([...workers.map((w) => w.close()), this.close()]);
   };
   return queue;
 }
