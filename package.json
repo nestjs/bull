@@ -1,19 +1,17 @@
 {
-  "name": "@nestjs/bull",
-  "version": "0.3.1",
-  "description": "Nest - modern, fast, powerful node.js web framework (@bull)",
-  "homepage": "https://github.com/nestjs/bull",
+  "name": "@ejhayes/nestjs-bullmq",
+  "version": "0.1.0",
+  "description": "Nest - modern, fast, powerful node.js web framework (@bullmq)",
+  "homepage": "https://github.com/ejhayes/nestjs-bullmq",
   "bugs": {
-    "url": "https://github.com/nestjs/bull/issues"
+    "url": "https://github.com/ejhayes/nestjs-bullmq/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nestjs/bull.git"
+    "url": "git+https://github.com/ejhayes/nestjs-bullmq.git"
   },
   "license": "MIT",
   "contributors": [
-    "Frederic Woelffel <hello@fwoelffel.me>",
-    "Kamil Mysliwiec <mail@kamilmysliwiec.com>"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -58,7 +56,6 @@
     "@types/reflect-metadata": "0.1.0",
     "@typescript-eslint/eslint-plugin": "4.26.1",
     "@typescript-eslint/parser": "4.26.1",
-    "bull": "3.22.7",
     "bullmq": "^1.32.0",
     "eslint": "7.28.0",
     "eslint-config-prettier": "8.3.0",
