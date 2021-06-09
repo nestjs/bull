@@ -22,13 +22,12 @@
 
 ## Description
 
-[Bull](https://github.com/OptimalBits/bull) module for [Nest](https://github.com/nestjs/nest).
+[Bull](https://github.com/taskforcesh/bullmq) module for [Nest](https://github.com/nestjs/nest).
 
 ## Installation
 
 ```bash
-$ npm i --save @nestjs/bull bull
-$ npm i --save-dev @types/bull
+$ npm i --save @nestjs/bullmq bullmq
 ```
 
 ## Quick Start
