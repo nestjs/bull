@@ -6,7 +6,7 @@ import { BullModule } from '../bull.module';
 import { getQueueToken } from '../utils';
 
 jest.mock('bullmq', () => ({
-  ...jest.requireActual('bullmq'),
+  ...jest.requireActual('bullmq') as {}, // https://stackoverflow.com/questions/51189388/typescript-spread-types-may-only-be-created-from-object-types/51193091
   Worker: jest.fn()
 }))
 
@@ -37,6 +37,12 @@ describe('BullExplorer', () => {
       const queue = { name: 'test' } as any;
       bullExplorer.handleProcessor(instance, 'handler', queue, null, false);
       expect(Worker).toHaveBeenCalledWith('test', expect.any(Function), {});
+    });
+    it('should create a Worker with bullmq options if they exist', () => {
+      const instance = { handler: jest.fn() };
+      const queue = { name: 'test', opts: {connection: {host: 'someHost'}} } as any;
+      bullExplorer.handleProcessor(instance, 'handler', queue, null, false);
+      expect(Worker).toHaveBeenCalledWith('test', expect.any(Function), {connection: {host: 'someHost'}});
     });
     it('should set concurrency on a Worker', () => {
       const instance = { handler: jest.fn() };
@@ -72,6 +78,7 @@ describe('BullExplorer', () => {
     it('should add the given function to the queue listeners for the given event', () => {
       const instance = { handler: jest.fn() };
       const queue = { on: jest.fn() } as any;
+      const worker = { on: jest.fn() } as any;
       const opts = { eventName: 'test' } as any;
       const wrapper = new InstanceWrapper();
       bullExplorer.handleListener(
@@ -79,9 +86,10 @@ describe('BullExplorer', () => {
         'handler',
         wrapper,
         queue,
+        worker,
         opts,
       );
-      expect(queue.on).toHaveBeenCalledWith(
+      expect(worker.on).toHaveBeenCalledWith(
         opts.eventName,
         expect.any(Function),
       );

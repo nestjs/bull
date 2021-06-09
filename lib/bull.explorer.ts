@@ -28,6 +28,7 @@ export class BullExplorer implements OnModuleInit {
   }
 
   explore() {
+    const workers: Record<string, Worker> = {}
     const providers: InstanceWrapper[] = this.discoveryService
       .getProviders()
       .filter((wrapper: InstanceWrapper) =>
@@ -44,6 +45,16 @@ export class BullExplorer implements OnModuleInit {
       const queueToken = getQueueToken(queueName);
       const bullQueue = this.getQueue(queueToken, queueName);
 
+      /**
+       * TODO: BullMQ splits work into queues/workers. In order to handle
+       * events we need to put the listener on the worker and not the queue.
+       * The iteration below first grabs all processors and creates workers.
+       * We want to ensure that all workers are created before we attempt to
+       * attach any listener functions to them.
+       * The second iteration through providers attaches event listeners for
+       * each worker. There's probably a better way to do this.
+       */
+      // First iteration: create all provider workers
       this.metadataScanner.scanFromPrototype(
         instance,
         Object.getPrototypeOf(instance),
@@ -52,7 +63,7 @@ export class BullExplorer implements OnModuleInit {
             const metadata = this.metadataAccessor.getProcessMetadata(
               instance[key],
             );
-            this.handleProcessor(
+            workers[`${bullQueue.name}:::${metadata.name || '*'}`] = this.handleProcessor(
               instance,
               key,
               bullQueue,
@@ -60,11 +71,20 @@ export class BullExplorer implements OnModuleInit {
               isRequestScoped,
               metadata,
             );
-          } else if (this.metadataAccessor.isListener(instance[key])) {
+          }
+        },
+      );
+
+      // Second iteration: attach listener functions to workers created above.
+      this.metadataScanner.scanFromPrototype(
+        instance,
+        Object.getPrototypeOf(instance),
+        (key: string) => {
+          if (this.metadataAccessor.isListener(instance[key])) {
             const metadata = this.metadataAccessor.getListenerMetadata(
               instance[key],
             );
-            this.handleListener(instance, key, wrapper, bullQueue, metadata);
+            this.handleListener(instance, key, wrapper, bullQueue, workers[`${bullQueue.name}:::${metadata.name || '*'}`], metadata);
           }
         },
       );
@@ -113,7 +133,7 @@ export class BullExplorer implements OnModuleInit {
       processor = instance[key].bind(instance);
     }
 
-    new Worker(queue.name, processor, options);
+    return new Worker(queue.name, processor, Object.assign(queue.opts || {}, options));
   }
 
   handleListener(
@@ -121,6 +141,7 @@ export class BullExplorer implements OnModuleInit {
     key: string,
     wrapper: InstanceWrapper,
     queue: Queue,
+    worker: Worker,
     options: BullQueueEventOptions,
   ) {
     if (!wrapper.isDependencyTreeStatic()) {
@@ -130,7 +151,7 @@ export class BullExplorer implements OnModuleInit {
       return;
     }
     if (options.name || options.id) {
-      queue.on(
+      worker.on(
         options.eventName,
         async (jobOrJobId: Job | string, ...args: unknown[]) => {
           const job =
@@ -144,7 +165,7 @@ export class BullExplorer implements OnModuleInit {
         },
       );
     } else {
-      queue.on(options.eventName, instance[key].bind(instance));
+      worker.on(options.eventName, instance[key].bind(instance));
     }
   }
 }
