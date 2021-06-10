@@ -1,6 +1,7 @@
 import { Injectable, Type } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import {
+  BULL_MODULE_ON_GLOBAL_QUEUE_EVENT,
   BULL_MODULE_ON_QUEUE_EVENT,
   BULL_MODULE_QUEUE,
   BULL_MODULE_QUEUE_PROCESS,
@@ -33,6 +34,13 @@ export class BullMetadataAccessor {
     return !!this.reflector.get(BULL_MODULE_ON_QUEUE_EVENT, target);
   }
 
+  isGlobalListener(target: Type<any> | Function): boolean {
+    if (!target) {
+      return false;
+    }
+    return !!this.reflector.get(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, target);
+  }
+
   getQueueComponentMetadata(target: Type<any> | Function): any {
     return this.reflector.get(BULL_MODULE_QUEUE, target);
   }
@@ -45,5 +53,11 @@ export class BullMetadataAccessor {
     target: Type<any> | Function,
   ): BullQueueEventOptions | undefined {
     return this.reflector.get(BULL_MODULE_ON_QUEUE_EVENT, target);
+  }
+
+  getGlobalListenerMetadata(
+    target: Type<any> | Function,
+  ): BullQueueEventOptions | undefined {
+    return this.reflector.get(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, target);
   }
 }

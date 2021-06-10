@@ -30,6 +30,7 @@ import {
   Processor,
 } from '..';
 import {
+  BULL_MODULE_ON_GLOBAL_QUEUE_EVENT,
   BULL_MODULE_ON_QUEUE_EVENT,
   BULL_MODULE_QUEUE,
   BULL_MODULE_QUEUE_PROCESS,
@@ -330,14 +331,14 @@ describe('Decorators', () => {
       prop() {}
     }
     const myQueueInstance = new MyQueue();
-    it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
+    it('should decorate the method with BULL_MODULE_ON_GLOBAL_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.hasMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_GLOBAL_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.getMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.ERROR });
     });
   });
@@ -348,14 +349,14 @@ describe('Decorators', () => {
       prop() {}
     }
     const myQueueInstance = new MyQueue();
-    it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
+    it('should decorate the method with BULL_MODULE_ON_GLOBAL_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.hasMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_GLOBAL_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.getMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.WAITING });
     });
   });
@@ -366,14 +367,14 @@ describe('Decorators', () => {
       prop() {}
     }
     const myQueueInstance = new MyQueue();
-    it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
+    it('should decorate the method with BULL_MODULE_ON_GLOBAL_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.hasMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_GLOBAL_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.getMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.ACTIVE });
     });
   });
@@ -384,14 +385,14 @@ describe('Decorators', () => {
       prop() {}
     }
     const myQueueInstance = new MyQueue();
-    it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
+    it('should decorate the method with BULL_MODULE_ON_GLOBAL_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.hasMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_GLOBAL_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.getMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.STALLED });
     });
   });
@@ -402,14 +403,14 @@ describe('Decorators', () => {
       prop() {}
     }
     const myQueueInstance = new MyQueue();
-    it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
+    it('should decorate the method with BULL_MODULE_ON_GLOBAL_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.hasMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_GLOBAL_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.getMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.PROGRESS });
     });
   });
@@ -420,14 +421,14 @@ describe('Decorators', () => {
       prop() {}
     }
     const myQueueInstance = new MyQueue();
-    it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
+    it('should decorate the method with BULL_MODULE_ON_GLOBAL_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.hasMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_GLOBAL_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.getMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.COMPLETED });
     });
   });
@@ -438,14 +439,14 @@ describe('Decorators', () => {
       prop() {}
     }
     const myQueueInstance = new MyQueue();
-    it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
+    it('should decorate the method with BULL_MODULE_ON_GLOBAL_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.hasMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_GLOBAL_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.getMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.FAILED });
     });
   });
@@ -456,14 +457,14 @@ describe('Decorators', () => {
       prop() {}
     }
     const myQueueInstance = new MyQueue();
-    it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
+    it('should decorate the method with BULL_MODULE_ON_GLOBAL_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.hasMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_GLOBAL_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.getMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.PAUSED });
     });
   });
@@ -474,14 +475,14 @@ describe('Decorators', () => {
       prop() {}
     }
     const myQueueInstance = new MyQueue();
-    it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
+    it('should decorate the method with BULL_MODULE_ON_GLOBAL_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.hasMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_GLOBAL_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.getMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.RESUMED });
     });
   });
@@ -492,14 +493,14 @@ describe('Decorators', () => {
       prop() {}
     }
     const myQueueInstance = new MyQueue();
-    it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
+    it('should decorate the method with BULL_MODULE_ON_GLOBAL_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.hasMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_GLOBAL_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.getMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.CLEANED });
     });
   });
@@ -510,14 +511,14 @@ describe('Decorators', () => {
       prop() {}
     }
     const myQueueInstance = new MyQueue();
-    it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
+    it('should decorate the method with BULL_MODULE_ON_GLOBAL_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.hasMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_GLOBAL_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.getMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.DRAINED });
     });
   });
@@ -528,14 +529,14 @@ describe('Decorators', () => {
       prop() {}
     }
     const myQueueInstance = new MyQueue();
-    it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
+    it('should decorate the method with BULL_MODULE_ON_GLOBAL_QUEUE_EVENT', () => {
       expect(
-        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.hasMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_GLOBAL_QUEUE_EVENT metadata with the 'error' event name`, () => {
       expect(
-        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+        Reflect.getMetadata(BULL_MODULE_ON_GLOBAL_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueGlobalEvents.REMOVED });
     });
   });

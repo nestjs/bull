@@ -4,7 +4,7 @@ import { Injector } from '@nestjs/core/injector/injector';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Module } from '@nestjs/core/injector/module';
 import { MetadataScanner } from '@nestjs/core/metadata-scanner';
-import { Job, Processor, Queue, Worker } from 'bullmq';
+import { Job, Processor, Queue, Worker, QueueEvents } from 'bullmq';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
 import { NO_QUEUE_FOUND } from './bull.messages';
 import { BullQueueEventOptions } from './bull.types';
@@ -29,6 +29,7 @@ export class BullExplorer implements OnModuleInit {
 
   explore() {
     const workers: Record<string, Worker> = {}
+    const queueEvents: Record<string, QueueEvents> = {}
     const providers: InstanceWrapper[] = this.discoveryService
       .getProviders()
       .filter((wrapper: InstanceWrapper) =>
@@ -71,6 +72,16 @@ export class BullExplorer implements OnModuleInit {
               isRequestScoped,
               metadata,
             );
+          } else if (this.metadataAccessor.isGlobalListener(instance[key])) {
+            const metadata = this.metadataAccessor.getGlobalListenerMetadata(
+              instance[key],
+            );
+            const keyName = `${bullQueue.name}:::${metadata.name || '*'}`;
+
+            // Only create one instance of queue events
+            if ( !(keyName in queueEvents) ) {
+              queueEvents[`${bullQueue.name}:::${metadata.name || '*'}`] = new QueueEvents(bullQueue.name, bullQueue.opts)
+            }
           }
         },
       );
@@ -85,6 +96,11 @@ export class BullExplorer implements OnModuleInit {
               instance[key],
             );
             this.handleListener(instance, key, wrapper, bullQueue, workers[`${bullQueue.name}:::${metadata.name || '*'}`], metadata);
+          } else if (this.metadataAccessor.isGlobalListener(instance[key])) {
+            const metadata = this.metadataAccessor.getGlobalListenerMetadata(
+              instance[key],
+            );
+            this.handleListener(instance, key, wrapper, bullQueue, queueEvents[`${bullQueue.name}:::${metadata.name || '*'}`], metadata);
           }
         },
       );
@@ -141,7 +157,7 @@ export class BullExplorer implements OnModuleInit {
     key: string,
     wrapper: InstanceWrapper,
     queue: Queue,
-    worker: Worker,
+    listener: Worker | QueueEvents,
     options: BullQueueEventOptions,
   ) {
     if (!wrapper.isDependencyTreeStatic()) {
@@ -151,7 +167,7 @@ export class BullExplorer implements OnModuleInit {
       return;
     }
     if (options.name || options.id) {
-      worker.on(
+      listener.on(
         options.eventName,
         async (jobOrJobId: Job | string, ...args: unknown[]) => {
           const job =
@@ -165,7 +181,7 @@ export class BullExplorer implements OnModuleInit {
         },
       );
     } else {
-      worker.on(options.eventName, instance[key].bind(instance));
+      listener.on(options.eventName, instance[key].bind(instance));
     }
   }
 }
