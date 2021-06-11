@@ -20,9 +20,17 @@ function buildQueue(option: BullModuleOptions): Queue {
   const queue: Queue = new Queue(option.name ? option.name : 'default', option);
   const workers: (Worker|QueueScheduler)[] = [];
 
+  /**
+   * TODO: Add top level option to allow for creation of scheduler. This current
+   * implementation currently would cause multiple schedulers to be created if
+   * we were scaling horizontally.
+   * @url https://docs.bullmq.io/guide/queuescheduler
+   */
+  /*
   if (!option.disableScheduler) {
     workers.push(new QueueScheduler(queue.name, option))
   }
+  */
 
   if (option.processors) {
     option.processors.forEach((processor: BullQueueProcessor) => {
