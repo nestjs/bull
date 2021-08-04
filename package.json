@@ -55,7 +55,7 @@
     "@nestjs/testing": "8.0.5",
     "@types/bull": "3.15.3",
     "@types/jest": "26.0.24",
-    "@types/node": "14.17.8",
+    "@types/node": "14.17.9",
     "@types/reflect-metadata": "0.1.0",
     "@typescript-eslint/eslint-plugin": "4.29.0",
     "@typescript-eslint/parser": "4.29.0",
