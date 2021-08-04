@@ -16,10 +16,15 @@ import {
   isSeparateProcessor,
 } from './utils/helpers';
 
-function buildQueue(option: BullModuleOptions): Queue {
-  const queue: Queue = new Bull(option.name ? option.name : 'default', option);
-  if (option.processors) {
-    option.processors.forEach((processor: BullQueueProcessor) => {
+function buildQueue(options: BullModuleOptions): Queue {
+  const queueName = options.name ? options.name : 'default';
+  const queue: Queue =
+    typeof options?.redis === 'string'
+      ? new Bull(queueName, options.redis, options)
+      : new Bull(queueName, options);
+
+  if (options.processors) {
+    options.processors.forEach((processor: BullQueueProcessor) => {
       let args = [];
       if (isAdvancedProcessor(processor)) {
         args.push(processor.name, processor.concurrency, processor.callback);
@@ -34,7 +39,7 @@ function buildQueue(option: BullModuleOptions): Queue {
       queue.process.call(queue, ...args);
     });
   }
-  ((queue as unknown) as OnApplicationShutdown).onApplicationShutdown = function (
+  (queue as unknown as OnApplicationShutdown).onApplicationShutdown = function (
     this: Queue,
   ) {
     return this.close();
