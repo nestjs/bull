@@ -24,7 +24,7 @@
     "prepublish:npm": "npm run build",
     "publish:npm": "npm publish --access public",
     "prerelease": "npm run build",
-    "release": "release-it",
+    "release": "release-it --ci",
     "sample-app": "ts-node --require tsconfig-paths/register --project sample/tsconfig.json sample/main.ts",
     "test": "jest --detectOpenHandles --forceExit --coverage",
     "test:e2e": "jest --config=jest-e2e.config.js --detectOpenHandles --forceExit --coverage --runInBand",
