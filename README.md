@@ -16,7 +16,7 @@ PRs welcome to fix this!!!
 ## Installation
 
 ```bash
-$ npm i --save @nestjs/bullmq bullmq
+$ npm i --save @ejhayes/nestjs-bullmq
 ```
 
 ## Quick Start
