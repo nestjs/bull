@@ -11,14 +11,14 @@
     "url": "git+https://github.com/ejhayes/nestjs-bullmq.git"
   },
   "license": "MIT",
-  "contributors": [
-  ],
+  "contributors": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rimraf -rf dist && tsc -p tsconfig.json",
     "format": "prettier --write **/*.{ts,json}",
-    "lint": "eslint \"lib/**/*.ts\" --fix",
+    "lint": "eslint \"lib/**/*.ts\"",
+    "lint:fix": "eslint \"lib/**/*.ts\" --fix",
     "prepublish:next": "npm run build",
     "publish:next": "npm publish --access public --tag next",
     "prepublish:npm": "npm run build",
@@ -27,16 +27,11 @@
     "release": "release-it",
     "sample-app": "ts-node --require tsconfig-paths/register --project sample/tsconfig.json sample/main.ts",
     "test": "jest --detectOpenHandles --forceExit --coverage",
-    "test:e2e": "jest --config=jest-e2e.config.js --detectOpenHandles --forceExit --coverage --runInBand"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -c .commitlintrc.json -E HUSKY_GIT_PARAMS"
-    }
+    "test:e2e": "jest --config=jest-e2e.config.js --detectOpenHandles --forceExit --coverage --runInBand",
+    "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{ts}": [
+    "*.ts": [
       "prettier --write"
     ],
     "package.json": [
@@ -54,15 +49,14 @@
     "@types/jest": "26.0.23",
     "@types/node": "14.17.3",
     "@types/reflect-metadata": "0.1.0",
-    "@typescript-eslint/eslint-plugin": "4.26.1",
-    "@typescript-eslint/parser": "4.26.1",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
     "bullmq": "^1.32.0",
-    "eslint": "7.28.0",
-    "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-import": "2.23.4",
-    "husky": "6.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "husky": "^7.0.2",
     "jest": "26.6.3",
-    "lint-staged": "11.0.0",
+    "lint-staged": "^11.1.2",
     "prettier": "2.3.1",
     "reflect-metadata": "0.1.13",
     "release-it": "14.8.0",

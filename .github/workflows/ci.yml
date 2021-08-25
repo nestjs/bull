@@ -1,6 +1,9 @@
 name: "CI"
 
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - master
 
 jobs:
   ci:
@@ -34,6 +37,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
+      - run: npm run lint
       - run: npm run build
       - run: npm test
       - run: npm run test:e2e
