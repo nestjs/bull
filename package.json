@@ -71,7 +71,7 @@
     "release-it": "14.11.6",
     "rimraf": "3.0.2",
     "rxjs": "7.3.0",
-    "sort-package-json": "1.51.0",
+    "sort-package-json": "1.52.0",
     "ts-jest": "27.0.5",
     "ts-node": "10.2.1",
     "tsconfig-paths": "3.11.0",
