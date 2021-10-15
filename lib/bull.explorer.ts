@@ -31,7 +31,11 @@ export class BullExplorer implements OnModuleInit {
     const providers: InstanceWrapper[] = this.discoveryService
       .getProviders()
       .filter((wrapper: InstanceWrapper) =>
-        this.metadataAccessor.isQueueComponent(wrapper.metatype),
+        this.metadataAccessor.isQueueComponent(
+          wrapper.inject || !wrapper.metatype
+            ? wrapper.instance?.constructor
+            : wrapper.metatype,
+        ),
       );
 
     providers.forEach((wrapper: InstanceWrapper) => {
@@ -39,7 +43,10 @@ export class BullExplorer implements OnModuleInit {
       const isRequestScoped = !wrapper.isDependencyTreeStatic();
       const {
         name: queueName,
-      } = this.metadataAccessor.getQueueComponentMetadata(metatype);
+      } =
+        this.metadataAccessor.getQueueComponentMetadata(
+          instance.constructor || metatype,
+        );
 
       const queueToken = getQueueToken(queueName);
       const bullQueue = this.getQueue(queueToken, queueName);
