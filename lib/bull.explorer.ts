@@ -31,7 +31,23 @@ export class BullExplorer implements OnModuleInit {
     const providers: InstanceWrapper[] = this.discoveryService
       .getProviders()
       .filter((wrapper: InstanceWrapper) =>
-        this.metadataAccessor.isQueueComponent(wrapper.metatype),
+        this.metadataAccessor.isQueueComponent(
+          // NOTE: Regarding the ternary statement below,
+          // - The condition `!wrapper.metatype` is because when we use `useValue`
+          // the value of `wrapper.metatype` will be `null`.
+          // - The condition `wrapper.inject` is needed here because when we use
+          // `useFactory`, the value of `wrapper.metatype` will be the supplied
+          // factory function.
+          // For both cases, we should use `wrapper.instance.constructor` instead
+          // of `wrapper.metatype` to resolve processor's class properly.
+          // But since calling `wrapper.instance` could degrade overall performance
+          // we must defer it as much we can. But there's no other way to grab the
+          // right class that could be annotated with `@Processor()` decorator
+          // without using this property.
+          !wrapper.metatype || wrapper.inject
+            ? wrapper.instance?.constructor
+            : wrapper.metatype,
+        ),
       );
 
     providers.forEach((wrapper: InstanceWrapper) => {
@@ -39,7 +55,12 @@ export class BullExplorer implements OnModuleInit {
       const isRequestScoped = !wrapper.isDependencyTreeStatic();
       const {
         name: queueName,
-      } = this.metadataAccessor.getQueueComponentMetadata(metatype);
+      } =
+        this.metadataAccessor.getQueueComponentMetadata(
+          // NOTE: We are relying on `instance.constructor` to properly support
+          // `useValue` and `useFactory` providers besides `useClass`.
+          instance.constructor || metatype,
+        );
 
       const queueToken = getQueueToken(queueName);
       const bullQueue = this.getQueue(queueToken, queueName);

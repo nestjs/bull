@@ -3,6 +3,7 @@
     "module": "commonjs",
     "declaration": true,
     "noImplicitAny": false,
+    "lib": ["ES2019"],
     "removeComments": true,
     "noLib": false,
     "emitDecoratorMetadata": true,

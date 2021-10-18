@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { MetadataScanner } from '@nestjs/core';
 import { Queue } from 'bull';
-import { BullModule, getQueueToken } from '../lib';
+import { BullModule, getQueueToken, Processor } from '../lib';
 
 describe('BullModule', () => {
   describe('registerQueue', () => {
@@ -401,6 +402,115 @@ describe('BullModule', () => {
           resolve();
         }, 1000);
       });
+    });
+  });
+
+  describe('handles all kind of valid processors providers', () => {
+    @Processor('test_processor_registering')
+    class MyProcessorA {}
+
+    @Processor('test_processor_registering')
+    class MyProcessorB {}
+
+    @Processor('test_processor_registering')
+    class MyProcessorC {}
+
+    let testingModule: TestingModule;
+
+    let metadataScanner: MetadataScanner;
+
+    beforeAll(async () => {
+      testingModule = await Test.createTestingModule({
+        imports: [
+          BullModule.registerQueue({
+            name: 'test_processor_registering',
+            redis: {
+              host: '0.0.0.0',
+              port: 6380,
+            },
+          }),
+        ],
+        providers: [
+          {
+            provide: 'A',
+            useClass: MyProcessorA,
+          },
+          {
+            provide: 'B',
+            useValue: new MyProcessorB(),
+          },
+          {
+            provide: 'C',
+            useFactory: () => new MyProcessorC(),
+          },
+        ],
+      }).compile();
+
+      metadataScanner = testingModule.get(MetadataScanner);
+      jest.spyOn(metadataScanner, 'scanFromPrototype');
+
+      await testingModule.init();
+    });
+    afterAll(async () => {
+      await testingModule.close();
+    });
+
+    it('should use MetadataScanner#scanFromPrototype when exploring', () => {
+      expect(metadataScanner.scanFromPrototype).toHaveBeenCalled();
+    });
+
+    it('should reach the processor supplied with `useClass`', () => {
+      const scanPrototypeCalls = jest.spyOn(
+        metadataScanner,
+        'scanFromPrototype',
+      ).mock.calls;
+
+      const scanPrototypeCallsFirstArgsEveryCall = scanPrototypeCalls.flatMap(
+        (args) => args[0],
+      );
+
+      expect(
+        scanPrototypeCallsFirstArgsEveryCall.some(
+          (instanceWrapperInstance) =>
+            instanceWrapperInstance.constructor.name === MyProcessorA.name,
+        ),
+      ).toBeTruthy();
+    });
+
+    it('should reach the processor supplied with `useValue`', () => {
+      const scanPrototypeCalls = jest.spyOn(
+        metadataScanner,
+        'scanFromPrototype',
+      ).mock.calls;
+
+      const scanPrototypeCallsFirstArgsEveryCall = scanPrototypeCalls.flatMap(
+        (args) => args[0],
+      );
+
+      expect(
+        scanPrototypeCallsFirstArgsEveryCall.some(
+          (instanceWrapperInstance) =>
+            instanceWrapperInstance.constructor.name === MyProcessorB.name,
+        ),
+      ).toBeTruthy();
+    });
+
+    it('should reach the processor supplied with `useFactory`', () => {
+      const scanPrototypeCalls = jest.spyOn(
+        metadataScanner,
+        'scanFromPrototype',
+      ).mock.calls;
+
+      const scanPrototypeCallsFirstArgsEveryCall = scanPrototypeCalls.flatMap(
+        (args) => args[0],
+      );
+
+      expect(
+        scanPrototypeCallsFirstArgsEveryCall.some(
+          (instanceWrapperInstance) =>
+            instanceWrapperInstance.constructor.name === MyProcessorC.name,
+        ),
+      ).toBeTruthy();
     });
   });
 });
