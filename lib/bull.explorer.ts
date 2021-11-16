@@ -1,9 +1,8 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { createContextId, DiscoveryService, ModuleRef } from '@nestjs/core';
+import { createContextId, DiscoveryService, MetadataScanner, ModuleRef } from '@nestjs/core';
 import { Injector } from '@nestjs/core/injector/injector';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Module } from '@nestjs/core/injector/module';
-import { MetadataScanner } from '@nestjs/core/metadata-scanner';
 import { Job, ProcessCallbackFunction, Queue } from 'bull';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
 import { NO_QUEUE_FOUND } from './bull.messages';

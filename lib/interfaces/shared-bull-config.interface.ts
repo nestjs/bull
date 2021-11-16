@@ -2,7 +2,7 @@ import {
   FactoryProvider,
   ModuleMetadata,
   Type,
-} from '@nestjs/common/interfaces';
+} from '@nestjs/common';
 import * as Bull from 'bull';
 
 export interface SharedBullConfigurationFactory {
