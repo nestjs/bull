@@ -72,7 +72,7 @@
     "rimraf": "3.0.2",
     "rxjs": "7.4.0",
     "sort-package-json": "1.53.1",
-    "ts-jest": "27.1.1",
+    "ts-jest": "27.1.2",
     "ts-node": "10.4.0",
     "tsconfig-paths": "3.12.0",
     "tslint": "6.1.3",
