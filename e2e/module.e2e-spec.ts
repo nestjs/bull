@@ -1,5 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { MetadataScanner } from '@nestjs/core';
+import { Test, TestingModule } from '@nestjs/testing';
 import { Queue } from 'bull';
 import { BullModule, getQueueToken, Processor } from '../lib';
 
@@ -8,8 +8,6 @@ describe('BullModule', () => {
     let moduleRef: TestingModule;
 
     describe('single configuration', () => {
-      const fakeProcessor = jest.fn();
-
       beforeAll(async () => {
         moduleRef = await Test.createTestingModule({
           imports: [
@@ -19,7 +17,6 @@ describe('BullModule', () => {
                 host: '0.0.0.0',
                 port: 6380,
               },
-              processors: [fakeProcessor],
             }),
           ],
         }).compile();
@@ -78,7 +75,6 @@ describe('BullModule', () => {
     let moduleRef: TestingModule;
 
     describe('single configuration', () => {
-      const fakeProcessor = jest.fn();
       beforeAll(async () => {
         moduleRef = await Test.createTestingModule({
           imports: [
@@ -90,7 +86,6 @@ describe('BullModule', () => {
             }),
             BullModule.registerQueue({
               name: 'test',
-              processors: [fakeProcessor],
             }),
           ],
         }).compile();
@@ -143,14 +138,12 @@ describe('BullModule', () => {
 
     describe('single configuration', () => {
       describe('useFactory', () => {
-        const fakeProcessor = jest.fn();
         beforeAll(async () => {
           moduleRef = await Test.createTestingModule({
             imports: [
               BullModule.registerQueueAsync({
                 name: 'test',
                 useFactory: () => ({
-                  processors: [fakeProcessor],
                   redis: {
                     host: '0.0.0.0',
                     port: 6380,
@@ -167,9 +160,6 @@ describe('BullModule', () => {
           const queue: Queue = moduleRef.get<Queue>(getQueueToken('test'));
           expect(queue).toBeDefined();
           expect(queue.name).toEqual('test');
-        });
-        it('the injected queue should have the given processor', () => {
-          const queue: Queue = moduleRef.get<Queue>(getQueueToken('test'));
         });
       });
     });
@@ -223,7 +213,8 @@ describe('BullModule', () => {
 
     describe('single configuration', () => {
       describe('useFactory', () => {
-        const fakeProcessor = jest.fn();
+        let processorWasCalled = false;
+
         beforeAll(async () => {
           moduleRef = await Test.createTestingModule({
             imports: [
@@ -235,7 +226,12 @@ describe('BullModule', () => {
               BullModule.registerQueueAsync({
                 name: 'test',
                 useFactory: () => ({
-                  processors: [fakeProcessor],
+                  processors: [
+                    (_, done) => {
+                      processorWasCalled = true;
+                      done();
+                    },
+                  ],
                 }),
               }),
             ],
@@ -250,8 +246,12 @@ describe('BullModule', () => {
           expect(queue).toBeDefined();
           expect(queue.name).toEqual('test');
         });
-        it('the injected queue should have the given processor', () => {
+        it('should trigger the processor function', async () => {
           const queue = moduleRef.get<Queue>(getQueueToken('test'));
+          const job = await queue.add({ test: true });
+          await job.finished();
+
+          expect(processorWasCalled).toBeTruthy();
         });
       });
     });
@@ -298,7 +298,6 @@ describe('BullModule', () => {
 
     describe('single configuration', () => {
       describe('useFactory', () => {
-        const fakeProcessor = jest.fn();
         beforeAll(async () => {
           moduleRef = await Test.createTestingModule({
             imports: [
@@ -313,7 +312,7 @@ describe('BullModule', () => {
               BullModule.registerQueueAsync({
                 name: 'test',
                 useFactory: () => ({
-                  processors: [fakeProcessor],
+                  processors: [],
                 }),
               }),
             ],
@@ -371,37 +370,33 @@ describe('BullModule', () => {
   });
 
   describe('full flow (job handling)', () => {
-    const fakeProcessor = jest.fn();
-    let testingModule: TestingModule;
+    const queueName = 'full_flow_queue';
 
-    beforeAll(async () => {
-      testingModule = await Test.createTestingModule({
+    it('should process jobs with the given processors', (done) => {
+      const processor = (_, complete: () => void) => {
+        complete();
+        done();
+      };
+
+      Test.createTestingModule({
         imports: [
           BullModule.registerQueue({
-            name: 'full_flow',
+            name: queueName,
             redis: {
               host: '0.0.0.0',
               port: 6380,
             },
-            processors: [fakeProcessor],
+            processors: [processor],
           }),
         ],
-      }).compile();
-    });
-    afterAll(async () => {
-      await testingModule.close();
-    });
-
-    it('should process jobs with the given processors', async () => {
-      const queue = testingModule.get<Queue>(getQueueToken('full_flow'));
-
-      await queue.add(null);
-      return new Promise<void>((resolve) => {
-        setTimeout(() => {
-          expect(fakeProcessor).toHaveBeenCalledTimes(1);
-          resolve();
-        }, 1000);
-      });
+      })
+        .compile()
+        .then(async (testingModule) => {
+          const queue = testingModule.get<Queue>(getQueueToken(queueName));
+          const job = await queue.add({ test: true });
+          await job.finished();
+          await testingModule.close();
+        });
     });
   });
 
