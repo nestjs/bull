@@ -220,7 +220,10 @@ describe('BullModule', () => {
             imports: [
               BullModule.forRootAsync({
                 useFactory: () => ({
-                  redis: 'redis://0.0.0.0:6380',
+                  redis: {
+                    host: '0.0.0.0',
+                    port: 6380,
+                  },
                 }),
               }),
               BullModule.registerQueueAsync({
