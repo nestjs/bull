@@ -5,7 +5,6 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
-  setupFiles: ['<rootDir>/setup-jest.js'],
   testRegex: '/lib/.*\\.(test|spec).(ts|tsx|js)$',
   collectCoverageFrom: [
     'lib/**/*.{js,jsx,tsx,ts}',
