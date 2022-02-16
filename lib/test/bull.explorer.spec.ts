@@ -1,5 +1,7 @@
+import { DiscoveryModule } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Test, TestingModule } from '@nestjs/testing';
+import { BullMetadataAccessor } from '../bull-metadata.accessor';
 import { BullExplorer } from '../bull.explorer';
 import { BullModule } from '../bull.module';
 import { getQueueToken } from '../utils';
@@ -10,9 +12,8 @@ describe('BullExplorer', () => {
 
   beforeAll(async () => {
     moduleRef = await Test.createTestingModule({
-      imports: [
-        BullModule.registerQueue({ name: 'test', redis: { port: 6380 } }),
-      ],
+      imports: [DiscoveryModule],
+      providers: [BullExplorer, BullMetadataAccessor],
     }).compile();
 
     bullExplorer = moduleRef.get(BullExplorer);
@@ -105,13 +106,7 @@ describe('BullExplorer', () => {
       const queue = { on: jest.fn() } as any;
       const opts = { eventName: 'test' } as any;
       const wrapper = new InstanceWrapper();
-      bullExplorer.handleListener(
-        instance,
-        'handler',
-        wrapper,
-        queue,
-        opts,
-      );
+      bullExplorer.handleListener(instance, 'handler', wrapper, queue, opts);
       expect(queue.on).toHaveBeenCalledWith(
         opts.eventName,
         expect.any(Function),
