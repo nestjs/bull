@@ -1,9 +1,8 @@
-import { flatten, OnApplicationShutdown, Provider } from '@nestjs/common';
-import * as Bull from 'bull';
-import { Queue } from 'bull';
+import { flatten, OnApplicationShutdown, Provider, Type } from '@nestjs/common';
+import { Queue, Worker } from 'bullmq';
 import { BullQueueProcessor } from './bull.types';
 import { createConditionalDepHolder, IConditionalDepHolder } from './helpers';
-import { BullModuleOptions } from './interfaces/bull-module-options.interface';
+import { RegisterQueueOptions } from './interfaces/register-queue-options.interface';
 import {
   getQueueOptionsToken,
   getQueueToken,
@@ -16,39 +15,59 @@ import {
   isSeparateProcessor,
 } from './utils/helpers';
 
-function buildQueue(options: BullModuleOptions): Queue {
-  const queueName = options.name ? options.name : 'default';
-  const queue: Queue =
-    typeof options?.redis === 'string'
-      ? new Bull(queueName, options.redis, options)
-      : new Bull(queueName, options);
+function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
+  options: RegisterQueueOptions,
+  queueClass: Type<TQueue>,
+  workerClass: Type<TWorker>,
+): TQueue {
+  const queueName = options.name ?? 'default';
+  const queue = new queueClass(queueName, options);
 
+  let workerRefs: TWorker[] = [];
   if (options.processors) {
-    options.processors.forEach((processor: BullQueueProcessor) => {
-      let args = [];
+    workerRefs = options.processors.map((processor: BullQueueProcessor) => {
       if (isAdvancedProcessor(processor)) {
-        args.push(processor.name, processor.concurrency, processor.callback);
+        const { callback, ...processorOptions } = processor;
+        return new workerClass(queueName, callback, {
+          connection: options.connection,
+          sharedConnection: options.sharedConnection,
+          prefix: options.prefix,
+          ...processorOptions,
+        });
       } else if (isAdvancedSeparateProcessor(processor)) {
-        args.push(processor.name, processor.concurrency, processor.path);
+        const { path, ...processorOptions } = processor;
+        return new workerClass(queueName, path, {
+          connection: options.connection,
+          sharedConnection: options.sharedConnection,
+          prefix: options.prefix,
+          ...processorOptions,
+        });
       } else if (isSeparateProcessor(processor)) {
-        args.push(processor);
+        return new workerClass(queueName, processor, {
+          connection: options.connection,
+          sharedConnection: options.sharedConnection,
+          prefix: options.prefix,
+        });
       } else if (isProcessorCallback(processor)) {
-        args.push(processor);
+        return new workerClass(queueName, processor, {
+          connection: options.connection,
+          sharedConnection: options.sharedConnection,
+          prefix: options.prefix,
+        });
       }
-      args = args.filter((arg) => typeof arg !== 'undefined');
-      queue.process.call(queue, ...args);
     });
   }
-  (queue as unknown as OnApplicationShutdown).onApplicationShutdown = function (
-    this: Queue,
-  ) {
-    return this.close();
-  };
+  (queue as unknown as OnApplicationShutdown).onApplicationShutdown =
+    async function (this: Queue) {
+      const closeWorkers = workerRefs.map((worker) => worker.close());
+      await Promise.all(closeWorkers);
+      return this.close();
+    };
   return queue;
 }
 
 export function createQueueOptionProviders(
-  options: BullModuleOptions[],
+  options: RegisterQueueOptions[],
 ): Provider[] {
   const providers = options.map((option) => {
     const optionalSharedConfigHolder = createConditionalDepHolder(
@@ -58,7 +77,7 @@ export function createQueueOptionProviders(
       optionalSharedConfigHolder,
       {
         provide: getQueueOptionsToken(option.name),
-        useFactory: (optionalDepHolder: IConditionalDepHolder<Bull.Queue>) => {
+        useFactory: (optionalDepHolder: IConditionalDepHolder<Queue>) => {
           return {
             ...optionalDepHolder.getDependencyRef(option.name),
             ...option,
@@ -71,12 +90,23 @@ export function createQueueOptionProviders(
   return flatten(providers);
 }
 
-export function createQueueProviders(options: BullModuleOptions[]): Provider[] {
+export function createQueueProviders<
+  TQueue = Queue,
+  TWorker extends Worker = Worker,
+>(
+  options: RegisterQueueOptions[],
+  queueClass: Type<TQueue>,
+  workerClass: Type<TWorker>,
+): Provider[] {
   return options.map((option) => ({
     provide: getQueueToken(option.name),
-    useFactory: (o: BullModuleOptions) => {
+    useFactory: (o: RegisterQueueOptions) => {
       const queueName = o.name || option.name;
-      return buildQueue({ ...o, name: queueName });
+      return createQueueAndWorkers(
+        { ...o, name: queueName },
+        queueClass,
+        workerClass,
+      );
     },
     inject: [getQueueOptionsToken(option.name)],
   }));

@@ -1,4 +1,4 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit, Type } from '@nestjs/common';
 import {
   createContextId,
   DiscoveryService,
@@ -8,17 +8,26 @@ import {
 import { Injector } from '@nestjs/core/injector/injector';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Module } from '@nestjs/core/injector/module';
-import { Job, Processor, Queue, Worker } from 'bullmq';
+import { Processor, Queue, QueueEvents, Worker, WorkerOptions } from 'bullmq';
+import { OnQueueEventMetadata, OnWorkerEventMetadata } from '.';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
 import { NO_QUEUE_FOUND } from './bull.messages';
-import { BullQueueEventOptions } from './bull.types';
-import { ProcessOptions } from './decorators';
+import {
+  InvalidProcessorClassError,
+  InvalidQueueEventsListenerClassError,
+} from './errors';
+import { QueueEventsHost, WorkerHost } from './hosts';
 import { getQueueToken } from './utils';
 
 @Injectable()
 export class BullExplorer implements OnModuleInit {
+  private static _workerClass: Type = Worker;
   private readonly logger = new Logger('BullModule');
   private readonly injector = new Injector();
+
+  static set workerClass(cls: Type) {
+    this._workerClass = cls;
+  }
 
   constructor(
     private readonly moduleRef: ModuleRef,
@@ -28,14 +37,15 @@ export class BullExplorer implements OnModuleInit {
   ) {}
 
   onModuleInit() {
-    this.explore();
+    this.registerWorkers();
+    this.registerQueueEventListeners();
   }
 
-  explore() {
-    const providers: InstanceWrapper[] = this.discoveryService
+  registerWorkers() {
+    const processors: InstanceWrapper[] = this.discoveryService
       .getProviders()
       .filter((wrapper: InstanceWrapper) =>
-        this.metadataAccessor.isQueueComponent(
+        this.metadataAccessor.isProcessor(
           // NOTE: Regarding the ternary statement below,
           // - The condition `!wrapper.metatype` is because when we use `useValue`
           // the value of `wrapper.metatype` will be `null`.
@@ -54,43 +64,34 @@ export class BullExplorer implements OnModuleInit {
         ),
       );
 
-    providers.forEach((wrapper: InstanceWrapper) => {
+    processors.forEach((wrapper: InstanceWrapper) => {
       const { instance, metatype } = wrapper;
       const isRequestScoped = !wrapper.isDependencyTreeStatic();
-      const { name: queueName } =
-        this.metadataAccessor.getQueueComponentMetadata(
-          // NOTE: We are relying on `instance.constructor` to properly support
-          // `useValue` and `useFactory` providers besides `useClass`.
-          instance.constructor || metatype,
-        );
+      const { name: queueName } = this.metadataAccessor.getProcessorMetadata(
+        // NOTE: We are relying on `instance.constructor` to properly support
+        // `useValue` and `useFactory` providers besides `useClass`.
+        instance.constructor || metatype,
+      );
 
       const queueToken = getQueueToken(queueName);
       const bullQueue = this.getQueue(queueToken, queueName);
 
-      this.metadataScanner.scanFromPrototype(
-        instance,
-        Object.getPrototypeOf(instance),
-        (key: string) => {
-          if (this.metadataAccessor.isProcessor(instance[key])) {
-            const metadata = this.metadataAccessor.getProcessMetadata(
-              instance[key],
-            );
-            this.handleProcessor(
-              instance,
-              key,
-              bullQueue,
-              wrapper.host,
-              isRequestScoped,
-              metadata,
-            );
-          } else if (this.metadataAccessor.isListener(instance[key])) {
-            const metadata = this.metadataAccessor.getListenerMetadata(
-              instance[key],
-            );
-            this.handleListener(instance, key, wrapper, bullQueue, metadata);
-          }
-        },
-      );
+      if (!(instance instanceof WorkerHost)) {
+        throw new InvalidProcessorClassError(instance.constructor?.name);
+      } else {
+        const workerOptions = this.metadataAccessor.getWorkerOptionsMetadata(
+          instance.constructor,
+        );
+        this.handleProcessor(
+          instance,
+          bullQueue,
+          wrapper.host,
+          isRequestScoped,
+          workerOptions,
+        );
+      }
+
+      this.registerWorkerEventListeners(wrapper);
     });
   }
 
@@ -103,14 +104,14 @@ export class BullExplorer implements OnModuleInit {
     }
   }
 
-  handleProcessor(
-    instance: object,
-    key: string,
+  handleProcessor<T extends WorkerHost>(
+    instance: T,
     queue: Queue,
     moduleRef: Module,
     isRequestScoped: boolean,
-    options: ProcessOptions = {},
+    options: WorkerOptions = {},
   ) {
+    const methodKey = 'process';
     let processor: Processor<any, void, string>;
 
     if (isRequestScoped) {
@@ -130,52 +131,135 @@ export class BullExplorer implements OnModuleInit {
           moduleRef.providers,
           contextId,
         );
-        return contextInstance[key].call(contextInstance, ...args);
+        return contextInstance[methodKey].call(contextInstance, ...args);
       };
     } else {
-      processor = instance[key].bind(instance);
+      processor = instance[methodKey].bind(instance);
     }
-    // @todo how to react to events?
-    new Worker(queue.name, processor, options);
-
-    // await worker.close();?
-
-    // Sandboxed processors?
-
-    // pausing workers? https://docs.bullmq.io/guide/workers/pausing-queues
-
-    // WorkerPro, QueuePro - ability to pass custom ctors
+    const worker = new BullExplorer._workerClass(
+      queue.name,
+      processor,
+      options,
+    );
+    (instance as any).worker = worker;
   }
 
-  handleListener(
-    instance: object,
+  registerWorkerEventListeners(wrapper: InstanceWrapper) {
+    const { instance } = wrapper;
+
+    this.metadataScanner.scanFromPrototype(
+      instance,
+      Object.getPrototypeOf(instance),
+      (key: string) => {
+        const workerEventHandlerMetadata =
+          this.metadataAccessor.getOnWorkerEventMetadata(instance[key]);
+        if (workerEventHandlerMetadata) {
+          this.handleWorkerEvents(key, wrapper, workerEventHandlerMetadata);
+        }
+      },
+    );
+  }
+
+  handleWorkerEvents(
     key: string,
     wrapper: InstanceWrapper,
-    queue: Queue,
-    options: BullQueueEventOptions,
+    options: OnWorkerEventMetadata,
   ) {
+    const { instance } = wrapper;
+
     if (!wrapper.isDependencyTreeStatic()) {
       this.logger.warn(
         `Warning! "${wrapper.name}" class is request-scoped and it defines an event listener ("${wrapper.name}#${key}"). Since event listeners cannot be registered on scoped providers, this handler will be ignored.`,
       );
       return;
     }
-    if (options.name || options.id) {
-      queue.on(
-        options.eventName,
-        async (jobOrJobId: Job | string, ...args: unknown[]) => {
-          const job =
-            typeof jobOrJobId === 'string'
-              ? (await queue.getJob(jobOrJobId)) || { name: false, id: false }
-              : jobOrJobId;
+    instance.worker.on(options.eventName, instance[key].bind(instance));
+  }
 
-          if (job.name === options.name || job.id === options.id) {
-            return instance[key].apply(instance, [job, ...args]);
-          }
-        },
+  registerQueueEventListeners() {
+    const eventListeners: InstanceWrapper[] = this.discoveryService
+      .getProviders()
+      .filter((wrapper: InstanceWrapper) =>
+        this.metadataAccessor.isQueueEventsListener(
+          // NOTE: Regarding the ternary statement below,
+          // - The condition `!wrapper.metatype` is because when we use `useValue`
+          // the value of `wrapper.metatype` will be `null`.
+          // - The condition `wrapper.inject` is needed here because when we use
+          // `useFactory`, the value of `wrapper.metatype` will be the supplied
+          // factory function.
+          // For both cases, we should use `wrapper.instance.constructor` instead
+          // of `wrapper.metatype` to resolve processor's class properly.
+          // But since calling `wrapper.instance` could degrade overall performance
+          // we must defer it as much we can. But there's no other way to grab the
+          // right class that could be annotated with `@Processor()` decorator
+          // without using this property.
+          !wrapper.metatype || wrapper.inject
+            ? wrapper.instance?.constructor
+            : wrapper.metatype,
+        ),
       );
-    } else {
-      queue.on(options.eventName, instance[key].bind(instance));
-    }
+
+    eventListeners.forEach((wrapper: InstanceWrapper) => {
+      const { instance, metatype } = wrapper;
+      if (!wrapper.isDependencyTreeStatic()) {
+        this.logger.warn(
+          `Warning! "${wrapper.name}" class is request-scoped and it is flagged as an event listener. Since event listeners cannot be registered on scoped providers, this handler will be ignored.`,
+        );
+        return;
+      }
+
+      const { queueName, queueEventsOptions } =
+        this.metadataAccessor.getQueueEventsListenerMetadata(
+          // NOTE: We are relying on `instance.constructor` to properly support
+          // `useValue` and `useFactory` providers besides `useClass`.
+          instance.constructor || metatype,
+        );
+
+      const queueToken = getQueueToken(queueName);
+      const bullQueue = this.getQueue(queueToken, queueName);
+
+      if (!(instance instanceof QueueEventsHost)) {
+        throw new InvalidQueueEventsListenerClassError(
+          instance.constructor?.name,
+        );
+      } else {
+        const queueEventsInstance = new QueueEvents(queueName, {
+          connection: bullQueue.opts.connection,
+          prefix: bullQueue.opts.prefix,
+          sharedConnection: bullQueue.opts.sharedConnection,
+          ...queueEventsOptions,
+        });
+        (instance as any).queueEvents = queueEventsInstance;
+
+        this.metadataScanner.scanFromPrototype(
+          instance,
+          Object.getPrototypeOf(instance),
+          (key: string) => {
+            const queueEventHandlerMetadata =
+              this.metadataAccessor.getOnQueueEventMetadata(instance[key]);
+            if (queueEventHandlerMetadata) {
+              this.handleQueueEvents(
+                key,
+                wrapper,
+                queueEventsInstance,
+                queueEventHandlerMetadata,
+              );
+            }
+          },
+        );
+      }
+    });
+  }
+
+  handleQueueEvents(
+    key: string,
+    wrapper: InstanceWrapper,
+    queueEventsInstance: QueueEvents,
+    options: OnQueueEventMetadata,
+  ) {
+    const { eventName } = options;
+    const { instance } = wrapper;
+
+    queueEventsInstance.on(eventName, instance[key].bind(instance));
   }
 }

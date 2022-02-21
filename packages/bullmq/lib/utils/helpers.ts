@@ -6,7 +6,7 @@ import {
 import {
   BullQueueAdvancedProcessor,
   BullQueueAdvancedSeparateProcessor,
-} from '../interfaces/bull.interfaces';
+} from '../interfaces/bull-processor.interfaces';
 
 export function isProcessorCallback(
   processor: BullQueueProcessor,

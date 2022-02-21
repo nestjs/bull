@@ -1,3 +1,6 @@
-export const BULL_MODULE_QUEUE = '__bull_module_queue';
-export const BULL_MODULE_QUEUE_PROCESS = '__bull_module_queue_process';
-export const BULL_MODULE_ON_QUEUE_EVENT = '__bull_module_on_queue_event';
+export const PROCESSOR_METADATA = 'bullmq:processor_metadata';
+export const WORKER_METADATA = 'bullmq:worker_metadata';
+export const QUEUE_EVENTS_LISTENER_METADATA =
+  'bullmq:queue_events_listener_metadata';
+export const ON_QUEUE_EVENT_METADATA = 'bullmq:queue_events_metadata';
+export const ON_WORKER_EVENT_METADATA = 'bullmq:worker_events_metadata';

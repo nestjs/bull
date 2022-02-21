@@ -1,6 +1,6 @@
 import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
-import * as Bull from 'bull';
+import { Queue, QueueOptions, Worker } from 'bullmq';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
 import { BullExplorer } from './bull.explorer';
 import {
@@ -16,31 +16,52 @@ import {
   SharedBullConfigurationFactory,
 } from './interfaces';
 import {
-  BullModuleAsyncOptions,
-  BullModuleOptions,
-  BullOptionsFactory,
-} from './interfaces/bull-module-options.interface';
+  RegisterQueueAsyncOptions,
+  RegisterQueueOptions,
+  RegisterQueueOptionsFactory,
+} from './interfaces/register-queue-options.interface';
 import { getSharedConfigToken } from './utils';
 import { getQueueOptionsToken } from './utils/get-queue-options-token.util';
 
 @Module({})
 export class BullModule {
+  private static _queueClass: Type = Queue;
+  private static _workerClass: Type = Worker;
+
+  /**
+   * Class to be used to create Bull queues.
+   * This configuration property can be used to instruct the "@nestjs/bullmq"
+   * package to use, for example, "QueuePro" class (from "BullMQ Pro").
+   * @default Queue
+   */
+  static set queueClass(cls: Type) {
+    this._queueClass = cls;
+  }
+
+  /**
+   * Class to be used to create Bull workers.
+   * This configuration property can be used to instruct the "@nestjs/bullmq"
+   * package to use, for example, "WorkerPro" class (from "BullMQ Pro").
+   * @default Worker
+   */
+  static set workerClass(cls: Type) {
+    BullExplorer.workerClass = cls;
+    this._workerClass = cls;
+  }
+
   /**
    * Registers a globally available configuration for all queues.
    *
    * @param bullConfig shared bull configuration object
    */
-  static forRoot(bullConfig: Bull.QueueOptions): DynamicModule;
+  static forRoot(bullConfig: QueueOptions): DynamicModule;
   /**
    * Registers a globally available configuration under a specified "configKey".
    *
    * @param configKey a key under which the configuration should be available
    * @param sharedBullConfig shared bull configuration object
    */
-  static forRoot(
-    configKey: string,
-    bullConfig: Bull.QueueOptions,
-  ): DynamicModule;
+  static forRoot(configKey: string, bullConfig: QueueOptions): DynamicModule;
   /**
    * Registers a globally available configuration for all queues
    * or using a specified "configKey" (if passed).
@@ -49,8 +70,8 @@ export class BullModule {
    * @param bullConfig bull configuration object
    */
   static forRoot(
-    keyOrConfig: string | Bull.QueueOptions,
-    bullConfig?: Bull.QueueOptions,
+    keyOrConfig: string | QueueOptions,
+    bullConfig?: QueueOptions,
   ): DynamicModule {
     const [configKey, sharedBullConfig] =
       typeof keyOrConfig === 'string'
@@ -119,8 +140,12 @@ export class BullModule {
     };
   }
 
-  static registerQueue(...options: BullModuleOptions[]): DynamicModule {
-    const queueProviders = createQueueProviders([].concat(options));
+  static registerQueue(...options: RegisterQueueOptions[]): DynamicModule {
+    const queueProviders = createQueueProviders(
+      [].concat(options),
+      this._queueClass,
+      this._workerClass,
+    );
     const queueOptionProviders = createQueueOptionProviders([].concat(options));
     return {
       module: BullModule,
@@ -131,13 +156,17 @@ export class BullModule {
   }
 
   static registerQueueAsync(
-    ...options: BullModuleAsyncOptions[]
+    ...options: RegisterQueueAsyncOptions[]
   ): DynamicModule {
     const optionsArr = [].concat(options);
-    const queueProviders = createQueueProviders(optionsArr);
+    const queueProviders = createQueueProviders(
+      optionsArr,
+      this._queueClass,
+      this._workerClass,
+    );
     const imports = this.getUniqImports(optionsArr);
     const asyncQueueOptionsProviders = options
-      .map(queueOptions => this.createAsyncProviders(queueOptions))
+      .map((queueOptions) => this.createAsyncProviders(queueOptions))
       .reduce((a, b) => a.concat(b), []);
 
     return {
@@ -149,7 +178,7 @@ export class BullModule {
   }
 
   private static createAsyncProviders(
-    options: BullModuleAsyncOptions,
+    options: RegisterQueueAsyncOptions,
   ): Provider[] {
     const optionalSharedConfigHolder = createConditionalDepHolder(
       getSharedConfigToken(options.configKey),
@@ -165,7 +194,7 @@ export class BullModule {
       // fallback to the "registerQueue" in case someone accidentally used the "registerQueueAsync" instead
       return createQueueOptionProviders([options]);
     }
-    const useClass = options.useClass as Type<BullOptionsFactory>;
+    const useClass = options.useClass as Type<RegisterQueueOptionsFactory>;
     return [
       optionalSharedConfigHolder,
       this.createAsyncOptionsProvider(options, optionalSharedConfigHolder),
@@ -177,16 +206,14 @@ export class BullModule {
   }
 
   private static createAsyncOptionsProvider(
-    asyncOptions: BullModuleAsyncOptions,
-    optionalSharedConfigHolderRef: Type<
-      IConditionalDepHolder<Bull.QueueOptions>
-    >,
+    asyncOptions: RegisterQueueAsyncOptions,
+    optionalSharedConfigHolderRef: Type<IConditionalDepHolder<QueueOptions>>,
   ): Provider {
     if (asyncOptions.useFactory) {
       return {
         provide: getQueueOptionsToken(asyncOptions.name),
         useFactory: async (
-          optionalDepHolder: IConditionalDepHolder<Bull.QueueOptions>,
+          optionalDepHolder: IConditionalDepHolder<QueueOptions>,
           ...factoryArgs: unknown[]
         ) => {
           return {
@@ -199,19 +226,18 @@ export class BullModule {
     }
     // `as Type<BullOptionsFactory>` is a workaround for microsoft/TypeScript#31603
     const inject = [
-      (asyncOptions.useClass || asyncOptions.useExisting) as Type<
-        BullOptionsFactory
-      >,
+      (asyncOptions.useClass ||
+        asyncOptions.useExisting) as Type<RegisterQueueOptionsFactory>,
     ];
     return {
       provide: getQueueOptionsToken(asyncOptions.name),
       useFactory: async (
-        optionalDepHolder: IConditionalDepHolder<Bull.QueueOptions>,
-        optionsFactory: BullOptionsFactory,
+        optionalDepHolder: IConditionalDepHolder<QueueOptions>,
+        optionsFactory: RegisterQueueOptionsFactory,
       ) => {
         return {
           ...optionalDepHolder.getDependencyRef(asyncOptions.name),
-          ...(await optionsFactory.createBullOptions()),
+          ...(await optionsFactory.createRegisterQueueOptions()),
         };
       },
       inject: [optionalSharedConfigHolderRef, ...inject],
@@ -248,9 +274,8 @@ export class BullModule {
     }
     // `as Type<SharedBullConfigurationFactory>` is a workaround for microsoft/TypeScript#31603
     const inject = [
-      (options.useClass || options.useExisting) as Type<
-        SharedBullConfigurationFactory
-      >,
+      (options.useClass ||
+        options.useExisting) as Type<SharedBullConfigurationFactory>,
     ];
     return {
       provide: getSharedConfigToken(configKey),
@@ -270,11 +295,11 @@ export class BullModule {
   }
 
   private static getUniqImports(
-    options: Array<BullModuleAsyncOptions | SharedBullAsyncConfiguration>,
+    options: Array<RegisterQueueAsyncOptions | SharedBullAsyncConfiguration>,
   ) {
     return (
       options
-        .map(option => option.imports)
+        .map((option) => option.imports)
         .reduce((acc, i) => acc.concat(i || []), [])
         .filter((v, i, a) => a.indexOf(v) === i) || []
     );

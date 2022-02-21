@@ -3,6 +3,9 @@
   "references": [
     {
       "path": "./bull/tsconfig.build.json",
+    },
+    {
+      "path": "./bullmq/tsconfig.build.json",
     }
   ]
 }
