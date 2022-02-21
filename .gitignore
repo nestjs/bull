@@ -9,12 +9,12 @@ node_modules
 # misc
 npm-debug.log
 .DS_Store
+tsconfig.build.tsbuildinfo
 
 # tests
-/test
-/coverage
+coverage
 /.nyc_output
 
 # dist
-/dist
+dist
 cc-test-reporter

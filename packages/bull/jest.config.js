@@ -14,4 +14,9 @@ module.exports = {
   ],
   coverageReporters: ['lcov'],
   coverageDirectory: 'coverage/unit',
+  "globals": {
+    "ts-jest": {
+      "tsconfig": "<rootDir>/tsconfig.spec.json"
+    }
+  }
 };

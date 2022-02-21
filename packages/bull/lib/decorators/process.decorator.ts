@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { isString } from 'util';
+import { isString } from '@nestjs/common/utils/shared.utils';
 import { BULL_MODULE_QUEUE_PROCESS } from '../bull.constants';
 
 export interface ProcessOptions {
