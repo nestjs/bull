@@ -17,6 +17,7 @@
   },
   "license": "MIT",
   "scripts": {
+    "prepare": "husky install",
     "build": "tsc -b -v packages",
     "changelog": "lerna-changelog",
     "clean": "tsc -b --clean packages",
