@@ -1,10 +1,11 @@
 import { flatten, OnApplicationShutdown, Provider, Type } from '@nestjs/common';
-import { Queue, Worker } from 'bullmq';
+import { Queue, QueueScheduler, Worker } from 'bullmq';
 import { BullQueueProcessor } from './bull.types';
 import { createConditionalDepHolder, IConditionalDepHolder } from './helpers';
 import { RegisterQueueOptions } from './interfaces/register-queue-options.interface';
 import {
   getQueueOptionsToken,
+  getQueueSchedulerToken,
   getQueueToken,
   getSharedConfigToken,
 } from './utils';
@@ -98,16 +99,38 @@ export function createQueueProviders<
   queueClass: Type<TQueue>,
   workerClass: Type<TWorker>,
 ): Provider[] {
-  return options.map((option) => ({
-    provide: getQueueToken(option.name),
-    useFactory: (o: RegisterQueueOptions) => {
-      const queueName = o.name || option.name;
+  const queueProviders = options.map((item) => ({
+    provide: getQueueToken(item.name),
+    useFactory: (queueOptions: RegisterQueueOptions) => {
+      const queueName = queueOptions.name || item.name;
       return createQueueAndWorkers(
-        { ...o, name: queueName },
+        { ...queueOptions, name: queueName },
         queueClass,
         workerClass,
       );
     },
-    inject: [getQueueOptionsToken(option.name)],
+    inject: [getQueueOptionsToken(item.name)],
   }));
+  return queueProviders;
+}
+
+export function createQueueSchedulerProviders(
+  options: RegisterQueueOptions[],
+): Provider[] {
+  const queueSchedulerProviders = options.map((item) => ({
+    provide: getQueueSchedulerToken(item.name),
+    useFactory: (queueOptions: RegisterQueueOptions) => {
+      const queueName = queueOptions.name || item.name;
+      const queueScheduler = new QueueScheduler(queueName, queueOptions);
+      (
+        queueScheduler as unknown as OnApplicationShutdown
+      ).onApplicationShutdown = async function (this: QueueScheduler) {
+        return this.close();
+      };
+      return queueScheduler;
+    },
+    inject: [getQueueOptionsToken(item.name)],
+  }));
+
+  return queueSchedulerProviders;
 }

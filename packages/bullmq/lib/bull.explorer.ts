@@ -136,12 +136,13 @@ export class BullExplorer implements OnModuleInit {
     } else {
       processor = instance[methodKey].bind(instance);
     }
-    const worker = new BullExplorer._workerClass(
-      queue.name,
-      processor,
-      options,
-    );
-    (instance as any).worker = worker;
+    const worker = new BullExplorer._workerClass(queue.name, processor, {
+      connection: queue.opts?.connection,
+      sharedConnection: queue.opts?.sharedConnection,
+      prefix: queue.opts?.prefix,
+      ...options,
+    });
+    (instance as any)._worker = worker;
   }
 
   registerWorkerEventListeners(wrapper: InstanceWrapper) {
@@ -229,7 +230,7 @@ export class BullExplorer implements OnModuleInit {
           sharedConnection: bullQueue.opts.sharedConnection,
           ...queueEventsOptions,
         });
-        (instance as any).queueEvents = queueEventsInstance;
+        (instance as any)._queueEvents = queueEventsInstance;
 
         this.metadataScanner.scanFromPrototype(
           instance,

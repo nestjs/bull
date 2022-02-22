@@ -6,6 +6,7 @@ import { BullExplorer } from './bull.explorer';
 import {
   createQueueOptionProviders,
   createQueueProviders,
+  createQueueSchedulerProviders,
 } from './bull.providers';
 import {
   createConditionalDepHolder,
@@ -141,16 +142,23 @@ export class BullModule {
   }
 
   static registerQueue(...options: RegisterQueueOptions[]): DynamicModule {
+    const optionsArr = [].concat(options);
     const queueProviders = createQueueProviders(
-      [].concat(options),
+      optionsArr,
       this._queueClass,
       this._workerClass,
     );
-    const queueOptionProviders = createQueueOptionProviders([].concat(options));
+    const queueSchedulerProviders = createQueueSchedulerProviders(optionsArr);
+    const queueOptionProviders = createQueueOptionProviders(optionsArr);
+
     return {
       module: BullModule,
       imports: [BullModule.registerCore()],
-      providers: [...queueOptionProviders, ...queueProviders],
+      providers: [
+        ...queueOptionProviders,
+        ...queueProviders,
+        ...queueSchedulerProviders,
+      ],
       exports: queueProviders,
     };
   }
@@ -164,6 +172,8 @@ export class BullModule {
       this._queueClass,
       this._workerClass,
     );
+    const queueSchedulerProviders = createQueueSchedulerProviders(optionsArr);
+
     const imports = this.getUniqImports(optionsArr);
     const asyncQueueOptionsProviders = options
       .map((queueOptions) => this.createAsyncProviders(queueOptions))
@@ -172,7 +182,11 @@ export class BullModule {
     return {
       imports: imports.concat(BullModule.registerCore()),
       module: BullModule,
-      providers: [...asyncQueueOptionsProviders, ...queueProviders],
+      providers: [
+        ...asyncQueueOptionsProviders,
+        ...queueProviders,
+        ...queueSchedulerProviders,
+      ],
       exports: queueProviders,
     };
   }
