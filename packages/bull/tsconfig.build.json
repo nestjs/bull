@@ -2,7 +2,15 @@
   "extends": "../tsconfig.build.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./lib"
+    "rootDir": "./lib",
+    "paths": {
+      "@nestjs/bull-internal": ["../bull-internal/lib"]
+    }
   },
+  "references": [
+    {
+      "path": "../bull-internal/tsconfig.build.json"
+    }
+  ],
   "exclude": ["node_modules", "dist", "e2e/**/*", "**/*.spec.ts"]
 }

@@ -1,20 +1,19 @@
+import {
+  createConditionalDepHolder,
+  getQueueOptionsToken,
+  getQueueToken,
+  getSharedConfigToken,
+  IConditionalDepHolder,
+} from '@nestjs/bull-internal';
 import { flatten, OnApplicationShutdown, Provider } from '@nestjs/common';
 import * as Bull from 'bull';
 import { Queue } from 'bull';
 import { BullQueueProcessor } from './bull.types';
-import { createConditionalDepHolder, IConditionalDepHolder } from './helpers';
 import { BullModuleOptions } from './interfaces/bull-module-options.interface';
-import {
-  getQueueOptionsToken,
-  getQueueToken,
-  getSharedConfigToken,
-} from './utils';
-import {
-  isAdvancedProcessor,
-  isAdvancedSeparateProcessor,
-  isProcessorCallback,
-  isSeparateProcessor,
-} from './utils/helpers';
+import { isAdvancedProcessor } from './utils/is-advanced-processor.util';
+import { isAdvancedSeparateProcessor } from './utils/is-advanced-separate-processor.util';
+import { isProcessorCallback } from './utils/is-processor-callback.util';
+import { isSeparateProcessor } from './utils/is-separate-processor.util';
 
 function buildQueue(options: BullModuleOptions): Queue {
   const queueName = options.name ? options.name : 'default';

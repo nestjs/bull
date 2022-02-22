@@ -1,3 +1,9 @@
+import {
+  createConditionalDepHolder,
+  getQueueOptionsToken,
+  getSharedConfigToken,
+  IConditionalDepHolder,
+} from '@nestjs/bull-internal';
 import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
 import * as Bull from 'bull';
@@ -8,10 +14,6 @@ import {
   createQueueProviders,
 } from './bull.providers';
 import {
-  createConditionalDepHolder,
-  IConditionalDepHolder,
-} from './helpers/create-conditional-dep-holder.helper';
-import {
   SharedBullAsyncConfiguration,
   SharedBullConfigurationFactory,
 } from './interfaces';
@@ -20,8 +22,6 @@ import {
   BullModuleOptions,
   BullOptionsFactory,
 } from './interfaces/bull-module-options.interface';
-import { getSharedConfigToken } from './utils';
-import { getQueueOptionsToken } from './utils/get-queue-options-token.util';
 
 @Module({})
 export class BullModule {
@@ -137,7 +137,7 @@ export class BullModule {
     const queueProviders = createQueueProviders(optionsArr);
     const imports = this.getUniqImports(optionsArr);
     const asyncQueueOptionsProviders = options
-      .map(queueOptions => this.createAsyncProviders(queueOptions))
+      .map((queueOptions) => this.createAsyncProviders(queueOptions))
       .reduce((a, b) => a.concat(b), []);
 
     return {
@@ -199,9 +199,8 @@ export class BullModule {
     }
     // `as Type<BullOptionsFactory>` is a workaround for microsoft/TypeScript#31603
     const inject = [
-      (asyncOptions.useClass || asyncOptions.useExisting) as Type<
-        BullOptionsFactory
-      >,
+      (asyncOptions.useClass ||
+        asyncOptions.useExisting) as Type<BullOptionsFactory>,
     ];
     return {
       provide: getQueueOptionsToken(asyncOptions.name),
@@ -248,9 +247,8 @@ export class BullModule {
     }
     // `as Type<SharedBullConfigurationFactory>` is a workaround for microsoft/TypeScript#31603
     const inject = [
-      (options.useClass || options.useExisting) as Type<
-        SharedBullConfigurationFactory
-      >,
+      (options.useClass ||
+        options.useExisting) as Type<SharedBullConfigurationFactory>,
     ];
     return {
       provide: getSharedConfigToken(configKey),
@@ -274,7 +272,7 @@ export class BullModule {
   ) {
     return (
       options
-        .map(option => option.imports)
+        .map((option) => option.imports)
         .reduce((acc, i) => acc.concat(i || []), [])
         .filter((v, i, a) => a.indexOf(v) === i) || []
     );

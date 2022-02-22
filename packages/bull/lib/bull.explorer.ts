@@ -1,14 +1,18 @@
+import { getQueueToken, NO_QUEUE_FOUND } from '@nestjs/bull-internal';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { createContextId, DiscoveryService, MetadataScanner, ModuleRef } from '@nestjs/core';
+import {
+  createContextId,
+  DiscoveryService,
+  MetadataScanner,
+  ModuleRef,
+} from '@nestjs/core';
 import { Injector } from '@nestjs/core/injector/injector';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Module } from '@nestjs/core/injector/module';
 import { Job, ProcessCallbackFunction, Queue } from 'bull';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
-import { NO_QUEUE_FOUND } from './bull.messages';
 import { BullQueueEventOptions } from './bull.types';
 import { ProcessOptions } from './decorators';
-import { getQueueToken } from './utils';
 
 @Injectable()
 export class BullExplorer implements OnModuleInit {
@@ -52,9 +56,7 @@ export class BullExplorer implements OnModuleInit {
     providers.forEach((wrapper: InstanceWrapper) => {
       const { instance, metatype } = wrapper;
       const isRequestScoped = !wrapper.isDependencyTreeStatic();
-      const {
-        name: queueName,
-      } =
+      const { name: queueName } =
         this.metadataAccessor.getQueueComponentMetadata(
           // NOTE: We are relying on `instance.constructor` to properly support
           // `useValue` and `useFactory` providers besides `useClass`.

@@ -1,3 +1,4 @@
+import { getQueueToken, NO_QUEUE_FOUND } from '@nestjs/bull-internal';
 import { Injectable, Logger, OnModuleInit, Type } from '@nestjs/common';
 import {
   createContextId,
@@ -11,13 +12,11 @@ import { Module } from '@nestjs/core/injector/module';
 import { Processor, Queue, QueueEvents, Worker, WorkerOptions } from 'bullmq';
 import { OnQueueEventMetadata, OnWorkerEventMetadata } from '.';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
-import { NO_QUEUE_FOUND } from './bull.messages';
 import {
   InvalidProcessorClassError,
   InvalidQueueEventsListenerClassError,
 } from './errors';
 import { QueueEventsHost, WorkerHost } from './hosts';
-import { getQueueToken } from './utils';
 
 @Injectable()
 export class BullExplorer implements OnModuleInit {

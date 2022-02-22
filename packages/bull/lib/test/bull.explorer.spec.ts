@@ -1,10 +1,10 @@
+import { getQueueToken } from '@nestjs/bull-internal';
 import { DiscoveryModule } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Test, TestingModule } from '@nestjs/testing';
 import { BullMetadataAccessor } from '../bull-metadata.accessor';
 import { BullExplorer } from '../bull.explorer';
 import { BullModule } from '../bull.module';
-import { getQueueToken } from '../utils';
 
 describe('BullExplorer', () => {
   let bullExplorer: BullExplorer;

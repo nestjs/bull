@@ -4,6 +4,9 @@
     "outDir": "./dist/tests",
     "types": ["jest", "node"],
     "rootDir": ".",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@nestjs/bull-internal": ["../bull-internal/lib"]
+    }
   }
 }

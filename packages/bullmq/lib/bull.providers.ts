@@ -1,14 +1,15 @@
+import {
+  createConditionalDepHolder,
+  getQueueOptionsToken,
+  getQueueToken,
+  getSharedConfigToken,
+  IConditionalDepHolder,
+} from '@nestjs/bull-internal';
 import { flatten, OnApplicationShutdown, Provider, Type } from '@nestjs/common';
 import { Queue, QueueScheduler, Worker } from 'bullmq';
 import { BullQueueProcessor } from './bull.types';
-import { createConditionalDepHolder, IConditionalDepHolder } from './helpers';
 import { RegisterQueueOptions } from './interfaces/register-queue-options.interface';
-import {
-  getQueueOptionsToken,
-  getQueueSchedulerToken,
-  getQueueToken,
-  getSharedConfigToken,
-} from './utils';
+import { getQueueSchedulerToken } from './utils/get-queue-scheduler-token.util';
 import {
   isAdvancedProcessor,
   isAdvancedSeparateProcessor,

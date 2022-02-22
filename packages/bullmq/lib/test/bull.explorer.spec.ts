@@ -1,3 +1,4 @@
+import { getQueueToken } from '@nestjs/bull-internal';
 import { DiscoveryModule } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Job, Queue } from 'bullmq';
@@ -10,7 +11,7 @@ import {
 import { BullMetadataAccessor } from '../bull-metadata.accessor';
 import { BullExplorer } from '../bull.explorer';
 import { BullModule } from '../bull.module';
-import { getQueueSchedulerToken, getQueueToken } from '../utils';
+import { getQueueSchedulerToken } from '../utils';
 
 const workerCtorSpy = jest.fn();
 const queueEventsSpy = jest.fn();

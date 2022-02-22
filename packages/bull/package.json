@@ -22,7 +22,7 @@
   },
   "scripts": {
     "test": "jest --detectOpenHandles --coverage",
-    "test:e2e": "jest --config=e2e/jest-e2e.json --detectOpenHandles --runInBand"
+    "test:e2e": "jest --config=e2e/jest-e2e.config.ts --detectOpenHandles --runInBand"
   },
   "devDependencies": {
     "@nestjs/common": "8.3.0",

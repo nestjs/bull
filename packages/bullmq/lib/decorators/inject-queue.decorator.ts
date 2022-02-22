@@ -1,5 +1,5 @@
+import { getQueueToken } from '@nestjs/bull-internal';
 import { Inject } from '@nestjs/common';
-import { getQueueToken } from '../utils';
 
 /**
  * Injects Bull's queue instance with the given name

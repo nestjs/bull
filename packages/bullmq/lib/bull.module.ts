@@ -1,3 +1,9 @@
+import {
+  createConditionalDepHolder,
+  getQueueOptionsToken,
+  getSharedConfigToken,
+  IConditionalDepHolder,
+} from '@nestjs/bull-internal';
 import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
 import { Queue, QueueOptions, Worker } from 'bullmq';
@@ -9,10 +15,6 @@ import {
   createQueueSchedulerProviders,
 } from './bull.providers';
 import {
-  createConditionalDepHolder,
-  IConditionalDepHolder,
-} from './helpers/create-conditional-dep-holder.helper';
-import {
   SharedBullAsyncConfiguration,
   SharedBullConfigurationFactory,
 } from './interfaces';
@@ -21,8 +23,6 @@ import {
   RegisterQueueOptions,
   RegisterQueueOptionsFactory,
 } from './interfaces/register-queue-options.interface';
-import { getSharedConfigToken } from './utils';
-import { getQueueOptionsToken } from './utils/get-queue-options-token.util';
 
 @Module({})
 export class BullModule {
