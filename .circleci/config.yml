@@ -64,6 +64,9 @@ jobs:
             node -v
             nvm alias default v16
       - run:
+          name: Install Yarn
+          command: npm install -g yarn
+      - run:
           name: Install Docker Compose
           command: |
             curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
