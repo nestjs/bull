@@ -3,7 +3,7 @@ import {
   getQueueOptionsToken,
   getSharedConfigToken,
   IConditionalDepHolder,
-} from '@nestjs/bull-internal';
+} from '@nestjs/bull-shared';
 import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
 import * as Bull from 'bull';

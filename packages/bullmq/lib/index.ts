@@ -4,7 +4,7 @@ export {
   getQueueToken,
   getSharedConfigToken,
   JOB_REF,
-} from '@nestjs/bull-internal';
+} from '@nestjs/bull-shared';
 export * from './bull.module';
 export * from './bull.types';
 export * from './decorators';

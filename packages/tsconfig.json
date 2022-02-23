@@ -8,7 +8,7 @@
       "path": "./bullmq/tsconfig.build.json",
     },
     {
-      "path": "./bull-internal/tsconfig.build.json",
+      "path": "./bull-shared/tsconfig.build.json",
     }
   ]
 }

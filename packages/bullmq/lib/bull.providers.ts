@@ -4,7 +4,7 @@ import {
   getQueueToken,
   getSharedConfigToken,
   IConditionalDepHolder,
-} from '@nestjs/bull-internal';
+} from '@nestjs/bull-shared';
 import { flatten, OnApplicationShutdown, Provider, Type } from '@nestjs/common';
 import { Queue, QueueScheduler, Worker } from 'bullmq';
 import { BullQueueProcessor } from './bull.types';

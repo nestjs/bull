@@ -3,7 +3,7 @@
   "compilerOptions": {
     "types": ["node"],
     "paths": {
-      "@nestjs/bull-internal": ["../bull-internal/lib"]
+      "@nestjs/bull-shared": ["../bull-shared/lib"]
     }
   },
   "files": [],

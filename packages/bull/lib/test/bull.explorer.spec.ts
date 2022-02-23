@@ -1,4 +1,4 @@
-import { getQueueToken } from '@nestjs/bull-internal';
+import { getQueueToken } from '@nestjs/bull-shared';
 import { DiscoveryModule } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Test, TestingModule } from '@nestjs/testing';

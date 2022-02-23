@@ -1,4 +1,4 @@
-import { getQueueToken } from '@nestjs/bull-internal';
+import { getQueueToken } from '@nestjs/bull-shared';
 import { Inject } from '@nestjs/common';
 
 /**

@@ -4,12 +4,12 @@
     "outDir": "./dist",
     "rootDir": "./lib",
     "paths": {
-      "@nestjs/bull-internal": ["../bull-internal/lib"]
+      "@nestjs/bull-shared": ["../bull-shared/lib"]
     }
   },
   "references": [
     {
-      "path": "../bull-internal/tsconfig.build.json"
+      "path": "../bull-shared/tsconfig.build.json"
     }
   ],
   "exclude": ["node_modules", "dist", "e2e/**/*", "**/*.spec.ts", "jest.config.ts"]

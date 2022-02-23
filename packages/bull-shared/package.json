@@ -1,8 +1,7 @@
 {
-  "name": "@nestjs/bull-internal",
+  "name": "@nestjs/bull-shared",
   "version": "0.0.1",
-  "description": "Nest - modern, fast, powerful node.js web framework (@bull-internal)",
-  "author": "Kamil Mysliwiec",
+  "description": "Nest - modern, fast, powerful node.js web framework (@bull-shared)",
   "homepage": "https://github.com/nestjs/bull",
   "bugs": {
     "url": "https://github.com/nestjs/bull/issues"
@@ -12,11 +11,9 @@
     "url": "git+https://github.com/nestjs/bull.git"
   },
   "license": "MIT",
+  "author": "Kamil Mysliwiec",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {},
   "devDependencies": {
     "@nestjs/common": "8.3.0",
@@ -25,5 +22,8 @@
   "peerDependencies": {
     "@nestjs/common": "^6.10.11 || ^7.0.0 || ^8.0.0",
     "@nestjs/core": "^6.10.11 || ^7.0.0 || ^8.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

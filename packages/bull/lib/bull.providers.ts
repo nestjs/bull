@@ -4,7 +4,7 @@ import {
   getQueueToken,
   getSharedConfigToken,
   IConditionalDepHolder,
-} from '@nestjs/bull-internal';
+} from '@nestjs/bull-shared';
 import { flatten, OnApplicationShutdown, Provider } from '@nestjs/common';
 import * as Bull from 'bull';
 import { Queue } from 'bull';
