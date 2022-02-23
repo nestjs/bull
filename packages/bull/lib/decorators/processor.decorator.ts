@@ -13,8 +13,19 @@ export interface ProcessorOptions {
   scope?: Scope;
 }
 
+/**
+ * Represents a worker that is able to process jobs from the queue.
+ */
 export function Processor(): ClassDecorator;
+/**
+ * Represents a worker that is able to process jobs from the queue.
+ * @param queueName queue name
+ */
 export function Processor(queueName: string): ClassDecorator;
+/**
+ * Represents a worker that is able to process jobs from the queue.
+ * @param processorOptions processor options
+ */
 export function Processor(processorOptions: ProcessorOptions): ClassDecorator;
 export function Processor(
   queueNameOrOptions?: string | ProcessorOptions,
