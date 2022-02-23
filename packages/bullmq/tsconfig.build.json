@@ -12,5 +12,5 @@
       "path": "../bull-internal/tsconfig.build.json"
     }
   ],
-  "exclude": ["node_modules", "dist", "e2e/**/*", "**/*.spec.ts"]
+  "exclude": ["node_modules", "dist", "e2e/**/*", "**/*.spec.ts", "jest.config.ts"]
 }
