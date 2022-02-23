@@ -3,11 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "description": "Nest - modern, fast, powerful node.js web framework. Bull monorepo",
-  "author": "Kamil Mysliwiec",
   "homepage": "https://github.com/nestjs/bull",
-  "workspaces": [
-    "packages/*"
-  ],
   "bugs": {
     "url": "https://github.com/nestjs/bull/issues"
   },
@@ -16,27 +12,26 @@
     "url": "git+https://github.com/nestjs/bull.git"
   },
   "license": "MIT",
+  "author": "Kamil Mysliwiec",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "prepare": "husky install",
     "build": "tsc -b -v packages",
     "changelog": "lerna-changelog",
     "clean": "tsc -b --clean packages",
+    "commitlint": "commitlint -c .commitlintrc.json -E HUSKY_GIT_PARAMS",
     "format": "prettier packages/**/*.ts --ignore-path ./.prettierignore --write",
     "lint": "eslint 'packages/**/*.ts' --fix",
-    "prepublish:npm": "yarn build && yarn changelog | pbcopy",
-    "publish:npm": "lerna publish",
+    "prepare": "husky install",
     "prepublish:next": "yarn build",
     "publish:next": "lerna publish --dist-tag next",
+    "prepublish:npm": "yarn build && yarn changelog | pbcopy",
+    "publish:npm": "lerna publish",
     "test": "lerna run test --parallel",
     "test:dev": "lerna run test:dev --parallel",
     "test:e2e": "lerna run test:e2e --stream",
     "test:e2e:dev": "lerna run test:e2e:dev --stream"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -c .commitlintrc.json -E HUSKY_GIT_PARAMS"
-    }
   },
   "lint-staged": {
     "*.ts": [
