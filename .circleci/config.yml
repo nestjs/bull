@@ -3,15 +3,23 @@ version: 2
 aliases:
   - &restore-cache
     restore_cache:
-        key: dependency-cache-{{ checksum "package.json" }}
+        name: Restore Yarn Package Cache
+        keys:
+          - yarn-packages-{{ checksum "yarn.lock" }}
   - &install-deps
     run:
-        name: Install dependencies
-        command: npm ci
+        name: Install Dependencies
+        command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
   - &build-packages
     run:
         name: Build
-        command: npm run build
+        command: yarn build
+  - &save-cache
+    save_cache:
+        name: Save Yarn Package Cache
+        key: yarn-packages-{{ checksum "yarn.lock" }}
+        paths:
+          - ~/.cache/yarn
 
 jobs:
   build:
@@ -20,21 +28,12 @@ jobs:
       - image: circleci/node:17
     steps:
       - checkout
-      - run:
-          name: Update NPM version
-          command: 'sudo npm install -g npm@latest'
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: Install dependencies
-          command: npm ci
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
+      - *restore-cache
+      - *install-deps
+      - *save-cache
       - run:
           name: Build
-          command: npm run build    
+          command: yarn build     
 
   unit_tests:
     working_directory: ~/nest
@@ -46,7 +45,7 @@ jobs:
       - *install-deps
       - run:
           name: Unit tests
-          command: npm run test
+          command: yarn test
 
   integration_tests:
     working_directory: ~/nest
@@ -61,9 +60,9 @@ jobs:
       - run: 
           name: Upgrade Node.js
           command: |
-            nvm install v12
+            nvm install v16
             node -v
-            nvm alias default v12
+            nvm alias default v16
       - run:
           name: Install Docker Compose
           command: |
@@ -81,7 +80,7 @@ jobs:
           command: docker ps
       - run:
           name: e2e tests
-          command: npm run test:e2e
+          command: yarn test:e2e
 
 workflows:
   version: 2
