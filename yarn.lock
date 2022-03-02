@@ -5157,7 +5157,7 @@ kleur@^3.0.3:
   resolved "https://registry.npmjs.org/kleur/-/kleur-3.0.3.tgz"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-lerna-changelog@^2.2.0:
+lerna-changelog@2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/lerna-changelog/-/lerna-changelog-2.2.0.tgz#c43813bba81e30cdeb20aabaef4da390f0f38e41"
   integrity sha512-yjYNAHrbnw8xYFKmYWJEP52Tk4xSdlNmzpYr26+3glbSGDmpe8UMo8f9DlEntjGufL+opup421oVTXcLshwAaQ==
