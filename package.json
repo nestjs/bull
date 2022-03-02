@@ -1,7 +1,8 @@
 {
-  "name": "@nestjs/bull",
-  "version": "0.5.0",
-  "description": "Nest - modern, fast, powerful node.js web framework (@bull)",
+  "name": "@nestjs/bull-workspace",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Nest - modern, fast, powerful node.js web framework. Bull monorepo",
   "homepage": "https://github.com/nestjs/bull",
   "bugs": {
     "url": "https://github.com/nestjs/bull/issues"
@@ -11,34 +12,29 @@
     "url": "git+https://github.com/nestjs/bull.git"
   },
   "license": "MIT",
-  "contributors": [
-    "Frederic Woelffel <hello@fwoelffel.me>",
-    "Kamil Mysliwiec <mail@kamilmysliwiec.com>"
+  "author": "Kamil Mysliwiec",
+  "workspaces": [
+    "packages/*"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rimraf -rf dist && tsc -p tsconfig.json",
-    "format": "prettier --write **/*.{ts,json}",
-    "lint": "eslint \"lib/**/*.ts\" --fix",
-    "prepublish:next": "npm run build",
-    "publish:next": "npm publish --access public --tag next",
-    "prepublish:npm": "npm run build",
-    "publish:npm": "npm publish --access public",
-    "prerelease": "npm run build",
-    "release": "release-it",
-    "sample-app": "ts-node --require tsconfig-paths/register --project sample/tsconfig.json sample/main.ts",
-    "test": "jest --detectOpenHandles --coverage",
-    "test:e2e": "jest --config=jest-e2e.config.js --detectOpenHandles --coverage --runInBand"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -c .commitlintrc.json -E HUSKY_GIT_PARAMS"
-    }
+    "build": "tsc -b -v packages",
+    "changelog": "lerna-changelog",
+    "clean": "tsc -b --clean packages",
+    "commitlint": "commitlint -c .commitlintrc.json -E HUSKY_GIT_PARAMS",
+    "format": "prettier packages/**/*.ts --ignore-path ./.prettierignore --write",
+    "lint": "eslint 'packages/**/*.ts' --fix",
+    "prepare": "husky install",
+    "prepublish:next": "yarn build",
+    "publish:next": "lerna publish --dist-tag next",
+    "prepublish:npm": "yarn build && yarn changelog | pbcopy",
+    "publish:npm": "lerna publish",
+    "test": "lerna run test --parallel",
+    "test:dev": "lerna run test:dev --parallel",
+    "test:e2e": "lerna run test:e2e --stream",
+    "test:e2e:dev": "lerna run test:e2e:dev --stream"
   },
   "lint-staged": {
-    "*.{ts}": [
+    "*.ts": [
       "prettier --write"
     ],
     "package.json": [
@@ -49,38 +45,21 @@
     "@commitlint/cli": "16.2.1",
     "@commitlint/config-angular": "16.2.1",
     "@commitlint/config-conventional": "16.2.1",
-    "@nestjs/common": "8.4.0",
-    "@nestjs/core": "8.4.0",
-    "@nestjs/platform-express": "8.4.0",
-    "@nestjs/testing": "8.4.0",
-    "@types/bull": "3.15.8",
-    "@types/jest": "27.4.1",
-    "@types/node": "16.11.26",
-    "@types/reflect-metadata": "0.1.0",
     "@typescript-eslint/eslint-plugin": "5.13.0",
     "@typescript-eslint/parser": "5.13.0",
-    "bull": "4.7.0",
     "eslint": "8.10.0",
     "eslint-config-prettier": "8.4.0",
     "eslint-plugin-import": "2.25.4",
     "husky": "7.0.4",
     "jest": "27.5.1",
+    "lerna": "^4.0.0",
     "lint-staged": "12.3.4",
     "prettier": "2.5.1",
-    "reflect-metadata": "0.1.13",
-    "release-it": "14.12.5",
     "rimraf": "3.0.2",
-    "rxjs": "7.5.4",
     "sort-package-json": "1.54.0",
     "ts-jest": "27.1.3",
     "ts-node": "10.6.0",
     "tsconfig-paths": "3.12.0",
-    "tslint": "6.1.3",
     "typescript": "4.6.2"
-  },
-  "peerDependencies": {
-    "@nestjs/common": "^6.10.11 || ^7.0.0 || ^8.0.0",
-    "@nestjs/core": "^6.10.11 || ^7.0.0 || ^8.0.0",
-    "bull": "^3.3 || ^4.0.0"
   }
 }

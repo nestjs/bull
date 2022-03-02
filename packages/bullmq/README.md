@@ -22,16 +22,9 @@
 
 ## Description
 
-Monorepo containing Nest modules for [Bull](https://github.com/OptimalBits/bull) and [BullMQ](https://github.com/taskforcesh/bullmq) packages.
+[BullMQ](https://github.com/taskforcesh/bullmq) module for [Nest](https://github.com/nestjs/nest).
 
-## Installation (Bull)
-
-```bash
-$ npm i --save @nestjs/bull bull
-$ npm i --save-dev @types/bull
-```
-
-## Installation (BullMQ)
+## Installation
 
 ```bash
 $ npm i --save @nestjs/bullmq bullmq
@@ -47,8 +40,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## People
 
-- Maintainers - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Contributors - [Frederic Woelffel](https://fwoelffel.me)
+- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
 - Website - [https://nestjs.com](https://nestjs.com/)
 
 ## License

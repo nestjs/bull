@@ -1,24 +1,24 @@
 # source
-e2e/
-lib/
+packages/**/e2e/
+packages/**/lib/
 .idea/
-coverage/
+coverage
 
 # config
 tsconfig.json
-tslint.json
+tsconfig.build.json
+tsconfig.spec.json
 .prettierignore
 .prettierrc
-.travis.yml
 docker-compose.yml
-jest.config.js
-jest-e2e.config.js
 renovate.json
-sample.tsconfig.json
 cc-test-reporter
+lerna.json
+.eslintignore
+.eslintrc.js
+.commitlintrc.json
 
 # misc
-sample/
 .circleci/
 .github/
-FUNDING.yml
+yarn.lock

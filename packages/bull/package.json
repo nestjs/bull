@@ -1,0 +1,45 @@
+{
+  "name": "@nestjs/bull",
+  "version": "0.5.0",
+  "description": "Nest - modern, fast, powerful node.js web framework (@bull)",
+  "homepage": "https://github.com/nestjs/bull",
+  "bugs": {
+    "url": "https://github.com/nestjs/bull/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nestjs/bull.git"
+  },
+  "license": "MIT",
+  "contributors": [
+    "Frederic Woelffel <hello@fwoelffel.me>",
+    "Kamil Mysliwiec <mail@kamilmysliwiec.com>"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "jest --detectOpenHandles --coverage",
+    "test:e2e": "jest --config=e2e/jest-e2e.config.ts --detectOpenHandles --runInBand"
+  },
+  "devDependencies": {
+    "@nestjs/common": "8.3.0",
+    "@nestjs/core": "8.3.0",
+    "@nestjs/platform-express": "8.3.0",
+    "@nestjs/testing": "8.3.0",
+    "@types/bull": "3.15.8",
+    "@types/jest": "^27.4.0",
+    "@types/node": "16.11.25",
+    "@types/reflect-metadata": "0.1.0",
+    "bull": "4.5.5",
+    "reflect-metadata": "0.1.13",
+    "rxjs": "7.5.4"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^6.10.11 || ^7.0.0 || ^8.0.0",
+    "@nestjs/core": "^6.10.11 || ^7.0.0 || ^8.0.0",
+    "bull": "^3.3 || ^4.0.0"
+  }
+}

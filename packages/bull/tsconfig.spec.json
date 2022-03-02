@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/tests",
+    "types": ["jest", "node"],
+    "rootDir": ".",
+    "resolveJsonModule": true,
+    "paths": {
+      "@nestjs/bull-shared": ["../bull-shared/lib"]
+    }
+  }
+}
