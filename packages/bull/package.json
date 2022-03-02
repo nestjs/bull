@@ -17,12 +17,12 @@
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
-    "test": "jest --detectOpenHandles --coverage",
+    "test": "jest --detectOpenHandles",
     "test:e2e": "jest --config=e2e/jest-e2e.config.ts --detectOpenHandles --runInBand"
+  },
+  "dependencies": {
+    "@nestjs/bull-shared": "0.0.1"
   },
   "devDependencies": {
     "@nestjs/common": "8.3.0",
@@ -41,5 +41,8 @@
     "@nestjs/common": "^6.10.11 || ^7.0.0 || ^8.0.0",
     "@nestjs/core": "^6.10.11 || ^7.0.0 || ^8.0.0",
     "bull": "^3.3 || ^4.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

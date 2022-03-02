@@ -2,7 +2,6 @@
   "name": "@nestjs/bullmq",
   "version": "0.0.1",
   "description": "Nest - modern, fast, powerful node.js web framework (@bullmq)",
-  "author": "Kamil Mysliwiec",
   "homepage": "https://github.com/nestjs/bull",
   "bugs": {
     "url": "https://github.com/nestjs/bull/issues"
@@ -12,14 +11,15 @@
     "url": "git+https://github.com/nestjs/bull.git"
   },
   "license": "MIT",
+  "author": "Kamil Mysliwiec",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
-    "test": "jest --detectOpenHandles --coverage",
+    "test": "jest --detectOpenHandles",
     "test:e2e": "jest --config=e2e/jest-e2e.config.ts --detectOpenHandles --runInBand"
+  },
+  "dependencies": {
+    "@nestjs/bull-shared": "0.0.1"
   },
   "devDependencies": {
     "@nestjs/common": "8.3.0",
@@ -37,5 +37,8 @@
     "@nestjs/common": "^7.0.0 || ^8.0.0",
     "@nestjs/core": "^7.0.0 || ^8.0.0",
     "bullmq": "1.74.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
