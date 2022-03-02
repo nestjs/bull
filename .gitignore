@@ -10,6 +10,7 @@ node_modules
 npm-debug.log
 .DS_Store
 tsconfig.build.tsbuildinfo
+yarn-error.log
 
 # tests
 coverage
