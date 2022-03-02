@@ -59,7 +59,7 @@
     "@types/reflect-metadata": "0.1.0",
     "@typescript-eslint/eslint-plugin": "5.13.0",
     "@typescript-eslint/parser": "5.13.0",
-    "bull": "4.6.2",
+    "bull": "4.7.0",
     "eslint": "8.10.0",
     "eslint-config-prettier": "8.4.0",
     "eslint-plugin-import": "2.25.4",
