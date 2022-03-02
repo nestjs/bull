@@ -1,0 +1,10 @@
+# source
+lib
+e2e
+
+# config
+tsconfig.json
+tsconfig.build.json
+tsconfig.spec.json
+*.tsbuildinfo
+jest.config.ts

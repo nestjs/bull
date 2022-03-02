@@ -1,6 +1,6 @@
 # source
-packages/**/e2e/
-packages/**/lib/
+packages/**/e2e/**
+packages/**/lib/**
 .idea/
 coverage
 
