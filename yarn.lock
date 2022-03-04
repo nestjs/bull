@@ -2407,10 +2407,10 @@ bull@4.5.5:
     semver "^7.3.2"
     uuid "^8.3.0"
 
-bullmq@1.76.0:
-  version "1.76.0"
-  resolved "https://registry.npmjs.org/bullmq/-/bullmq-1.76.0.tgz"
-  integrity sha512-e9No/JiE7B+wnLsoZnVBLTKTfc1An3bnuIaWewhjDImYNFq5aU/YmzoCdJRgUXrRWGc3EnATFSOLHiEY6Z2FpA==
+bullmq@1.76.1:
+  version "1.76.1"
+  resolved "https://registry.npmjs.org/bullmq/-/bullmq-1.76.1.tgz"
+  integrity sha512-K+TAT2mbuDEz99IuC/rY+vwmA6jpUH0w5y61pdNx0xVdHdAWn6dd9Vs0MnCObZDHCdbNgGvFumfOjCzHjD4VVg==
   dependencies:
     cron-parser "^2.18.0"
     get-port "^5.1.1"
@@ -7587,15 +7587,10 @@ tslib@2.3.1, tslib@^2.1.0:
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.3.1.tgz"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
-tslib@^1.14.1:
+tslib@^1.14.1, tslib@^1.8.1, tslib@^1.9.0:
   version "1.14.1"
   resolved "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
-
-tslib@^1.8.1, tslib@^1.9.0:
-  version "1.10.0"
-  resolved "https://registry.npmjs.org/tslib/-/tslib-1.10.0.tgz"
-  integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
 
 tsutils@^3.21.0:
   version "3.21.0"
