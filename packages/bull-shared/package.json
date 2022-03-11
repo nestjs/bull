@@ -15,6 +15,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {},
+  "dependencies": {
+    "tslib": "2.3.1"
+  },
   "devDependencies": {
     "@nestjs/common": "8.3.0",
     "@nestjs/core": "8.3.0"
