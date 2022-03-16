@@ -56,7 +56,7 @@
     "lerna": "4.0.0",
     "lerna-changelog": "2.2.0",
     "lint-staged": "12.3.6",
-    "prettier": "2.5.1",
+    "prettier": "2.6.0",
     "rimraf": "3.0.2",
     "sort-package-json": "1.54.0",
     "ts-jest": "27.1.3",
