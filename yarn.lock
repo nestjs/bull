@@ -2392,15 +2392,15 @@ builtins@^1.0.3:
   resolved "https://registry.npmjs.org/builtins/-/builtins-1.0.3.tgz"
   integrity sha1-y5T662HIaWRR2zZTThQi+U8K7og=
 
-bull@4.5.5:
-  version "4.5.5"
-  resolved "https://registry.npmjs.org/bull/-/bull-4.5.5.tgz"
-  integrity sha512-4GX9zoDwkSgdITGWUWGb1kwddgffOyeTLxeBzANbXhBGFb5/HypwsMrInyWQ4GmpZG/oM3oQpUqr+KGX8s7K4Q==
+bull@4.8.0:
+  version "4.8.0"
+  resolved "https://registry.npmjs.org/bull/-/bull-4.8.0.tgz"
+  integrity sha512-XQ/wH9KOhapoQ1HZ2ZIxZFBWdaZD+cQNQtQDS6UTFjQDAcDcqByHT1MxTWW008ePgD4AXmLKEkU4wubS3NgQig==
   dependencies:
     cron-parser "^4.2.1"
     debuglog "^1.0.0"
     get-port "^5.1.1"
-    ioredis "^4.27.0"
+    ioredis "^4.28.5"
     lodash "^4.17.21"
     msgpackr "^1.5.2"
     p-timeout "^3.2.0"
@@ -4283,7 +4283,7 @@ internal-slot@^1.0.3:
     has "^1.0.3"
     side-channel "^1.0.4"
 
-ioredis@^4.27.0, ioredis@^4.28.2:
+ioredis@^4.28.2, ioredis@^4.28.5:
   version "4.28.5"
   resolved "https://registry.npmjs.org/ioredis/-/ioredis-4.28.5.tgz"
   integrity sha512-3GYo0GJtLqgNXj4YhrisLaNNvWSNwSS2wS4OELGfGxH8I69+XfNdnmV1AyN+ZqMh0i7eX+SWjrwFKDBDgfBC1A==
