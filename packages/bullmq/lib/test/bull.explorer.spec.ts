@@ -65,7 +65,13 @@ describe('BullExplorer', () => {
     it('should instantiate Bull worker based on the processor class', () => {
       const instance = new FixtureProcessor();
 
-      bullExplorer.handleProcessor(instance, queue as any, null, false);
+      bullExplorer.handleProcessor(
+        instance,
+        queueName,
+        queue.opts,
+        null,
+        false,
+      );
       expect(workerCtorSpy).toHaveBeenCalledWith(
         queueName,
         expect.any(Function),
@@ -87,7 +93,8 @@ describe('BullExplorer', () => {
 
       bullExplorer.handleProcessor(
         instance as any,
-        queue as any,
+        queueName,
+        queue.opts,
         null,
         false,
         workerOptions,
@@ -127,7 +134,9 @@ describe('BullExplorer', () => {
 
       bullExplorer = moduleRef.get(BullExplorer);
 
-      jest.spyOn(bullExplorer, 'getQueue').mockReturnValue(mockQueue as any);
+      jest
+        .spyOn(bullExplorer, 'getQueueOptions')
+        .mockReturnValue(mockQueue.opts);
       bullExplorer.registerQueueEventListeners();
 
       expect(queueEventsSpy).toHaveBeenCalledWith(
@@ -137,25 +146,32 @@ describe('BullExplorer', () => {
     });
   });
 
-  describe('getQueue', () => {
-    it('should return the queue matching the given token', async () => {
+  describe('getQueueOptions', () => {
+    it('should return options associated with the given queue', async () => {
       const queueToken = getQueueToken('test');
-      const fakeQueue = 'I am a fake queue';
-
+      const queueOptions = {
+        connection: {
+          host: 'localhost',
+          port: 65793,
+        },
+        sharedConnection: true,
+      };
       const moduleRef = await Test.createTestingModule({
-        imports: [BullModule.registerQueue({ name: 'test' })],
+        imports: [BullModule.registerQueue({ name: 'test', ...queueOptions })],
       })
         .overrideProvider(queueToken)
-        .useValue(fakeQueue)
+        .useValue({
+          opts: queueOptions,
+        })
         .overrideProvider(getQueueSchedulerToken('test'))
         .useValue(null)
         .compile();
 
       const explorer = moduleRef.get(BullExplorer);
 
-      const queue = explorer.getQueue(queueToken, 'test');
-      expect(queue).toBeDefined();
-      expect(queue).toBe(fakeQueue);
+      const queueOpts = explorer.getQueueOptions(queueToken, 'test');
+      expect(queueOpts).toBeDefined();
+      expect(queueOpts).toEqual(queueOptions);
 
       await moduleRef.close();
     });

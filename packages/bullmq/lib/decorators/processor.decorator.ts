@@ -12,6 +12,10 @@ export interface ProcessorOptions {
    * Specifies the lifetime of an injected Processor.
    */
   scope?: Scope;
+  /**
+   * A key (configuration key) under which the queue/connection configuration should be available.
+   */
+  configKey?: string;
 }
 
 /**

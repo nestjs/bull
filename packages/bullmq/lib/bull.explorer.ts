@@ -1,4 +1,8 @@
-import { getQueueToken, NO_QUEUE_FOUND } from '@nestjs/bull-shared';
+import {
+  getQueueToken,
+  getSharedConfigToken,
+  NO_QUEUE_FOUND,
+} from '@nestjs/bull-shared';
 import { Injectable, Logger, OnModuleInit, Type } from '@nestjs/common';
 import {
   createContextId,
@@ -9,7 +13,14 @@ import {
 import { Injector } from '@nestjs/core/injector/injector';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Module } from '@nestjs/core/injector/module';
-import { Processor, Queue, QueueEvents, Worker, WorkerOptions } from 'bullmq';
+import {
+  Processor,
+  Queue,
+  QueueEvents,
+  QueueOptions,
+  Worker,
+  WorkerOptions,
+} from 'bullmq';
 import { OnQueueEventMetadata, OnWorkerEventMetadata } from '.';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
 import {
@@ -66,14 +77,15 @@ export class BullExplorer implements OnModuleInit {
     processors.forEach((wrapper: InstanceWrapper) => {
       const { instance, metatype } = wrapper;
       const isRequestScoped = !wrapper.isDependencyTreeStatic();
-      const { name: queueName } = this.metadataAccessor.getProcessorMetadata(
-        // NOTE: We are relying on `instance.constructor` to properly support
-        // `useValue` and `useFactory` providers besides `useClass`.
-        instance.constructor || metatype,
-      );
+      const { name: queueName, configKey } =
+        this.metadataAccessor.getProcessorMetadata(
+          // NOTE: We are relying on `instance.constructor` to properly support
+          // `useValue` and `useFactory` providers besides `useClass`.
+          instance.constructor || metatype,
+        );
 
       const queueToken = getQueueToken(queueName);
-      const bullQueue = this.getQueue(queueToken, queueName);
+      const queueOpts = this.getQueueOptions(queueToken, queueName, configKey);
 
       if (!(instance instanceof WorkerHost)) {
         throw new InvalidProcessorClassError(instance.constructor?.name);
@@ -83,7 +95,8 @@ export class BullExplorer implements OnModuleInit {
         );
         this.handleProcessor(
           instance,
-          bullQueue,
+          queueName,
+          queueOpts,
           wrapper.host,
           isRequestScoped,
           workerOptions,
@@ -94,18 +107,27 @@ export class BullExplorer implements OnModuleInit {
     });
   }
 
-  getQueue(queueToken: string, queueName: string): Queue {
+  getQueueOptions(queueToken: string, queueName: string, configKey?: string) {
     try {
-      return this.moduleRef.get<Queue>(queueToken, { strict: false });
+      const queueRef = this.moduleRef.get<Queue>(queueToken, { strict: false });
+      return queueRef.opts ?? {};
     } catch (err) {
-      this.logger.error(NO_QUEUE_FOUND(queueName));
-      throw err;
+      const sharedConfigToken = getSharedConfigToken(configKey);
+      try {
+        return this.moduleRef.get<QueueOptions>(sharedConfigToken, {
+          strict: false,
+        });
+      } catch (err) {
+        this.logger.error(NO_QUEUE_FOUND(queueName));
+        throw err;
+      }
     }
   }
 
   handleProcessor<T extends WorkerHost>(
     instance: T,
-    queue: Queue,
+    queueName: string,
+    queueOpts: QueueOptions,
     moduleRef: Module,
     isRequestScoped: boolean,
     options: WorkerOptions = {},
@@ -135,10 +157,10 @@ export class BullExplorer implements OnModuleInit {
     } else {
       processor = instance[methodKey].bind(instance);
     }
-    const worker = new BullExplorer._workerClass(queue.name, processor, {
-      connection: queue.opts?.connection,
-      sharedConnection: queue.opts?.sharedConnection,
-      prefix: queue.opts?.prefix,
+    const worker = new BullExplorer._workerClass(queueName, processor, {
+      connection: queueOpts.connection,
+      sharedConnection: queueOpts.sharedConnection,
+      prefix: queueOpts.prefix,
       ...options,
     });
     (instance as any)._worker = worker;
@@ -216,7 +238,7 @@ export class BullExplorer implements OnModuleInit {
         );
 
       const queueToken = getQueueToken(queueName);
-      const bullQueue = this.getQueue(queueToken, queueName);
+      const queueOpts = this.getQueueOptions(queueToken, queueName);
 
       if (!(instance instanceof QueueEventsHost)) {
         throw new InvalidQueueEventsListenerClassError(
@@ -224,9 +246,9 @@ export class BullExplorer implements OnModuleInit {
         );
       } else {
         const queueEventsInstance = new QueueEvents(queueName, {
-          connection: bullQueue.opts.connection,
-          prefix: bullQueue.opts.prefix,
-          sharedConnection: bullQueue.opts.sharedConnection,
+          connection: queueOpts.connection,
+          prefix: queueOpts.prefix,
+          sharedConnection: queueOpts.sharedConnection,
           ...queueEventsOptions,
         });
         (instance as any)._queueEvents = queueEventsInstance;
