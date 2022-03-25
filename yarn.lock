@@ -1414,20 +1414,20 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
-"@nestjs/common@8.4.2":
-  version "8.4.2"
-  resolved "https://registry.npmjs.org/@nestjs/common/-/common-8.4.2.tgz"
-  integrity sha512-l5CTBvW7PaqZPHRwtLU7G0NK2XBLQZL8jnvH0ArGGduljb5MpgsXwgDt8OYlc5m50IGBL/2j70Cad3CEpKcLUA==
+"@nestjs/common@8.4.3":
+  version "8.4.3"
+  resolved "https://registry.npmjs.org/@nestjs/common/-/common-8.4.3.tgz"
+  integrity sha512-QIhWykB7IPOwHQB/K9wMwmQKibQ5dhg9dt8ySOoD36uFFwN3RJQelzMFF9Rtu7hrMPk6pSyismEUKQ8BZMUD9w==
   dependencies:
     axios "0.26.1"
     iterare "1.2.1"
     tslib "2.3.1"
     uuid "8.3.2"
 
-"@nestjs/core@8.4.2":
-  version "8.4.2"
-  resolved "https://registry.npmjs.org/@nestjs/core/-/core-8.4.2.tgz"
-  integrity sha512-TfDl9InVsMS1COT9839t2kvBGTIaD5X+SHrdH0PzcNqsnbXnk4oL06Mz+3Jl7PQwKG76zl98iiKcMNFg6ojnOw==
+"@nestjs/core@8.4.3":
+  version "8.4.3"
+  resolved "https://registry.npmjs.org/@nestjs/core/-/core-8.4.3.tgz"
+  integrity sha512-1etUwTR5jTCTcNh6MW1tFYrHMCvcdIzJ3Z9O9ETR8EYIsphhzsxxRCa0dfb9peKJEQpl6SkoGOILIFkxfokOPw==
   dependencies:
     "@nuxtjs/opencollective" "0.3.2"
     fast-safe-stringify "2.1.1"
@@ -1437,10 +1437,10 @@
     tslib "2.3.1"
     uuid "8.3.2"
 
-"@nestjs/platform-express@8.4.2":
-  version "8.4.2"
-  resolved "https://registry.npmjs.org/@nestjs/platform-express/-/platform-express-8.4.2.tgz"
-  integrity sha512-lvwit+wo17fRPNWcVkTdbAlq9qaQSXnf6prHuAHBJ8VjFFLoityDFy3wqgf397L+DXDSctLI7KF6+XWFWSTC1A==
+"@nestjs/platform-express@8.4.3":
+  version "8.4.3"
+  resolved "https://registry.npmjs.org/@nestjs/platform-express/-/platform-express-8.4.3.tgz"
+  integrity sha512-MXXaShhWRChf7jKBrvRKjCFX84ii/4245TcB8Gei7UAGzDRHbM08lpLXDR+wUUUtC8rN2gWu8d8IGptAnqMGpA==
   dependencies:
     body-parser "1.19.2"
     cors "2.8.5"
@@ -1448,10 +1448,10 @@
     multer "1.4.4"
     tslib "2.3.1"
 
-"@nestjs/testing@8.4.2":
-  version "8.4.2"
-  resolved "https://registry.npmjs.org/@nestjs/testing/-/testing-8.4.2.tgz"
-  integrity sha512-vb8sJTjdakqa9k5tMdcKJf8lG3TT7ekwaVbQ4FXGBjjYrriILYioQv23kkKrgOkT1HErUPdYAgeECw5qE8MIzg==
+"@nestjs/testing@8.4.3":
+  version "8.4.3"
+  resolved "https://registry.npmjs.org/@nestjs/testing/-/testing-8.4.3.tgz"
+  integrity sha512-6+b2UCObr5onv7TG398VUdkNeU9n+f+TeTvlzmZlp9LKIAS4ZxDxwpdLDl5m/AssdkaZpfb0u755BJfKP5wbNw==
   dependencies:
     optional "0.1.4"
     tslib "2.3.1"
