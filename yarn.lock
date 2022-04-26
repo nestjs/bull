@@ -1807,14 +1807,14 @@
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
 
 "@types/node@*", "@types/node@>=12":
-  version "17.0.27"
-  resolved "https://registry.npmjs.org/@types/node/-/node-17.0.27.tgz"
-  integrity sha512-4/Ke7bbWOasuT3kceBZFGakP1dYN2XFd8v2l9bqF2LNWrmeU07JLpp56aEeG6+Q3olqO5TvXpW0yaiYnZJ5CXg==
+  version "17.0.29"
+  resolved "https://registry.npmjs.org/@types/node/-/node-17.0.29.tgz"
+  integrity sha512-tx5jMmMFwx7wBwq/V7OohKDVb/JwJU5qCVkeLMh1//xycAJ/ESuw9aJ9SEtlCZDYi2pBfe4JkisSoAtbOsBNAA==
 
-"@types/node@16.11.29":
-  version "16.11.29"
-  resolved "https://registry.npmjs.org/@types/node/-/node-16.11.29.tgz"
-  integrity sha512-9dDdonLyPJQJ/kdOlDxAah+bTI+u2ccF3k62FErhquDuggoCX6piWez7j7o6yNE+rP2IRcZVQ6Tw4N0P38+rWA==
+"@types/node@16.11.31":
+  version "16.11.31"
+  resolved "https://registry.npmjs.org/@types/node/-/node-16.11.31.tgz"
+  integrity sha512-wh/d0pcu/Ie2mqTIqh4tjd0mLAB4JWxOjHQtLN20HS7sjMHiV4Afr+90hITTyZcxowwha5wjv32jGEn1zkEFMg==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
