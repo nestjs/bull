@@ -1,8 +1,4 @@
-import {
-  getQueueToken,
-  getSharedConfigToken,
-  NO_QUEUE_FOUND,
-} from '@nestjs/bull-shared';
+import { getQueueToken, NO_QUEUE_FOUND } from '@nestjs/bull-shared';
 import { Injectable, Logger, OnModuleInit, Type } from '@nestjs/common';
 import {
   createContextId,
@@ -21,13 +17,14 @@ import {
   Worker,
   WorkerOptions,
 } from 'bullmq';
-import { OnQueueEventMetadata, OnWorkerEventMetadata } from '.';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
+import { OnQueueEventMetadata, OnWorkerEventMetadata } from './decorators';
 import {
   InvalidProcessorClassError,
   InvalidQueueEventsListenerClassError,
 } from './errors';
 import { QueueEventsHost, WorkerHost } from './hosts';
+import { getSharedConfigToken } from './utils/get-shared-config-token.util';
 
 @Injectable()
 export class BullExplorer implements OnModuleInit {

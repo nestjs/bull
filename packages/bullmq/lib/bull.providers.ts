@@ -1,14 +1,17 @@
 import {
   createConditionalDepHolder,
-  getQueueOptionsToken,
   getQueueToken,
-  getSharedConfigToken,
   IConditionalDepHolder,
 } from '@nestjs/bull-shared';
 import { flatten, OnApplicationShutdown, Provider, Type } from '@nestjs/common';
 import { Queue, QueueScheduler, Worker } from 'bullmq';
 import { BullQueueProcessor } from './bull.types';
 import { RegisterQueueOptions } from './interfaces/register-queue-options.interface';
+import {
+  BULL_CONFIG_DEFAULT_TOKEN,
+  getQueueOptionsToken,
+  getSharedConfigToken,
+} from './utils';
 import { getQueueSchedulerToken } from './utils/get-queue-scheduler-token.util';
 import {
   isAdvancedProcessor,
@@ -74,6 +77,7 @@ export function createQueueOptionProviders(
   const providers = options.map((option) => {
     const optionalSharedConfigHolder = createConditionalDepHolder(
       getSharedConfigToken(option.configKey),
+      BULL_CONFIG_DEFAULT_TOKEN,
     );
     return [
       optionalSharedConfigHolder,

@@ -1,6 +1,5 @@
 import { Inject, mixin, Optional, Type } from '@nestjs/common';
 import { MissingBullSharedConfigurationError } from '../errors/missing-shared-bull-config.error';
-import { BULL_CONFIG_DEFAULT_TOKEN } from '../utils';
 
 export interface IConditionalDepHolder<T = any> {
   getDependencyRef(caller: string): T;
@@ -8,7 +7,7 @@ export interface IConditionalDepHolder<T = any> {
 
 export function createConditionalDepHolder<T = any>(
   depToken: string,
-  optionalDep = BULL_CONFIG_DEFAULT_TOKEN,
+  optionalDep: string,
   errorFactory = (caller: string) =>
     new MissingBullSharedConfigurationError(depToken, caller),
 ): Type<IConditionalDepHolder> {

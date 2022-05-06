@@ -1,7 +1,5 @@
 import {
   createConditionalDepHolder,
-  getQueueOptionsToken,
-  getSharedConfigToken,
   IConditionalDepHolder,
 } from '@nestjs/bull-shared';
 import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
@@ -22,6 +20,11 @@ import {
   BullModuleOptions,
   BullOptionsFactory,
 } from './interfaces/bull-module-options.interface';
+import {
+  BULL_CONFIG_DEFAULT_TOKEN,
+  getQueueOptionsToken,
+  getSharedConfigToken,
+} from './utils';
 
 @Module({})
 export class BullModule {
@@ -153,6 +156,7 @@ export class BullModule {
   ): Provider[] {
     const optionalSharedConfigHolder = createConditionalDepHolder(
       getSharedConfigToken(options.configKey),
+      BULL_CONFIG_DEFAULT_TOKEN,
     );
 
     if (options.useExisting || options.useFactory) {
