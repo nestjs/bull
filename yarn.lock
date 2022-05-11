@@ -2387,10 +2387,10 @@ bull@4.8.2:
     semver "^7.3.2"
     uuid "^8.3.0"
 
-bullmq@1.81.4:
-  version "1.81.4"
-  resolved "https://registry.npmjs.org/bullmq/-/bullmq-1.81.4.tgz"
-  integrity sha512-sUEWOMKZnWlh1/XNqYAoSwXW6P8nZN7uJiHKZ8XlZCiIxWlEGjFtlugkkiCZ0lsTI2nNRHdxfpn78x9K3L1utQ==
+bullmq@1.82.0:
+  version "1.82.0"
+  resolved "https://registry.npmjs.org/bullmq/-/bullmq-1.82.0.tgz"
+  integrity sha512-jKbmYS9+IQSubCk1FRYZRrhJxbzC5zWQjmHMBzF642YpyV360A0Lm2+oblfRX2D6cN0aDmjS8yfFcPl96b3Zcw==
   dependencies:
     cron-parser "^4.2.1"
     get-port "^5.1.1"
