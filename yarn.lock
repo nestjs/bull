@@ -2372,10 +2372,10 @@ builtins@^1.0.3:
   resolved "https://registry.npmjs.org/builtins/-/builtins-1.0.3.tgz"
   integrity sha1-y5T662HIaWRR2zZTThQi+U8K7og=
 
-bull@4.8.2:
-  version "4.8.2"
-  resolved "https://registry.npmjs.org/bull/-/bull-4.8.2.tgz"
-  integrity sha512-S7CNIL9+vsbLKwOGkUI6mawY5iABKQJLZn5a7KPnxAZrDhFXkrxsHHXLCKUR/+Oqys3Vk5ElWdj0SLtK84b1Nw==
+bull@4.8.3:
+  version "4.8.3"
+  resolved "https://registry.npmjs.org/bull/-/bull-4.8.3.tgz"
+  integrity sha512-oOHr+KTLu3JM5V9TXsg18/1xyVQceoYCFiGrXZOpu9abZn3W3vXJtMBrwB6Yvl/RxSKVVBpoa25RF/ya3750qg==
   dependencies:
     cron-parser "^4.2.1"
     debuglog "^1.0.0"
