@@ -4,7 +4,6 @@ import {
 } from '@nestjs/bull-shared';
 import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
-import * as Bull from 'bull';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
 import { BullExplorer } from './bull.explorer';
 import {
@@ -53,7 +52,7 @@ export class BullModule {
    * @param bullConfig bull configuration object
    */
   static forRoot(
-    keyOrConfig: string | Bull.QueueOptions,
+    keyOrConfig: string | BullRootModuleOptions,
     bullConfig?: BullRootModuleOptions,
   ): DynamicModule {
     const [configKey, sharedBullConfig] =
