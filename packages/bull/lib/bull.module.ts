@@ -19,6 +19,7 @@ import {
   BullModuleAsyncOptions,
   BullModuleOptions,
   BullOptionsFactory,
+  BullRootModuleOptions,
 } from './interfaces/bull-module-options.interface';
 import {
   BULL_CONFIG_DEFAULT_TOKEN,
@@ -33,7 +34,7 @@ export class BullModule {
    *
    * @param bullConfig shared bull configuration object
    */
-  static forRoot(bullConfig: Bull.QueueOptions): DynamicModule;
+  static forRoot(bullConfig: BullRootModuleOptions): DynamicModule;
   /**
    * Registers a globally available configuration under a specified "configKey".
    *
@@ -42,7 +43,7 @@ export class BullModule {
    */
   static forRoot(
     configKey: string,
-    bullConfig: Bull.QueueOptions,
+    bullConfig: BullRootModuleOptions,
   ): DynamicModule;
   /**
    * Registers a globally available configuration for all queues
@@ -53,7 +54,7 @@ export class BullModule {
    */
   static forRoot(
     keyOrConfig: string | Bull.QueueOptions,
-    bullConfig?: Bull.QueueOptions,
+    bullConfig?: BullRootModuleOptions,
   ): DynamicModule {
     const [configKey, sharedBullConfig] =
       typeof keyOrConfig === 'string'
@@ -183,14 +184,14 @@ export class BullModule {
   private static createAsyncOptionsProvider(
     asyncOptions: BullModuleAsyncOptions,
     optionalSharedConfigHolderRef: Type<
-      IConditionalDepHolder<Bull.QueueOptions>
+      IConditionalDepHolder<BullRootModuleOptions>
     >,
   ): Provider {
     if (asyncOptions.useFactory) {
       return {
         provide: getQueueOptionsToken(asyncOptions.name),
         useFactory: async (
-          optionalDepHolder: IConditionalDepHolder<Bull.QueueOptions>,
+          optionalDepHolder: IConditionalDepHolder<BullRootModuleOptions>,
           ...factoryArgs: unknown[]
         ) => {
           return {
@@ -209,7 +210,7 @@ export class BullModule {
     return {
       provide: getQueueOptionsToken(asyncOptions.name),
       useFactory: async (
-        optionalDepHolder: IConditionalDepHolder<Bull.QueueOptions>,
+        optionalDepHolder: IConditionalDepHolder<BullRootModuleOptions>,
         optionsFactory: BullOptionsFactory,
       ) => {
         return {
