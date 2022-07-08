@@ -1,12 +1,15 @@
-import {
-  FactoryProvider,
-  ModuleMetadata,
-  Type,
-} from '@nestjs/common';
+import { FactoryProvider, ModuleMetadata, Type } from '@nestjs/common';
 import * as Bull from 'bull';
 import { BullQueueProcessor } from '../bull.types';
 
-export interface BullModuleOptions extends Bull.QueueOptions {
+export interface BullRootModuleOptions extends Bull.QueueOptions {
+  /**
+   * Redis client connection string
+   */
+  url?: string;
+}
+
+export interface BullModuleOptions extends BullRootModuleOptions {
   /**
    * Queue name
    *

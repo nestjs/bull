@@ -20,10 +20,9 @@ import { isSeparateProcessor } from './utils/is-separate-processor.util';
 
 function buildQueue(options: BullModuleOptions): Queue {
   const queueName = options.name ? options.name : 'default';
-  const queue: Queue =
-    typeof options?.redis === 'string'
-      ? new Bull(queueName, options.redis, options)
-      : new Bull(queueName, options);
+  const queue: Queue = options?.url
+    ? new Bull(queueName, options.url, options)
+    : new Bull(queueName, options);
 
   if (options.processors) {
     options.processors.forEach((processor: BullQueueProcessor) => {
