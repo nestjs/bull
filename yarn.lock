@@ -7414,10 +7414,10 @@ ts-node@10.9.1, ts-node@^10.7.0:
     v8-compile-cache-lib "^3.0.1"
     yn "3.1.1"
 
-tsconfig-paths@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/tsconfig-paths/-/tsconfig-paths-4.0.0.tgz"
-  integrity sha512-SLBg2GBKlR6bVtMgJJlud/o3waplKtL7skmLkExomIiaAtLGtVsoXIqP3SYdjbcH9lq/KVv7pMZeCBpLYOit6Q==
+tsconfig-paths@4.1.0:
+  version "4.1.0"
+  resolved "https://registry.npmjs.org/tsconfig-paths/-/tsconfig-paths-4.1.0.tgz"
+  integrity sha512-AHx4Euop/dXFC+Vx589alFba8QItjF+8hf8LtmuiCwHyI4rHXQtOOENaM8kvYf5fR0dRChy3wzWIZ9WbB7FWow==
   dependencies:
     json5 "^2.2.1"
     minimist "^1.2.6"
