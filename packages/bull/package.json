@@ -32,7 +32,7 @@
     "@nestjs/testing": "9.0.9",
     "@types/bull": "3.15.9",
     "@types/jest": "28.1.6",
-    "@types/node": "16.11.47",
+    "@types/node": "16.11.48",
     "@types/reflect-metadata": "0.1.0",
     "bull": "4.8.5",
     "reflect-metadata": "0.1.13",
