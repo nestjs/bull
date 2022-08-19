@@ -15,7 +15,7 @@ export abstract class WorkerHost<T extends Worker = Worker>
     return this._worker;
   }
 
-  abstract process(job: Job): Promise<any>;
+  abstract process(job: Job, token?: string): Promise<any>;
 
   onApplicationShutdown(signal?: string) {
     return this._worker?.close();

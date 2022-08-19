@@ -59,7 +59,7 @@ describe('BullExplorer', () => {
 
     @Processor(queueName)
     class FixtureProcessor extends WorkerHost {
-      async process(job: Job<any, any, string>): Promise<any> {}
+      async process(job: Job<any, any, string>, token?: string): Promise<any> {}
     }
 
     it('should instantiate Bull worker based on the processor class', () => {
@@ -86,7 +86,10 @@ describe('BullExplorer', () => {
 
       @Processor(queueName, workerOptions)
       class ProcessorWithConcurrency extends WorkerHost {
-        async process(job: Job<any, any, string>): Promise<any> {}
+        async process(
+          job: Job<any, any, string>,
+          token?: string,
+        ): Promise<any> {}
       }
 
       const instance = new ProcessorWithConcurrency();
