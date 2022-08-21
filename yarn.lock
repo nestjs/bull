@@ -1979,10 +1979,10 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-18.7.8.tgz"
   integrity sha512-/YP55EMK2341JkODUb8DM9O0x1SIz2aBvyF33Uf1c76St3VpsMXEIW0nxuKkq/5cxnbz0RD9cfwNZHEAZQD3ag==
 
-"@types/node@16.11.51":
-  version "16.11.51"
-  resolved "https://registry.npmjs.org/@types/node/-/node-16.11.51.tgz"
-  integrity sha512-h6p1A77pHBDdOcI9y6Wfh9iRGa8lMUZMk2ebHJTNTtRwgbQzgemZow6PW7+Xs7Z0r0IQFY1+iRlcNAkRrf53nA==
+"@types/node@16.11.52":
+  version "16.11.52"
+  resolved "https://registry.npmjs.org/@types/node/-/node-16.11.52.tgz"
+  integrity sha512-GnstYouCa9kbYokBCWEVrszJ1P2rGAQpKrqACHKuixkaT8XGu8nsqHvEUIGqDs5vwtsJ7LrYqnPDKRD1V+M39A==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
