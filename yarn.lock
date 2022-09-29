@@ -2585,10 +2585,10 @@ builtins@^5.0.0:
   dependencies:
     semver "^7.0.0"
 
-bull@4.9.0:
-  version "4.9.0"
-  resolved "https://registry.npmjs.org/bull/-/bull-4.9.0.tgz"
-  integrity sha512-yiaSb41dywjIhJ3i1mczjQGDmM6pLIoM1Ea0Gcf5HKDxOoEzL5i9XEEKW7fbsj7u083UEOnQ4gSWfbWIUDO6JQ==
+bull@4.10.0:
+  version "4.10.0"
+  resolved "https://registry.npmjs.org/bull/-/bull-4.10.0.tgz"
+  integrity sha512-VJ9/uTrpv7Xf1Xy/JrezwvqNmkCoL5gL00kOvmygCN9Gqe7jtNwd6U8X/48zykIjhEq3K2v+MGZzLpJM72kdIg==
   dependencies:
     cron-parser "^4.2.1"
     debuglog "^1.0.0"
