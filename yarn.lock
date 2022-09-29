@@ -1920,14 +1920,6 @@
     "@types/ioredis" "*"
     "@types/redis" "^2.8.0"
 
-"@types/glob@^7.1.1":
-  version "7.2.0"
-  resolved "https://registry.npmjs.org/@types/glob/-/glob-7.2.0.tgz"
-  integrity sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==
-  dependencies:
-    "@types/minimatch" "*"
-    "@types/node" "*"
-
 "@types/graceful-fs@^4.1.3":
   version "4.1.5"
   resolved "https://registry.npmjs.org/@types/graceful-fs/-/graceful-fs-4.1.5.tgz"
@@ -1979,7 +1971,7 @@
   resolved "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
-"@types/minimatch@*", "@types/minimatch@^3.0.3":
+"@types/minimatch@^3.0.3":
   version "3.0.5"
   resolved "https://registry.npmjs.org/@types/minimatch/-/minimatch-3.0.5.tgz"
   integrity sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==
@@ -3290,10 +3282,20 @@ detect-indent@^6.0.0:
   resolved "https://registry.npmjs.org/detect-indent/-/detect-indent-6.1.0.tgz"
   integrity sha512-reYkTUJAZb9gUuZ2RvVCNhVHdg62RHnJ7WJl8ftMi4diZ6NWlciOzQN88pUhSELEwflJht4oQDv0F0BMlwaYtA==
 
-detect-newline@3.1.0, detect-newline@^3.0.0:
+detect-indent@^7.0.0:
+  version "7.0.1"
+  resolved "https://registry.npmjs.org/detect-indent/-/detect-indent-7.0.1.tgz"
+  integrity sha512-Mc7QhQ8s+cLrnUfU/Ji94vG/r8M26m8f++vyres4ZoojaRDpZ1eSIh/EpzLNwlWuvzSZ3UbDFspjFvTDXe6e/g==
+
+detect-newline@^3.0.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/detect-newline/-/detect-newline-3.1.0.tgz"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
+
+detect-newline@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/detect-newline/-/detect-newline-4.0.0.tgz"
+  integrity sha512-1aXUEPdfGdzVPFpzGJJNgq9o81bGg1s09uxTWsqBlo9PI332uyJRQq13+LK/UN4JfxJbFdCXonUFQ9R/p7yCtw==
 
 dezalgo@^1.0.0:
   version "1.0.4"
@@ -3775,7 +3777,7 @@ fast-glob@3.2.7:
     merge2 "^1.3.0"
     micromatch "^4.0.4"
 
-fast-glob@^3.0.3, fast-glob@^3.2.9:
+fast-glob@^3.2.11, fast-glob@^3.2.9:
   version "3.2.11"
   resolved "https://registry.npmjs.org/fast-glob/-/fast-glob-3.2.11.tgz"
   integrity sha512-xrO3+1bxSo3ZVHAnqzyuewYT6aMFHRAd4Kcs92MAonjwQZLsK9d0SF1IyQ3k5PoirxTW0Oe/RqFgMQ6TcNE5Ew==
@@ -4017,10 +4019,10 @@ get-symbol-description@^1.0.0:
     call-bind "^1.0.2"
     get-intrinsic "^1.1.1"
 
-git-hooks-list@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.npmjs.org/git-hooks-list/-/git-hooks-list-1.0.3.tgz"
-  integrity sha512-Y7wLWcrLUXwk2noSka166byGCvhMtDRpgHdzCno1UQv/n/Hegp++a2xBWJL1lJarnKD3SWaljD+0z1ztqxuKyQ==
+git-hooks-list@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/git-hooks-list/-/git-hooks-list-3.0.0.tgz"
+  integrity sha512-XDfdemBGJIMAsHHOONHQxEH5dX2kCpE6MGZ1IsNvBuDPBZM3p4EAwAC7ygMjn/1/x+BJX0TK1ara1Zrh7JCFdQ==
 
 git-raw-commits@^2.0.0, git-raw-commits@^2.0.8:
   version "2.0.11"
@@ -4139,20 +4141,6 @@ globals@^13.15.0:
   dependencies:
     type-fest "^0.20.2"
 
-globby@10.0.0:
-  version "10.0.0"
-  resolved "https://registry.npmjs.org/globby/-/globby-10.0.0.tgz"
-  integrity sha512-3LifW9M4joGZasyYPz2A1U74zbC/45fvpXUvO/9KbSa+VV0aGZarWkfdgKyR9sExNP0t0x0ss/UMJpNpcaTspw==
-  dependencies:
-    "@types/glob" "^7.1.1"
-    array-union "^2.1.0"
-    dir-glob "^3.0.1"
-    fast-glob "^3.0.3"
-    glob "^7.1.3"
-    ignore "^5.1.1"
-    merge2 "^1.2.3"
-    slash "^3.0.0"
-
 globby@^11.0.2, globby@^11.1.0:
   version "11.1.0"
   resolved "https://registry.npmjs.org/globby/-/globby-11.1.0.tgz"
@@ -4164,6 +4152,17 @@ globby@^11.0.2, globby@^11.1.0:
     ignore "^5.2.0"
     merge2 "^1.4.1"
     slash "^3.0.0"
+
+globby@^13.1.1:
+  version "13.1.2"
+  resolved "https://registry.npmjs.org/globby/-/globby-13.1.2.tgz"
+  integrity sha512-LKSDZXToac40u8Q1PQtZihbNdTYSNMuWe+K5l+oa6KgDzSvVrHXlJy40hUP522RjAIoNLJYBJi7ow+rbFpIhHQ==
+  dependencies:
+    dir-glob "^3.0.1"
+    fast-glob "^3.2.11"
+    ignore "^5.2.0"
+    merge2 "^1.4.1"
+    slash "^4.0.0"
 
 graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.6, graceful-fs@^4.2.9:
   version "4.2.10"
@@ -4357,7 +4356,7 @@ ignore-walk@^5.0.1:
   dependencies:
     minimatch "^5.0.1"
 
-ignore@^5.0.4, ignore@^5.1.1, ignore@^5.2.0:
+ignore@^5.0.4, ignore@^5.2.0:
   version "5.2.0"
   resolved "https://registry.npmjs.org/ignore/-/ignore-5.2.0.tgz"
   integrity sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==
@@ -4606,15 +4605,20 @@ is-obj@^2.0.0:
   resolved "https://registry.npmjs.org/is-obj/-/is-obj-2.0.0.tgz"
   integrity sha512-drqDG3cbczxxEJRoOXcOjtdp1J/lyp1mNn0xaznRs8+muBhgQcrnbspox5X5fOw0HnMnbfDzvnEMEtqDEJEo8w==
 
-is-plain-obj@2.1.0, is-plain-obj@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-2.1.0.tgz"
-  integrity sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==
-
 is-plain-obj@^1.0.0, is-plain-obj@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-1.1.0.tgz"
   integrity sha1-caUMhCnfync8kqOQpKA7OfzVHT4=
+
+is-plain-obj@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-2.1.0.tgz"
+  integrity sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==
+
+is-plain-obj@^4.0.0:
+  version "4.1.0"
+  resolved "https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-4.1.0.tgz"
+  integrity sha512-+Pgi+vMuUNkJyExiMBt5IlFoMyKnr5zhJ4Uspz58WOhBF5QoIZkFyNHIbBAtHwzVAgk5RtndVNsDRN61/mmDqg==
 
 is-plain-object@^2.0.4:
   version "2.0.4"
@@ -5583,7 +5587,7 @@ merge-stream@^2.0.0:
   resolved "https://registry.npmjs.org/merge-stream/-/merge-stream-2.0.0.tgz"
   integrity sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==
 
-merge2@^1.2.3, merge2@^1.3.0, merge2@^1.4.1:
+merge2@^1.3.0, merge2@^1.4.1:
   version "1.4.1"
   resolved "https://registry.npmjs.org/merge2/-/merge2-1.4.1.tgz"
   integrity sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==
@@ -7010,6 +7014,11 @@ slash@^3.0.0:
   resolved "https://registry.npmjs.org/slash/-/slash-3.0.0.tgz"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
+slash@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/slash/-/slash-4.0.0.tgz"
+  integrity sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==
+
 slice-ansi@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/slice-ansi/-/slice-ansi-3.0.0.tgz"
@@ -7086,16 +7095,16 @@ sort-object-keys@^1.1.3:
   resolved "https://registry.npmjs.org/sort-object-keys/-/sort-object-keys-1.1.3.tgz"
   integrity sha512-855pvK+VkU7PaKYPc+Jjnmt4EzejQHyhhF33q31qG8x7maDzkeFhAAThdCYay11CISO+qAMwjOBP+fPZe0IPyg==
 
-sort-package-json@1.57.0:
-  version "1.57.0"
-  resolved "https://registry.npmjs.org/sort-package-json/-/sort-package-json-1.57.0.tgz"
-  integrity sha512-FYsjYn2dHTRb41wqnv+uEqCUvBpK3jZcTp9rbz2qDTmel7Pmdtf+i2rLaaPMRZeSVM60V3Se31GyWFpmKs4Q5Q==
+sort-package-json@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/sort-package-json/-/sort-package-json-2.0.0.tgz"
+  integrity sha512-71AZsHsf33oC8Pa0/4/6eo1IufgLfibqxTXTA3bfeicx8gba7kDc5Cofy2YHWrH/cV8nfXSQeMNpGliR07oEHA==
   dependencies:
-    detect-indent "^6.0.0"
-    detect-newline "3.1.0"
-    git-hooks-list "1.0.3"
-    globby "10.0.0"
-    is-plain-obj "2.1.0"
+    detect-indent "^7.0.0"
+    detect-newline "^4.0.0"
+    git-hooks-list "^3.0.0"
+    globby "^13.1.1"
+    is-plain-obj "^4.0.0"
     sort-object-keys "^1.1.3"
 
 source-map-support@0.5.13:
