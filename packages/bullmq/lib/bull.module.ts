@@ -10,7 +10,6 @@ import { BullExplorer } from './bull.explorer';
 import {
   createQueueOptionProviders,
   createQueueProviders,
-  createQueueSchedulerProviders,
 } from './bull.providers';
 import {
   SharedBullAsyncConfiguration,
@@ -151,17 +150,12 @@ export class BullModule {
       this._queueClass,
       this._workerClass,
     );
-    const queueSchedulerProviders = createQueueSchedulerProviders(optionsArr);
     const queueOptionProviders = createQueueOptionProviders(optionsArr);
 
     return {
       module: BullModule,
       imports: [BullModule.registerCore()],
-      providers: [
-        ...queueOptionProviders,
-        ...queueProviders,
-        ...queueSchedulerProviders,
-      ],
+      providers: [...queueOptionProviders, ...queueProviders],
       exports: queueProviders,
     };
   }
@@ -175,7 +169,6 @@ export class BullModule {
       this._queueClass,
       this._workerClass,
     );
-    const queueSchedulerProviders = createQueueSchedulerProviders(optionsArr);
 
     const imports = this.getUniqImports(optionsArr);
     const asyncQueueOptionsProviders = options
@@ -185,11 +178,7 @@ export class BullModule {
     return {
       imports: imports.concat(BullModule.registerCore()),
       module: BullModule,
-      providers: [
-        ...asyncQueueOptionsProviders,
-        ...queueProviders,
-        ...queueSchedulerProviders,
-      ],
+      providers: [...asyncQueueOptionsProviders, ...queueProviders],
       exports: queueProviders,
     };
   }
