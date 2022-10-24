@@ -1476,19 +1476,19 @@
   resolved "https://registry.npmjs.org/@msgpackr-extract/msgpackr-extract-win32-x64/-/msgpackr-extract-win32-x64-2.1.2.tgz"
   integrity sha512-rIZVR48zA8hGkHIK7ED6+ZiXsjRCcAVBJbm8o89OKAMTmEAQ2QvoOxoiu3w2isAaWwzgtQIOFIqHwvZDyLKCvw==
 
-"@nestjs/common@9.1.5":
-  version "9.1.5"
-  resolved "https://registry.npmjs.org/@nestjs/common/-/common-9.1.5.tgz"
-  integrity sha512-FVD6BCFVfwi4gGOE0/TXYiADGVNxq50auUzo12+LW38p+mx1AYLO+QGF/Kw985Ck9j/12arC/H4SITZqxK04Vg==
+"@nestjs/common@9.1.6":
+  version "9.1.6"
+  resolved "https://registry.npmjs.org/@nestjs/common/-/common-9.1.6.tgz"
+  integrity sha512-9Ttk9va/BwEab36RSXLZdRoPUX3DZHUpzseKEfqHVhnaUIsIMt7lVd79GQ1FroQ2FZqoCwcLyBowevXhrE1Wnw==
   dependencies:
     iterare "1.2.1"
     tslib "2.4.0"
     uuid "9.0.0"
 
-"@nestjs/core@9.1.5":
-  version "9.1.5"
-  resolved "https://registry.npmjs.org/@nestjs/core/-/core-9.1.5.tgz"
-  integrity sha512-0ym1kQgZcNVUrpHZzjQRrkFm2sWsqHFZ7iscsRX/rq9b2nrzcLrWOKVDFxm8hlcosG/fwD/jBIHPNBoK+alqcw==
+"@nestjs/core@9.1.6":
+  version "9.1.6"
+  resolved "https://registry.npmjs.org/@nestjs/core/-/core-9.1.6.tgz"
+  integrity sha512-B52nYYTDSH72f1DU0G14NQSPCviXRE9fCp2/gUHuWIfVfBwcmVBAxVgyB/jAIUAhhj1f5/2odwUiw194xYtRRA==
   dependencies:
     "@nuxtjs/opencollective" "0.3.2"
     fast-safe-stringify "2.1.1"
@@ -1498,10 +1498,10 @@
     tslib "2.4.0"
     uuid "9.0.0"
 
-"@nestjs/platform-express@9.1.5":
-  version "9.1.5"
-  resolved "https://registry.npmjs.org/@nestjs/platform-express/-/platform-express-9.1.5.tgz"
-  integrity sha512-ITgdTmwkm5ZeoTPPAkAZmE3hBSxIOskCNonECN6LNPjLTAi3+KV25rwD+oHvzuEg51eFXYct42XOeCakKSaY+A==
+"@nestjs/platform-express@9.1.6":
+  version "9.1.6"
+  resolved "https://registry.npmjs.org/@nestjs/platform-express/-/platform-express-9.1.6.tgz"
+  integrity sha512-zZuB1g6yIPytPIzp0EYKWT+1d02hOQ5aU6VdtO6Qg0Wn1RjdjGh3kScsqdamMEjzt0WAfL8DjE5oqrLgvashsw==
   dependencies:
     body-parser "1.20.1"
     cors "2.8.5"
@@ -1509,10 +1509,10 @@
     multer "1.4.4-lts.1"
     tslib "2.4.0"
 
-"@nestjs/testing@9.1.5":
-  version "9.1.5"
-  resolved "https://registry.npmjs.org/@nestjs/testing/-/testing-9.1.5.tgz"
-  integrity sha512-xZcJSqqse5ITKGpxKeLejBRjZ1hrdQ1BcBDjq+oLSjbr0b7zjZu/mDfF5xCbUnvmDNtye65kEEVtWO1kS1Dh1A==
+"@nestjs/testing@9.1.6":
+  version "9.1.6"
+  resolved "https://registry.npmjs.org/@nestjs/testing/-/testing-9.1.6.tgz"
+  integrity sha512-3kdTgiv5DHRHMQ/befLWd/60LZWjOM2V+SwOLqGkITt1yjo+jpkDze8/f0ZXVGEa6pcWYZ5oeedbL2T1nyUKSQ==
   dependencies:
     tslib "2.4.0"
 
