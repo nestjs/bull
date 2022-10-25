@@ -30,14 +30,14 @@
     "@types/jest": "29.2.0",
     "@types/node": "16.18.0",
     "@types/reflect-metadata": "0.1.0",
-    "bullmq": "1.91.1",
+    "bullmq": "2.4.0",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.5.7"
   },
   "peerDependencies": {
     "@nestjs/common": "^7.0.0 || ^8.0.0 || ^9.0.0",
     "@nestjs/core": "^7.0.0 || ^8.0.0 || ^9.0.0",
-    "bullmq": "^1.76.0"
+    "bullmq": "^1.76.0 || ^2.0.0"
   },
   "publishConfig": {
     "access": "public"
