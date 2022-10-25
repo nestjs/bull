@@ -2625,13 +2625,12 @@ bull@4.10.1:
     semver "^7.3.2"
     uuid "^8.3.0"
 
-bullmq@1.91.1:
-  version "1.91.1"
-  resolved "https://registry.npmjs.org/bullmq/-/bullmq-1.91.1.tgz"
-  integrity sha512-u7dat9I8ZwouZ651AMZkBSvB6NVUPpnAjd4iokd9DM41whqIBnDjuL11h7+kEjcpiDKj6E+wxZiER00FqirZQg==
+bullmq@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/bullmq/-/bullmq-3.0.0.tgz"
+  integrity sha512-amw+YZhEo1B47iMpaLbtKwlzZjQi5NYjLCYl8n9qkQpkDDVAVJ9d++zdOgyXX6kG7i/pMP9tr2vyj3J6IcjbTA==
   dependencies:
     cron-parser "^4.6.0"
-    get-port "6.1.2"
     glob "^8.0.3"
     ioredis "^5.2.2"
     lodash "^4.17.21"
@@ -4077,11 +4076,6 @@ get-pkg-repo@^4.0.0:
     hosted-git-info "^4.0.0"
     through2 "^2.0.0"
     yargs "^16.2.0"
-
-get-port@6.1.2:
-  version "6.1.2"
-  resolved "https://registry.npmjs.org/get-port/-/get-port-6.1.2.tgz"
-  integrity sha512-BrGGraKm2uPqurfGVj/z97/zv8dPleC6x9JBNRTrDNtCkkRF4rPwrQXFgL7+I+q8QSdU4ntLQX2D7KIxSy8nGw==
 
 get-port@^5.1.1:
   version "5.1.1"
