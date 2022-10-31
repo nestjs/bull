@@ -4,7 +4,7 @@ import {
   IConditionalDepHolder,
 } from '@nestjs/bull-shared';
 import { flatten, OnApplicationShutdown, Provider, Type } from '@nestjs/common';
-import { Queue, QueueScheduler, Worker } from 'bullmq';
+import { Queue, Worker } from 'bullmq';
 import { BullQueueProcessor } from './bull.types';
 import { RegisterQueueOptions } from './interfaces/register-queue-options.interface';
 import {
@@ -12,7 +12,6 @@ import {
   getQueueOptionsToken,
   getSharedConfigToken,
 } from './utils';
-import { getQueueSchedulerToken } from './utils/get-queue-scheduler-token.util';
 import {
   isAdvancedProcessor,
   isAdvancedSeparateProcessor,
@@ -117,25 +116,4 @@ export function createQueueProviders<
     inject: [getQueueOptionsToken(item.name)],
   }));
   return queueProviders;
-}
-
-export function createQueueSchedulerProviders(
-  options: RegisterQueueOptions[],
-): Provider[] {
-  const queueSchedulerProviders = options.map((item) => ({
-    provide: getQueueSchedulerToken(item.name),
-    useFactory: (queueOptions: RegisterQueueOptions) => {
-      const queueName = queueOptions.name || item.name;
-      const queueScheduler = new QueueScheduler(queueName, queueOptions);
-      (
-        queueScheduler as unknown as OnApplicationShutdown
-      ).onApplicationShutdown = async function (this: QueueScheduler) {
-        return this.close();
-      };
-      return queueScheduler;
-    },
-    inject: [getQueueOptionsToken(item.name)],
-  }));
-
-  return queueSchedulerProviders;
 }

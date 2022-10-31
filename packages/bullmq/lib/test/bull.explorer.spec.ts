@@ -11,7 +11,6 @@ import {
 import { BullMetadataAccessor } from '../bull-metadata.accessor';
 import { BullExplorer } from '../bull.explorer';
 import { BullModule } from '../bull.module';
-import { getQueueSchedulerToken } from '../utils';
 
 const workerCtorSpy = jest.fn();
 const queueEventsSpy = jest.fn();
@@ -166,8 +165,6 @@ describe('BullExplorer', () => {
         .useValue({
           opts: queueOptions,
         })
-        .overrideProvider(getQueueSchedulerToken('test'))
-        .useValue(null)
         .compile();
 
       const explorer = moduleRef.get(BullExplorer);
