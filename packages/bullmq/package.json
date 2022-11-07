@@ -23,10 +23,10 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@nestjs/common": "9.1.6",
-    "@nestjs/core": "9.1.6",
-    "@nestjs/platform-express": "9.1.6",
-    "@nestjs/testing": "9.1.6",
+    "@nestjs/common": "9.2.0",
+    "@nestjs/core": "9.2.0",
+    "@nestjs/platform-express": "9.2.0",
+    "@nestjs/testing": "9.2.0",
     "@types/jest": "29.2.2",
     "@types/node": "18.11.9",
     "@types/reflect-metadata": "0.1.0",
