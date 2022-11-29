@@ -30,7 +30,7 @@
     "@types/jest": "29.2.3",
     "@types/node": "18.11.9",
     "@types/reflect-metadata": "0.1.0",
-    "bullmq": "3.2.2",
+    "bullmq": "3.2.3",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.5.7"
   },
