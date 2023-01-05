@@ -11,6 +11,7 @@ import {
 import { BullMetadataAccessor } from '../bull-metadata.accessor';
 import { BullExplorer } from '../bull.explorer';
 import { BullModule } from '../bull.module';
+import { getFlowProducerToken } from '../utils';
 
 const workerCtorSpy = jest.fn();
 const queueEventsSpy = jest.fn();
@@ -172,6 +173,35 @@ describe('BullExplorer', () => {
       const queueOpts = explorer.getQueueOptions(queueToken, 'test');
       expect(queueOpts).toBeDefined();
       expect(queueOpts).toEqual(queueOptions);
+
+      await moduleRef.close();
+    });
+  });
+
+  describe('getFlowProducerOptions', () => {
+    it('should return options associated with the given flowProducer', async () => {
+      const flowProducerToken = getFlowProducerToken('test');
+      const flowProducerOptions = {
+        connection: {
+          host: 'localhost',
+          port: 65793,
+        },
+        sharedConnection: true,
+      };
+      const moduleRef = await Test.createTestingModule({
+        imports: [BullModule.registerFlowProducer({ name: 'test', ...flowProducerOptions })],
+      })
+        .overrideProvider(flowProducerToken)
+        .useValue({
+          opts: flowProducerOptions,
+        })
+        .compile();
+
+      const explorer = moduleRef.get(BullExplorer);
+
+      const flowProducerOpts = explorer.getFlowProducerOptions(flowProducerToken, 'test');
+      expect(flowProducerOpts).toBeDefined();
+      expect(flowProducerOpts).toEqual(flowProducerOptions);
 
       await moduleRef.close();
     });

@@ -1,8 +1,9 @@
 import { MetadataScanner } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Job, Queue, QueueEvents } from 'bullmq';
+import { FlowProducer, Job, Queue, QueueEvents } from 'bullmq';
 import {
   BullModule,
+  getFlowProducerToken,
   getQueueToken,
   OnQueueEvent,
   OnWorkerEvent,
@@ -80,6 +81,73 @@ describe('BullModule', () => {
     });
   });
 
+  describe('registerFlowProducer', () => {
+    let moduleRef: TestingModule;
+
+    describe('single configuration', () => {
+      beforeAll(async () => {
+        moduleRef = await Test.createTestingModule({
+          imports: [
+            BullModule.registerFlowProducer({
+              name: 'test',
+              connection: {
+                host: '0.0.0.0',
+                port: 6380,
+              },
+            }),
+          ],
+        }).compile();
+      });
+      afterAll(async () => {
+        await moduleRef.close();
+      });
+      it('should inject the flowProducer with the given name', () => {
+        const flowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test'));
+
+        expect(flowProducer).toBeDefined();
+        expect((flowProducer.opts as any).name).toEqual('test');
+      });
+    });
+
+    describe('multiple configurations', () => {
+      beforeAll(async () => {
+        moduleRef = await Test.createTestingModule({
+          imports: [
+            BullModule.registerFlowProducer(
+              {
+                name: 'test1',
+                connection: {
+                  host: '0.0.0.0',
+                  port: 6380,
+                },
+              },
+              {
+                name: 'test2',
+                connection: {
+                  host: '0.0.0.0',
+                  port: 6380,
+                },
+              },
+            ),
+          ],
+        }).compile();
+      });
+      afterAll(async () => {
+        await moduleRef.close();
+      });
+      it('should inject the flowProducer with name "test1"', () => {
+        const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test1'));
+        expect(flowProducer).toBeDefined();
+        expect((flowProducer.opts as any).name).toEqual('test1');
+      });
+      it('should inject the flowProducer with name "test2"', () => {
+        const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test2'));
+        expect(flowProducer).toBeDefined();
+        expect((flowProducer.opts as any).name).toEqual('test2');
+      });
+    });
+  });
+
   describe('forRoot + registerQueue', () => {
     let moduleRef: TestingModule;
 
@@ -138,6 +206,68 @@ describe('BullModule', () => {
 
         expect(queue).toBeDefined();
         expect(queue.name).toEqual('test2');
+      });
+    });
+  });
+
+  describe('forRoot + registerFlowProducer', () => {
+    let moduleRef: TestingModule;
+
+    describe('single configuration', () => {
+      beforeAll(async () => {
+        moduleRef = await Test.createTestingModule({
+          imports: [
+            BullModule.forRoot({
+              connection: {
+                host: '0.0.0.0',
+                port: 6380,
+              },
+            }),
+            BullModule.registerFlowProducer({
+              name: 'test',
+            }),
+          ],
+        }).compile();
+      });
+      afterAll(async () => {
+        await moduleRef.close();
+      });
+
+      it('should inject the flowProducer with the given name', () => {
+        const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test'));
+        expect(flowProducer).toBeDefined();
+        expect((flowProducer.opts as any).name).toEqual('test');
+      });
+    });
+
+    describe('multiple configurations', () => {
+      beforeAll(async () => {
+        moduleRef = await Test.createTestingModule({
+          imports: [
+            BullModule.forRoot({
+              connection: {
+                host: '0.0.0.0',
+                port: 6380,
+              },
+            }),
+            BullModule.registerFlowProducer({ name: 'test1' }, { name: 'test2' }),
+          ],
+        }).compile();
+      });
+      afterAll(async () => {
+        await moduleRef.close();
+      });
+      it('should inject the flowProducer with name "test1"', () => {
+        const flowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test1'));
+
+        expect(flowProducer).toBeDefined();
+        expect((flowProducer.opts as any).name).toEqual('test1');
+      });
+      it('should inject the flowProducer with name "test2"', () => {
+        const flowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test2'));
+
+        expect(flowProducer).toBeDefined();
+        expect((flowProducer.opts as any).name).toEqual('test2');
       });
     });
   });
@@ -212,6 +342,81 @@ describe('BullModule', () => {
           const queue: Queue = moduleRef.get<Queue>(getQueueToken('test2'));
           expect(queue).toBeDefined();
           expect(queue.name).toEqual('test2');
+        });
+      });
+    });
+  });
+
+  describe('registerFlowProducerAsync', () => {
+    let moduleRef: TestingModule;
+
+    describe('single configuration', () => {
+      describe('useFactory', () => {
+        beforeAll(async () => {
+          moduleRef = await Test.createTestingModule({
+            imports: [
+              BullModule.registerFlowProducerAsync({
+                name: 'test',
+                useFactory: () => ({
+                  connection: {
+                    host: '0.0.0.0',
+                    port: 6380,
+                  },
+                }),
+              }),
+            ],
+          }).compile();
+        });
+        afterAll(async () => {
+          await moduleRef.close();
+        });
+        it('should inject the flowProducer with the given name', () => {
+          const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test'));
+          expect(flowProducer).toBeDefined();
+          expect((flowProducer.opts as any).name).toEqual('test');
+        });
+      });
+    });
+    describe('multiple configurations', () => {
+      describe('useFactory', () => {
+        beforeAll(async () => {
+          moduleRef = await Test.createTestingModule({
+            imports: [
+              BullModule.registerFlowProducerAsync(
+                {
+                  name: 'test1',
+                  useFactory: () => ({
+                    connection: {
+                      host: '0.0.0.0',
+                      port: 6380,
+                    },
+                  }),
+                },
+                {
+                  name: 'test2',
+                  useFactory: () => ({
+                    connection: {
+                      host: '0.0.0.0',
+                      port: 6380,
+                    },
+                  }),
+                },
+              ),
+            ],
+          }).compile();
+        });
+        afterAll(async () => {
+          await moduleRef.close();
+        });
+        it('should inject the flowProducer with name "test1"', () => {
+          const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test1'));
+          expect(flowProducer).toBeDefined();
+          expect((flowProducer.opts as any).name).toEqual('test1');
+        });
+        it('should inject the flowProducer with name "test2"', () => {
+          const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test2'));
+          expect(flowProducer).toBeDefined();
+          expect((flowProducer.opts as any).name).toEqual('test2');
         });
       });
     });
