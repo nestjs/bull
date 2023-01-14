@@ -53,6 +53,9 @@ export const OnQueueDrained = (options?: QueueEventDecoratorOptions) =>
 export const OnQueueRemoved = (options?: QueueEventDecoratorOptions) =>
   OnQueueEvent({ ...options, eventName: BullQueueEvents.REMOVED });
 
+export const OnQueueDuplicated = (options?: QueueEventDecoratorOptions) =>
+  OnQueueEvent({ ...options, eventName: BullQueueEvents.DUPLICATED });
+
 export const OnGlobalQueueError = (options?: QueueEventDecoratorOptions) =>
   OnQueueEvent({ ...options, eventName: BullQueueGlobalEvents.ERROR });
 

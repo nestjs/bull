@@ -17,6 +17,7 @@ import {
   OnQueueCleaned,
   OnQueueCompleted,
   OnQueueDrained,
+  OnQueueDuplicated,
   OnQueueError,
   OnQueueEvent,
   OnQueueFailed,
@@ -137,7 +138,7 @@ describe('Decorators', () => {
         Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'waiting' event name`, () => {
       expect(
         Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.WAITING });
@@ -155,7 +156,7 @@ describe('Decorators', () => {
         Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'active' event name`, () => {
       expect(
         Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.ACTIVE });
@@ -173,7 +174,7 @@ describe('Decorators', () => {
         Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'stalled' event name`, () => {
       expect(
         Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.STALLED });
@@ -191,7 +192,7 @@ describe('Decorators', () => {
         Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'progress' event name`, () => {
       expect(
         Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.PROGRESS });
@@ -209,7 +210,7 @@ describe('Decorators', () => {
         Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'completed' event name`, () => {
       expect(
         Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.COMPLETED });
@@ -227,7 +228,7 @@ describe('Decorators', () => {
         Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'failed' event name`, () => {
       expect(
         Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.FAILED });
@@ -245,7 +246,7 @@ describe('Decorators', () => {
         Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'paused' event name`, () => {
       expect(
         Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.PAUSED });
@@ -263,7 +264,7 @@ describe('Decorators', () => {
         Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'resumed' event name`, () => {
       expect(
         Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.RESUMED });
@@ -281,7 +282,7 @@ describe('Decorators', () => {
         Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'cleaned' event name`, () => {
       expect(
         Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.CLEANED });
@@ -299,7 +300,7 @@ describe('Decorators', () => {
         Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'drained' event name`, () => {
       expect(
         Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.DRAINED });
@@ -317,10 +318,28 @@ describe('Decorators', () => {
         Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual(true);
     });
-    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'error' event name`, () => {
+    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'removed' event name`, () => {
       expect(
         Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
       ).toEqual({ eventName: BullQueueEvents.REMOVED });
+    });
+  });
+
+  describe('@OnQueueDuplicated()', () => {
+    class MyQueue {
+      @OnQueueDuplicated()
+      prop() {}
+    }
+    const myQueueInstance = new MyQueue();
+    it('should decorate the method with BULL_MODULE_ON_QUEUE_EVENT', () => {
+      expect(
+        Reflect.hasMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+      ).toEqual(true);
+    });
+    it(`should define the BULL_MODULE_ON_QUEUE_EVENT metadata with the 'duplicated' event name`, () => {
+      expect(
+        Reflect.getMetadata(BULL_MODULE_ON_QUEUE_EVENT, myQueueInstance.prop),
+      ).toEqual({ eventName: BullQueueEvents.DUPLICATED });
     });
   });
 

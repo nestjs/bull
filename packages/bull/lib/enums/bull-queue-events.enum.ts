@@ -11,4 +11,5 @@ export enum BullQueueEvents {
   CLEANED = 'cleaned',
   DRAINED = 'drained',
   REMOVED = 'removed',
+  DUPLICATED = 'duplicated',
 }

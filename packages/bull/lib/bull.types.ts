@@ -40,6 +40,7 @@ export type BullQueueEvent =
   | 'cleaned'
   | 'drained'
   | 'removed'
+  | 'duplicated'
   | 'global:error'
   | 'global:waiting'
   | 'global:active'
