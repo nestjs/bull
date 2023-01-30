@@ -58,7 +58,7 @@
     "lint-staged": "13.1.0",
     "prettier": "2.8.3",
     "rimraf": "4.1.2",
-    "sort-package-json": "2.2.0",
+    "sort-package-json": "2.3.0",
     "ts-jest": "29.0.5",
     "ts-node": "10.9.1",
     "tsconfig-paths": "4.1.2",
