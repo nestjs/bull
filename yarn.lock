@@ -2671,10 +2671,10 @@ builtins@^5.0.0:
   dependencies:
     semver "^7.0.0"
 
-bull@4.10.2:
-  version "4.10.2"
-  resolved "https://registry.yarnpkg.com/bull/-/bull-4.10.2.tgz#af53545b394001755cf7c6b30bac295eeb5e0420"
-  integrity sha512-xa65xtWjQsLqYU/eNaXxq9VRG8xd6qNsQEjR7yjYuae05xKrzbVMVj2QgrYsTMmSs/vsqJjHqHSRRiW1+IkGXQ==
+bull@4.10.3:
+  version "4.10.3"
+  resolved "https://registry.yarnpkg.com/bull/-/bull-4.10.3.tgz#0775614fa29d2c90b7098f05f4b910779a7a80c9"
+  integrity sha512-pp403srpkn9tYi7Z3Mu0sozehZ7rEEFGNJnN+nLxQwml6MySzefC9bPeCYedZoCkXdZ6VbIB8uNkMZg+hN/dAg==
   dependencies:
     cron-parser "^4.2.1"
     debuglog "^1.0.0"
@@ -2682,7 +2682,6 @@ bull@4.10.2:
     ioredis "^5.0.0"
     lodash "^4.17.21"
     msgpackr "^1.5.2"
-    p-timeout "^3.2.0"
     semver "^7.3.2"
     uuid "^8.3.0"
 
