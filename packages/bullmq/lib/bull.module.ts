@@ -4,14 +4,19 @@ import {
 } from '@nestjs/bull-shared';
 import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
-import { Queue, QueueOptions, Worker } from 'bullmq';
+import { FlowProducer, Queue, QueueBaseOptions, QueueOptions, Worker } from 'bullmq';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
 import { BullExplorer } from './bull.explorer';
 import {
+  createFlowProducerOptionProviders,
+  createFlowProducerProviders,
   createQueueOptionProviders,
   createQueueProviders,
 } from './bull.providers';
 import {
+  RegisterFlowProducerAsyncOptions,
+  RegisterFlowProducerOptions,
+  RegisterFlowProducerOptionsFactory,
   SharedBullAsyncConfiguration,
   SharedBullConfigurationFactory,
 } from './interfaces';
@@ -22,6 +27,7 @@ import {
 } from './interfaces/register-queue-options.interface';
 import {
   BULL_CONFIG_DEFAULT_TOKEN,
+  getFlowProducerOptionsToken,
   getQueueOptionsToken,
   getSharedConfigToken,
 } from './utils';
@@ -29,6 +35,7 @@ import {
 @Module({})
 export class BullModule {
   private static _queueClass: Type = Queue;
+  private static _flowProducerClass: Type = FlowProducer;
   private static _workerClass: Type = Worker;
 
   /**
@@ -41,6 +48,16 @@ export class BullModule {
     this._queueClass = cls;
   }
 
+  /**
+   * Class to be used to create Bull flow producers.
+   * This configuration property can be used to instruct the "@nestjs/bullmq"
+   * package to use, for example, "FlowProducerPro" class (from "BullMQ Pro").
+   * @default FlowProducer
+   */
+  static set flowProducerClass(cls: Type) {
+    this._flowProducerClass = cls;
+  }
+  
   /**
    * Class to be used to create Bull workers.
    * This configuration property can be used to instruct the "@nestjs/bullmq"
@@ -241,6 +258,112 @@ export class BullModule {
       useFactory: async (
         optionalDepHolder: IConditionalDepHolder<QueueOptions>,
         optionsFactory: RegisterQueueOptionsFactory,
+      ) => {
+        return {
+          ...optionalDepHolder.getDependencyRef(asyncOptions.name),
+          ...(await optionsFactory.createRegisterQueueOptions()),
+        };
+      },
+      inject: [optionalSharedConfigHolderRef, ...inject],
+    };
+  }
+
+  static registerFlowProducer(...options: RegisterFlowProducerOptions[]): DynamicModule {
+    const optionsArr = [].concat(options);
+    const flowProducerProviders = createFlowProducerProviders(
+      optionsArr,
+      this._flowProducerClass,
+    );
+    const flowProducerOptionProviders = createFlowProducerOptionProviders(optionsArr);
+
+    return {
+      module: BullModule,
+      imports: [BullModule.registerCore()],
+      providers: [...flowProducerOptionProviders, ...flowProducerProviders],
+      exports: flowProducerProviders,
+    };
+  }
+
+  static registerFlowProducerAsync(
+    ...options: RegisterFlowProducerAsyncOptions[]
+  ): DynamicModule {
+    const optionsArr = [].concat(options);
+    const flowProducerProviders = createFlowProducerProviders(
+      optionsArr,
+      this._flowProducerClass,
+    );
+
+    const imports = this.getUniqImports(optionsArr);
+    const asyncFlowProducerOptionsProviders = options
+      .map((flowProducerOptions) => this.createAsyncFlowProducerProviders(flowProducerOptions))
+      .reduce((a, b) => a.concat(b), []);
+
+    return {
+      imports: imports.concat(BullModule.registerCore()),
+      module: BullModule,
+      providers: [...asyncFlowProducerOptionsProviders, ...flowProducerProviders],
+      exports: flowProducerProviders,
+    };
+  }
+
+  private static createAsyncFlowProducerProviders(
+    options: RegisterFlowProducerAsyncOptions,
+  ): Provider[] {
+    const optionalSharedConfigHolder = createConditionalDepHolder(
+      getSharedConfigToken(options.configKey),
+      BULL_CONFIG_DEFAULT_TOKEN,
+    );
+
+    if (options.useExisting || options.useFactory) {
+      return [
+        optionalSharedConfigHolder,
+        this.createAsyncFlowProducerOptionsProvider(options, optionalSharedConfigHolder),
+      ];
+    }
+    if (!options.useClass) {
+      // fallback to the "registerFlowProducer" in case someone accidentally used the "registerFlowProducerAsync" instead
+      return createFlowProducerOptionProviders([options]);
+    }
+    const useClass = options.useClass as Type<RegisterFlowProducerOptionsFactory>;
+    return [
+      optionalSharedConfigHolder,
+      this.createAsyncFlowProducerOptionsProvider(options, optionalSharedConfigHolder),
+      {
+        provide: useClass,
+        useClass,
+      },
+    ];
+  }
+
+  private static createAsyncFlowProducerOptionsProvider(
+    asyncOptions: RegisterFlowProducerAsyncOptions,
+    optionalSharedConfigHolderRef: Type<IConditionalDepHolder<QueueBaseOptions>>,
+  ): Provider {
+    if (asyncOptions.useFactory) {
+      return {
+        provide: getFlowProducerOptionsToken(asyncOptions.name),
+        useFactory: async (
+          optionalDepHolder: IConditionalDepHolder<QueueBaseOptions>,
+          ...factoryArgs: unknown[]
+        ) => {
+          return {
+            ...optionalDepHolder.getDependencyRef(asyncOptions.name),
+            ...(await asyncOptions.useFactory(...factoryArgs)),
+          };
+        },
+        inject: [optionalSharedConfigHolderRef, ...(asyncOptions.inject || [])],
+      };
+    }
+    // `as Type<BullOptionsFactory>` is a workaround for microsoft/TypeScript#31603
+    const inject = [
+      (asyncOptions.useClass ||
+        asyncOptions.useExisting) as Type<RegisterFlowProducerOptionsFactory>,
+    ];
+    return {
+      provide: getFlowProducerOptionsToken(asyncOptions.name),
+      useFactory: async (
+        optionalDepHolder: IConditionalDepHolder<QueueBaseOptions>,
+        optionsFactory: RegisterFlowProducerOptionsFactory,
       ) => {
         return {
           ...optionalDepHolder.getDependencyRef(asyncOptions.name),
