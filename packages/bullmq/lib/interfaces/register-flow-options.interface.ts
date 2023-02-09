@@ -1,10 +1,9 @@
 import { FactoryProvider, ModuleMetadata, Type } from '@nestjs/common';
-import { QueueOptions } from 'bullmq';
-import { BullQueueProcessor } from '../bull.types';
+import { QueueBaseOptions } from 'bullmq';
 
-export interface RegisterQueueOptions extends QueueOptions {
+export interface RegisterFlowProducerOptions extends QueueBaseOptions {
   /**
-   * Queue name
+   * Flow name
    *
    * @default default
    */
@@ -16,23 +15,18 @@ export interface RegisterQueueOptions extends QueueOptions {
    * @default default
    */
   configKey?: string;
-
-  /**
-   * Additional queue processors
-   */
-  processors?: BullQueueProcessor[];
 }
 
-export interface RegisterQueueOptionsFactory {
+export interface RegisterFlowProducerOptionsFactory {
   createRegisterQueueOptions():
-    | Promise<RegisterQueueOptions>
-    | RegisterQueueOptions;
+    | Promise<RegisterFlowProducerOptions>
+    | RegisterFlowProducerOptions;
 }
 
-export interface RegisterQueueAsyncOptions
+export interface RegisterFlowProducerAsyncOptions
   extends Pick<ModuleMetadata, 'imports'> {
   /**
-   * Queue name.
+   * Flow name.
    *
    * @default default
    */
@@ -46,19 +40,19 @@ export interface RegisterQueueAsyncOptions
   /**
    * Existing Provider to be used.
    */
-  useExisting?: Type<RegisterQueueOptionsFactory>;
+  useExisting?: Type<RegisterFlowProducerOptionsFactory>;
 
   /**
    * Type (class name) of provider (instance to be registered and injected).
    */
-  useClass?: Type<RegisterQueueOptionsFactory>;
+  useClass?: Type<RegisterFlowProducerOptionsFactory>;
 
   /**
    * Factory function that returns an instance of the provider to be injected.
    */
   useFactory?: (
     ...args: any[]
-  ) => Promise<RegisterQueueOptions> | RegisterQueueOptions;
+  ) => Promise<RegisterFlowProducerOptions> | RegisterFlowProducerOptions;
 
   /**
    * Optional list of providers to be injected into the context of the Factory function.

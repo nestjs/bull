@@ -4,11 +4,14 @@ import {
   IConditionalDepHolder,
 } from '@nestjs/bull-shared';
 import { flatten, OnApplicationShutdown, Provider, Type } from '@nestjs/common';
-import { Queue, Worker } from 'bullmq';
+import { FlowProducer, Queue, Worker } from 'bullmq';
 import { BullQueueProcessor } from './bull.types';
+import { RegisterFlowProducerOptions } from './interfaces';
 import { RegisterQueueOptions } from './interfaces/register-queue-options.interface';
 import {
   BULL_CONFIG_DEFAULT_TOKEN,
+  getFlowProducerOptionsToken,
+  getFlowProducerToken,
   getQueueOptionsToken,
   getSharedConfigToken,
 } from './utils';
@@ -70,6 +73,19 @@ function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
   return queue;
 }
 
+function createFlowProducers<TFlowProducer = FlowProducer>(
+  options: RegisterFlowProducerOptions,
+  flowProducerClass: Type<TFlowProducer>
+): TFlowProducer {
+  const flowProducer = new flowProducerClass(options);
+
+  (flowProducer as unknown as OnApplicationShutdown).onApplicationShutdown =
+    async function (this: FlowProducer) {
+      return this.close();
+    };
+  return flowProducer;
+}
+
 export function createQueueOptionProviders(
   options: RegisterQueueOptions[],
 ): Provider[] {
@@ -83,6 +99,31 @@ export function createQueueOptionProviders(
       {
         provide: getQueueOptionsToken(option.name),
         useFactory: (optionalDepHolder: IConditionalDepHolder<Queue>) => {
+          return {
+            ...optionalDepHolder.getDependencyRef(option.name),
+            ...option,
+          };
+        },
+        inject: [optionalSharedConfigHolder],
+      },
+    ];
+  });
+  return flatten(providers);
+}
+
+export function createFlowProducerOptionProviders(
+  options: RegisterFlowProducerOptions[],
+): Provider[] {
+  const providers = options.map((option) => {
+    const optionalSharedConfigHolder = createConditionalDepHolder(
+      getSharedConfigToken(option.configKey),
+      BULL_CONFIG_DEFAULT_TOKEN,
+    );
+    return [
+      optionalSharedConfigHolder,
+      {
+        provide: getFlowProducerOptionsToken(option.name),
+        useFactory: (optionalDepHolder: IConditionalDepHolder<FlowProducer>) => {
           return {
             ...optionalDepHolder.getDependencyRef(option.name),
             ...option,
@@ -116,4 +157,24 @@ export function createQueueProviders<
     inject: [getQueueOptionsToken(item.name)],
   }));
   return queueProviders;
+}
+
+export function createFlowProducerProviders<
+  TFlowProducer = FlowProducer,
+>(
+  options: RegisterFlowProducerOptions[],
+  flowProducerClass: Type<TFlowProducer>,
+): Provider[] {
+  const flowProducerProviders = options.map((item) => ({
+    provide: getFlowProducerToken(item.name),
+    useFactory: (flowProducerOptions: RegisterFlowProducerOptions) => {
+      const flowProducerName = flowProducerOptions.name || item.name;
+      return createFlowProducers(
+        { ...flowProducerOptions, name: flowProducerName },
+        flowProducerClass
+      );
+    },
+    inject: [getFlowProducerOptionsToken(item.name)],
+  }));
+  return flowProducerProviders;
 }

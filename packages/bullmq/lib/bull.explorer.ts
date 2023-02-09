@@ -10,6 +10,8 @@ import { Injector } from '@nestjs/core/injector/injector';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Module } from '@nestjs/core/injector/module';
 import {
+  FlowOpts,
+  FlowProducer,
   Processor,
   Queue,
   QueueEvents,
@@ -19,6 +21,7 @@ import {
 } from 'bullmq';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
 import { OnQueueEventMetadata, OnWorkerEventMetadata } from './decorators';
+import { NO_FLOW_PRODUCER_FOUND } from './bull.messages';
 import {
   InvalidProcessorClassError,
   InvalidQueueEventsListenerClassError,
@@ -116,6 +119,23 @@ export class BullExplorer implements OnModuleInit {
         });
       } catch (err) {
         this.logger.error(NO_QUEUE_FOUND(queueName));
+        throw err;
+      }
+    }
+  }
+
+  getFlowProducerOptions(flowProducerToken: string, name: string, configKey?: string) {
+    try {
+      const flowProducerRef = this.moduleRef.get<FlowProducer>(flowProducerToken, { strict: false });
+      return flowProducerRef.opts ?? {};
+    } catch (err) {
+      const sharedConfigToken = getSharedConfigToken(configKey);
+      try {
+        return this.moduleRef.get<FlowOpts>(sharedConfigToken, {
+          strict: false,
+        });
+      } catch (err) {
+        this.logger.error(NO_FLOW_PRODUCER_FOUND(name));
         throw err;
       }
     }
