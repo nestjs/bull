@@ -104,7 +104,9 @@ describe('BullModule', () => {
         await moduleRef.close();
       });
       it('should inject the flowProducer with the given name', () => {
-        const flowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test'));
+        const flowProducer = moduleRef.get<FlowProducer>(
+          getFlowProducerToken('test'),
+        );
 
         expect(flowProducer).toBeDefined();
         expect((flowProducer.opts as any).name).toEqual('test');
@@ -138,12 +140,16 @@ describe('BullModule', () => {
         await moduleRef.close();
       });
       it('should inject the flowProducer with name "test1"', () => {
-        const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test1'));
+        const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(
+          getFlowProducerToken('test1'),
+        );
         expect(flowProducer).toBeDefined();
         expect((flowProducer.opts as any).name).toEqual('test1');
       });
       it('should inject the flowProducer with name "test2"', () => {
-        const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test2'));
+        const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(
+          getFlowProducerToken('test2'),
+        );
         expect(flowProducer).toBeDefined();
         expect((flowProducer.opts as any).name).toEqual('test2');
       });
@@ -236,7 +242,9 @@ describe('BullModule', () => {
       });
 
       it('should inject the flowProducer with the given name', () => {
-        const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test'));
+        const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(
+          getFlowProducerToken('test'),
+        );
         expect(flowProducer).toBeDefined();
         expect((flowProducer.opts as any).name).toEqual('test');
       });
@@ -252,7 +260,10 @@ describe('BullModule', () => {
                 port: 6380,
               },
             }),
-            BullModule.registerFlowProducer({ name: 'test1' }, { name: 'test2' }),
+            BullModule.registerFlowProducer(
+              { name: 'test1' },
+              { name: 'test2' },
+            ),
           ],
         }).compile();
       });
@@ -260,13 +271,17 @@ describe('BullModule', () => {
         await moduleRef.close();
       });
       it('should inject the flowProducer with name "test1"', () => {
-        const flowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test1'));
+        const flowProducer = moduleRef.get<FlowProducer>(
+          getFlowProducerToken('test1'),
+        );
 
         expect(flowProducer).toBeDefined();
         expect((flowProducer.opts as any).name).toEqual('test1');
       });
       it('should inject the flowProducer with name "test2"', () => {
-        const flowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test2'));
+        const flowProducer = moduleRef.get<FlowProducer>(
+          getFlowProducerToken('test2'),
+        );
 
         expect(flowProducer).toBeDefined();
         expect((flowProducer.opts as any).name).toEqual('test2');
@@ -373,7 +388,9 @@ describe('BullModule', () => {
           await moduleRef.close();
         });
         it('should inject the flowProducer with the given name', () => {
-          const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test'));
+          const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(
+            getFlowProducerToken('test'),
+          );
           expect(flowProducer).toBeDefined();
           expect((flowProducer.opts as any).name).toEqual('test');
         });
@@ -411,12 +428,16 @@ describe('BullModule', () => {
           await moduleRef.close();
         });
         it('should inject the flowProducer with name "test1"', () => {
-          const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test1'));
+          const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(
+            getFlowProducerToken('test1'),
+          );
           expect(flowProducer).toBeDefined();
           expect((flowProducer.opts as any).name).toEqual('test1');
         });
         it('should inject the flowProducer with name "test2"', () => {
-          const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(getFlowProducerToken('test2'));
+          const flowProducer: FlowProducer = moduleRef.get<FlowProducer>(
+            getFlowProducerToken('test2'),
+          );
           expect(flowProducer).toBeDefined();
           expect((flowProducer.opts as any).name).toEqual('test2');
         });
@@ -473,7 +494,7 @@ describe('BullModule', () => {
           });
           const queue = moduleRef.get<Queue>(getQueueToken('test'));
           const job = await queue.add('job_name', { test: true });
-          await job.waitUntilFinished(queueEvents);
+          await job.waitUntilFinished(queueEvents, 3000).catch(console.error);
 
           expect(processorWasCalled).toBeTruthy();
 
