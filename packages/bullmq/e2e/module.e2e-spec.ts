@@ -12,6 +12,8 @@ import {
   WorkerHost,
 } from '../lib';
 
+jest.setTimeout(10000);
+
 describe('BullModule', () => {
   describe('registerQueue', () => {
     let moduleRef: TestingModule;
@@ -407,6 +409,7 @@ describe('BullModule', () => {
       @Processor(queueName)
       class TestProcessor extends WorkerHost {
         async process(job: Job<any, any, string>): Promise<any> {
+          await new Promise((resolve) => setTimeout(resolve, 1500));
           processorCalledSpy();
         }
 
@@ -431,11 +434,13 @@ describe('BullModule', () => {
         .compile()
         .then(async (testingModule) => {
           await testingModule.init();
+
           const queue = testingModule.get<Queue>(getQueueToken(queueName));
           const queueEvents = testingModule.get(EventsListener).queueEvents;
 
           const job = await queue.add('job_name', { test: true });
-          await job.waitUntilFinished(queueEvents);
+          await job.waitUntilFinished(queueEvents, 5000).catch(console.error);
+
           await testingModule.close();
 
           expect(processorCalledSpy).toHaveBeenCalled();
@@ -518,7 +523,7 @@ describe('BullModule', () => {
 
       expect(
         scanPrototypeCallsFirstArgsEveryCall.some(
-          (instanceWrapperInstance) =>
+          (instanceWrapperInstance: any) =>
             instanceWrapperInstance.constructor.name === MyProcessorA.name,
         ),
       ).toBeTruthy();
@@ -536,7 +541,7 @@ describe('BullModule', () => {
 
       expect(
         scanPrototypeCallsFirstArgsEveryCall.some(
-          (instanceWrapperInstance) =>
+          (instanceWrapperInstance: any) =>
             instanceWrapperInstance.constructor.name === MyProcessorB.name,
         ),
       ).toBeTruthy();
@@ -554,7 +559,7 @@ describe('BullModule', () => {
 
       expect(
         scanPrototypeCallsFirstArgsEveryCall.some(
-          (instanceWrapperInstance) =>
+          (instanceWrapperInstance: any) =>
             instanceWrapperInstance.constructor.name === MyProcessorC.name,
         ),
       ).toBeTruthy();

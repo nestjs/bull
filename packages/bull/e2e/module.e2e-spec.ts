@@ -1,6 +1,6 @@
 import { MetadataScanner } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Queue } from 'bull';
+import { DoneCallback, Queue } from 'bull';
 import { BullModule, getQueueToken, Processor } from '../lib';
 
 describe('BullModule', () => {
@@ -232,7 +232,7 @@ describe('BullModule', () => {
                   processors: [
                     (_, done) => {
                       processorWasCalled = true;
-                      done();
+                      done!();
                     },
                   ],
                 }),
@@ -376,7 +376,7 @@ describe('BullModule', () => {
     const queueName = 'full_flow_queue';
 
     it('should process jobs with the given processors', (done) => {
-      const processor = (_, complete: () => void) => {
+      const processor = (_, complete: DoneCallback) => {
         complete();
         done();
       };
@@ -469,7 +469,7 @@ describe('BullModule', () => {
 
       expect(
         scanPrototypeCallsFirstArgsEveryCall.some(
-          (instanceWrapperInstance) =>
+          (instanceWrapperInstance: any) =>
             instanceWrapperInstance.constructor.name === MyProcessorA.name,
         ),
       ).toBeTruthy();
@@ -487,7 +487,7 @@ describe('BullModule', () => {
 
       expect(
         scanPrototypeCallsFirstArgsEveryCall.some(
-          (instanceWrapperInstance) =>
+          (instanceWrapperInstance: any) =>
             instanceWrapperInstance.constructor.name === MyProcessorB.name,
         ),
       ).toBeTruthy();
@@ -505,7 +505,7 @@ describe('BullModule', () => {
 
       expect(
         scanPrototypeCallsFirstArgsEveryCall.some(
-          (instanceWrapperInstance) =>
+          (instanceWrapperInstance: any) =>
             instanceWrapperInstance.constructor.name === MyProcessorC.name,
         ),
       ).toBeTruthy();
