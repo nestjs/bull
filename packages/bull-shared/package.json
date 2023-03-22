@@ -19,8 +19,8 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@nestjs/common": "9.3.11",
-    "@nestjs/core": "9.3.11"
+    "@nestjs/common": "9.3.12",
+    "@nestjs/core": "9.3.12"
   },
   "peerDependencies": {
     "@nestjs/common": "^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0",
