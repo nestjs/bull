@@ -2287,14 +2287,14 @@ bull@4.10.4:
     semver "^7.3.2"
     uuid "^8.3.0"
 
-bullmq@3.7.2:
-  version "3.7.2"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-3.7.2.tgz#d5a0a15ee1f94a7fd022e2427cfe441c8d659588"
-  integrity sha512-UFtdkm4za7NAB1vdxqvFzmxZTQ/so8/FRf5wTn3ASYMl42rD5bxj0bVNCy4G6za+RVSjKeVcZvXU7uDxd8DURA==
+bullmq@3.13.4:
+  version "3.13.4"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-3.13.4.tgz#3ebf3628e4778e3ba05e7757d55369af49ddb0c8"
+  integrity sha512-3B16ZbOQSr9VoWpUXhoLB4khgxAbqwIiboJItA5rU2CEkLRe613w8yGxrivNdjJ6q8RcZtS+QvK0WHqCsuQYTQ==
   dependencies:
     cron-parser "^4.6.0"
     glob "^8.0.3"
-    ioredis "^5.3.0"
+    ioredis "^5.3.2"
     lodash "^4.17.21"
     msgpackr "^1.6.2"
     semver "^7.3.7"
@@ -4531,10 +4531,10 @@ ioredis@^5.0.0:
     redis-parser "^3.0.0"
     standard-as-callback "^2.1.0"
 
-ioredis@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-5.3.0.tgz#b5469f0fd374648ef074840c00c1d8eed42fca3f"
-  integrity sha512-Id9jKHhsILuIZpHc61QkagfVdUj2Rag5GzG1TGEvRNeM7dtTOjICgjC+tvqYxi//PuX2wjQ+Xjva2ONBuf92Pw==
+ioredis@^5.3.2:
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-5.3.2.tgz#9139f596f62fc9c72d873353ac5395bcf05709f7"
+  integrity sha512-1DKMMzlIHM02eBBVOFQ1+AolGjs6+xEcM4PDL7NqOS6szq7H9jSaEkIUH6/a5Hl241LzW6JLSiAbNvTQjUupUA==
   dependencies:
     "@ioredis/commands" "^1.1.1"
     cluster-key-slot "^1.1.0"
