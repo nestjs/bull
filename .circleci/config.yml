@@ -3,23 +3,23 @@ version: 2
 aliases:
   - &restore-cache
     restore_cache:
-        name: Restore Yarn Package Cache
-        keys:
-          - yarn-packages-{{ checksum "yarn.lock" }}
+      name: Restore Yarn Package Cache
+      keys:
+        - yarn-packages-{{ checksum "yarn.lock" }}
   - &install-deps
     run:
-        name: Install Dependencies
-        command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+      name: Install Dependencies
+      command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
   - &build-packages
     run:
-        name: Build
-        command: yarn build
+      name: Build
+      command: yarn build
   - &save-cache
     save_cache:
-        name: Save Yarn Package Cache
-        key: yarn-packages-{{ checksum "yarn.lock" }}
-        paths:
-          - ~/.cache/yarn
+      name: Save Yarn Package Cache
+      key: yarn-packages-{{ checksum "yarn.lock" }}
+      paths:
+        - ~/.cache/yarn
 
 jobs:
   build:
@@ -33,7 +33,7 @@ jobs:
       - *save-cache
       - run:
           name: Build
-          command: yarn build     
+          command: yarn build
 
   unit_tests:
     working_directory: ~/nest
@@ -52,17 +52,17 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: 
+      - run:
           name: Prepare nvm
           command: |
             echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
             echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-      - run: 
+      - run:
           name: Upgrade Node.js
           command: |
-            nvm install v16
+            nvm install v18
             node -v
-            nvm alias default v16
+            nvm alias default v18
       - run:
           name: Install Yarn
           command: npm install -g yarn
@@ -96,4 +96,3 @@ workflows:
       - integration_tests:
           requires:
             - build
-      
