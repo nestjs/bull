@@ -9,7 +9,7 @@ aliases:
   - &install-deps
     run:
       name: Install Dependencies
-      command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+      command: yarn install --ignore-scripts --frozen-lockfile --cache-folder ~/.cache/yarn
   - &build-packages
     run:
       name: Build
@@ -25,7 +25,7 @@ jobs:
   build:
     working_directory: ~/nest
     docker:
-      - image: cimg/node:20.2
+      - image: cimg/node:20.3
     steps:
       - checkout
       - *restore-cache
@@ -38,7 +38,7 @@ jobs:
   unit_tests:
     working_directory: ~/nest
     docker:
-      - image: cimg/node:20.2
+      - image: cimg/node:20.3
     steps:
       - checkout
       - *restore-cache
