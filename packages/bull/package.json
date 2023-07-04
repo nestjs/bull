@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@nestjs/bull-shared": "^10.0.0",
-    "tslib": "2.5.3"
+    "tslib": "2.6.0"
   },
   "devDependencies": {
     "@nestjs/common": "10.0.5",
