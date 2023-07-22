@@ -28,7 +28,7 @@
     "@nestjs/platform-express": "10.1.0",
     "@nestjs/testing": "10.1.0",
     "@types/jest": "29.5.3",
-    "@types/node": "18.16.19",
+    "@types/node": "18.16.20",
     "@types/reflect-metadata": "0.1.0",
     "bullmq": "4.6.0",
     "reflect-metadata": "0.1.13",
