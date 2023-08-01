@@ -28,7 +28,6 @@ Monorepo containing Nest modules for [Bull](https://github.com/OptimalBits/bull)
 
 ```bash
 $ npm i --save @nestjs/bull bull
-$ npm i --save-dev @types/bull
 ```
 
 ## Installation (BullMQ)
