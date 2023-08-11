@@ -2348,10 +2348,10 @@ builtins@^5.0.0:
   dependencies:
     semver "^7.0.0"
 
-bull@4.11.2:
-  version "4.11.2"
-  resolved "https://registry.yarnpkg.com/bull/-/bull-4.11.2.tgz#096107cf518244ae112e1da8b3f7df9e8a248307"
-  integrity sha512-501XgYBo7rx3EN0BaDDGZr3KOfoijkmTk8L6YUePZCXnXP0H/Nz63e+KiHMX7pt+wod5mRy2wHqVMPHWyTl0Qw==
+bull@4.11.3:
+  version "4.11.3"
+  resolved "https://registry.yarnpkg.com/bull/-/bull-4.11.3.tgz#466214c8d2aa6ac4fc3133c3616d31a37af4c099"
+  integrity sha512-DhS0XtiAuejkAY08iGOdDK35eex/yGNoezlWqGJTu9FqWFF/oBjUhpsusE9SXiI4culyDbOoFs+l3ar0VXhFqQ==
   dependencies:
     cron-parser "^4.2.1"
     get-port "^5.1.1"
