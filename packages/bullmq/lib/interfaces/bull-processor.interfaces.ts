@@ -11,4 +11,5 @@ export interface BullQueueAdvancedProcessor {
 export interface BullQueueAdvancedSeparateProcessor {
   concurrency?: number;
   path: BullQueueSeparateProcessor;
+  useWorkerThreads?: boolean;
 }
