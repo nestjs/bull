@@ -34,7 +34,7 @@
     "@types/jest": "29.5.5",
     "@types/node": "18.18.5",
     "@types/reflect-metadata": "0.1.0",
-    "bull": "4.11.3",
+    "bull": "4.11.4",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.8.1"
   },
