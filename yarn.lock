@@ -305,14 +305,14 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@commitlint/cli@18.1.0":
-  version "18.1.0"
-  resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-18.1.0.tgz#ed98354b40fd96da6012c649a1483b6b26f06831"
-  integrity sha512-ZT95pRNGD9fEEX1ih0yKyJ65U3Y88vLrJjK6hlSpLrJFioQNXTI4sSoOq7hHnOsJAmTsgEg5zxIY8qTzgEQtWg==
+"@commitlint/cli@18.2.0":
+  version "18.2.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-18.2.0.tgz#c2dc8f0a834b5c4befa48cad6396f694f28d2b5f"
+  integrity sha512-F/DCG791kMFmWg5eIdogakuGeg4OiI2kD430ed1a1Hh3epvrJdeIAgcGADAMIOmF+m0S1+VlIYUKG2dvQQ1Izw==
   dependencies:
     "@commitlint/format" "^18.1.0"
     "@commitlint/lint" "^18.1.0"
-    "@commitlint/load" "^18.1.0"
+    "@commitlint/load" "^18.2.0"
     "@commitlint/read" "^18.1.0"
     "@commitlint/types" "^18.1.0"
     execa "^5.0.0"
@@ -391,10 +391,10 @@
     "@commitlint/rules" "^18.1.0"
     "@commitlint/types" "^18.1.0"
 
-"@commitlint/load@^18.1.0":
-  version "18.1.0"
-  resolved "https://registry.yarnpkg.com/@commitlint/load/-/load-18.1.0.tgz#21b6dedd2fedc96d148d1ac012468035f8368234"
-  integrity sha512-oZbAV3wdh4f5EB99y6U1uY1grvU1Oz1EYtWML9Zu4he6sgzVGHuIP81mka8exFp4bGytaUmuIKl+ahck3P4HoQ==
+"@commitlint/load@^18.2.0":
+  version "18.2.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/load/-/load-18.2.0.tgz#ca2428c306d0b7f5ae9bac91991efaa359ba0ad6"
+  integrity sha512-xjX3d3CRlOALwImhOsmLYZh14/+gW/KxsY7+bPKrzmGuFailf9K7ckhB071oYZVJdACnpY4hDYiosFyOC+MpAA==
   dependencies:
     "@commitlint/config-validator" "^18.1.0"
     "@commitlint/execute-rule" "^18.1.0"
@@ -403,13 +403,11 @@
     "@types/node" "^18.11.9"
     chalk "^4.1.0"
     cosmiconfig "^8.0.0"
-    cosmiconfig-typescript-loader "^4.0.0"
+    cosmiconfig-typescript-loader "^5.0.0"
     lodash.isplainobject "^4.0.6"
     lodash.merge "^4.6.2"
     lodash.uniq "^4.5.0"
     resolve-from "^5.0.0"
-    ts-node "^10.8.1"
-    typescript "^5.2.2"
 
 "@commitlint/message@^18.1.0":
   version "18.1.0"
@@ -2961,10 +2959,12 @@ cors@2.8.5:
     object-assign "^4"
     vary "^1"
 
-cosmiconfig-typescript-loader@^4.0.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/cosmiconfig-typescript-loader/-/cosmiconfig-typescript-loader-4.4.0.tgz#f3feae459ea090f131df5474ce4b1222912319f9"
-  integrity sha512-BabizFdC3wBHhbI4kJh0VkQP9GkBfoHPydD0COMce1nJ1kJAB3F2TmJ/I7diULBKtmEWSwEbuN/KDtgnmUUVmw==
+cosmiconfig-typescript-loader@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/cosmiconfig-typescript-loader/-/cosmiconfig-typescript-loader-5.0.0.tgz#0d3becfe022a871f7275ceb2397d692e06045dc8"
+  integrity sha512-+8cK7jRAReYkMwMiG+bxhcNKiHJDM6bR9FD/nGBXOWdMLuYawjF5cGrtLilJ+LGd3ZjCXnJjR5DkfWPoIVlqJA==
+  dependencies:
+    jiti "^1.19.1"
 
 cosmiconfig@7.0.0:
   version "7.0.0"
@@ -5469,6 +5469,11 @@ jest@29.7.0:
     "@jest/types" "^29.6.3"
     import-local "^3.0.2"
     jest-cli "^29.7.0"
+
+jiti@^1.19.1:
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.20.0.tgz#2d823b5852ee8963585c8dd8b7992ffc1ae83b42"
+  integrity sha512-3TV69ZbrvV6U5DfQimop50jE9Dl6J8O1ja1dvBbMba/sZ3YBEQqJ2VZRoQPVnhlzjNtU1vaXRZVrVjU4qtm8yA==
 
 js-tokens@^4.0.0:
   version "4.0.0"
@@ -8396,7 +8401,7 @@ ts-jest@29.1.1:
     semver "^7.5.3"
     yargs-parser "^21.0.1"
 
-ts-node@10.9.1, ts-node@^10.8.1:
+ts-node@10.9.1:
   version "10.9.1"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.9.1.tgz#e73de9102958af9e1f0b168a6ff320e25adcff4b"
   integrity sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==
@@ -8579,7 +8584,7 @@ typedarray@^0.0.6:
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@5.2.2, typescript@^5.2.2:
+typescript@5.2.2:
   version "5.2.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.2.2.tgz#5ebb5e5a5b75f085f22bc3f8460fba308310fa78"
   integrity sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==
