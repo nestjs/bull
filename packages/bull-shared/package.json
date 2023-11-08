@@ -16,7 +16,7 @@
   "types": "dist/index.d.ts",
   "scripts": {},
   "dependencies": {
-    "tslib": "2.6.0"
+    "tslib": "2.6.2"
   },
   "devDependencies": {
     "@nestjs/common": "10.2.8",
