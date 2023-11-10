@@ -43,9 +43,9 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "18.2.0",
-    "@commitlint/config-angular": "18.1.0",
-    "@commitlint/config-conventional": "18.1.0",
+    "@commitlint/cli": "18.4.0",
+    "@commitlint/config-angular": "18.4.0",
+    "@commitlint/config-conventional": "18.4.0",
     "@typescript-eslint/eslint-plugin": "6.10.0",
     "@typescript-eslint/parser": "6.10.0",
     "eslint": "8.53.0",
