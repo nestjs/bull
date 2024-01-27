@@ -1,7 +1,7 @@
 import { Scope, SetMetadata } from '@nestjs/common';
 import { SCOPE_OPTIONS_METADATA } from '@nestjs/common/constants';
-import { WorkerOptions } from 'bullmq';
 import { PROCESSOR_METADATA, WORKER_METADATA } from '../bull.constants';
+import { NestWorkerOptions } from '../interfaces/worker-options.interface';
 
 export interface ProcessorOptions {
   /**
@@ -30,7 +30,7 @@ export function Processor(queueName: string): ClassDecorator;
  */
 export function Processor(
   queueName: string,
-  workerOptions: WorkerOptions,
+  workerOptions: NestWorkerOptions,
 ): ClassDecorator;
 /**
  * Represents a worker that is able to process jobs from the queue.
@@ -44,11 +44,11 @@ export function Processor(processorOptions: ProcessorOptions): ClassDecorator;
  */
 export function Processor(
   processorOptions: ProcessorOptions,
-  workerOptions: WorkerOptions,
+  workerOptions: NestWorkerOptions,
 ): ClassDecorator;
 export function Processor(
   queueNameOrOptions?: string | ProcessorOptions,
-  maybeWorkerOptions?: WorkerOptions,
+  maybeWorkerOptions?: NestWorkerOptions,
 ): ClassDecorator {
   const options =
     queueNameOrOptions && typeof queueNameOrOptions === 'object'

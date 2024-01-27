@@ -1,8 +1,10 @@
 import { FactoryProvider, ModuleMetadata, Type } from '@nestjs/common';
 import { QueueOptions } from 'bullmq';
 import { BullQueueProcessor } from '../bull.types';
+import { PartialThisParameter } from '../utils/partial-this-parameter.type';
 
-export interface RegisterQueueOptions extends QueueOptions {
+export interface RegisterQueueOptions
+  extends PartialThisParameter<QueueOptions, 'connection'> {
   /**
    * Queue name
    *
@@ -21,6 +23,12 @@ export interface RegisterQueueOptions extends QueueOptions {
    * Additional queue processors
    */
   processors?: BullQueueProcessor[];
+
+  /**
+   * @deperecated
+   * This option is not supported in BullMQ 5 and considered a bad practice in prior versions.
+   * */
+  sharedConnection?: boolean;
 }
 
 export interface RegisterQueueOptionsFactory {
