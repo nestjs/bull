@@ -68,20 +68,28 @@ function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
     async function (this: Queue) {
       const closeWorkers = workerRefs.map((worker) => worker.close());
       await Promise.all(closeWorkers);
-      return this.close();
+      await this.close();
+
+      if (this.disconnect) {
+        return this.disconnect();
+      }
     };
   return queue;
 }
 
 function createFlowProducers<TFlowProducer = FlowProducer>(
   options: RegisterFlowProducerOptions,
-  flowProducerClass: Type<TFlowProducer>
+  flowProducerClass: Type<TFlowProducer>,
 ): TFlowProducer {
   const flowProducer = new flowProducerClass(options);
 
   (flowProducer as unknown as OnApplicationShutdown).onApplicationShutdown =
     async function (this: FlowProducer) {
-      return this.close();
+      await this.close();
+
+      if (this.disconnect) {
+        return this.disconnect();
+      }
     };
   return flowProducer;
 }
@@ -123,7 +131,9 @@ export function createFlowProducerOptionProviders(
       optionalSharedConfigHolder,
       {
         provide: getFlowProducerOptionsToken(option.name),
-        useFactory: (optionalDepHolder: IConditionalDepHolder<FlowProducer>) => {
+        useFactory: (
+          optionalDepHolder: IConditionalDepHolder<FlowProducer>,
+        ) => {
           return {
             ...optionalDepHolder.getDependencyRef(option.name),
             ...option,
@@ -159,9 +169,7 @@ export function createQueueProviders<
   return queueProviders;
 }
 
-export function createFlowProducerProviders<
-  TFlowProducer = FlowProducer,
->(
+export function createFlowProducerProviders<TFlowProducer = FlowProducer>(
   options: RegisterFlowProducerOptions[],
   flowProducerClass: Type<TFlowProducer>,
 ): Provider[] {
@@ -171,7 +179,7 @@ export function createFlowProducerProviders<
       const flowProducerName = flowProducerOptions.name || item.name;
       return createFlowProducers(
         { ...flowProducerOptions, name: flowProducerName },
-        flowProducerClass
+        flowProducerClass,
       );
     },
     inject: [getFlowProducerOptionsToken(item.name)],

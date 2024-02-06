@@ -1,6 +1,5 @@
 import { Injectable, Type } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { WorkerOptions } from 'bullmq';
 import {
   ON_QUEUE_EVENT_METADATA,
   ON_WORKER_EVENT_METADATA,
@@ -14,6 +13,7 @@ import {
   ProcessorOptions,
   QueueEventsListenerOptions,
 } from './decorators';
+import { NestWorkerOptions } from './interfaces/worker-options.interface';
 
 @Injectable()
 export class BullMetadataAccessor {
@@ -39,7 +39,7 @@ export class BullMetadataAccessor {
     return this.reflector.get(PROCESSOR_METADATA, target);
   }
 
-  getWorkerOptionsMetadata(target: Type<any> | Function): WorkerOptions {
+  getWorkerOptionsMetadata(target: Type<any> | Function): NestWorkerOptions {
     return this.reflector.get(WORKER_METADATA, target) ?? {};
   }
 

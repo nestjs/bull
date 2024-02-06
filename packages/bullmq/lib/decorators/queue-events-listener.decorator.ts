@@ -1,10 +1,10 @@
 import { SetMetadata } from '@nestjs/common';
-import { QueueEventsOptions } from 'bullmq';
 import { QUEUE_EVENTS_LISTENER_METADATA } from '../bull.constants';
+import { NestQueueEventOptions } from '../interfaces/queue-event-options.interface';
 
 export type QueueEventsListenerOptions = {
   queueName: string;
-  queueEventsOptions?: QueueEventsOptions;
+  queueEventsOptions?: NestQueueEventOptions;
 };
 
 /**
@@ -12,7 +12,7 @@ export type QueueEventsListenerOptions = {
  */
 export function QueueEventsListener(
   queueName: string,
-  queueEventsOptions?: QueueEventsOptions,
+  queueEventsOptions?: NestQueueEventOptions,
 ): ClassDecorator {
   return (target: Function) => {
     SetMetadata(QUEUE_EVENTS_LISTENER_METADATA, {

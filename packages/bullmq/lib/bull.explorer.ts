@@ -15,9 +15,7 @@ import {
   Processor,
   Queue,
   QueueEvents,
-  QueueOptions,
   Worker,
-  WorkerOptions,
 } from 'bullmq';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
 import { OnQueueEventMetadata, OnWorkerEventMetadata } from './decorators';
@@ -28,6 +26,8 @@ import {
 } from './errors';
 import { QueueEventsHost, WorkerHost } from './hosts';
 import { getSharedConfigToken } from './utils/get-shared-config-token.util';
+import { NestQueueEventOptions } from './interfaces/queue-event-options.interface';
+import { NestWorkerOptions } from './interfaces/worker-options.interface';
 
 @Injectable()
 export class BullExplorer implements OnModuleInit {
@@ -110,11 +110,11 @@ export class BullExplorer implements OnModuleInit {
   getQueueOptions(queueToken: string, queueName: string, configKey?: string) {
     try {
       const queueRef = this.moduleRef.get<Queue>(queueToken, { strict: false });
-      return queueRef.opts ?? {};
+      return (queueRef.opts ?? {}) as NestQueueEventOptions;
     } catch (err) {
       const sharedConfigToken = getSharedConfigToken(configKey);
       try {
-        return this.moduleRef.get<QueueOptions>(sharedConfigToken, {
+        return this.moduleRef.get<NestQueueEventOptions>(sharedConfigToken, {
           strict: false,
         });
       } catch (err) {
@@ -124,9 +124,16 @@ export class BullExplorer implements OnModuleInit {
     }
   }
 
-  getFlowProducerOptions(flowProducerToken: string, name: string, configKey?: string) {
+  getFlowProducerOptions(
+    flowProducerToken: string,
+    name: string,
+    configKey?: string,
+  ) {
     try {
-      const flowProducerRef = this.moduleRef.get<FlowProducer>(flowProducerToken, { strict: false });
+      const flowProducerRef = this.moduleRef.get<FlowProducer>(
+        flowProducerToken,
+        { strict: false },
+      );
       return flowProducerRef.opts ?? {};
     } catch (err) {
       const sharedConfigToken = getSharedConfigToken(configKey);
@@ -144,10 +151,10 @@ export class BullExplorer implements OnModuleInit {
   handleProcessor<T extends WorkerHost>(
     instance: T,
     queueName: string,
-    queueOpts: QueueOptions,
+    queueOpts: NestQueueEventOptions,
     moduleRef: Module,
     isRequestScoped: boolean,
-    options: WorkerOptions = {},
+    options: NestWorkerOptions = {},
   ) {
     const methodKey = 'process';
     let processor: Processor<any, void, string>;
