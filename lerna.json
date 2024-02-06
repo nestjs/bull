@@ -1,7 +1,5 @@
 {
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "command": {
     "version": {
       "message": "chore(release): publish new releases"
@@ -9,7 +7,6 @@
   },
   "version": "independent",
   "npmClient": "yarn",
-  "useWorkspaces": true,
   "changelog": {
     "labels": {
       "feature": "Features",
