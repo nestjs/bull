@@ -9,7 +9,7 @@ export abstract class QueueEventsHost<T extends QueueEvents = QueueEvents>
   get queueEvents(): T {
     if (!this._queueEvents) {
       throw new Error(
-        '"QueueEvents" class has not yet been initialized. Make sure to interact with queue events instances after the "onModuleInit" lifecycle hook is triggered, for example, in the "onApplicationBootstrap" hook.',
+        '"QueueEvents" class has not yet been initialized. Make sure to interact with queue events instances after the "onModuleInit" lifecycle hook is triggered, for example, in the "onApplicationBootstrap" hook, or if manualRegistration is true make sure that to call "BullRegistrator.register()"',
       );
     }
     return this._queueEvents;

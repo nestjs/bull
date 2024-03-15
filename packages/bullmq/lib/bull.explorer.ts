@@ -30,7 +30,7 @@ import { NestQueueEventOptions } from './interfaces/queue-event-options.interfac
 import { NestWorkerOptions } from './interfaces/worker-options.interface';
 
 @Injectable()
-export class BullExplorer implements OnModuleInit {
+export class BullExplorer {
   private static _workerClass: Type = Worker;
   private readonly logger = new Logger('BullModule');
   private readonly injector = new Injector();
@@ -46,7 +46,7 @@ export class BullExplorer implements OnModuleInit {
     private readonly metadataScanner: MetadataScanner,
   ) {}
 
-  onModuleInit() {
+  register() {
     this.registerWorkers();
     this.registerQueueEventListeners();
   }
