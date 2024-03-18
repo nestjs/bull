@@ -9,7 +9,7 @@ export abstract class WorkerHost<T extends Worker = Worker>
   get worker(): T {
     if (!this._worker) {
       throw new Error(
-        '"Worker" has not yet been initialized. Make sure to interact with worker instances after the "onModuleInit" lifecycle hook is triggered for example, in the "onApplicationBootstrap" hook, or if manualRegistration is true make sure that to call "BullRegistrator.register()"',
+        '"Worker" has not yet been initialized. Make sure to interact with worker instances after the "onModuleInit" lifecycle hook is triggered for example, in the "onApplicationBootstrap" hook, or if "manualRegistration" is set to true make sure to call "BullRegistrator.register()"',
       );
     }
     return this._worker;

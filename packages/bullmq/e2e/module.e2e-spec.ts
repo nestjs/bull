@@ -729,10 +729,10 @@ describe('BullModule', () => {
           await testingModule.init();
 
           expect(() => testingModule.get(TestProcessor).worker).toThrow(
-            '"Worker" has not yet been initialized. Make sure to interact with worker instances after the "onModuleInit" lifecycle hook is triggered for example, in the "onApplicationBootstrap" hook, or if manualRegistration is true make sure that to call "BullRegistrator.register()"',
+            '"Worker" has not yet been initialized. Make sure to interact with worker instances after the "onModuleInit" lifecycle hook is triggered for example, in the "onApplicationBootstrap" hook, or if "manualRegistration" is set to true make sure to call "BullRegistrator.register()"',
           );
           expect(() => testingModule.get(EventsListener).queueEvents).toThrow(
-            '"QueueEvents" class has not yet been initialized. Make sure to interact with queue events instances after the "onModuleInit" lifecycle hook is triggered, for example, in the "onApplicationBootstrap" hook, or if manualRegistration is true make sure that to call "BullRegistrator.register()"',
+            '"QueueEvents" class has not yet been initialized. Make sure to interact with queue events instances after the "onModuleInit" lifecycle hook is triggered, for example, in the "onApplicationBootstrap" hook, or if "manualRegistration" is set to true make sure to call "BullRegistrator.register()"',
           );
 
           const bullRegistrator = testingModule.get(BullRegistrator);
@@ -799,10 +799,10 @@ describe('BullModule', () => {
           await testingModule.init();
 
           expect(() => testingModule.get(TestProcessor).worker).toThrow(
-            '"Worker" has not yet been initialized. Make sure to interact with worker instances after the "onModuleInit" lifecycle hook is triggered for example, in the "onApplicationBootstrap" hook, or if manualRegistration is true make sure that to call "BullRegistrator.register()"',
+            '"Worker" has not yet been initialized. Make sure to interact with worker instances after the "onModuleInit" lifecycle hook is triggered for example, in the "onApplicationBootstrap" hook, or if "manualRegistration" is set to true make sure to call "BullRegistrator.register()"',
           );
           expect(() => testingModule.get(EventsListener).queueEvents).toThrow(
-            '"QueueEvents" class has not yet been initialized. Make sure to interact with queue events instances after the "onModuleInit" lifecycle hook is triggered, for example, in the "onApplicationBootstrap" hook, or if manualRegistration is true make sure that to call "BullRegistrator.register()"',
+            '"QueueEvents" class has not yet been initialized. Make sure to interact with queue events instances after the "onModuleInit" lifecycle hook is triggered, for example, in the "onApplicationBootstrap" hook, or if "manualRegistration" is set to true make sure to call "BullRegistrator.register()"',
           );
 
           const bullRegistrator = testingModule.get(BullRegistrator);
