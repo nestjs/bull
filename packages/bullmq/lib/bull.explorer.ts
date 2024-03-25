@@ -26,7 +26,7 @@ import {
 } from './errors';
 import { QueueEventsHost, WorkerHost } from './hosts';
 import { getSharedConfigToken } from './utils/get-shared-config-token.util';
-import { NestQueueEventOptions } from './interfaces/queue-event-options.interface';
+import { NestQueueOptions } from './interfaces/queue-options.interface';
 import { NestWorkerOptions } from './interfaces/worker-options.interface';
 
 @Injectable()
@@ -110,11 +110,11 @@ export class BullExplorer implements OnModuleInit {
   getQueueOptions(queueToken: string, queueName: string, configKey?: string) {
     try {
       const queueRef = this.moduleRef.get<Queue>(queueToken, { strict: false });
-      return (queueRef.opts ?? {}) as NestQueueEventOptions;
+      return (queueRef.opts ?? {}) as NestQueueOptions;
     } catch (err) {
       const sharedConfigToken = getSharedConfigToken(configKey);
       try {
-        return this.moduleRef.get<NestQueueEventOptions>(sharedConfigToken, {
+        return this.moduleRef.get<NestQueueOptions>(sharedConfigToken, {
           strict: false,
         });
       } catch (err) {
@@ -151,7 +151,7 @@ export class BullExplorer implements OnModuleInit {
   handleProcessor<T extends WorkerHost>(
     instance: T,
     queueName: string,
-    queueOpts: NestQueueEventOptions,
+    queueOpts: NestQueueOptions,
     moduleRef: Module,
     isRequestScoped: boolean,
     options: NestWorkerOptions = {},
