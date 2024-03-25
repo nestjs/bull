@@ -1,6 +1,6 @@
 {
   "name": "@nestjs/bull",
-  "version": "10.1.0",
+  "version": "10.1.1",
   "description": "Nest - modern, fast, powerful node.js web framework (@bull)",
   "homepage": "https://github.com/nestjs/bull",
   "bugs": {
@@ -22,7 +22,7 @@
     "test:e2e": "jest --config=e2e/jest-e2e.config.ts --detectOpenHandles --runInBand"
   },
   "dependencies": {
-    "@nestjs/bull-shared": "^10.1.0",
+    "@nestjs/bull-shared": "^10.1.1",
     "tslib": "2.6.2"
   },
   "devDependencies": {
