@@ -28,6 +28,12 @@ export interface BullModuleOptions extends BullRootModuleOptions {
    * Additional queue processors
    */
   processors?: BullQueueProcessor[];
+
+  /**
+   * Callback for application shutdown, for eg. to do `queue.pause(true)` to pause processing
+   * The default behavior is `queue.close()`
+   */
+  onApplicationShutdown?: (queue: Bull.Queue) => Promise<void>;
 }
 
 export interface BullOptionsFactory {
@@ -47,6 +53,12 @@ export interface BullModuleAsyncOptions
    * Shared configuration key.
    */
   configKey?: string;
+
+  /**
+   * Callback for application shutdown, for eg. to do `queue.pause(true)` to pause processing
+   * The default behavior is `queue.close()`
+   */
+  onApplicationShutdown?: (queue: Bull.Queue) => Promise<void>;
 
   /**
    * Existing Provider to be used.

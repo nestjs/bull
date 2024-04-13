@@ -43,7 +43,9 @@ function buildQueue(options: BullModuleOptions): Queue {
   (queue as unknown as OnApplicationShutdown).onApplicationShutdown = function (
     this: Queue,
   ) {
-    return this.close();
+    return options.onApplicationShutdown
+      ? options.onApplicationShutdown(this)
+      : this.close();
   };
   return queue;
 }
