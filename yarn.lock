@@ -2318,10 +2318,23 @@ builtins@^5.0.0:
   dependencies:
     semver "^7.0.0"
 
-bull@*, bull@4.12.2:
+bull@*:
   version "4.12.2"
   resolved "https://registry.yarnpkg.com/bull/-/bull-4.12.2.tgz#302ee8f35fd37c31baf58817cce9a2c6930c3c5d"
   integrity sha512-WPuc0VCYx+cIVMiZtPwRpWyyJFBrj4/OgKJ6n9Jf4tIw7rQNV+HAKQv15UDkcTvfpGFehvod7Fd1YztbYSJIDQ==
+  dependencies:
+    cron-parser "^4.2.1"
+    get-port "^5.1.1"
+    ioredis "^5.3.2"
+    lodash "^4.17.21"
+    msgpackr "^1.10.1"
+    semver "^7.5.2"
+    uuid "^8.3.0"
+
+bull@4.12.3:
+  version "4.12.3"
+  resolved "https://registry.yarnpkg.com/bull/-/bull-4.12.3.tgz#3b767b719d7ee196e5ee20fcfe5d7bbeced71f7b"
+  integrity sha512-TGHuvHr6NYN6mQyHTFHJELdEu4JMCir8zcNd9Uv91qTWILiTpoglC3Un1PsxMwNXr49BVfdWE0xuB1nV4+cJPA==
   dependencies:
     cron-parser "^4.2.1"
     get-port "^5.1.1"
