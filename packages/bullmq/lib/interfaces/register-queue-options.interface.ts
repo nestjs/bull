@@ -25,7 +25,7 @@ export interface RegisterQueueOptions
   processors?: BullQueueProcessor[];
 
   /**
-   * @deperecated
+   * @deprecated
    * This option is not supported in BullMQ 5 and considered a bad practice in prior versions.
    * */
   sharedConnection?: boolean;
