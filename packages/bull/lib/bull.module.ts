@@ -125,8 +125,11 @@ export class BullModule {
   static registerQueue(...options: BullModuleOptions[]): DynamicModule {
     const queueProviders = createQueueProviders([].concat(options));
     const queueOptionProviders = createQueueOptionProviders([].concat(options));
+    const global = options.every((option) => !!option.isGlobal);
+
     return {
       module: BullModule,
+      global,
       imports: [BullModule.registerCore()],
       providers: [...queueOptionProviders, ...queueProviders],
       exports: queueProviders,

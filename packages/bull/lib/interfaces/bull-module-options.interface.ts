@@ -28,6 +28,11 @@ export interface BullModuleOptions extends BullRootModuleOptions {
    * Additional queue processors
    */
   processors?: BullQueueProcessor[];
+
+  /**
+   * Register in global scope
+   */
+  isGlobal?: boolean;
 }
 
 export interface BullOptionsFactory {
