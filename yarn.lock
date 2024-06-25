@@ -2405,10 +2405,10 @@ bull@*:
     semver "^7.5.2"
     uuid "^8.3.0"
 
-bull@4.13.1:
-  version "4.13.1"
-  resolved "https://registry.yarnpkg.com/bull/-/bull-4.13.1.tgz#16c281e5c8417468069feec9176fdf147bd27850"
-  integrity sha512-UI7oSeBCy5BCU0TRYYQenGseG+Kijq8X9PWf8Z7QEIeXT0YEJZ/7lH5IT4jHVP/rCmU8XoTm5vIc9d6xLo96og==
+bull@4.14.0:
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/bull/-/bull-4.14.0.tgz#c7f62b5ecc3802e59062acfc49209ee688c53711"
+  integrity sha512-AK8ooYFxCEv0r0Uz3JvK65DZbQzDs7jBf/fpept6oxnPT8JFwZ64++NgVTfjE+SiiHZBXuMxH+VScpW9YUxDiw==
   dependencies:
     cron-parser "^4.2.1"
     get-port "^5.1.1"
