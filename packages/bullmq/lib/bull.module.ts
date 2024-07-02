@@ -4,7 +4,7 @@ import {
 } from '@nestjs/bull-shared';
 import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
-import { FlowProducer, Queue, QueueBaseOptions, QueueOptions, Worker } from 'bullmq';
+import { FlowProducer, Queue, QueueBaseOptions, Worker } from 'bullmq';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
 import { BullExplorer } from './bull.explorer';
 import {
@@ -14,6 +14,8 @@ import {
   createQueueProviders,
 } from './bull.providers';
 import {
+  BullModuleExtraOptions,
+  BullRootModuleOptions,
   RegisterFlowProducerAsyncOptions,
   RegisterFlowProducerOptions,
   RegisterFlowProducerOptionsFactory,
@@ -31,6 +33,8 @@ import {
   getQueueOptionsToken,
   getSharedConfigToken,
 } from './utils';
+import { BullRegistrator } from './bull.registrator';
+import { getExtraOptionToken } from './utils/get-extra-options-token.util';
 
 @Module({})
 export class BullModule {
@@ -57,7 +61,7 @@ export class BullModule {
   static set flowProducerClass(cls: Type) {
     this._flowProducerClass = cls;
   }
-  
+
   /**
    * Class to be used to create Bull workers.
    * This configuration property can be used to instruct the "@nestjs/bullmq"
@@ -74,14 +78,17 @@ export class BullModule {
    *
    * @param bullConfig shared bull configuration object
    */
-  static forRoot(bullConfig: QueueOptions): DynamicModule;
+  static forRoot(bullConfig: BullRootModuleOptions): DynamicModule;
   /**
    * Registers a globally available configuration under a specified "configKey".
    *
    * @param configKey a key under which the configuration should be available
    * @param sharedBullConfig shared bull configuration object
    */
-  static forRoot(configKey: string, bullConfig: QueueOptions): DynamicModule;
+  static forRoot(
+    configKey: string,
+    bullConfig: BullRootModuleOptions,
+  ): DynamicModule;
   /**
    * Registers a globally available configuration for all queues
    * or using a specified "configKey" (if passed).
@@ -90,24 +97,31 @@ export class BullModule {
    * @param bullConfig bull configuration object
    */
   static forRoot(
-    keyOrConfig: string | QueueOptions,
-    bullConfig?: QueueOptions,
+    keyOrConfig: string | BullRootModuleOptions,
+    bullConfig?: BullRootModuleOptions,
   ): DynamicModule {
     const [configKey, sharedBullConfig] =
       typeof keyOrConfig === 'string'
         ? [keyOrConfig, bullConfig]
         : [undefined, keyOrConfig];
 
+    const { extraOptions, ...config } = sharedBullConfig;
+
     const sharedBullConfigProvider: Provider = {
       provide: getSharedConfigToken(configKey),
-      useValue: sharedBullConfig,
+      useValue: config,
+    };
+
+    const extraOptionsProvider: Provider = {
+      provide: getExtraOptionToken(),
+      useValue: extraOptions,
     };
 
     return {
       global: true,
       module: BullModule,
-      providers: [sharedBullConfigProvider],
-      exports: [sharedBullConfigProvider],
+      providers: [sharedBullConfigProvider, extraOptionsProvider],
+      exports: [sharedBullConfigProvider, extraOptionsProvider],
     };
   }
 
@@ -231,13 +245,15 @@ export class BullModule {
 
   private static createAsyncOptionsProvider(
     asyncOptions: RegisterQueueAsyncOptions,
-    optionalSharedConfigHolderRef: Type<IConditionalDepHolder<QueueOptions>>,
+    optionalSharedConfigHolderRef: Type<
+      IConditionalDepHolder<BullRootModuleOptions>
+    >,
   ): Provider {
     if (asyncOptions.useFactory) {
       return {
         provide: getQueueOptionsToken(asyncOptions.name),
         useFactory: async (
-          optionalDepHolder: IConditionalDepHolder<QueueOptions>,
+          optionalDepHolder: IConditionalDepHolder<BullRootModuleOptions>,
           ...factoryArgs: unknown[]
         ) => {
           return {
@@ -256,7 +272,7 @@ export class BullModule {
     return {
       provide: getQueueOptionsToken(asyncOptions.name),
       useFactory: async (
-        optionalDepHolder: IConditionalDepHolder<QueueOptions>,
+        optionalDepHolder: IConditionalDepHolder<BullRootModuleOptions>,
         optionsFactory: RegisterQueueOptionsFactory,
       ) => {
         return {
@@ -268,13 +284,16 @@ export class BullModule {
     };
   }
 
-  static registerFlowProducer(...options: RegisterFlowProducerOptions[]): DynamicModule {
+  static registerFlowProducer(
+    ...options: RegisterFlowProducerOptions[]
+  ): DynamicModule {
     const optionsArr = [].concat(options);
     const flowProducerProviders = createFlowProducerProviders(
       optionsArr,
       this._flowProducerClass,
     );
-    const flowProducerOptionProviders = createFlowProducerOptionProviders(optionsArr);
+    const flowProducerOptionProviders =
+      createFlowProducerOptionProviders(optionsArr);
 
     return {
       module: BullModule,
@@ -295,13 +314,18 @@ export class BullModule {
 
     const imports = this.getUniqImports(optionsArr);
     const asyncFlowProducerOptionsProviders = options
-      .map((flowProducerOptions) => this.createAsyncFlowProducerProviders(flowProducerOptions))
+      .map((flowProducerOptions) =>
+        this.createAsyncFlowProducerProviders(flowProducerOptions),
+      )
       .reduce((a, b) => a.concat(b), []);
 
     return {
       imports: imports.concat(BullModule.registerCore()),
       module: BullModule,
-      providers: [...asyncFlowProducerOptionsProviders, ...flowProducerProviders],
+      providers: [
+        ...asyncFlowProducerOptionsProviders,
+        ...flowProducerProviders,
+      ],
       exports: flowProducerProviders,
     };
   }
@@ -317,17 +341,24 @@ export class BullModule {
     if (options.useExisting || options.useFactory) {
       return [
         optionalSharedConfigHolder,
-        this.createAsyncFlowProducerOptionsProvider(options, optionalSharedConfigHolder),
+        this.createAsyncFlowProducerOptionsProvider(
+          options,
+          optionalSharedConfigHolder,
+        ),
       ];
     }
     if (!options.useClass) {
       // fallback to the "registerFlowProducer" in case someone accidentally used the "registerFlowProducerAsync" instead
       return createFlowProducerOptionProviders([options]);
     }
-    const useClass = options.useClass as Type<RegisterFlowProducerOptionsFactory>;
+    const useClass =
+      options.useClass as Type<RegisterFlowProducerOptionsFactory>;
     return [
       optionalSharedConfigHolder,
-      this.createAsyncFlowProducerOptionsProvider(options, optionalSharedConfigHolder),
+      this.createAsyncFlowProducerOptionsProvider(
+        options,
+        optionalSharedConfigHolder,
+      ),
       {
         provide: useClass,
         useClass,
@@ -337,7 +368,9 @@ export class BullModule {
 
   private static createAsyncFlowProducerOptionsProvider(
     asyncOptions: RegisterFlowProducerAsyncOptions,
-    optionalSharedConfigHolderRef: Type<IConditionalDepHolder<QueueBaseOptions>>,
+    optionalSharedConfigHolderRef: Type<
+      IConditionalDepHolder<QueueBaseOptions>
+    >,
   ): Provider {
     if (asyncOptions.useFactory) {
       return {
@@ -378,12 +411,23 @@ export class BullModule {
     configKey: string | undefined,
     options: SharedBullAsyncConfiguration,
   ): Provider[] {
+    const { extraOptions, ...config } = options;
+
+    const extraOptionsProvider: Provider = {
+      provide: getExtraOptionToken(),
+      useValue: extraOptions,
+    };
+
     if (options.useExisting || options.useFactory) {
-      return [this.createAsyncSharedConfigurationProvider(configKey, options)];
+      return [
+        this.createAsyncSharedConfigurationProvider(configKey, config),
+        extraOptionsProvider,
+      ];
     }
-    const useClass = options.useClass as Type<SharedBullConfigurationFactory>;
+    const useClass = config.useClass as Type<SharedBullConfigurationFactory>;
     return [
-      this.createAsyncSharedConfigurationProvider(configKey, options),
+      this.createAsyncSharedConfigurationProvider(configKey, config),
+      extraOptionsProvider,
       {
         provide: useClass,
         useClass,
@@ -420,7 +464,8 @@ export class BullModule {
       global: true,
       module: BullModule,
       imports: [DiscoveryModule],
-      providers: [BullExplorer, BullMetadataAccessor],
+      providers: [BullExplorer, BullMetadataAccessor, BullRegistrator],
+      exports: [BullRegistrator],
     };
   }
 
