@@ -1,7 +1,7 @@
 import { getQueueToken, NO_QUEUE_FOUND } from '@nestjs/bull-shared';
 import { Injectable, Logger, OnModuleInit, Type } from '@nestjs/common';
 import {
-  createContextId,
+  ContextIdFactory,
   DiscoveryService,
   MetadataScanner,
   ModuleRef,
@@ -161,12 +161,12 @@ export class BullExplorer implements OnModuleInit {
 
     if (isRequestScoped) {
       processor = async (...args: unknown[]) => {
-        const contextId = createContextId();
+        const jobRef = args[0];
+        const contextId = ContextIdFactory.getByRequest(jobRef);
 
         if (this.moduleRef.registerRequestByContextId) {
           // Additional condition to prevent breaking changes in
           // applications that use @nestjs/bull older than v7.4.0.
-          const jobRef = args[0];
           this.moduleRef.registerRequestByContextId(jobRef, contextId);
         }
 
