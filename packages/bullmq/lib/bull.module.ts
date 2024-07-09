@@ -114,7 +114,7 @@ export class BullModule {
 
     const extraOptionsProvider: Provider = {
       provide: getExtraOptionToken(),
-      useValue: extraOptions,
+      useValue: { ...extraOptions },
     };
 
     return {
@@ -415,7 +415,7 @@ export class BullModule {
 
     const extraOptionsProvider: Provider = {
       provide: getExtraOptionToken(),
-      useValue: extraOptions,
+      useValue: { ...extraOptions },
     };
 
     if (options.useExisting || options.useFactory) {
