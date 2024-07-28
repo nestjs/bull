@@ -7,6 +7,7 @@ import {
   BullQueueAdvancedProcessor,
   BullQueueAdvancedSeparateProcessor,
 } from '../interfaces/bull-processor.interfaces';
+import { URL } from 'url';
 
 export function isProcessorCallback(
   processor: BullQueueProcessor,
@@ -27,7 +28,7 @@ export function isAdvancedProcessor(
 export function isSeparateProcessor(
   processor: BullQueueProcessor,
 ): processor is BullQueueSeparateProcessor {
-  return 'string' === typeof processor;
+  return 'string' === typeof processor || processor instanceof URL;
 }
 
 export function isAdvancedSeparateProcessor(
