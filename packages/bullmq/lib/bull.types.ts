@@ -1,4 +1,5 @@
 import { Job } from 'bullmq';
+import { URL } from 'url';
 import {
   BullQueueAdvancedProcessor,
   BullQueueAdvancedSeparateProcessor,
@@ -12,4 +13,4 @@ export type BullQueueProcessor =
 
 export type BullQueueProcessorCallback = (job: Job) => Promise<unknown>;
 
-export type BullQueueSeparateProcessor = string;
+export type BullQueueSeparateProcessor = string | URL;
