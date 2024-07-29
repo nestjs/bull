@@ -1,6 +1,6 @@
 {
   "name": "@nestjs/bullmq",
-  "version": "10.1.1",
+  "version": "10.2.0",
   "description": "Nest - modern, fast, powerful node.js web framework (@bullmq)",
   "homepage": "https://github.com/nestjs/bull",
   "bugs": {
@@ -19,7 +19,7 @@
     "test:e2e": "jest --config=e2e/jest-e2e.config.ts --detectOpenHandles --runInBand --forceExit"
   },
   "dependencies": {
-    "@nestjs/bull-shared": "^10.1.1",
+    "@nestjs/bull-shared": "^10.2.0",
     "tslib": "2.6.3"
   },
   "devDependencies": {
