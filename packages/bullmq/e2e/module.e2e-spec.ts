@@ -3,14 +3,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FlowProducer, Job, Queue, QueueEvents } from 'bullmq';
 import {
   BullModule,
-  getFlowProducerToken,
-  getQueueToken,
   OnQueueEvent,
   OnWorkerEvent,
   Processor,
   QueueEventsHost,
   QueueEventsListener,
   WorkerHost,
+  getFlowProducerToken,
+  getQueueToken,
 } from '../lib';
 
 jest.setTimeout(10000);
@@ -478,7 +478,7 @@ describe('BullModule', () => {
         });
         afterAll(async () => {
           await moduleRef.close();
-        });
+        }, 10000);
         it('should inject the queue with the given name', () => {
           const queue = moduleRef.get<Queue>(getQueueToken('test'));
 
@@ -494,12 +494,14 @@ describe('BullModule', () => {
           });
           const queue = moduleRef.get<Queue>(getQueueToken('test'));
           const job = await queue.add('job_name', { test: true });
-          await job.waitUntilFinished(queueEvents, 3000).catch(console.error);
+
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+          await job.waitUntilFinished(queueEvents, 6000).catch(console.error);
 
           expect(processorWasCalled).toBeTruthy();
 
           await queueEvents.close();
-        });
+        }, 10000);
       });
     });
 

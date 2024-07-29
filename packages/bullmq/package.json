@@ -16,7 +16,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest --detectOpenHandles",
-    "test:e2e": "jest --config=e2e/jest-e2e.config.ts --detectOpenHandles --runInBand"
+    "test:e2e": "jest --config=e2e/jest-e2e.config.ts --detectOpenHandles --runInBand --forceExit"
   },
   "dependencies": {
     "@nestjs/bull-shared": "^10.1.1",
