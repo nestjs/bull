@@ -1,8 +1,22 @@
 import { FactoryProvider, ModuleMetadata, Type } from '@nestjs/common';
 import * as Bull from 'bullmq';
 
+export interface BullModuleExtraOptions {
+  /**
+   * If set to true, the module will not register the Bull queues automatically.
+   * This is useful when you want to manually register the queues.
+   */
+  manualRegistration?: boolean;
+}
+
+export interface BullRootModuleOptions extends Bull.QueueOptions {
+  extraOptions?: BullModuleExtraOptions;
+}
+
 export interface SharedBullConfigurationFactory {
-  createSharedConfiguration(): Promise<Bull.QueueOptions> | Bull.QueueOptions;
+  createSharedConfiguration():
+    | Promise<BullRootModuleOptions>
+    | BullRootModuleOptions;
 }
 
 export interface SharedBullAsyncConfiguration
@@ -28,4 +42,9 @@ export interface SharedBullAsyncConfiguration
    * Optional list of providers to be injected into the context of the Factory function.
    */
   inject?: FactoryProvider['inject'];
+
+  /**
+   * Extra options for the Bull module.
+   */
+  extraOptions?: BullModuleExtraOptions;
 }

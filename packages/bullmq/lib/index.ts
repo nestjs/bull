@@ -1,5 +1,6 @@
-export { getQueueToken, JOB_REF } from '@nestjs/bull-shared';
+export { JOB_REF, getQueueToken } from '@nestjs/bull-shared';
 export * from './bull.module';
+export * from './bull.registrar';
 export * from './bull.types';
 export * from './decorators';
 export * from './hosts';
