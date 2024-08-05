@@ -5,6 +5,7 @@ import {
   DiscoveryService,
   MetadataScanner,
   ModuleRef,
+  REQUEST,
 } from '@nestjs/core';
 import { Injector } from '@nestjs/core/injector/injector';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
@@ -167,7 +168,11 @@ export class BullExplorer implements OnModuleInit {
         if (this.moduleRef.registerRequestByContextId) {
           // Additional condition to prevent breaking changes in
           // applications that use @nestjs/bull older than v7.4.0.
-          this.moduleRef.registerRequestByContextId(jobRef, contextId);
+          try {
+            await this.moduleRef.resolve(REQUEST, contextId);
+          } catch (e) {
+            this.moduleRef.registerRequestByContextId(jobRef, contextId);
+          }
         }
 
         const contextInstance = await this.injector.loadPerContext(
