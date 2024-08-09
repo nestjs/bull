@@ -1,10 +1,11 @@
 import { getQueueToken, NO_QUEUE_FOUND } from '@nestjs/bull-shared';
 import { Injectable, Logger, OnModuleInit, Type } from '@nestjs/common';
 import {
-  createContextId,
+  ContextIdFactory,
   DiscoveryService,
   MetadataScanner,
   ModuleRef,
+  REQUEST,
 } from '@nestjs/core';
 import { Injector } from '@nestjs/core/injector/injector';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
@@ -161,13 +162,17 @@ export class BullExplorer {
 
     if (isRequestScoped) {
       processor = async (...args: unknown[]) => {
-        const contextId = createContextId();
+        const jobRef = args[0];
+        const contextId = ContextIdFactory.getByRequest(jobRef);
 
         if (this.moduleRef.registerRequestByContextId) {
           // Additional condition to prevent breaking changes in
           // applications that use @nestjs/bull older than v7.4.0.
-          const jobRef = args[0];
-          this.moduleRef.registerRequestByContextId(jobRef, contextId);
+          try {
+            await this.moduleRef.resolve(REQUEST, contextId);
+          } catch (e) {
+            this.moduleRef.registerRequestByContextId(jobRef, contextId);
+          }
         }
 
         const contextInstance = await this.injector.loadPerContext(
