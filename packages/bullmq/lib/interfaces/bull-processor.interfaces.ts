@@ -4,12 +4,13 @@ import {
   BullQueueSeparateProcessor,
 } from '../bull.types';
 
-export interface BullQueueAdvancedProcessor extends WorkerOptions {
+export interface BullQueueAdvancedProcessor extends Partial<WorkerOptions> {
   concurrency?: number;
   callback: BullQueueProcessorCallback;
 }
 
-export interface BullQueueAdvancedSeparateProcessor extends WorkerOptions {
+export interface BullQueueAdvancedSeparateProcessor
+  extends Partial<WorkerOptions> {
   concurrency?: number;
   path: BullQueueSeparateProcessor;
   useWorkerThreads?: boolean;
