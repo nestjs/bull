@@ -1,8 +1,9 @@
-import { getQueueToken } from '@nestjs/bull-shared';
 import { DiscoveryModule } from '@nestjs/core';
+import { Module } from '@nestjs/core/injector/module';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Job, Queue } from 'bullmq';
 import {
+  getQueueToken,
   Processor,
   QueueEventsHost,
   QueueEventsListener,
@@ -68,15 +69,15 @@ describe('BullExplorer', () => {
       bullExplorer.handleProcessor(
         instance,
         queueName,
-        queue.opts,
-        null,
+        queue.opts!,
+        null as unknown as Module,
         false,
       );
       expect(workerCtorSpy).toHaveBeenCalledWith(
         queueName,
         expect.any(Function),
         expect.objectContaining({
-          connection: queue.opts.connection,
+          connection: queue.opts!.connection,
         }),
       );
       expect(instance.worker).not.toBeUndefined();
@@ -97,8 +98,8 @@ describe('BullExplorer', () => {
       bullExplorer.handleProcessor(
         instance as any,
         queueName,
-        queue.opts,
-        null,
+        queue.opts!,
+        null as unknown as Module,
         false,
         workerOptions,
       );
@@ -108,7 +109,7 @@ describe('BullExplorer', () => {
         expect.any(Function),
         expect.objectContaining({
           concurrency: 3,
-          connection: queue.opts.connection,
+          connection: queue.opts!.connection,
         }),
       );
     });
@@ -189,7 +190,12 @@ describe('BullExplorer', () => {
         sharedConnection: true,
       };
       const moduleRef = await Test.createTestingModule({
-        imports: [BullModule.registerFlowProducer({ name: 'test', ...flowProducerOptions })],
+        imports: [
+          BullModule.registerFlowProducer({
+            name: 'test',
+            ...flowProducerOptions,
+          }),
+        ],
       })
         .overrideProvider(flowProducerToken)
         .useValue({
@@ -199,7 +205,10 @@ describe('BullExplorer', () => {
 
       const explorer = moduleRef.get(BullExplorer);
 
-      const flowProducerOpts = explorer.getFlowProducerOptions(flowProducerToken, 'test');
+      const flowProducerOpts = explorer.getFlowProducerOptions(
+        flowProducerToken,
+        'test',
+      );
       expect(flowProducerOpts).toBeDefined();
       expect(flowProducerOpts).toEqual(flowProducerOptions);
 
