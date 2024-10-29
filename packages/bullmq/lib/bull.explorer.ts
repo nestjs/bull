@@ -1,15 +1,15 @@
 import { getQueueToken, NO_QUEUE_FOUND } from '@nestjs/bull-shared';
-import { Injectable, Logger, OnModuleInit, Type } from '@nestjs/common';
+import { Injectable, Logger, Type } from '@nestjs/common';
 import {
   ContextIdFactory,
   DiscoveryService,
   MetadataScanner,
   ModuleRef,
-  REQUEST,
 } from '@nestjs/core';
 import { Injector } from '@nestjs/core/injector/injector';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Module } from '@nestjs/core/injector/module';
+import { REQUEST_CONTEXT_ID } from '@nestjs/core/router/request/request-constants';
 import {
   FlowOpts,
   FlowProducer,
@@ -19,16 +19,16 @@ import {
   Worker,
 } from 'bullmq';
 import { BullMetadataAccessor } from './bull-metadata.accessor';
-import { OnQueueEventMetadata, OnWorkerEventMetadata } from './decorators';
 import { NO_FLOW_PRODUCER_FOUND } from './bull.messages';
+import { OnQueueEventMetadata, OnWorkerEventMetadata } from './decorators';
 import {
   InvalidProcessorClassError,
   InvalidQueueEventsListenerClassError,
 } from './errors';
 import { QueueEventsHost, WorkerHost } from './hosts';
-import { getSharedConfigToken } from './utils/get-shared-config-token.util';
 import { NestQueueOptions } from './interfaces/queue-options.interface';
 import { NestWorkerOptions } from './interfaces/worker-options.interface';
+import { getSharedConfigToken } from './utils/get-shared-config-token.util';
 
 @Injectable()
 export class BullExplorer {
@@ -165,14 +165,13 @@ export class BullExplorer {
         const jobRef = args[0];
         const contextId = ContextIdFactory.getByRequest(jobRef);
 
-        if (this.moduleRef.registerRequestByContextId) {
+        if (
+          this.moduleRef.registerRequestByContextId &&
+          !contextId[REQUEST_CONTEXT_ID]
+        ) {
           // Additional condition to prevent breaking changes in
           // applications that use @nestjs/bull older than v7.4.0.
-          try {
-            await this.moduleRef.resolve(REQUEST, contextId);
-          } catch (e) {
-            this.moduleRef.registerRequestByContextId(jobRef, contextId);
-          }
+          this.moduleRef.registerRequestByContextId(jobRef, contextId);
         }
 
         const contextInstance = await this.injector.loadPerContext(
