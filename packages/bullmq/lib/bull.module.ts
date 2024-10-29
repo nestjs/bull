@@ -206,6 +206,7 @@ export class BullModule {
       .reduce((a, b) => a.concat(b), []);
     const extraProviders = options
       .map((queueOptions) => queueOptions.extraProviders)
+      .filter((extraProviders) => extraProviders)
       .reduce((a, b) => a.concat(b), []);
 
     return {
