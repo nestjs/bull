@@ -1,8 +1,9 @@
-import { Injectable, Scope } from '@nestjs/common';
+import { Inject, Injectable, Scope } from '@nestjs/common';
 import {
   ContextIdFactory,
   createContextId,
   DiscoveryModule,
+  REQUEST,
 } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Job } from 'bullmq';
@@ -32,7 +33,7 @@ jest.mock('bullmq', () => ({
 class DurableDependency {
   static counter = 0;
   public readonly counter: number;
-  constructor() {
+  constructor(@Inject(REQUEST) public readonly job: any) {
     this.counter = DurableDependency.counter;
     DurableDependency.counter++;
   }
@@ -92,9 +93,12 @@ describe('BullExplorer', () => {
 
     beforeAll(async () => {
       ContextIdFactory.apply({
-        attach: (contextId, _request) => (info) => {
-          return info.isTreeDurable ? durableContextId : contextId;
-        },
+        attach: (contextId, _request) => ({
+          resolve: (info) => {
+            return info.isTreeDurable ? durableContextId : contextId;
+          },
+          payload: _request,
+        }),
       });
     });
 
@@ -109,10 +113,20 @@ describe('BullExplorer', () => {
       bullExplorer.registerWorkers();
       const processorFunction = workerCtorSpy.mock.calls[0][1];
       expect(processorFunction).toBeDefined();
+
       const [durable1, nonDurable1] = await processorFunction(mockJobRefId);
       const [durable2, nonDurable2] = await processorFunction(mockJobRefId);
+
       expect(durable1).toBe(durable2);
       expect(nonDurable1).not.toBe(nonDurable2);
+    });
+
+    it('should inject the request dependency', async () => {
+      const durableDependency = await moduleRef.resolve(
+        DurableDependency,
+        durableContextId,
+      );
+      expect(durableDependency.job).toBe(mockJobRefId);
     });
   });
 });
