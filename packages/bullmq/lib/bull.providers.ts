@@ -70,8 +70,10 @@ function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
       await Promise.all(closeWorkers);
       await this.close();
 
-      if (this.disconnect) {
-        return this.disconnect();
+      if (options.forceDisconnectOnShutdown) {
+        if (this.connection?.status !== 'closed' && this.disconnect) {
+          return this.disconnect();
+        }
       }
     };
   return queue;
