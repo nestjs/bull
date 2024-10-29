@@ -23,7 +23,7 @@
     "commitlint": "commitlint -c .commitlintrc.json -E HUSKY_GIT_PARAMS",
     "format": "prettier packages/**/*.ts --ignore-path ./.prettierignore --write",
     "lint": "eslint 'packages/**/*.ts' --fix",
-    "prepare": "husky install",
+    "prepare": "husky",
     "prepublish:next": "yarn build",
     "publish:next": "lerna publish --dist-tag next",
     "prepublish:npm": "yarn build",
