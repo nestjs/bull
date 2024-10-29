@@ -1,4 +1,9 @@
-import { FactoryProvider, ModuleMetadata, Type } from '@nestjs/common';
+import {
+  FactoryProvider,
+  ModuleMetadata,
+  Provider,
+  Type,
+} from '@nestjs/common';
 import * as Bull from 'bull';
 import { BullQueueProcessor } from '../bull.types';
 
@@ -69,4 +74,9 @@ export interface BullModuleAsyncOptions
    * Optional list of providers to be injected into the context of the Factory function.
    */
   inject?: FactoryProvider['inject'];
+
+  /**
+   * Extra providers to be registered in the module context.
+   */
+  extraProviders?: Provider[];
 }

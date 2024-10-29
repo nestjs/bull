@@ -142,11 +142,18 @@ export class BullModule {
     const asyncQueueOptionsProviders = options
       .map((queueOptions) => this.createAsyncProviders(queueOptions))
       .reduce((a, b) => a.concat(b), []);
+    const extraProviders = options
+      .map((queueOptions) => queueOptions.extraProviders)
+      .reduce((a, b) => a.concat(b), []);
 
     return {
       imports: imports.concat(BullModule.registerCore()),
       module: BullModule,
-      providers: [...asyncQueueOptionsProviders, ...queueProviders],
+      providers: [
+        ...asyncQueueOptionsProviders,
+        ...queueProviders,
+        ...extraProviders,
+      ],
       exports: queueProviders,
     };
   }
