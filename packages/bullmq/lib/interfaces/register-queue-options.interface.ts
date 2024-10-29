@@ -34,6 +34,13 @@ export interface RegisterQueueOptions
    * This option is not supported in BullMQ 5 and considered a bad practice in prior versions.
    * */
   sharedConnection?: boolean;
+
+  /**
+   * When `true`, the queue will be force disconnected from Redis in the "onApplicationShutdown" lifecycle event.
+   * Otherwise, the queue will be gracefully disconnected.
+   * @default false
+   */
+  forceDisconnectOnShutdown?: boolean;
 }
 
 export interface RegisterQueueOptionsFactory {
