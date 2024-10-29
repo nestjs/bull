@@ -5,5 +5,5 @@ import { Inject } from '@nestjs/common';
  * Injects Bull's queue instance with the given name
  * @param name queue name
  */
-export const InjectQueue = (name?: string): ParameterDecorator =>
+export const InjectQueue = (name?: string): ReturnType<typeof Inject> =>
   Inject(getQueueToken(name));
