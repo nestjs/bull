@@ -12,14 +12,14 @@ const config: Config.InitialOptions = {
   testRegex: '/lib/.*\\.(test|spec).(ts|tsx|js)$',
   moduleNameMapper,
   transform: {
-    '^.+\\.(t|j)s$': 'ts-jest',
+    '^.+\\.(t|j)s$': [
+      'ts-jest',
+      {
+        tsconfig: '<rootDir>/tsconfig.spec.json',
+      },
+    ],
   },
   testEnvironment: 'node',
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.spec.json',
-    },
-  },
 };
 
 export default config;
