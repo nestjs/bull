@@ -2502,16 +2502,16 @@ bull@*:
     semver "^7.5.2"
     uuid "^8.3.0"
 
-bull@4.16.3:
-  version "4.16.3"
-  resolved "https://registry.yarnpkg.com/bull/-/bull-4.16.3.tgz#b269b25e15223895719b94b0806e3f06906dbb2e"
-  integrity sha512-BZbPzNiKXczfZPXBTVhcN73b+CQFHTzVb7yJi1bSYld4/8bDc9oh/j/dYTsQBgOAZIZahFeHO6dPHbVEXXCvCg==
+bull@4.16.4:
+  version "4.16.4"
+  resolved "https://registry.yarnpkg.com/bull/-/bull-4.16.4.tgz#0639cea7ca37934f900134440445ce8b52abfe5a"
+  integrity sha512-CF+nGsJyfsCC9MJL8hFxqXzbwq+jGBXhaz1j15G+5N/XtKIPFUUy5O1mfWWKbKunfuH/x+UV4NYRQDHSkjCOgA==
   dependencies:
     cron-parser "^4.2.1"
     get-port "^5.1.1"
     ioredis "^5.3.2"
     lodash "^4.17.21"
-    msgpackr "^1.10.1"
+    msgpackr "^1.11.2"
     semver "^7.5.2"
     uuid "^8.3.0"
 
@@ -6684,6 +6684,13 @@ msgpackr@^1.10.1:
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/msgpackr/-/msgpackr-1.10.1.tgz#51953bb4ce4f3494f0c4af3f484f01cfbb306555"
   integrity sha512-r5VRLv9qouXuLiIBrLpl2d5ZvPt8svdQTl5/vMvE4nzDMyEX4sgW5yWhuBBj5UmgwOTWj8CIdSXn5sAfsHAWIQ==
+  optionalDependencies:
+    msgpackr-extract "^3.0.2"
+
+msgpackr@^1.11.2:
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/msgpackr/-/msgpackr-1.11.2.tgz#4463b7f7d68f2e24865c395664973562ad24473d"
+  integrity sha512-F9UngXRlPyWCDEASDpTf6c9uNhGPTqnTeLVt7bN+bU1eajoR/8V9ys2BRaV5C/e5ihE6sJ9uPIKaYt6bFuO32g==
   optionalDependencies:
     msgpackr-extract "^3.0.2"
 
