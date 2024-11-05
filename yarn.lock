@@ -2515,14 +2515,14 @@ bull@4.16.4:
     semver "^7.5.2"
     uuid "^8.3.0"
 
-bullmq@5.23.0:
-  version "5.23.0"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-5.23.0.tgz#05aa7c45f92207125bfb8339546056cfb49eb5e5"
-  integrity sha512-VILKTIOwo9AopMyVqvDhQ1qyLrOtBSfu+G2bntgauQfxYzT7ETj+h2HeUe7a9i9AU/+OXJGYYm49NHJedEz7VQ==
+bullmq@5.23.1:
+  version "5.23.1"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-5.23.1.tgz#c0e6a99f95efc32e6c78241df07d60cefa0c9ccc"
+  integrity sha512-WSN+EjtjjZ6n7f7YNdovc0nwVYRofhDSGjtBW4/+TjBiUwG0tv2L8FKWaLI9qVCgNI3kLra2CxrnDV0OWqTZPA==
   dependencies:
     cron-parser "^4.6.0"
     ioredis "^5.4.1"
-    msgpackr "^1.10.1"
+    msgpackr "^1.11.2"
     node-abort-controller "^3.1.1"
     semver "^7.5.4"
     tslib "^2.0.0"
