@@ -19,6 +19,8 @@ jest.mock('bullmq', () => ({
     constructor() {
       workerCtorSpy(...arguments);
     }
+
+    close = jest.fn();
   },
   QueueEvents: class {
     constructor() {
