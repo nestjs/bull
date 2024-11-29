@@ -1,5 +1,10 @@
 import { getQueueToken, NO_QUEUE_FOUND } from '@nestjs/bull-shared';
-import { Injectable, Logger, Type } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  OnApplicationShutdown,
+  Type,
+} from '@nestjs/common';
 import {
   ContextIdFactory,
   DiscoveryService,
@@ -31,10 +36,11 @@ import { NestWorkerOptions } from './interfaces/worker-options.interface';
 import { getSharedConfigToken } from './utils/get-shared-config-token.util';
 
 @Injectable()
-export class BullExplorer {
+export class BullExplorer implements OnApplicationShutdown {
   private static _workerClass: Type = Worker;
   private readonly logger = new Logger('BullModule');
   private readonly injector = new Injector();
+  private readonly workers: Worker[] = [];
 
   static set workerClass(cls: Type) {
     this._workerClass = cls;
@@ -46,6 +52,10 @@ export class BullExplorer {
     private readonly metadataAccessor: BullMetadataAccessor,
     private readonly metadataScanner: MetadataScanner,
   ) {}
+
+  onApplicationShutdown(signal?: string) {
+    return Promise.all(this.workers.map((worker) => worker.close()));
+  }
 
   register() {
     this.registerWorkers();
@@ -192,6 +202,8 @@ export class BullExplorer {
       ...options,
     });
     (instance as any)._worker = worker;
+
+    this.workers.push(worker);
   }
 
   registerWorkerEventListeners(wrapper: InstanceWrapper) {

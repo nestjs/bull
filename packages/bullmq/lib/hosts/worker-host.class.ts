@@ -1,9 +1,6 @@
-import { OnApplicationShutdown } from '@nestjs/common';
 import { Job, Worker } from 'bullmq';
 
-export abstract class WorkerHost<T extends Worker = Worker>
-  implements OnApplicationShutdown
-{
+export abstract class WorkerHost<T extends Worker = Worker> {
   private readonly _worker: T | undefined;
 
   get worker(): T {
@@ -16,8 +13,4 @@ export abstract class WorkerHost<T extends Worker = Worker>
   }
 
   abstract process(job: Job, token?: string): Promise<any>;
-
-  onApplicationShutdown(signal?: string) {
-    return this._worker?.close();
-  }
 }
