@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./bull/tsconfig.json",
+    },
+    {
+      "path": "./bullmq/tsconfig.json",
+    },
+    {
+      "path": "./bull-shared/tsconfig.json",
+    }
+  ]
+}

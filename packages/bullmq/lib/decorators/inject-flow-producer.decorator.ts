@@ -6,4 +6,4 @@ import { getFlowProducerToken } from '../utils';
  * @param name flow producer name
  */
 export const InjectFlowProducer = (name?: string): ParameterDecorator =>
- Inject(getFlowProducerToken(name));
+  Inject(getFlowProducerToken(name));

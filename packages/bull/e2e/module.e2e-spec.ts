@@ -232,7 +232,7 @@ describe('BullModule', () => {
                   processors: [
                     (_, done) => {
                       processorWasCalled = true;
-                      done!();
+                      done();
                     },
                   ],
                 }),

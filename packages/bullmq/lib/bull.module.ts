@@ -239,7 +239,7 @@ export class BullModule {
       // fallback to the "registerQueue" in case someone accidentally used the "registerQueueAsync" instead
       return createQueueOptionProviders([options]);
     }
-    const useClass = options.useClass as Type<RegisterQueueOptionsFactory>;
+    const useClass = options.useClass;
     return [
       optionalSharedConfigHolder,
       this.createAsyncOptionsProvider(options, optionalSharedConfigHolder),
@@ -272,10 +272,7 @@ export class BullModule {
       };
     }
     // `as Type<BullOptionsFactory>` is a workaround for microsoft/TypeScript#31603
-    const inject = [
-      (asyncOptions.useClass ||
-        asyncOptions.useExisting) as Type<RegisterQueueOptionsFactory>,
-    ];
+    const inject = [asyncOptions.useClass || asyncOptions.useExisting];
     return {
       provide: getQueueOptionsToken(asyncOptions.name),
       useFactory: async (
@@ -358,8 +355,7 @@ export class BullModule {
       // fallback to the "registerFlowProducer" in case someone accidentally used the "registerFlowProducerAsync" instead
       return createFlowProducerOptionProviders([options]);
     }
-    const useClass =
-      options.useClass as Type<RegisterFlowProducerOptionsFactory>;
+    const useClass = options.useClass;
     return [
       optionalSharedConfigHolder,
       this.createAsyncFlowProducerOptionsProvider(
@@ -395,10 +391,7 @@ export class BullModule {
       };
     }
     // `as Type<BullOptionsFactory>` is a workaround for microsoft/TypeScript#31603
-    const inject = [
-      (asyncOptions.useClass ||
-        asyncOptions.useExisting) as Type<RegisterFlowProducerOptionsFactory>,
-    ];
+    const inject = [asyncOptions.useClass || asyncOptions.useExisting];
     return {
       provide: getFlowProducerOptionsToken(asyncOptions.name),
       useFactory: async (
@@ -431,7 +424,7 @@ export class BullModule {
         extraOptionsProvider,
       ];
     }
-    const useClass = config.useClass as Type<SharedBullConfigurationFactory>;
+    const useClass = config.useClass;
     return [
       this.createAsyncSharedConfigurationProvider(configKey, config),
       extraOptionsProvider,
@@ -454,10 +447,7 @@ export class BullModule {
       };
     }
     // `as Type<SharedBullConfigurationFactory>` is a workaround for microsoft/TypeScript#31603
-    const inject = [
-      (options.useClass ||
-        options.useExisting) as Type<SharedBullConfigurationFactory>,
-    ];
+    const inject = [options.useClass || options.useExisting];
     return {
       provide: getSharedConfigToken(configKey),
       useFactory: async (optionsFactory: SharedBullConfigurationFactory) =>

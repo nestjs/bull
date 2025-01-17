@@ -25,8 +25,8 @@
     "lint": "eslint 'packages/**/*.ts' --fix",
     "prepare": "husky",
     "prepublish:next": "yarn build",
-    "publish:next": "lerna publish --dist-tag next",
     "prepublish:npm": "yarn build",
+    "publish:next": "lerna publish --dist-tag next",
     "publish:npm": "lerna publish",
     "postpublish:npm": "yarn changelog | pbcopy",
     "test": "lerna run test --parallel",
@@ -46,11 +46,12 @@
     "@commitlint/cli": "19.6.1",
     "@commitlint/config-angular": "19.7.0",
     "@commitlint/config-conventional": "19.6.0",
-    "@typescript-eslint/eslint-plugin": "8.20.0",
-    "@typescript-eslint/parser": "8.20.0",
+    "@eslint/eslintrc": "3.2.0",
+    "@eslint/js": "9.18.0",
     "eslint": "9.18.0",
     "eslint-config-prettier": "10.0.1",
-    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-prettier": "5.2.2",
+    "globals": "15.14.0",
     "husky": "9.1.7",
     "jest": "29.7.0",
     "lerna": "8.1.9",
@@ -62,6 +63,7 @@
     "ts-jest": "29.2.5",
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
-    "typescript": "5.7.3"
+    "typescript": "5.7.3",
+    "typescript-eslint": "8.20.0"
   }
 }

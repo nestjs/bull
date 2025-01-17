@@ -58,7 +58,9 @@ export function Processor(
   return (target: Function) => {
     SetMetadata(SCOPE_OPTIONS_METADATA, options)(target);
     SetMetadata(PROCESSOR_METADATA, options)(target);
-    maybeWorkerOptions &&
+
+    if (maybeWorkerOptions) {
       SetMetadata(WORKER_METADATA, maybeWorkerOptions)(target);
+    }
   };
 }
