@@ -69,7 +69,7 @@ describe('BullExplorer', () => {
       bullExplorer.handleProcessor(
         instance,
         queueName,
-        queue.opts!,
+        queue.opts,
         null as unknown as Module,
         false,
       );
@@ -77,7 +77,7 @@ describe('BullExplorer', () => {
         queueName,
         expect.any(Function),
         expect.objectContaining({
-          connection: queue.opts!.connection,
+          connection: queue.opts.connection,
         }),
       );
       expect(instance.worker).not.toBeUndefined();
@@ -98,7 +98,7 @@ describe('BullExplorer', () => {
       bullExplorer.handleProcessor(
         instance as any,
         queueName,
-        queue.opts!,
+        queue.opts,
         null as unknown as Module,
         false,
         workerOptions,
@@ -109,7 +109,7 @@ describe('BullExplorer', () => {
         expect.any(Function),
         expect.objectContaining({
           concurrency: 3,
-          connection: queue.opts!.connection,
+          connection: queue.opts.connection,
         }),
       );
     });

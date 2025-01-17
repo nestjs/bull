@@ -7,7 +7,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['eslint.config.mjs', 'node_modules', 'packages/**/node_modules', 'packages/**/dist', 'packages/**/*.spec.ts', '**/jest.config.ts'],
+    ignores: ['eslint.config.mjs', 'node_modules', 'packages/**/node_modules', 'packages/**/dist', '**/jest.config.ts'],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
@@ -43,6 +43,7 @@ export default tseslint.config(
       '@typescript-eslint/no-misused-promises': 'warn',
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/require-await': 'warn',
+      'prefer-rest-params': 'off',
     },
   },
 );
