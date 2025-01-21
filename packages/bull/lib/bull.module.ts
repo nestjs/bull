@@ -28,6 +28,13 @@ import {
 
 @Module({})
 export class BullModule {
+  private static coreModuleDefinition = {
+    global: true,
+    module: BullModule,
+    imports: [DiscoveryModule],
+    providers: [BullExplorer, BullMetadataAccessor],
+  };
+
   /**
    * Registers a globally available configuration for all queues.
    *
@@ -127,7 +134,7 @@ export class BullModule {
     const queueOptionProviders = createQueueOptionProviders([].concat(options));
     return {
       module: BullModule,
-      imports: [BullModule.registerCore()],
+      imports: [BullModule.coreModuleDefinition],
       providers: [...queueOptionProviders, ...queueProviders],
       exports: queueProviders,
     };
@@ -148,7 +155,7 @@ export class BullModule {
       .reduce((a, b) => a.concat(b), []);
 
     return {
-      imports: imports.concat(BullModule.registerCore()),
+      imports: imports.concat(BullModule.coreModuleDefinition),
       module: BullModule,
       providers: [
         ...asyncQueueOptionsProviders,
@@ -261,15 +268,6 @@ export class BullModule {
       useFactory: async (optionsFactory: SharedBullConfigurationFactory) =>
         optionsFactory.createSharedConfiguration(),
       inject,
-    };
-  }
-
-  private static registerCore() {
-    return {
-      global: true,
-      module: BullModule,
-      imports: [DiscoveryModule],
-      providers: [BullExplorer, BullMetadataAccessor],
     };
   }
 

@@ -40,6 +40,13 @@ export class BullModule {
   private static _queueClass: Type = Queue;
   private static _flowProducerClass: Type = FlowProducer;
   private static _workerClass: Type = Worker;
+  private static coreModuleDefinition = {
+    global: true,
+    module: BullModule,
+    imports: [DiscoveryModule],
+    providers: [BullExplorer, BullMetadataAccessor, BullRegistrar],
+    exports: [BullRegistrar],
+  };
 
   /**
    * Class to be used to create Bull queues.
@@ -184,7 +191,7 @@ export class BullModule {
 
     return {
       module: BullModule,
-      imports: [BullModule.registerCore()],
+      imports: [BullModule.coreModuleDefinition],
       providers: [...queueOptionProviders, ...queueProviders],
       exports: queueProviders,
     };
@@ -210,7 +217,7 @@ export class BullModule {
       .reduce((a, b) => a.concat(b), []);
 
     return {
-      imports: imports.concat(BullModule.registerCore()),
+      imports: imports.concat(BullModule.coreModuleDefinition),
       module: BullModule,
       providers: [
         ...asyncQueueOptionsProviders,
@@ -301,7 +308,7 @@ export class BullModule {
 
     return {
       module: BullModule,
-      imports: [BullModule.registerCore()],
+      imports: [BullModule.coreModuleDefinition],
       providers: [...flowProducerOptionProviders, ...flowProducerProviders],
       exports: flowProducerProviders,
     };
@@ -324,7 +331,7 @@ export class BullModule {
       .reduce((a, b) => a.concat(b), []);
 
     return {
-      imports: imports.concat(BullModule.registerCore()),
+      imports: imports.concat(BullModule.coreModuleDefinition),
       module: BullModule,
       providers: [
         ...asyncFlowProducerOptionsProviders,
@@ -453,16 +460,6 @@ export class BullModule {
       useFactory: async (optionsFactory: SharedBullConfigurationFactory) =>
         optionsFactory.createSharedConfiguration(),
       inject,
-    };
-  }
-
-  private static registerCore() {
-    return {
-      global: true,
-      module: BullModule,
-      imports: [DiscoveryModule],
-      providers: [BullExplorer, BullMetadataAccessor, BullRegistrar],
-      exports: [BullRegistrar],
     };
   }
 
