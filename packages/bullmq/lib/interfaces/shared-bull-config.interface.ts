@@ -1,4 +1,9 @@
-import { FactoryProvider, ModuleMetadata, Type } from '@nestjs/common';
+import {
+  FactoryProvider,
+  ModuleMetadata,
+  Provider,
+  Type,
+} from '@nestjs/common';
 import * as Bull from 'bullmq';
 
 export interface BullModuleExtraOptions {
@@ -47,4 +52,9 @@ export interface SharedBullAsyncConfiguration
    * Extra options for the Bull module.
    */
   extraOptions?: BullModuleExtraOptions;
+
+  /**
+   * Extra providers to be registered in the module context.
+   */
+  extraProviders?: Provider[];
 }
