@@ -124,7 +124,9 @@ export class BullModule {
       global: true,
       module: BullModule,
       imports,
-      providers,
+      providers: asyncSharedBullConfig.extraProviders
+        ? [...providers, ...asyncSharedBullConfig.extraProviders]
+        : providers,
       exports: providers,
     };
   }
