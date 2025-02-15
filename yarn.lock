@@ -2417,10 +2417,10 @@ bull@4.16.5:
     semver "^7.5.2"
     uuid "^8.3.0"
 
-bullmq@5.41.0:
-  version "5.41.0"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-5.41.0.tgz#af3a8e8f0988676b579191a838879043ed2ebbc4"
-  integrity sha512-GGfKu2DHGIvbnMtQjR/82wvWsdCaGxN5JGR3pvKd1mkDI9DsWn8r0+pAzZ6Y4ImWXFaetaAqywOhv2Ik0R2m3g==
+bullmq@5.41.1:
+  version "5.41.1"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-5.41.1.tgz#24ea3585cc8649b3bd20485200a2b4127204d5d8"
+  integrity sha512-bVQGR4ARM+wRJSw66114AKwO8SwS2ZF5TIvwQ9NL6Iepq6f8jnG8EjMMXL8J1pyR1eNz5bOikPeED/8ErLU6FQ==
   dependencies:
     cron-parser "^4.9.0"
     ioredis "^5.4.1"
