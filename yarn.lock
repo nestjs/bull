@@ -3126,10 +3126,10 @@ detect-newline@^3.0.0:
   resolved "https://registry.npmjs.org/detect-newline/-/detect-newline-3.1.0.tgz"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
 
-detect-newline@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/detect-newline/-/detect-newline-4.0.0.tgz"
-  integrity sha512-1aXUEPdfGdzVPFpzGJJNgq9o81bGg1s09uxTWsqBlo9PI332uyJRQq13+LK/UN4JfxJbFdCXonUFQ9R/p7yCtw==
+detect-newline@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-4.0.1.tgz#fcefdb5713e1fb8cb2839b8b6ee22e6716ab8f23"
+  integrity sha512-qE3Veg1YXzGHQhlA6jzebZN2qVf6NX+A7m7qlhCGG30dJixrAQhYOsJjsnBjJkCSmuOPpCk30145fr8FV0bzog==
 
 diff-sequences@^29.2.0:
   version "29.2.0"
@@ -3637,10 +3637,10 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
-fdir@^6.4.2:
-  version "6.4.2"
-  resolved "https://registry.yarnpkg.com/fdir/-/fdir-6.4.2.tgz#ddaa7ce1831b161bc3657bb99cb36e1622702689"
-  integrity sha512-KnhMXsKSPZlAhp7+IjUkRZKPb4fUyccpDrdFXbi4QL1qkmFh9kVY09Yox+n4MaOb3lHZ1Tv829C3oaaXoMYPDQ==
+fdir@^6.4.3:
+  version "6.4.3"
+  resolved "https://registry.yarnpkg.com/fdir/-/fdir-6.4.3.tgz#011cdacf837eca9b811c89dbb902df714273db72"
+  integrity sha512-PMXmW2y1hDDfTSRc9gaXIuCCRpuoz3Kaz8cUelp3smouvfT632ozg2vrT6lJsHKKOF59YLbOGfAWGUcKEfRMQw==
 
 figures@3.2.0, figures@^3.0.0:
   version "3.2.0"
@@ -7431,19 +7431,19 @@ sort-object-keys@^1.1.3:
   resolved "https://registry.npmjs.org/sort-object-keys/-/sort-object-keys-1.1.3.tgz"
   integrity sha512-855pvK+VkU7PaKYPc+Jjnmt4EzejQHyhhF33q31qG8x7maDzkeFhAAThdCYay11CISO+qAMwjOBP+fPZe0IPyg==
 
-sort-package-json@2.15.1:
-  version "2.15.1"
-  resolved "https://registry.yarnpkg.com/sort-package-json/-/sort-package-json-2.15.1.tgz#e5a035fad7da277b1947b9eecc93ea09c1c2526e"
-  integrity sha512-9x9+o8krTT2saA9liI4BljNjwAbvUnWf11Wq+i/iZt8nl2UGYnf3TH5uBydE7VALmP7AGwlfszuEeL8BDyb0YA==
+sort-package-json@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/sort-package-json/-/sort-package-json-3.0.0.tgz#cef875d1a5090a4fd15d17bc48145f34f7dde20f"
+  integrity sha512-vfZWx4DnFNB8R9Vg4Dnx21s20auNzWH15ZaCBfADAiyrCwemRmhWstTgvLjMek1DW3+MHcNaqkp86giCF24rMA==
   dependencies:
     detect-indent "^7.0.1"
-    detect-newline "^4.0.0"
+    detect-newline "^4.0.1"
     get-stdin "^9.0.0"
     git-hooks-list "^3.0.0"
     is-plain-obj "^4.1.0"
-    semver "^7.6.0"
+    semver "^7.7.1"
     sort-object-keys "^1.1.3"
-    tinyglobby "^0.2.9"
+    tinyglobby "^0.2.12"
 
 source-map-support@0.5.13:
   version "0.5.13"
@@ -7787,12 +7787,12 @@ tinyexec@^0.3.0:
   resolved "https://registry.yarnpkg.com/tinyexec/-/tinyexec-0.3.0.tgz#ed60cfce19c17799d4a241e06b31b0ec2bee69e6"
   integrity sha512-tVGE0mVJPGb0chKhqmsoosjsS+qUnJVGJpZgsHYQcGoPlG3B51R3PouqTgEGH2Dc9jjFyOqOpix6ZHNMXp1FZg==
 
-tinyglobby@^0.2.9:
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/tinyglobby/-/tinyglobby-0.2.10.tgz#e712cf2dc9b95a1f5c5bbd159720e15833977a0f"
-  integrity sha512-Zc+8eJlFMvgatPZTl6A9L/yht8QqdmUNtURHaKZLmKBE12hNPSrqNkUp2cs3M/UKmNVVAMFQYSjYIVHDjW5zew==
+tinyglobby@^0.2.12:
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/tinyglobby/-/tinyglobby-0.2.12.tgz#ac941a42e0c5773bd0b5d08f32de82e74a1a61b5"
+  integrity sha512-qkf4trmKSIiMTs/E63cxH+ojC2unam7rJ0WrauAzpT3ECNTxGRMlaXxVbfxMUC/w0LaYk6jQ4y/nGR9uBO3tww==
   dependencies:
-    fdir "^6.4.2"
+    fdir "^6.4.3"
     picomatch "^4.0.2"
 
 tmp@^0.0.33:
