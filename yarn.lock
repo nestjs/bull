@@ -2372,10 +2372,10 @@ bull@4.16.5:
     semver "^7.5.2"
     uuid "^8.3.0"
 
-bullmq@5.44.4:
-  version "5.44.4"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-5.44.4.tgz#ae35b177d8fd8153470d915d7853a6485ad91750"
-  integrity sha512-0BjgABM/7U85Fxatj586ftsoWiGdjmg7fR7PwRYNOOGfvGpiUX9nQoUmx+9VZW/OtHO/4um/BVh2Y2S9BEhKFg==
+bullmq@5.45.1:
+  version "5.45.1"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-5.45.1.tgz#823004aac3beba77c9bcd1ed486aae86ebba144b"
+  integrity sha512-tEAULtgqgAeIMxm/ORmhLF6QETWrUC7rdINzIVa0A8gxTUPMx96LTWTj0A10qO4C5BxDJg/qypeFj/w+CMMR3A==
   dependencies:
     cron-parser "^4.9.0"
     ioredis "^5.4.1"
