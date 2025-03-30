@@ -1,6 +1,9 @@
 import { WorkerOptions } from 'bullmq';
 import { PartialThisParameter } from '../utils/partial-this-parameter.type';
 
+/**
+ * @publicApi
+ */
 export interface NestWorkerOptions
   extends PartialThisParameter<WorkerOptions, 'connection'> {
   /**

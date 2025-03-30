@@ -1,6 +1,9 @@
 import { QueueOptions } from 'bullmq';
 import { PartialThisParameter } from '../utils/partial-this-parameter.type';
 
+/**
+ * @publicApi
+ */
 export interface NestQueueOptions
   extends PartialThisParameter<QueueOptions, 'connection'> {
   /**

@@ -1,3 +1,6 @@
+/**
+ * @publicApi
+ */
 export class InvalidQueueEventsListenerClassError extends Error {
   constructor(className: string) {
     super(

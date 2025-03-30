@@ -1,3 +1,6 @@
+/**
+ * @publicApi
+ */
 export class InvalidProcessorClassError extends Error {
   constructor(className: string) {
     super(

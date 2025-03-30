@@ -2,6 +2,9 @@ import { Scope, SetMetadata } from '@nestjs/common';
 import { SCOPE_OPTIONS_METADATA } from '@nestjs/common/constants';
 import { BULL_MODULE_QUEUE } from '../bull.constants';
 
+/**
+ * @publicApi
+ */
 export interface ProcessorOptions {
   /**
    * Specifies the name of the queue to subscribe to.

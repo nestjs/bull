@@ -35,6 +35,9 @@ import {
   getSharedConfigToken,
 } from './utils';
 
+/**
+ * @publicApi
+ */
 @Module({})
 export class BullModule {
   private static _queueClass: Type = Queue;

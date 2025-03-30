@@ -4,6 +4,9 @@ import {
   BullQueueSeparateProcessor,
 } from '../bull.types';
 
+/**
+ * @publicApi
+ */
 export interface BullQueueAdvancedProcessor extends Partial<WorkerOptions> {
   concurrency?: number;
   callback: BullQueueProcessorCallback;

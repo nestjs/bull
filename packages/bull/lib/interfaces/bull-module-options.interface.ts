@@ -7,6 +7,9 @@ import {
 import * as Bull from 'bull';
 import { BullQueueProcessor } from '../bull.types';
 
+/**
+ * @publicApi
+ */
 export interface BullRootModuleOptions extends Bull.QueueOptions {
   /**
    * Redis client connection string
@@ -14,6 +17,9 @@ export interface BullRootModuleOptions extends Bull.QueueOptions {
   url?: string;
 }
 
+/**
+ * @publicApi
+ */
 export interface BullModuleOptions extends BullRootModuleOptions {
   /**
    * Queue name
@@ -35,10 +41,16 @@ export interface BullModuleOptions extends BullRootModuleOptions {
   processors?: BullQueueProcessor[];
 }
 
+/**
+ * @publicApi
+ */
 export interface BullOptionsFactory {
   createBullOptions(): Promise<BullModuleOptions> | BullModuleOptions;
 }
 
+/**
+ * @publicApi
+ */
 export interface BullModuleAsyncOptions
   extends Pick<ModuleMetadata, 'imports'> {
   /**

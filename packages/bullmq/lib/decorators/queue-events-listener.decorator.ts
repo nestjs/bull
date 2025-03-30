@@ -9,6 +9,8 @@ export type QueueEventsListenerOptions = {
 
 /**
  * Represents a "QueueEvents" component (class that reacts to queue events).
+ *
+ * @publicApi
  */
 export function QueueEventsListener(
   queueName: string,
