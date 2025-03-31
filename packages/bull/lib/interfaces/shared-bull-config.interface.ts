@@ -6,12 +6,18 @@ import {
 } from '@nestjs/common';
 import { BullRootModuleOptions } from './bull-module-options.interface';
 
+/**
+ * @publicApi
+ */
 export interface SharedBullConfigurationFactory {
   createSharedConfiguration():
     | Promise<BullRootModuleOptions>
     | BullRootModuleOptions;
 }
 
+/**
+ * @publicApi
+ */
 export interface SharedBullAsyncConfiguration
   extends Pick<ModuleMetadata, 'imports'> {
   /**

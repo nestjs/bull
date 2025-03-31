@@ -26,6 +26,9 @@ import {
   getSharedConfigToken,
 } from './utils';
 
+/**
+ * @publicApi
+ */
 @Module({})
 export class BullModule {
   private static coreModuleDefinition = {

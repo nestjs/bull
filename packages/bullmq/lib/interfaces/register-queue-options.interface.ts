@@ -8,6 +8,9 @@ import { QueueOptions } from 'bullmq';
 import { BullQueueProcessor } from '../bull.types';
 import { PartialThisParameter } from '../utils/partial-this-parameter.type';
 
+/**
+ * @publicApi
+ */
 export interface RegisterQueueOptions
   extends PartialThisParameter<QueueOptions, 'connection'> {
   /**
@@ -43,12 +46,18 @@ export interface RegisterQueueOptions
   forceDisconnectOnShutdown?: boolean;
 }
 
+/**
+ * @publicApi
+ */
 export interface RegisterQueueOptionsFactory {
   createRegisterQueueOptions():
     | Promise<RegisterQueueOptions>
     | RegisterQueueOptions;
 }
 
+/**
+ * @publicApi
+ */
 export interface RegisterQueueAsyncOptions
   extends Pick<ModuleMetadata, 'imports'> {
   /**

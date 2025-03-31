@@ -6,6 +6,9 @@ import {
 } from '@nestjs/common';
 import * as Bull from 'bullmq';
 
+/**
+ * @publicApi
+ */
 export interface BullModuleExtraOptions {
   /**
    * If set to true, the module will not register the Bull queues automatically.
@@ -14,16 +17,25 @@ export interface BullModuleExtraOptions {
   manualRegistration?: boolean;
 }
 
+/**
+ * @publicApi
+ */
 export interface BullRootModuleOptions extends Bull.QueueOptions {
   extraOptions?: BullModuleExtraOptions;
 }
 
+/**
+ * @publicApi
+ */
 export interface SharedBullConfigurationFactory {
   createSharedConfiguration():
     | Promise<BullRootModuleOptions>
     | BullRootModuleOptions;
 }
 
+/**
+ * @publicApi
+ */
 export interface SharedBullAsyncConfiguration
   extends Pick<ModuleMetadata, 'imports'> {
   /**
