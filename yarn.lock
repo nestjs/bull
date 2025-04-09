@@ -1123,19 +1123,19 @@
     "@emnapi/runtime" "^1.1.0"
     "@tybys/wasm-util" "^0.9.0"
 
-"@nestjs/common@11.0.13":
-  version "11.0.13"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-11.0.13.tgz#532cd172d5b5fa4e7da471c83e6945e0a1ebd80b"
-  integrity sha512-cXqXJPQTcJIYqT8GtBYqjYY9sklCBqp/rh9z1R40E60gWnsU598YIQWkojSFRI9G7lT/+uF+jqSrg/CMPBk7QQ==
+"@nestjs/common@11.0.14":
+  version "11.0.14"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-11.0.14.tgz#27145dbadb4c73da81d87acb00737495aeb6e30f"
+  integrity sha512-7MKloi0F0xh3S7gSH+reytC3axyhTEn1pJfs8Tp80aXCRYopA5zT/WO4CcmOsqmFt61jnlTFG6CeJ4limz/F7A==
   dependencies:
     uid "2.0.2"
     iterare "1.2.1"
     tslib "2.8.1"
 
-"@nestjs/core@11.0.13":
-  version "11.0.13"
-  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-11.0.13.tgz#595fd5315c1ba8e5b7136aec4d34297bfdac0b3a"
-  integrity sha512-1xjrsYjff4sg4MfvF+/NInOq+7oI1D1vK8Yj9wkrbBH1dM+h2At71tccbFfl/eJUt4ckZlH+XmROnt/T0daYcA==
+"@nestjs/core@11.0.14":
+  version "11.0.14"
+  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-11.0.14.tgz#cb25b01ed1eb14792954efb78921a3b8e5d331f5"
+  integrity sha512-5lZtGPuMKlyPl7MDzZenoz9183w7tu/2t0ISRcggpBJkhTiWoEtwmJ1qWlMNcASAFtoYDkeuFNdGbF2HWRkLkg==
   dependencies:
     uid "2.0.2"
     "@nuxt/opencollective" "0.4.1"
@@ -1144,10 +1144,10 @@
     path-to-regexp "8.2.0"
     tslib "2.8.1"
 
-"@nestjs/platform-express@11.0.13":
-  version "11.0.13"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-11.0.13.tgz#f5748a3ba91ab50e4aa808668a34952b239c6e0b"
-  integrity sha512-SaxfIDORX1oV8T6nxr/pltnW2g+3fCRPs5YwO0jBj2d8sC03Axjwlxp/ASg2mf6xvOSBD6ZbhjVLVVDZymyFXQ==
+"@nestjs/platform-express@11.0.14":
+  version "11.0.14"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-11.0.14.tgz#2b971798a68e8750c7c9fa88c711cdddfa1ad823"
+  integrity sha512-wPDkxO3ynNhxT6yuCXMVeKYK8hdpOz9f88B7+0FnDTpqbcnmC8mF9HbzkQEsJM3S+CZ/1vseFTPwbyUXkBnXog==
   dependencies:
     cors "2.8.5"
     express "5.1.0"
@@ -1155,10 +1155,10 @@
     path-to-regexp "8.2.0"
     tslib "2.8.1"
 
-"@nestjs/testing@11.0.13":
-  version "11.0.13"
-  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-11.0.13.tgz#c7fcbba741e63fcfeab8c8540b1d4d4061c7d320"
-  integrity sha512-9E9HxD3EmiQky+pqYvpV0cHKlxYJJqHm2GmXoKHF72Raa0JTfQpamnLl6TPjDy2XOqA7oSSBDnEwku8vZ46Cdw==
+"@nestjs/testing@11.0.14":
+  version "11.0.14"
+  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-11.0.14.tgz#7a99b85307a1c9fa28e43b07690fc29b04ea0a60"
+  integrity sha512-Zt3mny+kMal1ArRlBGReakrU2rQfGkcGSrvY1L4VbNJQcusiIZKRoypjhFS3x6ubiWuVJNTGoeegSnbMsfMlbQ==
   dependencies:
     tslib "2.8.1"
 
