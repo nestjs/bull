@@ -82,6 +82,7 @@ describe('BullExplorer', () => {
       );
       expect(instance.worker).not.toBeUndefined();
     });
+
     it('should instantiate Bull worker with the appropriate worker options', () => {
       const workerOptions = { concurrency: 3 };
 
@@ -110,6 +111,51 @@ describe('BullExplorer', () => {
         expect.objectContaining({
           concurrency: 3,
           connection: queue.opts.connection,
+        }),
+      );
+    });
+    it('should pass telemetry option to the worker constructor', () => {
+      const instance = new FixtureProcessor();
+
+      // Create a mock telemetry object that satisfies the Telemetry interface
+      const mockTelemetry = {
+        instrumentJob: jest.fn(),
+        tracer: {
+          startSpan: jest.fn(),
+          currentSpan: jest.fn(),
+          withSpan: jest.fn(),
+          withContext: jest.fn(),
+          bind: jest.fn(),
+        } as any, // Cast to any to bypass type checking for tracer
+        contextManager: {
+          active: jest.fn(),
+          with: jest.fn(),
+          bind: jest.fn(),
+          getMetadata: jest.fn(),
+          fromMetadata: jest.fn(),
+        } as any, // Cast to any to bypass type checking for contextManager
+      };
+
+      // Add telemetry to queue options
+      const queueOptsWithTelemetry = {
+        ...queue.opts,
+        telemetry: mockTelemetry,
+      };
+
+      bullExplorer.handleProcessor(
+        instance,
+        queueName,
+        queueOptsWithTelemetry,
+        null as unknown as Module,
+        false,
+      );
+
+      expect(workerCtorSpy).toHaveBeenCalledWith(
+        queueName,
+        expect.any(Function),
+        expect.objectContaining({
+          connection: queue.opts.connection,
+          telemetry: mockTelemetry,
         }),
       );
     });
@@ -146,6 +192,56 @@ describe('BullExplorer', () => {
       expect(queueEventsSpy).toHaveBeenCalledWith(
         queueName,
         expect.objectContaining(mockQueue.opts),
+      );
+    });
+    it('should pass telemetry option to queue events constructor', async () => {
+      const mockTelemetry = {
+        instrumentJob: jest.fn(),
+        tracer: {
+          startSpan: jest.fn(),
+          currentSpan: jest.fn(),
+          withSpan: jest.fn(),
+          withContext: jest.fn(),
+          bind: jest.fn(),
+        } as any,
+        contextManager: {
+          active: jest.fn(),
+          with: jest.fn(),
+          bind: jest.fn(),
+          getMetadata: jest.fn(),
+          fromMetadata: jest.fn(),
+        } as any,
+      };
+
+      const mockQueue = {
+        name: queueName,
+        opts: {
+          connection: {
+            host: 'localhost',
+            port: 6380,
+          },
+          telemetry: mockTelemetry,
+        },
+      };
+
+      moduleRef = await Test.createTestingModule({
+        imports: [DiscoveryModule],
+        providers: [BullExplorer, BullMetadataAccessor, EventsListener],
+      }).compile();
+
+      bullExplorer = moduleRef.get(BullExplorer);
+
+      jest
+        .spyOn(bullExplorer, 'getQueueOptions')
+        .mockReturnValue(mockQueue.opts);
+      bullExplorer.registerQueueEventListeners();
+
+      expect(queueEventsSpy).toHaveBeenCalledWith(
+        queueName,
+        expect.objectContaining({
+          connection: mockQueue.opts.connection,
+          telemetry: mockTelemetry,
+        }),
       );
     });
   });
