@@ -1,4 +1,4 @@
-import { QueueEventsOptions } from 'bullmq';
+import { QueueEventsOptions, Telemetry } from 'bullmq';
 import { PartialThisParameter } from '../utils/partial-this-parameter.type';
 
 /**
@@ -12,4 +12,5 @@ export interface NestQueueEventOptions
    *
    */
   sharedConnection?: boolean;
+  telemetry?: Telemetry<any>;
 }
