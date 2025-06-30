@@ -7,5 +7,5 @@ import { Inject } from '@nestjs/common';
  *
  * @publicApi
  */
-export const InjectQueue = (name?: string): ParameterDecorator =>
+export const InjectQueue = (name?: string): ReturnType<typeof Inject> =>
   Inject(getQueueToken(name));
