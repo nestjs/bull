@@ -7,5 +7,5 @@ import { getFlowProducerToken } from '../utils';
  *
  * @publicApi
  */
-export const InjectFlowProducer = (name?: string): ParameterDecorator =>
+export const InjectFlowProducer = (name?: string): ReturnType<typeof Inject> =>
   Inject(getFlowProducerToken(name));
