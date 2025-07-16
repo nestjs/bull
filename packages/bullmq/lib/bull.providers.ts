@@ -3,7 +3,13 @@ import {
   getQueueToken,
   IConditionalDepHolder,
 } from '@nestjs/bull-shared';
-import { flatten, OnApplicationShutdown, Provider, Type } from '@nestjs/common';
+import {
+  FactoryProvider,
+  flatten,
+  OnApplicationShutdown,
+  Provider,
+  Type,
+} from '@nestjs/common';
 import { FlowProducer, Queue, Worker } from 'bullmq';
 import { BullQueueProcessor } from './bull.types';
 import { RegisterFlowProducerOptions } from './interfaces';
@@ -22,13 +28,22 @@ import {
   isSeparateProcessor,
 } from './utils/helpers';
 
-function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
+async function createQueueAndWorkers<
+  TQueue = Queue,
+  TWorker extends Worker = Worker,
+>(
   options: RegisterQueueOptions,
   queueClass: Type<TQueue>,
   workerClass: Type<TWorker>,
-): TQueue {
+): Promise<TQueue> {
   const queueName = options.name ?? 'default';
-  const queue = new queueClass(queueName, options);
+  const queue: TQueue = new queueClass(queueName, options);
+  if (
+    options.globalConcurrency >= 0 &&
+    typeof (queue as Queue).setGlobalConcurrency === 'function'
+  ) {
+    (queue as Queue).setGlobalConcurrency(options.globalConcurrency);
+  }
 
   let workerRefs: TWorker[] = [];
   if (options.processors) {
@@ -156,18 +171,20 @@ export function createQueueProviders<
   queueClass: Type<TQueue>,
   workerClass: Type<TWorker>,
 ): Provider[] {
-  const queueProviders = options.map((item) => ({
-    provide: getQueueToken(item.name),
-    useFactory: (queueOptions: RegisterQueueOptions) => {
-      const queueName = queueOptions.name || item.name;
-      return createQueueAndWorkers(
-        { ...queueOptions, name: queueName },
-        queueClass,
-        workerClass,
-      );
-    },
-    inject: [getQueueOptionsToken(item.name)],
-  }));
+  const queueProviders = options.map(
+    (item): FactoryProvider => ({
+      provide: getQueueToken(item.name),
+      useFactory: async (queueOptions: RegisterQueueOptions) => {
+        const queueName = queueOptions.name || item.name;
+        return await createQueueAndWorkers(
+          { ...queueOptions, name: queueName },
+          queueClass,
+          workerClass,
+        );
+      },
+      inject: [getQueueOptionsToken(item.name)],
+    }),
+  );
   return queueProviders;
 }
 
