@@ -199,6 +199,7 @@ export class BullExplorer implements OnApplicationShutdown {
       connection: queueOpts.connection,
       sharedConnection: queueOpts.sharedConnection,
       prefix: queueOpts.prefix,
+      telemetry: queueOpts.telemetry,
       ...options,
     });
     (instance as any)._worker = worker;
@@ -289,6 +290,7 @@ export class BullExplorer implements OnApplicationShutdown {
           connection: queueOpts.connection,
           prefix: queueOpts.prefix,
           sharedConnection: queueOpts.sharedConnection,
+          telemetry: queueOpts.telemetry,
           ...queueEventsOptions,
         });
         (instance as any)._queueEvents = queueEventsInstance;
