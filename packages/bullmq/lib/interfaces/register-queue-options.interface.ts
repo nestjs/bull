@@ -44,6 +44,14 @@ export interface RegisterQueueOptions
    * @default false
    */
   forceDisconnectOnShutdown?: boolean;
+
+  /**
+   * Enable and set maximum number of simultaneous jobs that the workers can handle.
+   * For instance, setting this value to 1 ensures that no more than one job
+   * is processed at any given time. If this limit is not defined, there will be no
+   * restriction on the number of concurrent jobs.
+   */
+  globalConcurrency?: number;
 }
 
 /**

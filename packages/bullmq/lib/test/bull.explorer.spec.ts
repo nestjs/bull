@@ -7,6 +7,7 @@ import {
   Processor,
   QueueEventsHost,
   QueueEventsListener,
+  RegisterQueueOptions,
   WorkerHost,
 } from '..';
 import { BullMetadataAccessor } from '../bull-metadata.accessor';
@@ -150,10 +151,52 @@ describe('BullExplorer', () => {
     });
   });
 
+  describe('registerQueue', () => {
+    let setGlobalConcurrency = jest.fn();
+
+    beforeEach(() => {
+      BullModule.queueClass = class {
+        constructor() {
+          workerCtorSpy(...arguments);
+        }
+        setGlobalConcurrency = setGlobalConcurrency.mockReset();
+        close = jest.fn();
+      };
+    });
+
+    it.each([
+      ['set', 1, true],
+      ['not set', -1, false],
+      ['not set', undefined, false],
+    ])(
+      'should %s global concurrency with %s on the created queue',
+      async (_, concurrency, called) => {
+        const queueOptions: RegisterQueueOptions = {
+          connection: { host: 'localhost', port: 65793 },
+          sharedConnection: true,
+          globalConcurrency: concurrency,
+        };
+
+        const moduleRef = await Test.createTestingModule({
+          imports: [
+            BullModule.registerQueue({ name: 'test', ...queueOptions }),
+          ],
+        }).compile();
+
+        if (called) {
+          expect(setGlobalConcurrency).toHaveBeenCalledWith(concurrency);
+        } else {
+          expect(setGlobalConcurrency).not.toHaveBeenCalled();
+        }
+        await moduleRef.close();
+      },
+    );
+  });
+
   describe('getQueueOptions', () => {
     it('should return options associated with the given queue', async () => {
       const queueToken = getQueueToken('test');
-      const queueOptions = {
+      const queueOptions: RegisterQueueOptions = {
         connection: {
           host: 'localhost',
           port: 65793,
