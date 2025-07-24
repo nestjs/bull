@@ -31,6 +31,7 @@ import {
   InvalidQueueEventsListenerClassError,
 } from './errors';
 import { QueueEventsHost, WorkerHost } from './hosts';
+import { ProcessorDecoratorService } from './instrument/processor-decorator.service';
 import { NestQueueOptions } from './interfaces/queue-options.interface';
 import { NestWorkerOptions } from './interfaces/worker-options.interface';
 import { getSharedConfigToken } from './utils/get-shared-config-token.util';
@@ -51,6 +52,7 @@ export class BullExplorer implements OnApplicationShutdown {
     private readonly discoveryService: DiscoveryService,
     private readonly metadataAccessor: BullMetadataAccessor,
     private readonly metadataScanner: MetadataScanner,
+    private readonly processorDecoratorService: ProcessorDecoratorService,
   ) {}
 
   onApplicationShutdown(signal?: string) {
@@ -168,10 +170,10 @@ export class BullExplorer implements OnApplicationShutdown {
     options: NestWorkerOptions = {},
   ) {
     const methodKey = 'process';
-    let processor: Processor<any, void, string>;
+    let processor: Processor<any, any, string>;
 
     if (isRequestScoped) {
-      processor = async (...args: unknown[]) => {
+      processor = async (...args: Parameters<Processor<any, any, string>>) => {
         const jobRef = args[0];
         const contextId = ContextIdFactory.getByRequest(jobRef);
 
@@ -190,10 +192,12 @@ export class BullExplorer implements OnApplicationShutdown {
           moduleRef.providers,
           contextId,
         );
-        return contextInstance[methodKey].call(contextInstance, ...args);
+        const processor = contextInstance[methodKey].bind(contextInstance);
+        return this.processorDecoratorService.decorate(processor)(...args);
       };
     } else {
       processor = instance[methodKey].bind(instance);
+      processor = this.processorDecoratorService.decorate(processor);
     }
     const worker = new BullExplorer._workerClass(queueName, processor, {
       connection: queueOpts.connection,

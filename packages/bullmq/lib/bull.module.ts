@@ -15,6 +15,7 @@ import {
   createQueueProviders,
 } from './bull.providers';
 import { BullRegistrar } from './bull.registrar';
+import { ProcessorDecoratorService } from './instrument/processor-decorator.service';
 import {
   BullRootModuleOptions,
   RegisterFlowProducerAsyncOptions,
@@ -47,7 +48,12 @@ export class BullModule {
     global: true,
     module: BullModule,
     imports: [DiscoveryModule],
-    providers: [BullExplorer, BullMetadataAccessor, BullRegistrar],
+    providers: [
+      BullExplorer,
+      BullMetadataAccessor,
+      BullRegistrar,
+      ProcessorDecoratorService,
+    ],
     exports: [BullRegistrar],
   };
 
