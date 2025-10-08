@@ -89,7 +89,7 @@ function createFlowProducers<TFlowProducer = FlowProducer>(
     async function (this: FlowProducer) {
       await this.close();
 
-      if (options.forceDisconnectOnShutdown) {
+      if (options.forceDisconnectOnShutdown ?? true) {
         if (this.connection?.status !== 'closed' && this.disconnect) {
           return this.disconnect();
         }
