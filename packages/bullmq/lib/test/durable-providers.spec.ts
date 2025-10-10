@@ -7,7 +7,7 @@ import {
 } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Job } from 'bullmq';
-import { Processor, WorkerHost } from '..';
+import { Processor, ProcessorDecoratorService, WorkerHost } from '..';
 import { BullMetadataAccessor } from '../bull-metadata.accessor';
 import { BullExplorer } from '../bull.explorer';
 import { BullModule } from '../bull.module';
@@ -81,6 +81,7 @@ describe('BullExplorer', () => {
         DurableDependency,
         NonDurableDependency,
         ProcessorWithDurableDependency,
+        ProcessorDecoratorService,
       ],
     }).compile();
 
