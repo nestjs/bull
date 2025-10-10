@@ -20,6 +20,13 @@ export interface RegisterFlowProducerOptions
    * @default default
    */
   configKey?: string;
+
+  /**
+   * When `true`, the flow will be force disconnected from Redis in the "onApplicationShutdown" lifecycle event.
+   * Otherwise, the flow will be gracefully disconnected.
+   * @default true
+   */
+  forceDisconnectOnShutdown?: boolean;
 }
 
 export interface RegisterFlowProducerOptionsFactory {
