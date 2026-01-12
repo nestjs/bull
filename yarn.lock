@@ -893,10 +893,10 @@
   resolved "https://registry.npmjs.org/@hutson/parse-repository-url/-/parse-repository-url-3.0.2.tgz"
   integrity sha512-H9XAx3hc0BQHY6l+IFSWHDySypcXsvsuLhgYLUGywmJ5pswRVQJUHpOsobnLYp2ZUaUlKiKDrgWWhosOwAEM8Q==
 
-"@ioredis/commands@1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@ioredis/commands/-/commands-1.4.0.tgz#9f657d51cdd5d2fdb8889592aa4a355546151f25"
-  integrity sha512-aFT2yemJJo+TZCmieA7qnYGQooOS7QfNmYrzGtsYd3g9j5iDP8AimYYAesf79ohjbLG12XxC4nG5DyEnC88AsQ==
+"@ioredis/commands@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@ioredis/commands/-/commands-1.5.0.tgz#3dddcea446a4b1dc177d0743a1e07ff50691652a"
+  integrity sha512-eUgLqrMf8nJkZxT24JvVRrQya1vZkQh8BBeYNwGDqa5I0VUi8ACx7uFvAaLxintokpTenkK6DASvo/bvNbBGow==
 
 "@ioredis/commands@^1.1.1":
   version "1.2.0"
@@ -2782,13 +2782,13 @@ bull@4.16.5:
     semver "^7.5.2"
     uuid "^8.3.0"
 
-bullmq@5.66.4:
-  version "5.66.4"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-5.66.4.tgz#879e4a361267c69c4abd86c52983338e50505dcb"
-  integrity sha512-y2VRk2z7d1YNI2JQDD7iThoD0X/0iZZ3VEp8lqT5s5U0XDl9CIjXp1LQgmE9EKy6ReHtzmYXS1f328PnUbZGtQ==
+bullmq@5.66.5:
+  version "5.66.5"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-5.66.5.tgz#989738ff6d33d4e6a84c129bbdd6e13cc21cb443"
+  integrity sha512-DC1E7P03L+TfNHv+2SGxwNYvtb0oJPODWSKkWdfis0heU5zFW16vjM7fCjwlxMdGWw2w28EI3mTRfYLEHeQQSw==
   dependencies:
     cron-parser "4.9.0"
-    ioredis "5.8.2"
+    ioredis "5.9.1"
     msgpackr "1.11.5"
     node-abort-controller "3.1.1"
     semver "7.7.3"
@@ -4742,12 +4742,12 @@ inquirer@^8.2.4:
     through "^2.3.6"
     wrap-ansi "^7.0.0"
 
-ioredis@5.8.2:
-  version "5.8.2"
-  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-5.8.2.tgz#c7a228a26cf36f17a5a8011148836877780e2e14"
-  integrity sha512-C6uC+kleiIMmjViJINWk80sOQw5lEzse1ZmvD+S/s8p8CWapftSaC+kocGTx6xrbrJ4WmYQGC08ffHLr6ToR6Q==
+ioredis@5.9.1:
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-5.9.1.tgz#2edd2f25fe1879e2dbb76c85ec402c7899124627"
+  integrity sha512-BXNqFQ66oOsR82g9ajFFsR8ZKrjVvYCLyeML9IvSMAsP56XH2VXBdZjmI11p65nXXJxTEt1hie3J2QeFJVgrtQ==
   dependencies:
-    "@ioredis/commands" "1.4.0"
+    "@ioredis/commands" "1.5.0"
     cluster-key-slot "^1.1.0"
     debug "^4.3.4"
     denque "^2.1.0"
