@@ -7827,10 +7827,10 @@ sort-object-keys@^2.0.1:
   resolved "https://registry.yarnpkg.com/sort-object-keys/-/sort-object-keys-2.0.1.tgz#9eec95bb9276deb23649d5855b55bf489eca584b"
   integrity sha512-R89fO+z3x7hiKPXX5P0qim+ge6Y60AjtlW+QQpRozrrNcR1lw9Pkpm5MLB56HoNvdcLHL4wbpq16OcvGpEDJIg==
 
-sort-package-json@3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/sort-package-json/-/sort-package-json-3.6.0.tgz#6333552770203a712a13e148a6baf06a164cba15"
-  integrity sha512-fyJsPLhWvY7u2KsKPZn1PixbXp+1m7V8NWqU8CvgFRbMEX41Ffw1kD8n0CfJiGoaSfoAvbrqRRl/DcHO8omQOQ==
+sort-package-json@3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/sort-package-json/-/sort-package-json-3.6.1.tgz#901fe21d335af97d436383ac5b7c16c85cd3fac4"
+  integrity sha512-Chgejw1+10p2D0U2tB7au1lHtz6TkFnxmvZktyBCRyV0GgmF6nl1IxXxAsPtJVsUyg/fo+BfCMAVVFUVRkAHrQ==
   dependencies:
     detect-indent "^7.0.2"
     detect-newline "^4.0.1"

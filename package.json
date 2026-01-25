@@ -59,7 +59,7 @@
     "lint-staged": "16.2.7",
     "prettier": "3.8.1",
     "rimraf": "6.1.2",
-    "sort-package-json": "3.6.0",
+    "sort-package-json": "3.6.1",
     "ts-jest": "29.4.6",
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
