@@ -8,6 +8,7 @@ import {
 import {
   ContextIdFactory,
   DiscoveryService,
+  ExternalContextCreator,
   MetadataScanner,
   ModuleRef,
 } from '@nestjs/core';
@@ -53,6 +54,7 @@ export class BullExplorer implements OnApplicationShutdown {
     private readonly metadataAccessor: BullMetadataAccessor,
     private readonly metadataScanner: MetadataScanner,
     private readonly processorDecoratorService: ProcessorDecoratorService,
+    private readonly externalContextCreator: ExternalContextCreator,
   ) {}
 
   onApplicationShutdown(signal?: string) {
@@ -192,11 +194,25 @@ export class BullExplorer implements OnApplicationShutdown {
           moduleRef.providers,
           contextId,
         );
-        const processor = contextInstance[methodKey].bind(contextInstance);
+
+        const processor = this.externalContextCreator.create(
+          contextInstance,
+          contextInstance[methodKey],
+          methodKey,
+          undefined,
+          undefined,
+          contextId,
+        );
+
         return this.processorDecoratorService.decorate(processor)(...args);
       };
     } else {
-      processor = instance[methodKey].bind(instance);
+      processor = this.externalContextCreator.create(
+        instance,
+        instance[methodKey],
+        methodKey,
+      );
+
       processor = this.processorDecoratorService.decorate(processor);
     }
     const worker = new BullExplorer._workerClass(queueName, processor, {
