@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@nestjs/common": "11.1.18",
-    "@nestjs/core": "11.1.13",
+    "@nestjs/core": "11.1.18",
     "@nestjs/platform-express": "11.1.18",
     "@nestjs/testing": "11.1.18",
     "@types/bull": "4.10.4",
