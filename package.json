@@ -46,7 +46,7 @@
     "@commitlint/cli": "20.5.0",
     "@commitlint/config-angular": "20.5.0",
     "@commitlint/config-conventional": "20.5.0",
-    "@eslint/eslintrc": "3.3.3",
+    "@eslint/eslintrc": "3.3.5",
     "@eslint/js": "10.0.1",
     "eslint": "10.2.0",
     "eslint-config-prettier": "10.1.8",
