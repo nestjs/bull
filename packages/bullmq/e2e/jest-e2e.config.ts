@@ -1,10 +1,10 @@
 import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { resolve } from 'node:path';
 import type { Config } from '@jest/types';
 import { pathsToModuleNameMapper } from 'ts-jest';
 
 const { compilerOptions } = JSON.parse(
-  readFileSync(join(__dirname, '..', 'tsconfig.spec.json'), 'utf-8'),
+  readFileSync(resolve('tsconfig.spec.json'), 'utf-8'),
 );
 
 // Map TypeScript paths to module name mapper
