@@ -1,6 +1,11 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import type { Config } from '@jest/types';
 import { pathsToModuleNameMapper } from 'ts-jest';
-import { compilerOptions } from '../tsconfig.spec.json';
+
+const { compilerOptions } = JSON.parse(
+  readFileSync(join(__dirname, '..', 'tsconfig.spec.json'), 'utf-8'),
+);
 
 const moduleNameMapper = pathsToModuleNameMapper(compilerOptions.paths, {
   prefix: '<rootDir>/',
