@@ -31,7 +31,7 @@
     "@nestjs/testing": "11.1.18",
     "@types/node": "24.10.13",
     "@types/reflect-metadata": "0.1.0",
-    "bullmq": "5.73.3",
+    "bullmq": "5.73.4",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2"
   },
