@@ -12,24 +12,28 @@ import { BullMetadataAccessor } from '../bull-metadata.accessor';
 import { BullExplorer } from '../bull.explorer';
 import { BullModule } from '../bull.module';
 
-const workerCtorSpy = jest.fn();
-const queueEventsSpy = jest.fn();
-jest.mock('bullmq', () => ({
-  Worker: class {
-    constructor() {
-      workerCtorSpy(...arguments);
-    }
+const workerCtorSpy = vi.fn();
+const queueEventsSpy = vi.fn();
+vi.mock('bullmq', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('bullmq')>();
+  return {
+    ...actual,
+    Worker: class {
+      constructor() {
+        workerCtorSpy(...arguments);
+      }
 
-    close = jest.fn();
-  },
-  QueueEvents: class {
-    constructor() {
-      queueEventsSpy(...arguments);
-    }
+      close = vi.fn();
+    },
+    QueueEvents: class {
+      constructor() {
+        queueEventsSpy(...arguments);
+      }
 
-    close = jest.fn();
-  },
-}));
+      close = vi.fn();
+    },
+  };
+});
 
 @Injectable({ scope: Scope.REQUEST, durable: true })
 class DurableDependency {

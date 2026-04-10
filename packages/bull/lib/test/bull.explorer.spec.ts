@@ -23,14 +23,14 @@ describe('BullExplorer', () => {
   });
   describe('handleProcessor', () => {
     it('should add the given function to the queue handlers', () => {
-      const instance = { handler: jest.fn() };
-      const queue = { process: jest.fn() } as any;
+      const instance = { handler: vi.fn() };
+      const queue = { process: vi.fn() } as any;
       bullExplorer.handleProcessor(instance, 'handler', queue, null, false);
       expect(queue.process).toHaveBeenCalledWith(expect.any(Function));
     });
     it('should add the given function to the queue handlers with concurrency', () => {
-      const instance = { handler: jest.fn() };
-      const queue = { process: jest.fn() } as any;
+      const instance = { handler: vi.fn() };
+      const queue = { process: vi.fn() } as any;
       const opts = { concurrency: 42 };
       bullExplorer.handleProcessor(
         instance,
@@ -46,8 +46,8 @@ describe('BullExplorer', () => {
       );
     });
     it('should add the given function to the queue handlers with concurrency with a 0 value', () => {
-      const instance = { handler: jest.fn() };
-      const queue = { process: jest.fn() } as any;
+      const instance = { handler: vi.fn() };
+      const queue = { process: vi.fn() } as any;
       const opts = { concurrency: 0 };
       bullExplorer.handleProcessor(
         instance,
@@ -63,8 +63,8 @@ describe('BullExplorer', () => {
       );
     });
     it('should add the given function to the queue handlers with name', () => {
-      const instance = { handler: jest.fn() };
-      const queue = { process: jest.fn() } as any;
+      const instance = { handler: vi.fn() };
+      const queue = { process: vi.fn() } as any;
       const opts = { name: 'test' };
       bullExplorer.handleProcessor(
         instance,
@@ -80,8 +80,8 @@ describe('BullExplorer', () => {
       );
     });
     it('should add the given function to the queue handlers with concurrency and name', () => {
-      const instance = { handler: jest.fn() };
-      const queue = { process: jest.fn() } as any;
+      const instance = { handler: vi.fn() };
+      const queue = { process: vi.fn() } as any;
       const opts = { name: 'test', concurrency: 42 };
 
       bullExplorer.handleProcessor(
@@ -102,8 +102,8 @@ describe('BullExplorer', () => {
 
   describe('handleListener', () => {
     it('should add the given function to the queue listeners for the given event', () => {
-      const instance = { handler: jest.fn() };
-      const queue = { on: jest.fn() } as any;
+      const instance = { handler: vi.fn() };
+      const queue = { on: vi.fn() } as any;
       const opts = { eventName: 'test' } as any;
       const wrapper = new InstanceWrapper();
       bullExplorer.handleListener(instance, 'handler', wrapper, queue, opts);

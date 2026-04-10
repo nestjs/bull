@@ -2,9 +2,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist/tests",
-    "types": ["jest", "node"],
+    "types": ["node"],
     "rootDir": ".",
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "dist", "jest.config.ts"]
+  "exclude": ["node_modules", "dist"]
 }

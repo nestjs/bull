@@ -12,5 +12,5 @@
       "path": "../bull-shared/tsconfig.build.json"
     }
   ],
-  "exclude": ["node_modules", "dist", "e2e/**/*", "**/*.spec.ts", "jest.config.ts"]
+  "exclude": ["node_modules", "dist", "e2e/**/*", "**/*.spec.ts", "vitest.config.mts", "vitest.config.e2e.mts"]
 }

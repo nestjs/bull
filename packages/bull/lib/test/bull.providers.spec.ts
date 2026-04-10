@@ -2,13 +2,11 @@ import { FactoryProvider } from '@nestjs/common';
 import * as bullProviders from '../bull.providers';
 import { BullModuleOptions } from '../interfaces/bull-module-options.interface';
 
-jest.mock(
-  'bull',
-  () =>
-    class {
-      constructor(public readonly name: string) {}
-    },
-);
+vi.mock('bull', () => ({
+  default: class {
+    constructor(public readonly name: string) {}
+  },
+}));
 
 describe('Providers', () => {
   describe('createQueueProviders', () => {

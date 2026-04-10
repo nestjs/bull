@@ -14,7 +14,7 @@ import {
   getQueueToken,
 } from '../lib';
 
-jest.setTimeout(10000);
+vi.setConfig({ testTimeout: 10000 });
 
 describe('BullModule', () => {
   describe('registerQueue', () => {
@@ -623,9 +623,9 @@ describe('BullModule', () => {
     const queueName = 'full_flow_queue';
 
     it('should process jobs with the given processors', (done) => {
-      const processorCalledSpy = jest.fn();
-      const queueCompletedEventSpy = jest.fn();
-      const workerCompletedEventSpy = jest.fn();
+      const processorCalledSpy = vi.fn();
+      const queueCompletedEventSpy = vi.fn();
+      const workerCompletedEventSpy = vi.fn();
 
       @QueueEventsListener(queueName)
       class EventsListener extends QueueEventsHost {
@@ -684,9 +684,9 @@ describe('BullModule', () => {
     const queueName = 'a_queue';
 
     it('should manually register workers - forRoot', (done) => {
-      const processorCalledSpy = jest.fn();
-      const queueCompletedEventSpy = jest.fn();
-      const workerCompletedEventSpy = jest.fn();
+      const processorCalledSpy = vi.fn();
+      const queueCompletedEventSpy = vi.fn();
+      const workerCompletedEventSpy = vi.fn();
 
       @QueueEventsListener(queueName)
       class EventsListener extends QueueEventsHost {
@@ -752,9 +752,9 @@ describe('BullModule', () => {
     });
 
     it('should manually register workers - forRootAsync', (done) => {
-      const processorCalledSpy = jest.fn();
-      const queueCompletedEventSpy = jest.fn();
-      const workerCompletedEventSpy = jest.fn();
+      const processorCalledSpy = vi.fn();
+      const queueCompletedEventSpy = vi.fn();
+      const workerCompletedEventSpy = vi.fn();
 
       @QueueEventsListener(queueName)
       class EventsListener extends QueueEventsHost {
@@ -870,7 +870,7 @@ describe('BullModule', () => {
       }).compile();
 
       metadataScanner = testingModule.get(MetadataScanner);
-      jest.spyOn(metadataScanner, 'scanFromPrototype');
+      vi.spyOn(metadataScanner, 'scanFromPrototype');
 
       await testingModule.init();
     });
@@ -883,10 +883,8 @@ describe('BullModule', () => {
     });
 
     it('should reach the processor supplied with `useClass`', () => {
-      const scanPrototypeCalls = jest.spyOn(
-        metadataScanner,
-        'scanFromPrototype',
-      ).mock.calls;
+      const scanPrototypeCalls = vi.spyOn(metadataScanner, 'scanFromPrototype')
+        .mock.calls;
 
       const scanPrototypeCallsFirstArgsEveryCall = scanPrototypeCalls.flatMap(
         (args) => args[0],
@@ -901,10 +899,8 @@ describe('BullModule', () => {
     });
 
     it('should reach the processor supplied with `useValue`', () => {
-      const scanPrototypeCalls = jest.spyOn(
-        metadataScanner,
-        'scanFromPrototype',
-      ).mock.calls;
+      const scanPrototypeCalls = vi.spyOn(metadataScanner, 'scanFromPrototype')
+        .mock.calls;
 
       const scanPrototypeCallsFirstArgsEveryCall = scanPrototypeCalls.flatMap(
         (args) => args[0],
@@ -919,10 +915,8 @@ describe('BullModule', () => {
     });
 
     it('should reach the processor supplied with `useFactory`', () => {
-      const scanPrototypeCalls = jest.spyOn(
-        metadataScanner,
-        'scanFromPrototype',
-      ).mock.calls;
+      const scanPrototypeCalls = vi.spyOn(metadataScanner, 'scanFromPrototype')
+        .mock.calls;
 
       const scanPrototypeCallsFirstArgsEveryCall = scanPrototypeCalls.flatMap(
         (args) => args[0],

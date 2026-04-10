@@ -2,8 +2,10 @@
   "compilerOptions": {
     "composite": true,
     "module": "commonjs",
+    "moduleResolution": "bundler",
     "declaration": true,
     "declarationMap": true,
+    "strict": false,
     "noImplicitAny": false,
     "importHelpers": true,
     "removeComments": false,
@@ -14,5 +16,5 @@
     "sourceMap": false,
     "skipLibCheck": true,
     "resolveJsonModule": true
-  },
+  }
 }

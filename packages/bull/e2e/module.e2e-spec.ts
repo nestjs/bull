@@ -445,7 +445,7 @@ describe('BullModule', () => {
       }).compile();
 
       metadataScanner = testingModule.get(MetadataScanner);
-      jest.spyOn(metadataScanner, 'scanFromPrototype');
+      vi.spyOn(metadataScanner, 'scanFromPrototype');
 
       await testingModule.init();
     });
@@ -458,10 +458,8 @@ describe('BullModule', () => {
     });
 
     it('should reach the processor supplied with `useClass`', () => {
-      const scanPrototypeCalls = jest.spyOn(
-        metadataScanner,
-        'scanFromPrototype',
-      ).mock.calls;
+      const scanPrototypeCalls = vi.spyOn(metadataScanner, 'scanFromPrototype')
+        .mock.calls;
 
       const scanPrototypeCallsFirstArgsEveryCall = scanPrototypeCalls.flatMap(
         (args) => args[0],
@@ -476,10 +474,8 @@ describe('BullModule', () => {
     });
 
     it('should reach the processor supplied with `useValue`', () => {
-      const scanPrototypeCalls = jest.spyOn(
-        metadataScanner,
-        'scanFromPrototype',
-      ).mock.calls;
+      const scanPrototypeCalls = vi.spyOn(metadataScanner, 'scanFromPrototype')
+        .mock.calls;
 
       const scanPrototypeCallsFirstArgsEveryCall = scanPrototypeCalls.flatMap(
         (args) => args[0],
@@ -494,10 +490,8 @@ describe('BullModule', () => {
     });
 
     it('should reach the processor supplied with `useFactory`', () => {
-      const scanPrototypeCalls = jest.spyOn(
-        metadataScanner,
-        'scanFromPrototype',
-      ).mock.calls;
+      const scanPrototypeCalls = vi.spyOn(metadataScanner, 'scanFromPrototype')
+        .mock.calls;
 
       const scanPrototypeCallsFirstArgsEveryCall = scanPrototypeCalls.flatMap(
         (args) => args[0],

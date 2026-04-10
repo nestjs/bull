@@ -4,7 +4,7 @@ import {
   IConditionalDepHolder,
 } from '@nestjs/bull-shared';
 import { flatten, OnApplicationShutdown, Provider } from '@nestjs/common';
-import * as Bull from 'bull';
+import Bull from 'bull';
 import { Queue } from 'bull';
 import { BullQueueProcessor } from './bull.types';
 import { BullModuleOptions } from './interfaces/bull-module-options.interface';

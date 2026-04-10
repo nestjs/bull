@@ -15,22 +15,26 @@ import { BullExplorer } from '../bull.explorer';
 import { BullModule } from '../bull.module';
 import { getFlowProducerToken } from '../utils';
 
-const workerCtorSpy = jest.fn();
-const queueEventsSpy = jest.fn();
-jest.mock('bullmq', () => ({
-  Worker: class {
-    constructor() {
-      workerCtorSpy(...arguments);
-    }
-  },
-  QueueEvents: class {
-    constructor() {
-      queueEventsSpy(...arguments);
-    }
+const workerCtorSpy = vi.fn();
+const queueEventsSpy = vi.fn();
+vi.mock('bullmq', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('bullmq')>();
+  return {
+    ...actual,
+    Worker: class {
+      constructor() {
+        workerCtorSpy(...arguments);
+      }
+    },
+    QueueEvents: class {
+      constructor() {
+        queueEventsSpy(...arguments);
+      }
 
-    close = jest.fn();
-  },
-}));
+      close = vi.fn();
+    },
+  };
+});
 
 describe('BullExplorer', () => {
   let bullExplorer: BullExplorer;
@@ -117,20 +121,20 @@ describe('BullExplorer', () => {
 
       // Create a mock telemetry object that satisfies the Telemetry interface
       const mockTelemetry = {
-        instrumentJob: jest.fn(),
+        instrumentJob: vi.fn(),
         tracer: {
-          startSpan: jest.fn(),
-          currentSpan: jest.fn(),
-          withSpan: jest.fn(),
-          withContext: jest.fn(),
-          bind: jest.fn(),
+          startSpan: vi.fn(),
+          currentSpan: vi.fn(),
+          withSpan: vi.fn(),
+          withContext: vi.fn(),
+          bind: vi.fn(),
         } as any, // Cast to any to bypass type checking for tracer
         contextManager: {
-          active: jest.fn(),
-          with: jest.fn(),
-          bind: jest.fn(),
-          getMetadata: jest.fn(),
-          fromMetadata: jest.fn(),
+          active: vi.fn(),
+          with: vi.fn(),
+          bind: vi.fn(),
+          getMetadata: vi.fn(),
+          fromMetadata: vi.fn(),
         } as any, // Cast to any to bypass type checking for contextManager
       };
 
@@ -182,9 +186,7 @@ describe('BullExplorer', () => {
 
       bullExplorer = moduleRef.get(BullExplorer);
 
-      jest
-        .spyOn(bullExplorer, 'getQueueOptions')
-        .mockReturnValue(mockQueue.opts);
+      vi.spyOn(bullExplorer, 'getQueueOptions').mockReturnValue(mockQueue.opts);
       bullExplorer.registerQueueEventListeners();
 
       expect(queueEventsSpy).toHaveBeenCalledWith(
@@ -194,20 +196,20 @@ describe('BullExplorer', () => {
     });
     it('should pass telemetry option to queue events constructor', async () => {
       const mockTelemetry = {
-        instrumentJob: jest.fn(),
+        instrumentJob: vi.fn(),
         tracer: {
-          startSpan: jest.fn(),
-          currentSpan: jest.fn(),
-          withSpan: jest.fn(),
-          withContext: jest.fn(),
-          bind: jest.fn(),
+          startSpan: vi.fn(),
+          currentSpan: vi.fn(),
+          withSpan: vi.fn(),
+          withContext: vi.fn(),
+          bind: vi.fn(),
         } as any,
         contextManager: {
-          active: jest.fn(),
-          with: jest.fn(),
-          bind: jest.fn(),
-          getMetadata: jest.fn(),
-          fromMetadata: jest.fn(),
+          active: vi.fn(),
+          with: vi.fn(),
+          bind: vi.fn(),
+          getMetadata: vi.fn(),
+          fromMetadata: vi.fn(),
         } as any,
       };
 
@@ -231,9 +233,7 @@ describe('BullExplorer', () => {
 
       bullExplorer = moduleRef.get(BullExplorer);
 
-      jest
-        .spyOn(bullExplorer, 'getQueueOptions')
-        .mockReturnValue(mockQueue.opts);
+      vi.spyOn(bullExplorer, 'getQueueOptions').mockReturnValue(mockQueue.opts);
       bullExplorer.registerQueueEventListeners();
 
       expect(queueEventsSpy).toHaveBeenCalledWith(
