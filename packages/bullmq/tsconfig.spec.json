@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist/tests",
-    "types": ["node"],
+    "types": ["node", "vitest/globals"],
     "rootDir": ".",
     "resolveJsonModule": true,
     "paths": {

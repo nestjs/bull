@@ -622,7 +622,7 @@ describe('BullModule', () => {
   describe('full flow (job handling)', () => {
     const queueName = 'full_flow_queue';
 
-    it('should process jobs with the given processors', (done) => {
+    it('should process jobs with the given processors', async () => {
       const processorCalledSpy = vi.fn();
       const queueCompletedEventSpy = vi.fn();
       const workerCompletedEventSpy = vi.fn();
@@ -648,7 +648,7 @@ describe('BullModule', () => {
         }
       }
 
-      Test.createTestingModule({
+      const testingModule = await Test.createTestingModule({
         imports: [
           BullModule.registerQueue({
             name: queueName,
@@ -659,31 +659,28 @@ describe('BullModule', () => {
           }),
         ],
         providers: [EventsListener, TestProcessor],
-      })
-        .compile()
-        .then(async (testingModule) => {
-          await testingModule.init();
+      }).compile();
 
-          const queue = testingModule.get<Queue>(getQueueToken(queueName));
-          const queueEvents = testingModule.get(EventsListener).queueEvents;
+      await testingModule.init();
 
-          const job = await queue.add('job_name', { test: true });
-          await job.waitUntilFinished(queueEvents, 5000).catch(console.error);
+      const queue = testingModule.get<Queue>(getQueueToken(queueName));
+      const queueEvents = testingModule.get(EventsListener).queueEvents;
 
-          await testingModule.close();
+      const job = await queue.add('job_name', { test: true });
+      await job.waitUntilFinished(queueEvents, 5000).catch(console.error);
 
-          expect(processorCalledSpy).toHaveBeenCalled();
-          expect(queueCompletedEventSpy).toHaveBeenCalled();
-          expect(workerCompletedEventSpy).toHaveBeenCalled();
-          done();
-        });
+      await testingModule.close();
+
+      expect(processorCalledSpy).toHaveBeenCalled();
+      expect(queueCompletedEventSpy).toHaveBeenCalled();
+      expect(workerCompletedEventSpy).toHaveBeenCalled();
     });
   });
 
   describe('manual registration', () => {
     const queueName = 'a_queue';
 
-    it('should manually register workers - forRoot', (done) => {
+    it('should manually register workers - forRoot', async () => {
       const processorCalledSpy = vi.fn();
       const queueCompletedEventSpy = vi.fn();
       const workerCompletedEventSpy = vi.fn();
@@ -709,7 +706,7 @@ describe('BullModule', () => {
         }
       }
 
-      Test.createTestingModule({
+      const testingModule = await Test.createTestingModule({
         imports: [
           BullModule.forRoot({
             connection: {
@@ -725,33 +722,30 @@ describe('BullModule', () => {
           }),
         ],
         providers: [EventsListener, TestProcessor],
-      })
-        .compile()
-        .then(async (testingModule) => {
-          await testingModule.init();
+      }).compile();
 
-          expect(() => testingModule.get(TestProcessor).worker).toThrow(
-            '"Worker" has not yet been initialized. Make sure to interact with worker instances after the "onModuleInit" lifecycle hook is triggered for example, in the "onApplicationBootstrap" hook, or if "manualRegistration" is set to true make sure to call "BullRegistrar.register()"',
-          );
-          expect(() => testingModule.get(EventsListener).queueEvents).toThrow(
-            '"QueueEvents" class has not yet been initialized. Make sure to interact with queue events instances after the "onModuleInit" lifecycle hook is triggered, for example, in the "onApplicationBootstrap" hook, or if "manualRegistration" is set to true make sure to call "BullRegistrar.register()"',
-          );
+      await testingModule.init();
 
-          const bullRegistrar = testingModule.get(BullRegistrar);
-          bullRegistrar.register();
+      expect(() => testingModule.get(TestProcessor).worker).toThrow(
+        '"Worker" has not yet been initialized. Make sure to interact with worker instances after the "onModuleInit" lifecycle hook is triggered for example, in the "onApplicationBootstrap" hook, or if "manualRegistration" is set to true make sure to call "BullRegistrar.register()"',
+      );
+      expect(() => testingModule.get(EventsListener).queueEvents).toThrow(
+        '"QueueEvents" class has not yet been initialized. Make sure to interact with queue events instances after the "onModuleInit" lifecycle hook is triggered, for example, in the "onApplicationBootstrap" hook, or if "manualRegistration" is set to true make sure to call "BullRegistrar.register()"',
+      );
 
-          const processorWorker = testingModule.get(TestProcessor).worker;
-          const queueEvents = testingModule.get(EventsListener).queueEvents;
+      const bullRegistrar = testingModule.get(BullRegistrar);
+      bullRegistrar.register();
 
-          expect(processorWorker).toBeDefined();
-          expect(queueEvents).toBeDefined();
+      const processorWorker = testingModule.get(TestProcessor).worker;
+      const queueEvents = testingModule.get(EventsListener).queueEvents;
 
-          await testingModule.close();
-          done();
-        });
+      expect(processorWorker).toBeDefined();
+      expect(queueEvents).toBeDefined();
+
+      await testingModule.close();
     });
 
-    it('should manually register workers - forRootAsync', (done) => {
+    it('should manually register workers - forRootAsync', async () => {
       const processorCalledSpy = vi.fn();
       const queueCompletedEventSpy = vi.fn();
       const workerCompletedEventSpy = vi.fn();
@@ -777,7 +771,7 @@ describe('BullModule', () => {
         }
       }
 
-      Test.createTestingModule({
+      const testingModule = await Test.createTestingModule({
         imports: [
           BullModule.forRootAsync({
             useFactory: () => ({
@@ -795,30 +789,27 @@ describe('BullModule', () => {
           }),
         ],
         providers: [EventsListener, TestProcessor],
-      })
-        .compile()
-        .then(async (testingModule) => {
-          await testingModule.init();
+      }).compile();
 
-          expect(() => testingModule.get(TestProcessor).worker).toThrow(
-            '"Worker" has not yet been initialized. Make sure to interact with worker instances after the "onModuleInit" lifecycle hook is triggered for example, in the "onApplicationBootstrap" hook, or if "manualRegistration" is set to true make sure to call "BullRegistrar.register()"',
-          );
-          expect(() => testingModule.get(EventsListener).queueEvents).toThrow(
-            '"QueueEvents" class has not yet been initialized. Make sure to interact with queue events instances after the "onModuleInit" lifecycle hook is triggered, for example, in the "onApplicationBootstrap" hook, or if "manualRegistration" is set to true make sure to call "BullRegistrar.register()"',
-          );
+      await testingModule.init();
 
-          const bullRegistrar = testingModule.get(BullRegistrar);
-          bullRegistrar.register();
+      expect(() => testingModule.get(TestProcessor).worker).toThrow(
+        '"Worker" has not yet been initialized. Make sure to interact with worker instances after the "onModuleInit" lifecycle hook is triggered for example, in the "onApplicationBootstrap" hook, or if "manualRegistration" is set to true make sure to call "BullRegistrar.register()"',
+      );
+      expect(() => testingModule.get(EventsListener).queueEvents).toThrow(
+        '"QueueEvents" class has not yet been initialized. Make sure to interact with queue events instances after the "onModuleInit" lifecycle hook is triggered, for example, in the "onApplicationBootstrap" hook, or if "manualRegistration" is set to true make sure to call "BullRegistrar.register()"',
+      );
 
-          const processorWorker = testingModule.get(TestProcessor).worker;
-          const queueEvents = testingModule.get(EventsListener).queueEvents;
+      const bullRegistrar = testingModule.get(BullRegistrar);
+      bullRegistrar.register();
 
-          expect(processorWorker).toBeDefined();
-          expect(queueEvents).toBeDefined();
+      const processorWorker = testingModule.get(TestProcessor).worker;
+      const queueEvents = testingModule.get(EventsListener).queueEvents;
 
-          await testingModule.close();
-          done();
-        });
+      expect(processorWorker).toBeDefined();
+      expect(queueEvents).toBeDefined();
+
+      await testingModule.close();
     });
   });
 
