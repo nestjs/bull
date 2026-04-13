@@ -29,7 +29,7 @@
     "@nestjs/core": "11.1.19",
     "@nestjs/platform-express": "11.1.19",
     "@nestjs/testing": "11.1.19",
-    "@types/node": "24.10.13",
+    "@types/node": "24.12.2",
     "@types/reflect-metadata": "0.1.0",
     "bullmq": "5.73.5",
     "reflect-metadata": "0.2.2",
