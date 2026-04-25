@@ -1677,10 +1677,10 @@ bull@4.16.5:
     semver "^7.5.2"
     uuid "^8.3.0"
 
-bullmq@5.76.1:
-  version "5.76.1"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-5.76.1.tgz#dcbb3de4e94acdac8239231f221c8c3a276f2024"
-  integrity sha512-9Xc5Pj4Ho0clodowuuUSydMOR4gCn+YxYYVQXbGJycO8r4jyxsff1rZl3CKj3k50c/B42gDDNTLJH6uwb3dYmg==
+bullmq@5.76.2:
+  version "5.76.2"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-5.76.2.tgz#a8bb0ec07662d7a88457d87c1d35c8347993b089"
+  integrity sha512-kkNU6TPAjqV3Ep0kIaYhT79Z2IMoA7vadqjmr/zvmPicg0K/cOAecqZTihD726LbI043yPU0MBv/nMQmd5rNIg==
   dependencies:
     cron-parser "4.9.0"
     ioredis "5.10.1"
@@ -1688,7 +1688,6 @@ bullmq@5.76.1:
     node-abort-controller "3.1.1"
     semver "7.7.4"
     tslib "2.8.1"
-    uuid "11.1.0"
 
 busboy@^1.6.0:
   version "1.6.0"
@@ -6131,11 +6130,6 @@ util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
-
-uuid@11.1.0:
-  version "11.1.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-11.1.0.tgz#9549028be1753bb934fc96e2bca09bb4105ae912"
-  integrity sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==
 
 uuid@^8.3.0:
   version "8.3.2"
