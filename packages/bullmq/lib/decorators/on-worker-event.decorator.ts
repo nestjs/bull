@@ -1,6 +1,6 @@
 import { SetMetadata } from '@nestjs/common';
 import { WorkerListener } from 'bullmq';
-import { ON_WORKER_EVENT_METADATA } from '../bull.constants';
+import { ON_WORKER_EVENT_METADATA } from '../bull.constants.js';
 
 /**
  * @publicApi

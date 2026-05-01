@@ -6,14 +6,14 @@ import {
   PROCESSOR_METADATA,
   QUEUE_EVENTS_LISTENER_METADATA,
   WORKER_METADATA,
-} from './bull.constants';
+} from './bull.constants.js';
 import {
   OnQueueEventMetadata,
   OnWorkerEventMetadata,
   ProcessorOptions,
   QueueEventsListenerOptions,
-} from './decorators';
-import { NestWorkerOptions } from './interfaces/worker-options.interface';
+} from './decorators/index.js';
+import { NestWorkerOptions } from './interfaces/worker-options.interface.js';
 
 @Injectable()
 export class BullMetadataAccessor {

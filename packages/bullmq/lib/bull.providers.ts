@@ -5,22 +5,22 @@ import {
 } from '@nestjs/bull-shared';
 import { flatten, OnApplicationShutdown, Provider, Type } from '@nestjs/common';
 import { FlowProducer, Queue, Worker } from 'bullmq';
-import { BullQueueProcessor } from './bull.types';
-import { RegisterFlowProducerOptions } from './interfaces';
-import { RegisterQueueOptions } from './interfaces/register-queue-options.interface';
+import { BullQueueProcessor } from './bull.types.js';
+import { RegisterFlowProducerOptions } from './interfaces/index.js';
+import { RegisterQueueOptions } from './interfaces/register-queue-options.interface.js';
 import {
   BULL_CONFIG_DEFAULT_TOKEN,
   getFlowProducerOptionsToken,
   getFlowProducerToken,
   getQueueOptionsToken,
   getSharedConfigToken,
-} from './utils';
+} from './utils/index.js';
 import {
   isAdvancedProcessor,
   isAdvancedSeparateProcessor,
   isProcessorCallback,
   isSeparateProcessor,
-} from './utils/helpers';
+} from './utils/helpers.js';
 
 function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
   options: RegisterQueueOptions,

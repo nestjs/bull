@@ -33,7 +33,7 @@ import {
   BULL_MODULE_ON_QUEUE_EVENT,
   BULL_MODULE_QUEUE,
   BULL_MODULE_QUEUE_PROCESS,
-} from '../bull.constants';
+} from '../bull.constants.js';
 
 describe('Decorators', () => {
   describe('@InjectQueue()', () => {

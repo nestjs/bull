@@ -1,12 +1,14 @@
 import { FactoryProvider, ModuleMetadata, Type } from '@nestjs/common';
 import { QueueBaseOptions } from 'bullmq';
-import { PartialThisParameter } from '../utils/partial-this-parameter.type';
+import { PartialThisParameter } from '../utils/partial-this-parameter.type.js';
 
 /**
  * @publicApi
  */
-export interface RegisterFlowProducerOptions
-  extends PartialThisParameter<QueueBaseOptions, 'connection'> {
+export interface RegisterFlowProducerOptions extends PartialThisParameter<
+  QueueBaseOptions,
+  'connection'
+> {
   /**
    * Flow name
    *
@@ -38,8 +40,10 @@ export interface RegisterFlowProducerOptionsFactory {
 /**
  * @publicApi
  */
-export interface RegisterFlowProducerAsyncOptions
-  extends Pick<ModuleMetadata, 'imports'> {
+export interface RegisterFlowProducerAsyncOptions extends Pick<
+  ModuleMetadata,
+  'imports'
+> {
   /**
    * Flow name.
    *

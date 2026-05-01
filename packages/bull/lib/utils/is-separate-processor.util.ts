@@ -1,4 +1,7 @@
-import { BullQueueProcessor, BullQueueSeparateProcessor } from '../bull.types';
+import {
+  BullQueueProcessor,
+  BullQueueSeparateProcessor,
+} from '../bull.types.js';
 
 export function isSeparateProcessor(
   processor: BullQueueProcessor,

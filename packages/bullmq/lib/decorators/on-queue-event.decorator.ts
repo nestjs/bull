@@ -1,6 +1,6 @@
 import { SetMetadata } from '@nestjs/common';
 import { QueueEventsListener } from 'bullmq';
-import { ON_QUEUE_EVENT_METADATA } from '../bull.constants';
+import { ON_QUEUE_EVENT_METADATA } from '../bull.constants.js';
 
 /**
  * @publicApi
