@@ -43,9 +43,9 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "20.5.3",
-    "@commitlint/config-angular": "20.5.3",
-    "@commitlint/config-conventional": "20.5.3",
+    "@commitlint/cli": "21.0.0",
+    "@commitlint/config-angular": "21.0.0",
+    "@commitlint/config-conventional": "21.0.0",
     "husky": "9.1.7",
     "lerna": "9.0.7",
     "lerna-changelog": "2.2.0",
