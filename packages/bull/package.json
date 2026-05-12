@@ -33,7 +33,7 @@
     "@nestjs/platform-express": "11.1.19",
     "@nestjs/testing": "11.1.19",
     "@types/bull": "4.10.4",
-    "@types/node": "24.12.3",
+    "@types/node": "24.12.4",
     "@types/reflect-metadata": "0.1.0",
     "bull": "4.16.5",
     "reflect-metadata": "0.2.2",
