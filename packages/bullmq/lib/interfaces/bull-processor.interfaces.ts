@@ -2,7 +2,7 @@ import { WorkerOptions } from 'bullmq';
 import {
   BullQueueProcessorCallback,
   BullQueueSeparateProcessor,
-} from '../bull.types';
+} from '../bull.types.js';
 
 /**
  * @publicApi
@@ -12,8 +12,7 @@ export interface BullQueueAdvancedProcessor extends Partial<WorkerOptions> {
   callback: BullQueueProcessorCallback;
 }
 
-export interface BullQueueAdvancedSeparateProcessor
-  extends Partial<WorkerOptions> {
+export interface BullQueueAdvancedSeparateProcessor extends Partial<WorkerOptions> {
   concurrency?: number;
   path: BullQueueSeparateProcessor;
   useWorkerThreads?: boolean;

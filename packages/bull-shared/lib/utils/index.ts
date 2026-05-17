@@ -1,1 +1,1 @@
-export * from './get-queue-token.util';
+export * from './get-queue-token.util.js';

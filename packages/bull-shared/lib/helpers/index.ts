@@ -1,1 +1,1 @@
-export * from './create-conditional-dep-holder.helper';
+export * from './create-conditional-dep-holder.helper.js';

@@ -5,7 +5,7 @@ import {
   Type,
 } from '@nestjs/common';
 import * as Bull from 'bull';
-import { BullQueueProcessor } from '../bull.types';
+import { BullQueueProcessor } from '../bull.types.js';
 
 /**
  * @publicApi
@@ -51,8 +51,10 @@ export interface BullOptionsFactory {
 /**
  * @publicApi
  */
-export interface BullModuleAsyncOptions
-  extends Pick<ModuleMetadata, 'imports'> {
+export interface BullModuleAsyncOptions extends Pick<
+  ModuleMetadata,
+  'imports'
+> {
   /**
    * Queue name.
    *

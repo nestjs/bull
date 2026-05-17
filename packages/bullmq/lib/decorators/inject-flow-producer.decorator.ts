@@ -1,5 +1,5 @@
 import { Inject } from '@nestjs/common';
-import { getFlowProducerToken } from '../utils';
+import { getFlowProducerToken } from '../utils/index.js';
 
 /**
  * Injects Bull's flow producer instance with the given name

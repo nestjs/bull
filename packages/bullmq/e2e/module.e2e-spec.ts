@@ -12,7 +12,7 @@ import {
   WorkerHost,
   getFlowProducerToken,
   getQueueToken,
-} from '../lib';
+} from '../lib/index.js';
 
 vi.setConfig({ testTimeout: 10000 });
 

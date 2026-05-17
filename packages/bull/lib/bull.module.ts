@@ -4,27 +4,27 @@ import {
 } from '@nestjs/bull-shared';
 import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
-import { BullMetadataAccessor } from './bull-metadata.accessor';
-import { BullExplorer } from './bull.explorer';
+import { BullMetadataAccessor } from './bull-metadata.accessor.js';
+import { BullExplorer } from './bull.explorer.js';
 import {
   createQueueOptionProviders,
   createQueueProviders,
-} from './bull.providers';
+} from './bull.providers.js';
 import {
   SharedBullAsyncConfiguration,
   SharedBullConfigurationFactory,
-} from './interfaces';
+} from './interfaces/index.js';
 import {
   BullModuleAsyncOptions,
   BullModuleOptions,
   BullOptionsFactory,
   BullRootModuleOptions,
-} from './interfaces/bull-module-options.interface';
+} from './interfaces/bull-module-options.interface.js';
 import {
   BULL_CONFIG_DEFAULT_TOKEN,
   getQueueOptionsToken,
   getSharedConfigToken,
-} from './utils';
+} from './utils/index.js';
 
 /**
  * @publicApi

@@ -1,6 +1,6 @@
 import { Scope, SetMetadata } from '@nestjs/common';
-import { SCOPE_OPTIONS_METADATA } from '@nestjs/common/constants';
-import { BULL_MODULE_QUEUE } from '../bull.constants';
+import { SCOPE_OPTIONS_METADATA } from '@nestjs/common/constants.js';
+import { BULL_MODULE_QUEUE } from '../bull.constants.js';
 
 /**
  * @publicApi

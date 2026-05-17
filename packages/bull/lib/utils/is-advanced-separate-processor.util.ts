@@ -1,6 +1,6 @@
-import { BullQueueProcessor } from '../bull.types';
-import { BullQueueAdvancedSeparateProcessor } from '../interfaces/bull.interfaces';
-import { isSeparateProcessor } from './is-separate-processor.util';
+import { BullQueueProcessor } from '../bull.types.js';
+import { BullQueueAdvancedSeparateProcessor } from '../interfaces/bull.interfaces.js';
+import { isSeparateProcessor } from './is-separate-processor.util.js';
 
 export function isAdvancedSeparateProcessor(
   processor: BullQueueProcessor,

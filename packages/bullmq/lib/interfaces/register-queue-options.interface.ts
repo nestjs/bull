@@ -5,14 +5,16 @@ import {
   Type,
 } from '@nestjs/common';
 import { QueueOptions } from 'bullmq';
-import { BullQueueProcessor } from '../bull.types';
-import { PartialThisParameter } from '../utils/partial-this-parameter.type';
+import { BullQueueProcessor } from '../bull.types.js';
+import { PartialThisParameter } from '../utils/partial-this-parameter.type.js';
 
 /**
  * @publicApi
  */
-export interface RegisterQueueOptions
-  extends PartialThisParameter<QueueOptions, 'connection'> {
+export interface RegisterQueueOptions extends PartialThisParameter<
+  QueueOptions,
+  'connection'
+> {
   /**
    * Queue name
    *
@@ -58,8 +60,10 @@ export interface RegisterQueueOptionsFactory {
 /**
  * @publicApi
  */
-export interface RegisterQueueAsyncOptions
-  extends Pick<ModuleMetadata, 'imports'> {
+export interface RegisterQueueAsyncOptions extends Pick<
+  ModuleMetadata,
+  'imports'
+> {
   /**
    * Queue name.
    *

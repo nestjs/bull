@@ -1,4 +1,7 @@
-import { BullQueueProcessor, BullQueueProcessorCallback } from '../bull.types';
+import {
+  BullQueueProcessor,
+  BullQueueProcessorCallback,
+} from '../bull.types.js';
 
 export function isProcessorCallback(
   processor: BullQueueProcessor,

@@ -1,10 +1,10 @@
 import { getQueueToken } from '@nestjs/bull-shared';
 import { DiscoveryModule } from '@nestjs/core';
-import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
+import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper.js';
 import { Test, TestingModule } from '@nestjs/testing';
-import { BullMetadataAccessor } from '../bull-metadata.accessor';
-import { BullExplorer } from '../bull.explorer';
-import { BullModule } from '../bull.module';
+import { BullMetadataAccessor } from '../bull-metadata.accessor.js';
+import { BullExplorer } from '../bull.explorer.js';
+import { BullModule } from '../bull.module.js';
 
 describe('BullExplorer', () => {
   let bullExplorer: BullExplorer;

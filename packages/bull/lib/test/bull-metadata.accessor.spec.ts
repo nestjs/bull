@@ -1,7 +1,7 @@
 import { Reflector } from '@nestjs/core';
 import { OnQueueEvent, Process, Processor } from '..';
-import { BullMetadataAccessor } from '../bull-metadata.accessor';
-import { BullQueueEvents } from '../enums';
+import { BullMetadataAccessor } from '../bull-metadata.accessor.js';
+import { BullQueueEvents } from '../enums/index.js';
 
 describe('BullMetadataAccessor', () => {
   let metadataAccessor: BullMetadataAccessor;

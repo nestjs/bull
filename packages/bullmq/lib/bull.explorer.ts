@@ -11,10 +11,10 @@ import {
   MetadataScanner,
   ModuleRef,
 } from '@nestjs/core';
-import { Injector } from '@nestjs/core/injector/injector';
-import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
-import { Module } from '@nestjs/core/injector/module';
-import { REQUEST_CONTEXT_ID } from '@nestjs/core/router/request/request-constants';
+import { Injector } from '@nestjs/core/injector/injector.js';
+import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper.js';
+import { Module } from '@nestjs/core/injector/module.js';
+import { REQUEST_CONTEXT_ID } from '@nestjs/core/router/request/request-constants.js';
 import {
   FlowOpts,
   FlowProducer,
@@ -23,18 +23,21 @@ import {
   QueueEvents,
   Worker,
 } from 'bullmq';
-import { BullMetadataAccessor } from './bull-metadata.accessor';
-import { NO_FLOW_PRODUCER_FOUND } from './bull.messages';
-import { OnQueueEventMetadata, OnWorkerEventMetadata } from './decorators';
+import { BullMetadataAccessor } from './bull-metadata.accessor.js';
+import { NO_FLOW_PRODUCER_FOUND } from './bull.messages.js';
+import {
+  OnQueueEventMetadata,
+  OnWorkerEventMetadata,
+} from './decorators/index.js';
 import {
   InvalidProcessorClassError,
   InvalidQueueEventsListenerClassError,
-} from './errors';
-import { QueueEventsHost, WorkerHost } from './hosts';
-import { ProcessorDecoratorService } from './instrument/processor-decorator.service';
-import { NestQueueOptions } from './interfaces/queue-options.interface';
-import { NestWorkerOptions } from './interfaces/worker-options.interface';
-import { getSharedConfigToken } from './utils/get-shared-config-token.util';
+} from './errors/index.js';
+import { QueueEventsHost, WorkerHost } from './hosts/index.js';
+import { ProcessorDecoratorService } from './instrument/processor-decorator.service.js';
+import { NestQueueOptions } from './interfaces/queue-options.interface.js';
+import { NestWorkerOptions } from './interfaces/worker-options.interface.js';
+import { getSharedConfigToken } from './utils/get-shared-config-token.util.js';
 
 @Injectable()
 export class BullExplorer implements OnApplicationShutdown {

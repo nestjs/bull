@@ -2,7 +2,7 @@ import { DoneCallback, Job } from 'bull';
 import {
   BullQueueAdvancedProcessor,
   BullQueueAdvancedSeparateProcessor,
-} from './interfaces/bull.interfaces';
+} from './interfaces/bull.interfaces.js';
 
 // @see https://stackoverflow.com/a/49725198
 export type RequireOnlyOne<T, Keys extends keyof T = keyof T> = Pick<

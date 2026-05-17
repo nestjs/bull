@@ -4,9 +4,9 @@ import {
   BULL_MODULE_ON_QUEUE_EVENT,
   BULL_MODULE_QUEUE,
   BULL_MODULE_QUEUE_PROCESS,
-} from './bull.constants';
-import { BullQueueEventOptions } from './bull.types';
-import { ProcessOptions } from './decorators';
+} from './bull.constants.js';
+import { BullQueueEventOptions } from './bull.types.js';
+import { ProcessOptions } from './decorators/index.js';
 
 @Injectable()
 export class BullMetadataAccessor {

@@ -1,7 +1,7 @@
 import {
   BullQueueProcessorCallback,
   BullQueueSeparateProcessor,
-} from '../bull.types';
+} from '../bull.types.js';
 
 /**
  * @publicApi

@@ -1,7 +1,7 @@
 import { MetadataScanner } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DoneCallback, Queue } from 'bull';
-import { BullModule, getQueueToken, Processor } from '../lib';
+import { BullModule, getQueueToken, Processor } from '../lib/index.js';
 
 describe('BullModule', () => {
   describe('registerQueue', () => {
