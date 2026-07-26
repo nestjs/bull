@@ -501,10 +501,10 @@
   dependencies:
     "@tybys/wasm-util" "^0.10.1"
 
-"@nestjs/common@11.1.21":
-  version "11.1.21"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-11.1.21.tgz#9a45c6c09e90cabfdcc4f9579877fb5d89924d3c"
-  integrity sha512-YV1HYDGsm2rnR0vrLKidtrG6jYX5yqiIjeur1j8++dKGqhhsJ6cjMs0RfQRSTUH7IjgDemA59/znQ8nRrE0D9g==
+"@nestjs/common@11.1.28":
+  version "11.1.28"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-11.1.28.tgz#5963f799dcf59aacb1c4db77108a538b6d893d66"
+  integrity sha512-bRImsxibie+AM7xjdwcrm/gr5YeacI65kSBNzTufa1Ib5iwziaY/lqMtRh9THq6pbV4e1HP9aI2ZxGUumnmaoQ==
   dependencies:
     uid "2.0.2"
     file-type "21.3.4"
@@ -512,33 +512,32 @@
     load-esm "1.0.3"
     tslib "2.8.1"
 
-"@nestjs/core@11.1.21":
-  version "11.1.21"
-  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-11.1.21.tgz#609f482d430da2cd55b4f8f478fbe0026b1f5ea5"
-  integrity sha512-fqo0BHgny3MOuAL8GSfG3ZUKFVVBaBQD/0iyibnwTONT5vPexjQxJzu+945iloVvBDmrnAaRWxC1gqCDEs/AXQ==
+"@nestjs/core@11.1.28":
+  version "11.1.28"
+  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-11.1.28.tgz#366ce726211358d5022520cead7a84830bbca7af"
+  integrity sha512-06m63xIRj8+l8uOeh/8LnYupGubkyu4f+bPKIadaSui6vK9KpXgoz7HveT1yOVLcEt0M0oCOEW5EuEXZkEmBBQ==
   dependencies:
     uid "2.0.2"
-    "@nuxt/opencollective" "0.4.1"
     fast-safe-stringify "2.1.1"
     iterare "1.2.1"
     path-to-regexp "8.4.2"
     tslib "2.8.1"
 
-"@nestjs/platform-express@11.1.21":
-  version "11.1.21"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-11.1.21.tgz#b7d53676ede478d287f09b42858591a84fb2c5b4"
-  integrity sha512-lA3ViycOnz4Df3EstIKpuAVFhqxQixTnjAVk0M+LRyNBlGM6VSCaNJaAIrb9Pcry39T4hTHpNVbRqGLSvhL8gA==
+"@nestjs/platform-express@11.1.28":
+  version "11.1.28"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-11.1.28.tgz#d90edd6329d8a23a33e851727b876a52e3bd53c3"
+  integrity sha512-hU+9Sz4m+onHrR5AmelI59QKmY/Re546bPnygnpqqeQdHDiJpBgjWbL4t6Jr73CBpS60cpyng7WzjgphNB9iwA==
   dependencies:
     cors "2.8.6"
     express "5.2.1"
-    multer "2.1.1"
+    multer "2.2.0"
     path-to-regexp "8.4.2"
     tslib "2.8.1"
 
-"@nestjs/testing@11.1.21":
-  version "11.1.21"
-  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-11.1.21.tgz#86f4930e147894f9e7250d0634e063c6290a0d7c"
-  integrity sha512-RhzaUFxr6/bpXWjKIzr7p2eHKMFMLwPgsxJNFcCf2CkkT3UEjW+KRGb7E2JY+fh+ck3zAdvQJrzATDnSsVlFZw==
+"@nestjs/testing@11.1.28":
+  version "11.1.28"
+  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-11.1.28.tgz#87be34d906a75cc0962ab3e83efc727a5847edc7"
+  integrity sha512-B+VgRxeLaH7jkOMgAyUP3N3rpFlisQ7JRxixRbgHvG6a0VgKbbkNSofKExexCgKmQQak80undb3+2kE1lUBmRQ==
   dependencies:
     tslib "2.8.1"
 
@@ -786,13 +785,6 @@
     "@npmcli/promise-spawn" "^9.0.0"
     node-gyp "^12.1.0"
     proc-log "^6.0.0"
-
-"@nuxt/opencollective@0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@nuxt/opencollective/-/opencollective-0.4.1.tgz#57bc41d2b03b2fba20b935c15950ac0f4bd2cea2"
-  integrity sha512-GXD3wy50qYbxCJ652bDrDzgMr3NFEkIS374+IgFQKkCvk9yiYcLvX2XDYr7UyQxf4wK0e+yqDYRubZ0DtOxnmQ==
-  dependencies:
-    consola "^3.2.3"
 
 "@nx/devkit@>=21.5.2 < 23.0.0":
   version "22.6.5"
@@ -2012,11 +2004,6 @@ concat-stream@^2.0.0:
     inherits "^2.0.3"
     readable-stream "^3.0.2"
     typedarray "^0.0.6"
-
-consola@^3.2.3:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/consola/-/consola-3.4.0.tgz#4cfc9348fd85ed16a17940b3032765e31061ab88"
-  integrity sha512-EiPU8G6dQG0GFHNR8ljnZFki/8a+cQwEQ+7wpxdChl02Q8HXlwEZWD5lqAF8vC2sEC3Tehr8hy7vErz88LHyUA==
 
 console-control-strings@^1.1.0:
   version "1.1.0"
@@ -4248,10 +4235,10 @@ msgpackr@^1.11.2:
   optionalDependencies:
     msgpackr-extract "^3.0.2"
 
-multer@2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/multer/-/multer-2.1.1.tgz#122d819244fbdfee1efddd9147426691014385b7"
-  integrity sha512-mo+QTzKlx8R7E5ylSXxWzGoXoZbOsRMpyitcht8By2KHvMbf3tjwosZ/Mu/XYU6UuJ3VZnODIrak5ZrPiPyB6A==
+multer@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/multer/-/multer-2.2.0.tgz#f005268ca816324ba7335e3b48166896a3fa5d79"
+  integrity sha512-6rdyFg2kLrMh9Jee7/BMPuV9lEAd7lLW2YUpF9/YxR7njyoUwwQ0ZPh3TaIY50Sw6vlyD2HW3wGOkTS4P79xrQ==
   dependencies:
     append-field "^1.0.0"
     busboy "^1.6.0"
