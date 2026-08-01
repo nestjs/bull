@@ -3,7 +3,7 @@ import { URL } from 'url';
 import {
   BullQueueAdvancedProcessor,
   BullQueueAdvancedSeparateProcessor,
-} from './interfaces/bull-processor.interfaces';
+} from './interfaces/bull-processor.interfaces.js';
 
 export type BullQueueProcessor =
   | BullQueueProcessorCallback

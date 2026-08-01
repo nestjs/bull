@@ -1,6 +1,6 @@
 import { SetMetadata } from '@nestjs/common';
-import { isString } from '@nestjs/common/utils/shared.utils';
-import { BULL_MODULE_QUEUE_PROCESS } from '../bull.constants';
+import { isString } from '@nestjs/common/utils/shared.utils.js';
+import { BULL_MODULE_QUEUE_PROCESS } from '../bull.constants.js';
 
 /**
  * @publicApi

@@ -1,7 +1,7 @@
 import { Scope, SetMetadata } from '@nestjs/common';
-import { SCOPE_OPTIONS_METADATA } from '@nestjs/common/constants';
-import { PROCESSOR_METADATA, WORKER_METADATA } from '../bull.constants';
-import { NestWorkerOptions } from '../interfaces/worker-options.interface';
+import { SCOPE_OPTIONS_METADATA } from '@nestjs/common/constants.js';
+import { PROCESSOR_METADATA, WORKER_METADATA } from '../bull.constants.js';
+import { NestWorkerOptions } from '../interfaces/worker-options.interface.js';
 
 /**
  * @publicApi
