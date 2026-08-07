@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 aliases:
   - &restore-cache
@@ -67,7 +67,8 @@ jobs:
         type: string
         default: ""
     working_directory: ~/nest
-    machine: true
+    machine:
+      image: ubuntu-2204:current
     environment:
       BULLMQ_VERSION: << parameters.bullmq-version >>
     steps:
