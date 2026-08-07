@@ -10,6 +10,10 @@ aliases:
     run:
       name: Install Dependencies
       command: yarn install --ignore-scripts --frozen-lockfile --cache-folder ~/.cache/yarn
+  - &install-bullmq-version
+    run:
+      name: Install bullmq version
+      command: yarn workspace @nestjs/bullmq add --dev bullmq@$BULLMQ_VERSION --force --ignore-scripts
   - &build-packages
     run:
       name: Build
@@ -36,20 +40,36 @@ jobs:
           command: yarn build
 
   unit_tests:
+    parameters:
+      bullmq-version:
+        type: string
+        default: ""
     working_directory: ~/nest
     docker:
       - image: cimg/node:24.15.0
+    environment:
+      BULLMQ_VERSION: << parameters.bullmq-version >>
     steps:
       - checkout
       - *restore-cache
       - *install-deps
+      - when:
+          condition: << parameters.bullmq-version >>
+          steps:
+            - *install-bullmq-version
       - run:
           name: Unit tests
           command: yarn test
 
   integration_tests:
+    parameters:
+      bullmq-version:
+        type: string
+        default: ""
     working_directory: ~/nest
     machine: true
+    environment:
+      BULLMQ_VERSION: << parameters.bullmq-version >>
     steps:
       - checkout
       - run:
@@ -73,6 +93,10 @@ jobs:
             chmod +x ~/docker-compose
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - *install-deps
+      - when:
+          condition: << parameters.bullmq-version >>
+          steps:
+            - *install-bullmq-version
       - run:
           name: Prepare
           command: |
@@ -91,8 +115,18 @@ workflows:
     jobs:
       - build
       - unit_tests:
+          matrix:
+            parameters:
+              bullmq-version:
+                - "5.81.3"
+                - "6.0.9"
           requires:
             - build
       - integration_tests:
+          matrix:
+            parameters:
+              bullmq-version:
+                - "5.81.3"
+                - "6.0.9"
           requires:
             - build

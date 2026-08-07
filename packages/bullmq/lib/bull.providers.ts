@@ -16,6 +16,7 @@ import {
   getSharedConfigToken,
 } from './utils';
 import {
+  getConnectionStatus,
   isAdvancedProcessor,
   isAdvancedSeparateProcessor,
   isProcessorCallback,
@@ -71,7 +72,8 @@ function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
       await this.close();
 
       if (options.forceDisconnectOnShutdown) {
-        if (this.connection?.status !== 'closed' && this.disconnect) {
+        const status = await getConnectionStatus(this);
+        if (status !== 'closed' && this.disconnect) {
           return this.disconnect();
         }
       }
@@ -90,7 +92,8 @@ function createFlowProducers<TFlowProducer = FlowProducer>(
       await this.close();
 
       if (options.forceDisconnectOnShutdown ?? true) {
-        if (this.connection?.status !== 'closed' && this.disconnect) {
+        const status = await getConnectionStatus(this);
+        if (status !== 'closed' && this.disconnect) {
           return this.disconnect();
         }
       }
