@@ -1726,12 +1726,12 @@ bull@4.16.5:
     semver "^7.5.2"
     uuid "^8.3.0"
 
-bullmq@6.0.9:
-  version "6.0.9"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-6.0.9.tgz#286e80901feb8134b83c41865245dceb21ae3ebe"
-  integrity sha512-l7kNlirauwdZrqsViO6owHUAhSSN/aCDkrUwZQ2futIItlbJGAxgU+6IOQtTl5Re39GZJEPU6jelGuY1gQD28w==
+bullmq@6.1.2:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-6.1.2.tgz#f13183db9d41ba6b93ae7bf65d266ce5fd6840bc"
+  integrity sha512-GSX8JfWN8CElAGDyt7Zmq59n1FfWZ0L7IjsThNUQq7X8mvVVDb9I5i2F+nFg4A00UbysJ5yejN0oWzmbUJPDFg==
   dependencies:
-    cron-parser "5.7.0"
+    cron-parser "5.10.0"
     msgpackr "2.0.5"
     node-abort-controller "3.1.1"
     semver "7.8.5"
@@ -2177,10 +2177,10 @@ cosmiconfig@^9.0.1:
     js-yaml "^4.1.0"
     parse-json "^5.2.0"
 
-cron-parser@5.7.0:
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/cron-parser/-/cron-parser-5.7.0.tgz#bbfe81c0ae71c072462fb99899bf3beb45bdee82"
-  integrity sha512-iSpDHpwwW/GhIg4JVODYlWUEpMNSimaHvqOhHpOz1W+Y97z1lL1nf+dpcF17cNwFRpTtKN9devgi1fxflp3Phw==
+cron-parser@5.10.0:
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/cron-parser/-/cron-parser-5.10.0.tgz#94799d9ddd56b893aa8e4a4c7f19717ee7d1ebe4"
+  integrity sha512-izNAxJyRWUP8ljBoDSub5WyrVOUlT4SLGShswE7eoRBpp6QUsSycYxLBMJlbshgPBMcPT/nrfgjNY2918ayv2A==
   dependencies:
     luxon "^3.7.2"
 
