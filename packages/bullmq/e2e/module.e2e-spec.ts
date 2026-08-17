@@ -1,6 +1,6 @@
 import { MetadataScanner } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
-import { FlowProducer, Job, Queue, QueueEvents } from 'bullmq';
+import { FlowProducer, Job, Queue } from 'bullmq';
 import {
   BullModule,
   BullRegistrar,
@@ -452,8 +452,14 @@ describe('BullModule', () => {
     describe('single configuration', () => {
       describe('useFactory', () => {
         let processorWasCalled = false;
+        let processorCall: Promise<void>;
 
         beforeAll(async () => {
+          let onProcessorCall: () => void;
+          processorCall = new Promise<void>((resolve) => {
+            onProcessorCall = resolve;
+          });
+
           moduleRef = await Test.createTestingModule({
             imports: [
               BullModule.forRootAsync({
@@ -470,6 +476,7 @@ describe('BullModule', () => {
                   processors: [
                     async (_) => {
                       processorWasCalled = true;
+                      onProcessorCall();
                     },
                   ],
                 }),
@@ -487,22 +494,14 @@ describe('BullModule', () => {
           expect(queue.name).toEqual('test');
         });
         it('should trigger the processor function', async () => {
-          const queueEvents = new QueueEvents('test', {
-            connection: {
-              host: '0.0.0.0',
-              port: 6380,
-            },
-          });
           const queue = moduleRef.get<Queue>(getQueueToken('test'));
-          const job = await queue.add('job_name', { test: true });
+          await queue.waitUntilReady();
+          await queue.add('job_name', { test: true });
 
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-          await job.waitUntilFinished(queueEvents, 6000).catch(console.error);
+          await processorCall;
 
           expect(processorWasCalled).toBeTruthy();
-
-          await queueEvents.close();
-        }, 10000);
+        }, 30000);
       });
     });
 
