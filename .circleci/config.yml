@@ -74,19 +74,20 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Prepare nvm
+          name: Prepare Node.js
           command: |
             echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
-            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-      - run:
-          name: Upgrade Node.js
-          command: |
-            nvm install v18
-            node -v
-            nvm alias default v18
+            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+            source $BASH_ENV
+            nvm install v24.19.0
+            nvm alias default v24.19.0
+            echo 'nvm use default > /dev/null || true' >> $BASH_ENV
       - run:
           name: Install Yarn
-          command: npm install -g yarn
+          command: |
+            npm install -g yarn
+            node -v
+            yarn -v
       - run:
           name: Install Docker Compose
           command: |
