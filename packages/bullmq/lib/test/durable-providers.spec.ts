@@ -7,10 +7,10 @@ import {
 } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Job } from 'bullmq';
-import { Processor, ProcessorDecoratorService, WorkerHost } from '..';
-import { BullMetadataAccessor } from '../bull-metadata.accessor';
-import { BullExplorer } from '../bull.explorer';
-import { BullModule } from '../bull.module';
+import { Processor, ProcessorDecoratorService, WorkerHost } from '../index.js';
+import { BullMetadataAccessor } from '../bull-metadata.accessor.js';
+import { BullExplorer } from '../bull.explorer.js';
+import { BullModule } from '../bull.module.js';
 
 const workerCtorSpy = vi.fn();
 const queueEventsSpy = vi.fn();

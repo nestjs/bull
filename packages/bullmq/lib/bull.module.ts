@@ -5,17 +5,17 @@ import {
 import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
 import { FlowProducer, Queue, QueueBaseOptions, Worker } from 'bullmq';
-import { BullMetadataAccessor } from './bull-metadata.accessor';
-import { BULL_EXTRA_OPTIONS_TOKEN } from './bull.constants';
-import { BullExplorer } from './bull.explorer';
+import { BullMetadataAccessor } from './bull-metadata.accessor.js';
+import { BULL_EXTRA_OPTIONS_TOKEN } from './bull.constants.js';
+import { BullExplorer } from './bull.explorer.js';
 import {
   createFlowProducerOptionProviders,
   createFlowProducerProviders,
   createQueueOptionProviders,
   createQueueProviders,
-} from './bull.providers';
-import { BullRegistrar } from './bull.registrar';
-import { ProcessorDecoratorService } from './instrument/processor-decorator.service';
+} from './bull.providers.js';
+import { BullRegistrar } from './bull.registrar.js';
+import { ProcessorDecoratorService } from './instrument/processor-decorator.service.js';
 import {
   BullRootModuleOptions,
   RegisterFlowProducerAsyncOptions,
@@ -23,18 +23,18 @@ import {
   RegisterFlowProducerOptionsFactory,
   SharedBullAsyncConfiguration,
   SharedBullConfigurationFactory,
-} from './interfaces';
+} from './interfaces/index.js';
 import {
   RegisterQueueAsyncOptions,
   RegisterQueueOptions,
   RegisterQueueOptionsFactory,
-} from './interfaces/register-queue-options.interface';
+} from './interfaces/register-queue-options.interface.js';
 import {
   BULL_CONFIG_DEFAULT_TOKEN,
   getFlowProducerOptionsToken,
   getQueueOptionsToken,
   getSharedConfigToken,
-} from './utils';
+} from './utils/index.js';
 
 /**
  * @publicApi

@@ -1,11 +1,11 @@
 import { SetMetadata } from '@nestjs/common';
-import { BULL_MODULE_ON_QUEUE_EVENT } from '../bull.constants';
+import { BULL_MODULE_ON_QUEUE_EVENT } from '../bull.constants.js';
 import {
   BullQueueEvent,
   BullQueueEventOptions,
   QueueEventDecoratorOptions,
-} from '../bull.types';
-import { BullQueueEvents, BullQueueGlobalEvents } from '../enums';
+} from '../bull.types.js';
+import { BullQueueEvents, BullQueueGlobalEvents } from '../enums/index.js';
 
 /**
  * @publicApi

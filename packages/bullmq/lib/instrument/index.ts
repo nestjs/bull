@@ -1,1 +1,1 @@
-export * from './processor-decorator.service';
+export * from './processor-decorator.service.js';

@@ -1,6 +1,6 @@
 import { SetMetadata } from '@nestjs/common';
-import { QUEUE_EVENTS_LISTENER_METADATA } from '../bull.constants';
-import { NestQueueEventOptions } from '../interfaces/queue-event-options.interface';
+import { QUEUE_EVENTS_LISTENER_METADATA } from '../bull.constants.js';
+import { NestQueueEventOptions } from '../interfaces/queue-event-options.interface.js';
 
 export type QueueEventsListenerOptions = {
   queueName: string;
