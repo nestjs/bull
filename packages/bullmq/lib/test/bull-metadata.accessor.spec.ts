@@ -4,7 +4,7 @@ import {
   OnWorkerEvent,
   Processor,
   QueueEventsListener,
-} from '..';
+} from '../index.js';
 import { BullMetadataAccessor } from '../bull-metadata.accessor.js';
 
 describe('BullMetadataAccessor', () => {

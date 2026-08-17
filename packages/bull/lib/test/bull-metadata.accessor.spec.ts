@@ -1,5 +1,5 @@
 import { Reflector } from '@nestjs/core';
-import { OnQueueEvent, Process, Processor } from '..';
+import { OnQueueEvent, Process, Processor } from '../index.js';
 import { BullMetadataAccessor } from '../bull-metadata.accessor.js';
 import { BullQueueEvents } from '../enums/index.js';
 

@@ -28,7 +28,7 @@ import {
   OnQueueWaiting,
   Process,
   Processor,
-} from '..';
+} from '../index.js';
 import {
   BULL_MODULE_ON_QUEUE_EVENT,
   BULL_MODULE_QUEUE,

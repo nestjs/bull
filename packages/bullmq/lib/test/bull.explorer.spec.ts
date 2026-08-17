@@ -9,7 +9,7 @@ import {
   QueueEventsHost,
   QueueEventsListener,
   WorkerHost,
-} from '..';
+} from '../index.js';
 import { BullMetadataAccessor } from '../bull-metadata.accessor.js';
 import { BullExplorer } from '../bull.explorer.js';
 import { BullModule } from '../bull.module.js';
