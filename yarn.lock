@@ -1719,10 +1719,10 @@ bull@4.16.5:
     semver "^7.5.2"
     uuid "^8.3.0"
 
-bullmq@6.1.2:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-6.1.2.tgz#f13183db9d41ba6b93ae7bf65d266ce5fd6840bc"
-  integrity sha512-GSX8JfWN8CElAGDyt7Zmq59n1FfWZ0L7IjsThNUQq7X8mvVVDb9I5i2F+nFg4A00UbysJ5yejN0oWzmbUJPDFg==
+bullmq@6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-6.2.0.tgz#80e2646d854d694c935abab20b4bcc816f04ee24"
+  integrity sha512-9BVvqp1nJ6jzG2Ap37sZ+ucseAgHU+fxecLkHCcTJf8SMvLtRPSy1q5J7n7kutw+Hfwsa+araPPTULJSX3ID8g==
   dependencies:
     cron-parser "5.10.0"
     msgpackr "2.0.5"
