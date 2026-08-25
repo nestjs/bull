@@ -40,7 +40,7 @@
     "@nestjs/testing": "11.2.3",
     "@types/node": "24.13.3",
     "@types/reflect-metadata": "0.1.0",
-    "bullmq": "6.2.0",
+    "bullmq": "6.2.2",
     "ioredis": "6.0.0",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2"
