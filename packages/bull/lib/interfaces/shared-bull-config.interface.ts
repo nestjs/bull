@@ -4,7 +4,7 @@ import {
   Provider,
   Type,
 } from '@nestjs/common';
-import { BullRootModuleOptions } from './bull-module-options.interface';
+import { BullRootModuleOptions } from './bull-module-options.interface.js';
 
 /**
  * @publicApi
@@ -18,8 +18,10 @@ export interface SharedBullConfigurationFactory {
 /**
  * @publicApi
  */
-export interface SharedBullAsyncConfiguration
-  extends Pick<ModuleMetadata, 'imports'> {
+export interface SharedBullAsyncConfiguration extends Pick<
+  ModuleMetadata,
+  'imports'
+> {
   /**
    * Existing Provider to be used.
    */

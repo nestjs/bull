@@ -2,11 +2,11 @@ import {
   BullQueueProcessor,
   BullQueueProcessorCallback,
   BullQueueSeparateProcessor,
-} from '../bull.types';
+} from '../bull.types.js';
 import {
   BullQueueAdvancedProcessor,
   BullQueueAdvancedSeparateProcessor,
-} from '../interfaces/bull-processor.interfaces';
+} from '../interfaces/bull-processor.interfaces.js';
 import { URL } from 'url';
 
 export function isProcessorCallback(

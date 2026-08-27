@@ -1,5 +1,5 @@
 import { DiscoveryModule } from '@nestjs/core';
-import { Module } from '@nestjs/core/injector/module';
+import { Module } from '@nestjs/core/injector/module.js';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Job, Queue } from 'bullmq';
 import {
@@ -9,11 +9,11 @@ import {
   QueueEventsHost,
   QueueEventsListener,
   WorkerHost,
-} from '..';
-import { BullMetadataAccessor } from '../bull-metadata.accessor';
-import { BullExplorer } from '../bull.explorer';
-import { BullModule } from '../bull.module';
-import { getFlowProducerToken } from '../utils';
+} from '../index.js';
+import { BullMetadataAccessor } from '../bull-metadata.accessor.js';
+import { BullExplorer } from '../bull.explorer.js';
+import { BullModule } from '../bull.module.js';
+import { getFlowProducerToken } from '../utils/index.js';
 
 const workerCtorSpy = vi.fn();
 const queueEventsSpy = vi.fn();

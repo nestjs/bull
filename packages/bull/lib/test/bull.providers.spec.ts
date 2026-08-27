@@ -1,6 +1,6 @@
 import { FactoryProvider } from '@nestjs/common';
-import * as bullProviders from '../bull.providers';
-import { BullModuleOptions } from '../interfaces/bull-module-options.interface';
+import * as bullProviders from '../bull.providers.js';
+import { BullModuleOptions } from '../interfaces/bull-module-options.interface.js';
 
 vi.mock('bull', () => ({
   default: class {

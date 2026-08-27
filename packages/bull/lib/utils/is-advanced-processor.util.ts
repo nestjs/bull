@@ -1,6 +1,6 @@
-import { BullQueueProcessor } from '../bull.types';
-import { BullQueueAdvancedProcessor } from '../interfaces/bull.interfaces';
-import { isProcessorCallback } from './is-processor-callback.util';
+import { BullQueueProcessor } from '../bull.types.js';
+import { BullQueueAdvancedProcessor } from '../interfaces/bull.interfaces.js';
+import { isProcessorCallback } from './is-processor-callback.util.js';
 
 export function isAdvancedProcessor(
   processor: BullQueueProcessor,

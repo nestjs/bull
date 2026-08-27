@@ -12,6 +12,15 @@
   },
   "license": "MIT",
   "author": "Kamil Mysliwiec",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -31,7 +40,7 @@
     "@nestjs/testing": "12.0.1",
     "@types/node": "24.13.3",
     "@types/reflect-metadata": "0.1.0",
-    "bullmq": "6.1.2",
+    "bullmq": "6.3.1",
     "ioredis": "6.0.0",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2"

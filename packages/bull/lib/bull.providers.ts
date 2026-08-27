@@ -6,17 +6,17 @@ import {
 import { flatten, OnApplicationShutdown, Provider } from '@nestjs/common';
 import Bull from 'bull';
 import { Queue } from 'bull';
-import { BullQueueProcessor } from './bull.types';
-import { BullModuleOptions } from './interfaces/bull-module-options.interface';
+import { BullQueueProcessor } from './bull.types.js';
+import { BullModuleOptions } from './interfaces/bull-module-options.interface.js';
 import {
   BULL_CONFIG_DEFAULT_TOKEN,
   getQueueOptionsToken,
   getSharedConfigToken,
-} from './utils';
-import { isAdvancedProcessor } from './utils/is-advanced-processor.util';
-import { isAdvancedSeparateProcessor } from './utils/is-advanced-separate-processor.util';
-import { isProcessorCallback } from './utils/is-processor-callback.util';
-import { isSeparateProcessor } from './utils/is-separate-processor.util';
+} from './utils/index.js';
+import { isAdvancedProcessor } from './utils/is-advanced-processor.util.js';
+import { isAdvancedSeparateProcessor } from './utils/is-advanced-separate-processor.util.js';
+import { isProcessorCallback } from './utils/is-processor-callback.util.js';
+import { isSeparateProcessor } from './utils/is-separate-processor.util.js';
 
 function buildQueue(options: BullModuleOptions): Queue {
   const queueName = options.name ? options.name : 'default';

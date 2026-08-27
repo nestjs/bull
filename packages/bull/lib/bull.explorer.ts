@@ -6,13 +6,13 @@ import {
   MetadataScanner,
   ModuleRef,
 } from '@nestjs/core';
-import { Injector } from '@nestjs/core/injector/injector';
-import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
-import { Module } from '@nestjs/core/injector/module';
+import { Injector } from '@nestjs/core/injector/injector.js';
+import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper.js';
+import { Module } from '@nestjs/core/injector/module.js';
 import { Job, ProcessCallbackFunction, Queue } from 'bull';
-import { BullMetadataAccessor } from './bull-metadata.accessor';
-import { BullQueueEventOptions } from './bull.types';
-import { ProcessOptions } from './decorators';
+import { BullMetadataAccessor } from './bull-metadata.accessor.js';
+import { BullQueueEventOptions } from './bull.types.js';
+import { ProcessOptions } from './decorators/index.js';
 
 @Injectable()
 export class BullExplorer implements OnModuleInit {
