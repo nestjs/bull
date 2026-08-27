@@ -29,6 +29,7 @@ describe('BullModule', () => {
               connection: {
                 host: '0.0.0.0',
                 port: 6380,
+                db: 1,
               },
             }),
           ],
@@ -55,6 +56,7 @@ describe('BullModule', () => {
                 connection: {
                   host: '0.0.0.0',
                   port: 6380,
+                  db: 1,
                 },
               },
               {
@@ -62,6 +64,7 @@ describe('BullModule', () => {
                 connection: {
                   host: '0.0.0.0',
                   port: 6380,
+                  db: 1,
                 },
               },
             ),
@@ -96,6 +99,7 @@ describe('BullModule', () => {
               connection: {
                 host: '0.0.0.0',
                 port: 6380,
+                db: 1,
               },
             }),
           ],
@@ -124,6 +128,7 @@ describe('BullModule', () => {
                 connection: {
                   host: '0.0.0.0',
                   port: 6380,
+                  db: 1,
                 },
               },
               {
@@ -131,6 +136,7 @@ describe('BullModule', () => {
                 connection: {
                   host: '0.0.0.0',
                   port: 6380,
+                  db: 1,
                 },
               },
             ),
@@ -168,6 +174,7 @@ describe('BullModule', () => {
               connection: {
                 host: '0.0.0.0',
                 port: 6380,
+                db: 1,
               },
             }),
             BullModule.registerQueue({
@@ -195,6 +202,7 @@ describe('BullModule', () => {
               connection: {
                 host: '0.0.0.0',
                 port: 6380,
+                db: 1,
               },
             }),
             BullModule.registerQueue({ name: 'test1' }, { name: 'test2' }),
@@ -230,6 +238,7 @@ describe('BullModule', () => {
               connection: {
                 host: '0.0.0.0',
                 port: 6380,
+                db: 1,
               },
             }),
             BullModule.registerFlowProducer({
@@ -259,6 +268,7 @@ describe('BullModule', () => {
               connection: {
                 host: '0.0.0.0',
                 port: 6380,
+                db: 1,
               },
             }),
             BullModule.registerFlowProducer(
@@ -304,6 +314,7 @@ describe('BullModule', () => {
                   connection: {
                     host: '0.0.0.0',
                     port: 6380,
+                    db: 1,
                   },
                 }),
               }),
@@ -332,6 +343,7 @@ describe('BullModule', () => {
                     connection: {
                       host: '0.0.0.0',
                       port: 6380,
+                      db: 1,
                     },
                   }),
                 },
@@ -341,6 +353,7 @@ describe('BullModule', () => {
                     connection: {
                       host: '0.0.0.0',
                       port: 6380,
+                      db: 1,
                     },
                   }),
                 },
@@ -379,6 +392,7 @@ describe('BullModule', () => {
                   connection: {
                     host: '0.0.0.0',
                     port: 6380,
+                    db: 1,
                   },
                 }),
               }),
@@ -409,6 +423,7 @@ describe('BullModule', () => {
                     connection: {
                       host: '0.0.0.0',
                       port: 6380,
+                      db: 1,
                     },
                   }),
                 },
@@ -418,6 +433,7 @@ describe('BullModule', () => {
                     connection: {
                       host: '0.0.0.0',
                       port: 6380,
+                      db: 1,
                     },
                   }),
                 },
@@ -467,6 +483,7 @@ describe('BullModule', () => {
                   connection: {
                     host: '0.0.0.0',
                     port: 6380,
+                    db: 1,
                   },
                 }),
               }),
@@ -515,6 +532,7 @@ describe('BullModule', () => {
                   connection: {
                     host: '0.0.0.0',
                     port: 6380,
+                    db: 1,
                   },
                 }),
               }),
@@ -555,6 +573,7 @@ describe('BullModule', () => {
                   connection: {
                     host: '0.0.0.0',
                     port: 6380,
+                    db: 1,
                   },
                 }),
               }),
@@ -589,6 +608,7 @@ describe('BullModule', () => {
                   connection: {
                     host: '0.0.0.0',
                     port: 6380,
+                    db: 1,
                   },
                 }),
               }),
@@ -654,6 +674,7 @@ describe('BullModule', () => {
             connection: {
               host: '0.0.0.0',
               port: 6380,
+              db: 1,
             },
           }),
         ],
@@ -711,6 +732,7 @@ describe('BullModule', () => {
             connection: {
               host: '0.0.0.0',
               port: 6380,
+              db: 1,
             },
             extraOptions: {
               manualRegistration: true,
@@ -777,6 +799,7 @@ describe('BullModule', () => {
               connection: {
                 host: '0.0.0.0',
                 port: 6380,
+                db: 1,
               },
             }),
             extraOptions: {
@@ -840,6 +863,7 @@ describe('BullModule', () => {
             connection: {
               host: '0.0.0.0',
               port: 6380,
+              db: 1,
             },
           }),
         ],
