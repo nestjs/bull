@@ -35,6 +35,10 @@ $ npm i --save-dev @types/bull
 
 [Overview & Tutorial](https://docs.nestjs.com/techniques/queues)
 
+## Observability
+
+Queue consumers are instrumented automatically by [NestJS Observe](https://observe.nestjs.com), the official observability platform for Nest. `@Processor` classes and their handlers are reported as jobs - duration, outcome, queue wait time and retry attempts - and a failed run carries the resolved stack trace, the logs written during it, and the waterfall of what it did before it threw. A job-silence alert fires when a named job stops reporting. See the [Observability](https://docs.nestjs.com/observability/overview) chapter, or the [queues](https://docs.nestjs.com/techniques/queues) one for what it looks like here.
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
