@@ -5,7 +5,7 @@ import {
   Type,
 } from '@nestjs/common';
 import { QueueOptions } from 'bullmq';
-import { BullQueueProcessor } from '../bull.types.js';
+import { BullQueueProcessor, BullMQBackendFactory } from '../bull.types.js';
 import { PartialThisParameter } from '../utils/partial-this-parameter.type.js';
 
 /**
@@ -46,6 +46,11 @@ export interface RegisterQueueOptions extends PartialThisParameter<
    * @default false
    */
   forceDisconnectOnShutdown?: boolean;
+
+  /**
+   * Custom pluggable backend factory for BullMQ (e.g., PostgreSQL backend).
+   */
+  backendFactory?: BullMQBackendFactory;
 }
 
 /**
@@ -53,8 +58,7 @@ export interface RegisterQueueOptions extends PartialThisParameter<
  */
 export interface RegisterQueueOptionsFactory {
   createRegisterQueueOptions():
-    | Promise<RegisterQueueOptions>
-    | RegisterQueueOptions;
+    Promise<RegisterQueueOptions> | RegisterQueueOptions;
 }
 
 /**
