@@ -49,7 +49,7 @@
     "husky": "9.1.7",
     "lerna": "10.0.1",
     "lerna-changelog": "2.2.0",
-    "lint-staged": "17.5.1",
+    "lint-staged": "17.6.0",
     "oxlint": "1.85.0",
     "prettier": "3.9.9",
     "rimraf": "6.1.3",
