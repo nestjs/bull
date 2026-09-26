@@ -42,7 +42,7 @@
     "@nestjs/platform-express": "12.1.0",
     "@nestjs/testing": "12.1.0",
     "@types/bull": "4.10.4",
-    "@types/node": "24.13.6",
+    "@types/node": "24.19.0",
     "@types/reflect-metadata": "0.1.0",
     "bull": "4.16.5",
     "reflect-metadata": "0.2.2",
