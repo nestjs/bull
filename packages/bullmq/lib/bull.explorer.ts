@@ -37,7 +37,7 @@ import { QueueEventsHost, WorkerHost } from './hosts/index.js';
 import { ProcessorDecoratorService } from './instrument/processor-decorator.service.js';
 import { NestQueueOptions } from './interfaces/queue-options.interface.js';
 import { NestWorkerOptions } from './interfaces/worker-options.interface.js';
-import { getSharedConfigToken } from './utils/get-shared-config-token.util.js';
+import { getQueueOptionsToken, getSharedConfigToken } from './utils/index.js';
 
 @Injectable()
 export class BullExplorer implements OnApplicationShutdown {
@@ -126,16 +126,27 @@ export class BullExplorer implements OnApplicationShutdown {
   getQueueOptions(queueToken: string, queueName: string, configKey?: string) {
     try {
       const queueRef = this.moduleRef.get<Queue>(queueToken, { strict: false });
-      return (queueRef.opts ?? {}) as NestQueueOptions;
+      const opts = (queueRef.opts ?? {}) as NestQueueOptions;
+      if (!opts.backendFactory && (queueRef as any)._backendFactory) {
+        opts.backendFactory = (queueRef as any)._backendFactory;
+      }
+      return opts;
     } catch (err) {
-      const sharedConfigToken = getSharedConfigToken(configKey);
+      const queueOptionsToken = getQueueOptionsToken(queueName);
       try {
-        return this.moduleRef.get<NestQueueOptions>(sharedConfigToken, {
+        return this.moduleRef.get<NestQueueOptions>(queueOptionsToken, {
           strict: false,
         });
       } catch (err) {
-        this.logger.error(NO_QUEUE_FOUND(queueName));
-        throw err;
+        const sharedConfigToken = getSharedConfigToken(configKey);
+        try {
+          return this.moduleRef.get<NestQueueOptions>(sharedConfigToken, {
+            strict: false,
+          });
+        } catch (err) {
+          this.logger.error(NO_QUEUE_FOUND(queueName));
+          throw err;
+        }
       }
     }
   }
@@ -202,13 +213,22 @@ export class BullExplorer implements OnApplicationShutdown {
       processor = instance[methodKey].bind(instance);
       processor = this.processorDecoratorService.decorate(processor);
     }
-    const worker = new BullExplorer._workerClass(queueName, processor, {
+    const backendFactory = options.backendFactory ?? queueOpts.backendFactory;
+    const workerOpts = {
       connection: queueOpts.connection,
       sharedConnection: queueOpts.sharedConnection,
       prefix: queueOpts.prefix,
       telemetry: queueOpts.telemetry,
       ...options,
-    });
+    };
+    const worker = backendFactory
+      ? new BullExplorer._workerClass(
+          queueName,
+          processor,
+          workerOpts,
+          backendFactory,
+        )
+      : new BullExplorer._workerClass(queueName, processor, workerOpts);
     (instance as any)._worker = worker;
 
     this.workers.push(worker);
@@ -293,13 +313,18 @@ export class BullExplorer implements OnApplicationShutdown {
           instance.constructor?.name,
         );
       } else {
-        const queueEventsInstance = new QueueEvents(queueName, {
+        const backendFactory =
+          queueEventsOptions?.backendFactory ?? queueOpts.backendFactory;
+        const queueEventsOpts = {
           connection: queueOpts.connection,
           prefix: queueOpts.prefix,
           sharedConnection: queueOpts.sharedConnection,
           telemetry: queueOpts.telemetry,
           ...queueEventsOptions,
-        });
+        };
+        const queueEventsInstance = backendFactory
+          ? new QueueEvents(queueName, queueEventsOpts, backendFactory)
+          : new QueueEvents(queueName, queueEventsOpts);
         (instance as any)._queueEvents = queueEventsInstance;
 
         this.metadataScanner.scanFromPrototype(

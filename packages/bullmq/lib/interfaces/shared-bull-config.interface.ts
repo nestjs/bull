@@ -5,6 +5,7 @@ import {
   Type,
 } from '@nestjs/common';
 import * as Bull from 'bullmq';
+import { BullMQBackendFactory } from '../bull.types.js';
 
 /**
  * @publicApi
@@ -22,6 +23,10 @@ export interface BullModuleExtraOptions {
  */
 export interface BullRootModuleOptions extends Bull.QueueOptions {
   extraOptions?: BullModuleExtraOptions;
+  /**
+   * Custom pluggable backend factory for BullMQ (e.g., PostgreSQL backend).
+   */
+  backendFactory?: BullMQBackendFactory;
 }
 
 /**
@@ -29,15 +34,16 @@ export interface BullRootModuleOptions extends Bull.QueueOptions {
  */
 export interface SharedBullConfigurationFactory {
   createSharedConfiguration():
-    | Promise<BullRootModuleOptions>
-    | BullRootModuleOptions;
+    Promise<BullRootModuleOptions> | BullRootModuleOptions;
 }
 
 /**
  * @publicApi
  */
-export interface SharedBullAsyncConfiguration
-  extends Pick<ModuleMetadata, 'imports'> {
+export interface SharedBullAsyncConfiguration extends Pick<
+  ModuleMetadata,
+  'imports'
+> {
   /**
    * Existing Provider to be used.
    */
