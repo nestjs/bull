@@ -526,10 +526,10 @@
     "@emnapi/runtime" "^1.1.0"
     "@tybys/wasm-util" "^0.9.0"
 
-"@nestjs/common@12.1.2":
-  version "12.1.2"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-12.1.2.tgz#504439c52a90ac2c8885e00c10b324296048f0e1"
-  integrity sha512-e2tvLcEaG18sJy5IXrdSLv0ZBpR5djWxypCLkLuMAEFCvVPYL1lEIhvAMBkarlg+ZA8tbZN40J0tFurUl9NpdA==
+"@nestjs/common@12.1.3":
+  version "12.1.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-12.1.3.tgz#d38c02115e7cf6add5f9b0dda80009e89df00405"
+  integrity sha512-A9grrnTGNE+sD77bwkHw89LNsrtsIv/tbnmzRsy3dlI5H4WgT6I4wiLSc4JLv8B5pOZttVi5iF/RW/5iZe997w==
   dependencies:
     uid "2.0.2"
     "@standard-schema/spec" "1.1.0"
@@ -538,10 +538,10 @@
     load-esm "1.0.3"
     tslib "2.8.1"
 
-"@nestjs/core@12.1.2":
-  version "12.1.2"
-  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-12.1.2.tgz#00bee00b17e700f3c93c89dac79748cf3b981804"
-  integrity sha512-ieNRDv6P6dLsF/wMz9IUjwnyQbj7/Oluq1FXe3Xhje7TFSKPprLc83QniA2I6tjkr7YVDosdL2Dj7CVv9kU8og==
+"@nestjs/core@12.1.3":
+  version "12.1.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-12.1.3.tgz#7b733c127a64206184d79b7ff2c7f97102df728b"
+  integrity sha512-uHv2LPVewOnt5ZxSsDI11Vku9Gt1mdL0OWy/JOfXH1D5pV/HaPRGfreHPfYsO/bsyvZxdWVqFfAaFxvop6mFhw==
   dependencies:
     uid "2.0.2"
     fast-safe-stringify "2.1.1"
@@ -549,10 +549,10 @@
     path-to-regexp "8.4.2"
     tslib "2.8.1"
 
-"@nestjs/platform-express@12.1.2":
-  version "12.1.2"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-12.1.2.tgz#21c4128da7bdee7c2f7b509d98916a72a493689d"
-  integrity sha512-//ftPv5+UONizm5zcme/AP91EFo1EsqFFyC2I3HC2w8swYVXadHKW1L3A2mgUuOhM1sdKkd2gzjQmL9504x85Q==
+"@nestjs/platform-express@12.1.3":
+  version "12.1.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-12.1.3.tgz#c9baa25e24d7117d48d7c3d2e71de96d4d794128"
+  integrity sha512-3C9tjF2VJOTAjl4ATZXksMFIbH4dwyX5EyZA+9SK3CreFr8FwOSMyha+YgAMSKECLlOIBhHUeYmTwT761iKlOQ==
   dependencies:
     cors "2.8.6"
     express "5.2.1"
@@ -560,10 +560,10 @@
     path-to-regexp "8.4.2"
     tslib "2.8.1"
 
-"@nestjs/testing@12.1.2":
-  version "12.1.2"
-  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-12.1.2.tgz#478b20fe9bed0d5b55a4faef5f8f91d3fa108eb4"
-  integrity sha512-JgetYeGHGK6iUEztXyiQLOfYLWqUgAyexLMzhuAMasgLiDgYShh/PoRESE9tzpRZo4eWKme3uSZ9DFR6Myuojw==
+"@nestjs/testing@12.1.3":
+  version "12.1.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-12.1.3.tgz#76f22d39b61c49179582881862ffb1da7732fecb"
+  integrity sha512-bs+lebFzObxZC9kf7j2+46RGZ2yNXpHvc1NHWglJaQOhaWDAm7lblTwYygwwKlTu6ttlOfxi/9f8zlCexd/G+w==
   dependencies:
     tslib "2.8.1"
 
