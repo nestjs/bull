@@ -3318,10 +3318,10 @@ lerna-changelog@2.2.0:
     progress "^2.0.0"
     yargs "^17.1.0"
 
-lerna@10.1.0:
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/lerna/-/lerna-10.1.0.tgz#49758ff93b41966b3b3d3f7497b2344aaf605c04"
-  integrity sha512-hGxvsNh8wFY6Gj/Ei7R/Ux2eDXJRZZ4CVVmGryjtdLXgTn2VO7fKHZySHb0K8u7SfIrdaeaP1Zn1HbIjC7f6Pg==
+lerna@10.1.1:
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/lerna/-/lerna-10.1.1.tgz#20555f0903238397d8e67e0964cfb8c590edd22f"
+  integrity sha512-WDGaMGDGj5jV0n6Yx2zuBDWH0ym6toUE6w+maaPLqeMd3ncDRN+NJMcVWImVdUKCIHRk2Xk+X7QQkFXdHKsscA==
   dependencies:
     "@npmcli/arborist" "10.0.3"
     "@npmcli/package-json" "8.0.0"
