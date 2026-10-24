@@ -29,39 +29,71 @@ function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
   workerClass: Type<TWorker>,
 ): TQueue {
   const queueName = options.name ?? 'default';
-  const queue = new queueClass(queueName, options);
+  const queue = options.backendFactory
+    ? new queueClass(queueName, options, options.backendFactory)
+    : new queueClass(queueName, options);
+  (queue as any)._backendFactory = options.backendFactory;
 
   let workerRefs: TWorker[] = [];
   if (options.processors) {
     workerRefs = options.processors.map((processor: BullQueueProcessor) => {
       if (isAdvancedProcessor(processor)) {
-        const { callback, ...processorOptions } = processor;
-        return new workerClass(queueName, callback, {
+        const { callback, backendFactory, ...processorOptions } = processor;
+        const targetBackendFactory = backendFactory ?? options.backendFactory;
+        const workerOpts = {
           connection: options.connection,
           sharedConnection: options.sharedConnection,
           prefix: options.prefix,
           ...processorOptions,
-        });
+        };
+        return targetBackendFactory
+          ? new workerClass(
+              queueName,
+              callback,
+              workerOpts,
+              targetBackendFactory,
+            )
+          : new workerClass(queueName, callback, workerOpts);
       } else if (isAdvancedSeparateProcessor(processor)) {
-        const { path, ...processorOptions } = processor;
-        return new workerClass(queueName, path, {
+        const { path, backendFactory, ...processorOptions } = processor;
+        const targetBackendFactory = backendFactory ?? options.backendFactory;
+        const workerOpts = {
           connection: options.connection,
           sharedConnection: options.sharedConnection,
           prefix: options.prefix,
           ...processorOptions,
-        });
+        };
+        return targetBackendFactory
+          ? new workerClass(queueName, path, workerOpts, targetBackendFactory)
+          : new workerClass(queueName, path, workerOpts);
       } else if (isSeparateProcessor(processor)) {
-        return new workerClass(queueName, processor, {
+        const workerOpts = {
           connection: options.connection,
           sharedConnection: options.sharedConnection,
           prefix: options.prefix,
-        });
+        };
+        return options.backendFactory
+          ? new workerClass(
+              queueName,
+              processor,
+              workerOpts,
+              options.backendFactory,
+            )
+          : new workerClass(queueName, processor, workerOpts);
       } else if (isProcessorCallback(processor)) {
-        return new workerClass(queueName, processor, {
+        const workerOpts = {
           connection: options.connection,
           sharedConnection: options.sharedConnection,
           prefix: options.prefix,
-        });
+        };
+        return options.backendFactory
+          ? new workerClass(
+              queueName,
+              processor,
+              workerOpts,
+              options.backendFactory,
+            )
+          : new workerClass(queueName, processor, workerOpts);
       }
     });
   }
@@ -85,7 +117,10 @@ function createFlowProducers<TFlowProducer = FlowProducer>(
   options: RegisterFlowProducerOptions,
   flowProducerClass: Type<TFlowProducer>,
 ): TFlowProducer {
-  const flowProducer = new flowProducerClass(options);
+  const flowProducer = options.backendFactory
+    ? new flowProducerClass(options, options.backendFactory)
+    : new flowProducerClass(options);
+  (flowProducer as any)._backendFactory = options.backendFactory;
 
   (flowProducer as unknown as OnApplicationShutdown).onApplicationShutdown =
     async function (this: FlowProducer) {
