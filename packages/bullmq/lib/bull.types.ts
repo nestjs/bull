@@ -16,9 +16,14 @@ export type BullQueueProcessorCallback = (job: Job) => Promise<unknown>;
 export type BullQueueSeparateProcessor = string | URL;
 
 /**
- * Pluggable backend factory for BullMQ (introduced in BullMQ v6 for backends like PostgreSQL).
- * Structural fallback type ensures backwards compatibility with older BullMQ peer dependencies.
+ * Pluggable backend factory for BullMQ (for example, `createPostgresBackend`).
+ * Requires bullmq 6 or later; earlier versions ignore it. Declared
+ * structurally so that it compiles against every supported bullmq version.
  *
  * @publicApi
  */
-export type BullMQBackendFactory = (queueBase: any) => any;
+export type BullMQBackendFactory = (
+  name: string,
+  opts: any,
+  options?: any,
+) => any;

@@ -37,7 +37,7 @@ import { QueueEventsHost, WorkerHost } from './hosts/index.js';
 import { ProcessorDecoratorService } from './instrument/processor-decorator.service.js';
 import { NestQueueOptions } from './interfaces/queue-options.interface.js';
 import { NestWorkerOptions } from './interfaces/worker-options.interface.js';
-import { getQueueOptionsToken, getSharedConfigToken } from './utils/index.js';
+import { getSharedConfigToken } from './utils/get-shared-config-token.util.js';
 
 @Injectable()
 export class BullExplorer implements OnApplicationShutdown {
@@ -126,27 +126,16 @@ export class BullExplorer implements OnApplicationShutdown {
   getQueueOptions(queueToken: string, queueName: string, configKey?: string) {
     try {
       const queueRef = this.moduleRef.get<Queue>(queueToken, { strict: false });
-      const opts = (queueRef.opts ?? {}) as NestQueueOptions;
-      if (!opts.backendFactory && (queueRef as any)._backendFactory) {
-        opts.backendFactory = (queueRef as any)._backendFactory;
-      }
-      return opts;
+      return (queueRef.opts ?? {}) as NestQueueOptions;
     } catch (err) {
-      const queueOptionsToken = getQueueOptionsToken(queueName);
+      const sharedConfigToken = getSharedConfigToken(configKey);
       try {
-        return this.moduleRef.get<NestQueueOptions>(queueOptionsToken, {
+        return this.moduleRef.get<NestQueueOptions>(sharedConfigToken, {
           strict: false,
         });
       } catch (err) {
-        const sharedConfigToken = getSharedConfigToken(configKey);
-        try {
-          return this.moduleRef.get<NestQueueOptions>(sharedConfigToken, {
-            strict: false,
-          });
-        } catch (err) {
-          this.logger.error(NO_QUEUE_FOUND(queueName));
-          throw err;
-        }
+        this.logger.error(NO_QUEUE_FOUND(queueName));
+        throw err;
       }
     }
   }

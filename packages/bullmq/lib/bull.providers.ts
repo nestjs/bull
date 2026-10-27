@@ -32,7 +32,6 @@ function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
   const queue = options.backendFactory
     ? new queueClass(queueName, options, options.backendFactory)
     : new queueClass(queueName, options);
-  (queue as any)._backendFactory = options.backendFactory;
 
   let workerRefs: TWorker[] = [];
   if (options.processors) {
@@ -120,7 +119,6 @@ function createFlowProducers<TFlowProducer = FlowProducer>(
   const flowProducer = options.backendFactory
     ? new flowProducerClass(options, options.backendFactory)
     : new flowProducerClass(options);
-  (flowProducer as any)._backendFactory = options.backendFactory;
 
   (flowProducer as unknown as OnApplicationShutdown).onApplicationShutdown =
     async function (this: FlowProducer) {
