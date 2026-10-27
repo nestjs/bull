@@ -161,6 +161,64 @@ describe('BullExplorer', () => {
         }),
       );
     });
+
+    it('should pass backendFactory to the worker constructor when provided in worker options', () => {
+      const mockBackendFactory = vi.fn();
+      const workerOptions = { backendFactory: mockBackendFactory };
+
+      @Processor(queueName, workerOptions)
+      class ProcessorWithBackendFactory extends WorkerHost {
+        async process(job: Job<any, any, string>): Promise<any> {}
+      }
+
+      const instance = new ProcessorWithBackendFactory();
+
+      bullExplorer.handleProcessor(
+        instance as any,
+        queueName,
+        queue.opts,
+        null as unknown as Module,
+        false,
+        workerOptions,
+      );
+
+      expect(workerCtorSpy).toHaveBeenCalledWith(
+        queueName,
+        expect.any(Function),
+        expect.objectContaining({ connection: queue.opts.connection }),
+        mockBackendFactory,
+      );
+    });
+
+    it('should inherit backendFactory from queue options when not provided in worker options', () => {
+      const mockBackendFactory = vi.fn();
+      const queueWithBackend = {
+        name: queueName,
+        opts: {
+          connection: { host: 'localhost', port: 6380 },
+          backendFactory: mockBackendFactory,
+        },
+      } as Partial<Queue>;
+
+      const instance = new FixtureProcessor();
+
+      bullExplorer.handleProcessor(
+        instance as any,
+        queueName,
+        queueWithBackend.opts,
+        null as unknown as Module,
+        false,
+      );
+
+      expect(workerCtorSpy).toHaveBeenCalledWith(
+        queueName,
+        expect.any(Function),
+        expect.objectContaining({
+          connection: queueWithBackend.opts.connection,
+        }),
+        mockBackendFactory,
+      );
+    });
   });
 
   describe('registerQueueEventListeners', () => {
@@ -242,6 +300,28 @@ describe('BullExplorer', () => {
           connection: mockQueue.opts.connection,
           telemetry: mockTelemetry,
         }),
+      );
+    });
+
+    it('should pass backendFactory to queue events constructor', async () => {
+      const mockBackendFactory = vi.fn();
+      const mockQueue = {
+        name: queueName,
+        opts: {
+          connection: { host: 'localhost', port: 6380 },
+          backendFactory: mockBackendFactory,
+        },
+      };
+
+      vi.spyOn(bullExplorer, 'getQueueOptions').mockReturnValue(mockQueue.opts);
+      bullExplorer.registerQueueEventListeners();
+
+      expect(queueEventsSpy).toHaveBeenCalledWith(
+        queueName,
+        expect.objectContaining({
+          connection: mockQueue.opts.connection,
+        }),
+        mockBackendFactory,
       );
     });
   });

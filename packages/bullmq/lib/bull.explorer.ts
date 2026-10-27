@@ -202,13 +202,22 @@ export class BullExplorer implements OnApplicationShutdown {
       processor = instance[methodKey].bind(instance);
       processor = this.processorDecoratorService.decorate(processor);
     }
-    const worker = new BullExplorer._workerClass(queueName, processor, {
+    const backendFactory = options.backendFactory ?? queueOpts.backendFactory;
+    const workerOpts = {
       connection: queueOpts.connection,
       sharedConnection: queueOpts.sharedConnection,
       prefix: queueOpts.prefix,
       telemetry: queueOpts.telemetry,
       ...options,
-    });
+    };
+    const worker = backendFactory
+      ? new BullExplorer._workerClass(
+          queueName,
+          processor,
+          workerOpts,
+          backendFactory,
+        )
+      : new BullExplorer._workerClass(queueName, processor, workerOpts);
     (instance as any)._worker = worker;
 
     this.workers.push(worker);
@@ -293,13 +302,18 @@ export class BullExplorer implements OnApplicationShutdown {
           instance.constructor?.name,
         );
       } else {
-        const queueEventsInstance = new QueueEvents(queueName, {
+        const backendFactory =
+          queueEventsOptions?.backendFactory ?? queueOpts.backendFactory;
+        const queueEventsOpts = {
           connection: queueOpts.connection,
           prefix: queueOpts.prefix,
           sharedConnection: queueOpts.sharedConnection,
           telemetry: queueOpts.telemetry,
           ...queueEventsOptions,
-        });
+        };
+        const queueEventsInstance = backendFactory
+          ? new QueueEvents(queueName, queueEventsOpts, backendFactory)
+          : new QueueEvents(queueName, queueEventsOpts);
         (instance as any)._queueEvents = queueEventsInstance;
 
         this.metadataScanner.scanFromPrototype(
