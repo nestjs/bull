@@ -23,11 +23,6 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@borewit/text-codec@^0.1.0":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@borewit/text-codec/-/text-codec-0.1.1.tgz#7e7f27092473d5eabcffef693a849f2cc48431da"
-  integrity sha512-5L/uBxmjaCIX5h8Z+uu+kA9BQLkc/Wl06UGR5ajNRxu+/XjonB5i8JpgFMrPj3LXTCPA0pv8yxUvbUi+QthGGA==
-
 "@borewit/text-codec@^0.2.1":
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/@borewit/text-codec/-/text-codec-0.2.2.tgz#75025f735c0983b3a871668804a57387e3649375"
@@ -526,22 +521,22 @@
     "@emnapi/runtime" "^1.1.0"
     "@tybys/wasm-util" "^0.9.0"
 
-"@nestjs/common@12.2.0":
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-12.2.0.tgz#b5efa06b38e313f997aaba75c8c4add2938fe6f4"
-  integrity sha512-xC4tUL31tQ2eoZcHheHIjnCrhnqyAEDRMGGHMUrYsOdh0Kg1DvDlLn7zelisErMcpaNanSIApJH6m9AcnK3fQQ==
+"@nestjs/common@12.3.2":
+  version "12.3.2"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-12.3.2.tgz#5650f8bab82c5881e000129984f7ee377144207c"
+  integrity sha512-XPNu75rXiDBuQ/EECiA0urFJ7bAycA1/xTrKnKct5vEF7A5FE0LyOem/EhRZI0Cq1xAGPDuTB89sFMqeSPWjzQ==
   dependencies:
     uid "2.0.2"
     "@standard-schema/spec" "1.1.0"
-    file-type "22.1.1"
+    file-type "22.2.0"
     iterare "1.2.1"
     load-esm "1.0.3"
     tslib "2.8.1"
 
-"@nestjs/core@12.2.0":
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-12.2.0.tgz#1af54258f7da8d5abd67a48a0f7aeaab8ad85486"
-  integrity sha512-OTNlRALw/xlSJ/cXeIo7HzY/TqE9RSyv6uFS+OY41dDelDwMqnAjpRFiN5RVGOI/R4wAhaD0TJVjsfOrpZJCjA==
+"@nestjs/core@12.3.2":
+  version "12.3.2"
+  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-12.3.2.tgz#45003e3f06dea4d900caec6959c9671837b595e4"
+  integrity sha512-lCDN5iC4BoG9k5Sk/tG2EF4VAtoZABFjN4e0nk9xKK3ytD4eSMc9ma1Y092t/navenlf3roTtCDUZ/RIHzYjCw==
   dependencies:
     uid "2.0.2"
     fast-safe-stringify "2.1.1"
@@ -549,21 +544,21 @@
     path-to-regexp "8.4.2"
     tslib "2.8.1"
 
-"@nestjs/platform-express@12.2.0":
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-12.2.0.tgz#30f05e78e5c910aafc0cbc0ebb72e67ff2cb81a8"
-  integrity sha512-ZG4nRgFicwfFKnzz9CfmX6GhSL1Ov6ch25L+7yDFoPeOBZ0EoytsttyURQaDJPRigcIJXQ1E+Z5zWDwUGc9Yyg==
+"@nestjs/platform-express@12.3.2":
+  version "12.3.2"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-12.3.2.tgz#034167a29ed92e9d71a9b1648a19ce49d668e481"
+  integrity sha512-wbe1zd6xWLW8qI6t3RP3SqqQnp32pVAfXKqttcp/geL5ys6xw6c/HkASXLNvwlf7IzMLxnpqANtHHwcF4waqRA==
   dependencies:
     cors "2.8.6"
     express "5.3.0"
-    multer "2.4.0"
+    multer "2.5.0"
     path-to-regexp "8.4.2"
     tslib "2.8.1"
 
-"@nestjs/testing@12.2.0":
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-12.2.0.tgz#cce13c1a1653574e7cd3f292aa2660b0156a8cd4"
-  integrity sha512-zrgqUxTjLTWn09mZGtrFdallwZTEjJKzMp7oxoYtcpIoWryt8FpivE9EvjtlgFJsDHqMugDahCAiepPM2LVWcA==
+"@nestjs/testing@12.3.2":
+  version "12.3.2"
+  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-12.3.2.tgz#cc6c2026032900d2e95df2ecbaf2b81ca1aedb28"
+  integrity sha512-l1m+uHTp4hJ1K+Gw8ENrLSj2TxZlKVre7aoluUdxMHCodK2kZnpjvD8H8Oh460hj/Z6PDJ/m9r6t8NIK6OyDxA==
   dependencies:
     tslib "2.8.1"
 
@@ -1174,13 +1169,14 @@
   resolved "https://registry.yarnpkg.com/@standard-schema/spec/-/spec-1.1.0.tgz#a79b55dbaf8604812f52d140b2c9ab41bc150bb8"
   integrity sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==
 
-"@tokenizer/inflate@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@tokenizer/inflate/-/inflate-0.4.1.tgz#fa6cdb8366151b3cc8426bf9755c1ea03a2fba08"
-  integrity sha512-2mAv+8pkG6GIZiF1kNg1jAjh27IDxEPKwdGul3snfztFerfPGI1LjDezZp3i7BElXompqEtPmoPx6c2wgtWsOA==
+"@tokenizer/inflate@^0.5.1":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@tokenizer/inflate/-/inflate-0.5.2.tgz#47672bb1f891e87bde926ebe42145b68c7f0dcb9"
+  integrity sha512-3AZIuReWQ7i916s/UWAzy4V4k2wrkAZLW2sTi448W3w7Hz5uoc+Y7h+cnwzr0cwrwf3PsC5xKsH8MOl0NRltlg==
   dependencies:
     debug "^4.4.3"
-    token-types "^6.1.1"
+    strtok3 "^10.6.2"
+    token-types "^6.1.2"
 
 "@tokenizer/token@^0.3.0":
   version "0.3.0"
@@ -2568,15 +2564,15 @@ figures@^6.1.0:
   dependencies:
     is-unicode-supported "^2.0.0"
 
-file-type@22.1.1:
-  version "22.1.1"
-  resolved "https://registry.yarnpkg.com/file-type/-/file-type-22.1.1.tgz#5d9b20bd514657440379e57ff64ba06d3822c2a3"
-  integrity sha512-sEB0oStmeLGtpmSAD88RDNuLsvhv4iC3u0lE25CUvfCULvj49xoQ3l3K525Vn+ZzsZ6DOLajQCV6RmhwwhqiJg==
+file-type@22.2.0:
+  version "22.2.0"
+  resolved "https://registry.yarnpkg.com/file-type/-/file-type-22.2.0.tgz#f4e7119f03c9807e7bb840cfd61ce1131962060b"
+  integrity sha512-XmEVJsRpQMVYC+sWFW+FKAVo2P7/lPctDdWH4UQ1r6oxhdrTobnowdM3z+ZJ93a4J8D3yDpxX0bEvRuFev0vUQ==
   dependencies:
-    "@tokenizer/inflate" "^0.4.1"
-    strtok3 "^10.3.5"
+    "@tokenizer/inflate" "^0.5.1"
+    strtok3 "^10.5.0"
     token-types "^6.1.2"
-    uint8array-extras "^1.5.0"
+    uint8array-extras "^1.6.0"
 
 finalhandler@^2.1.0:
   version "2.1.0"
@@ -3869,10 +3865,10 @@ msgpackr@^1.11.2:
   optionalDependencies:
     msgpackr-extract "^3.0.2"
 
-multer@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/multer/-/multer-2.4.0.tgz#969ab025c207829967c923172c51a75cbf171be1"
-  integrity sha512-7dqa0ZcFfzbefdTuIkzOSMvZWC0J7FLqBOjJUZvDCXShIURWKxAyTT1wHhnE5q19c7jOJf43IYYKjBmZVZmvhg==
+multer@2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/multer/-/multer-2.5.0.tgz#92e08d5015b53fb554d5d623398d67b8b146ded2"
+  integrity sha512-BsqOzYGVq49JcW2IzoSAxeKYRevb+dGGPPWleOR8Lrlk4igwxu1/9pwSXlByhCb7MVZDrNJFC0IBP5/O5nLYRw==
   dependencies:
     append-field "^1.0.0"
     busboy "^1.6.0"
@@ -5189,10 +5185,10 @@ strip-final-newline@^4.0.0:
   resolved "https://registry.yarnpkg.com/strip-final-newline/-/strip-final-newline-4.0.0.tgz#35a369ec2ac43df356e3edd5dcebb6429aa1fa5c"
   integrity sha512-aulFJcD6YK8V1G7iRB5tigAP4TsHBZZrOV8pjV++zdUwmeV8uzbY7yn6h9MswN62adStNZFuCIx4haBnRuMDaw==
 
-strtok3@^10.3.5:
-  version "10.3.5"
-  resolved "https://registry.yarnpkg.com/strtok3/-/strtok3-10.3.5.tgz#7213285da0dc3dec0fc8ce5df4b8b7a733f14360"
-  integrity sha512-ki4hZQfh5rX0QDLLkOCj+h+CVNkqmp/CMf8v8kZpkNVK6jGQooMytqzLZYUVYIZcFZ6yDB70EfD8POcFXiF5oA==
+strtok3@^10.5.0, strtok3@^10.6.2:
+  version "10.6.3"
+  resolved "https://registry.yarnpkg.com/strtok3/-/strtok3-10.6.3.tgz#8272dc2fa4ee9c50e4d28e952ad01c9b34be77d0"
+  integrity sha512-MD8mENgyXMr2mDaDfzP3RWYDSyYQxIIou7HhCiCJiBekrsoDtUG0id3vYnjDfY9ndOEbazFXe13Qw6u/1AB8ew==
   dependencies:
     "@tokenizer/token" "^0.3.0"
 
@@ -5328,15 +5324,6 @@ toidentifier@1.0.1, toidentifier@~1.0.1:
   resolved "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.1.tgz"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
 
-token-types@^6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/token-types/-/token-types-6.1.1.tgz#85bd0ada82939b9178ecd5285881a538c4c00fdd"
-  integrity sha512-kh9LVIWH5CnL63Ipf0jhlBIy0UsrMj/NJDfpsy1SqOXlLKEVyXXYrnFxFT1yOOYVGBSApeVnjPw/sBz5BfEjAQ==
-  dependencies:
-    "@borewit/text-codec" "^0.1.0"
-    "@tokenizer/token" "^0.3.0"
-    ieee754 "^1.2.1"
-
 token-types@^6.1.2:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/token-types/-/token-types-6.1.2.tgz#18d0fd59b996d421f9f83914d6101c201bd08129"
@@ -5434,10 +5421,10 @@ uid@2.0.2:
   dependencies:
     "@lukeed/csprng" "^1.0.0"
 
-uint8array-extras@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/uint8array-extras/-/uint8array-extras-1.5.0.tgz#10d2a85213de3ada304fea1c454f635c73839e86"
-  integrity sha512-rvKSBiC5zqCCiDZ9kAOszZcDvdAHwwIKJG33Ykj43OKcWsnmcBRL09YTU4nOeHZ8Y2a7l1MgTd08SBe9A8Qj6A==
+uint8array-extras@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/uint8array-extras/-/uint8array-extras-1.6.0.tgz#ab895526255bddd698e75a02992ee73f1b112ebe"
+  integrity sha512-8iAasVS4wUx0gPLjH8Xtz2PeDzTSiy8QiLGu2DT3X5GU+egFEQhpnbtkehbAwjvDcxIERmCYcysiODFmE3Ud0Q==
 
 "undici-types@>=7.24.0 <7.24.7":
   version "7.24.6"
