@@ -1,10 +1,5 @@
 import { getQueueToken, NO_QUEUE_FOUND } from '@nestjs/bull-shared';
-import {
-  Injectable,
-  Logger,
-  OnApplicationShutdown,
-  Type,
-} from '@nestjs/common';
+import { Injectable, Logger, OnModuleDestroy, Type } from '@nestjs/common';
 import {
   ContextIdFactory,
   DiscoveryService,
@@ -40,7 +35,7 @@ import { NestWorkerOptions } from './interfaces/worker-options.interface.js';
 import { getSharedConfigToken } from './utils/get-shared-config-token.util.js';
 
 @Injectable()
-export class BullExplorer implements OnApplicationShutdown {
+export class BullExplorer implements OnModuleDestroy {
   private static _workerClass: Type = Worker;
   private readonly logger = new Logger('BullModule');
   private readonly injector = new Injector();
@@ -58,7 +53,11 @@ export class BullExplorer implements OnApplicationShutdown {
     private readonly processorDecoratorService: ProcessorDecoratorService,
   ) {}
 
-  onApplicationShutdown(signal?: string) {
+  /**
+   * Runs in `onModuleDestroy`, the first shutdown phase, so the jobs in flight
+   * finish before the queues close (they do so in `onApplicationShutdown`).
+   */
+  onModuleDestroy() {
     return Promise.all(this.workers.map((worker) => worker.close()));
   }
 
