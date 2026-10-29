@@ -3,6 +3,7 @@ import { Injectable, Logger, OnModuleDestroy, Type } from '@nestjs/common';
 import {
   ContextIdFactory,
   DiscoveryService,
+  ExternalContextCreator,
   MetadataScanner,
   ModuleRef,
 } from '@nestjs/core';
@@ -51,6 +52,7 @@ export class BullExplorer implements OnModuleDestroy {
     private readonly metadataAccessor: BullMetadataAccessor,
     private readonly metadataScanner: MetadataScanner,
     private readonly processorDecoratorService: ProcessorDecoratorService,
+    private readonly externalContextCreator: ExternalContextCreator,
   ) {}
 
   /**
@@ -194,11 +196,25 @@ export class BullExplorer implements OnModuleDestroy {
           moduleRef.providers,
           contextId,
         );
-        const processor = contextInstance[methodKey].bind(contextInstance);
+
+        const processor = this.externalContextCreator.create(
+          contextInstance,
+          contextInstance[methodKey],
+          methodKey,
+          undefined,
+          undefined,
+          contextId,
+        );
+
         return this.processorDecoratorService.decorate(processor)(...args);
       };
     } else {
-      processor = instance[methodKey].bind(instance);
+      processor = this.externalContextCreator.create(
+        instance,
+        instance[methodKey],
+        methodKey,
+      );
+
       processor = this.processorDecoratorService.decorate(processor);
     }
     const backendFactory = options.backendFactory ?? queueOpts.backendFactory;
