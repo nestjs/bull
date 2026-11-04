@@ -43,6 +43,7 @@ function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
           connection: options.connection,
           sharedConnection: options.sharedConnection,
           prefix: options.prefix,
+          telemetry: options.telemetry,
           ...processorOptions,
         };
         return targetBackendFactory
@@ -60,6 +61,7 @@ function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
           connection: options.connection,
           sharedConnection: options.sharedConnection,
           prefix: options.prefix,
+          telemetry: options.telemetry,
           ...processorOptions,
         };
         return targetBackendFactory
@@ -70,6 +72,7 @@ function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
           connection: options.connection,
           sharedConnection: options.sharedConnection,
           prefix: options.prefix,
+          telemetry: options.telemetry,
         };
         return options.backendFactory
           ? new workerClass(
@@ -84,6 +87,7 @@ function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
           connection: options.connection,
           sharedConnection: options.sharedConnection,
           prefix: options.prefix,
+          telemetry: options.telemetry,
         };
         return options.backendFactory
           ? new workerClass(
