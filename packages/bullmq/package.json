@@ -1,7 +1,18 @@
 {
   "name": "@nestjs/bullmq",
   "version": "12.0.0",
-  "description": "Nest - modern, fast, powerful node.js web framework (@bullmq)",
+  "description": "Queues for NestJS with BullMQ: background jobs in Redis, with processors as providers, flows, retries, delays and repeatable jobs.",
+  "keywords": [
+    "nestjs",
+    "nest",
+    "bullmq",
+    "bull",
+    "queue",
+    "job-queue",
+    "background-jobs",
+    "redis",
+    "worker"
+  ],
   "homepage": "https://github.com/nestjs/bull",
   "bugs": {
     "url": "https://github.com/nestjs/bull/issues"
