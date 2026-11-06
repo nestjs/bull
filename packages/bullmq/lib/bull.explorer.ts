@@ -194,6 +194,7 @@ export class BullExplorer implements OnModuleDestroy {
           moduleRef.providers,
           contextId,
         );
+        (contextInstance as any)._worker = worker;
         const processor = contextInstance[methodKey].bind(contextInstance);
         return this.processorDecoratorService.decorate(processor)(...args);
       };
