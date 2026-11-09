@@ -45,10 +45,10 @@
     "tslib": "2.8.1"
   },
   "devDependencies": {
-    "@nestjs/common": "12.4.0",
-    "@nestjs/core": "12.4.0",
-    "@nestjs/platform-express": "12.4.0",
-    "@nestjs/testing": "12.4.0",
+    "@nestjs/common": "12.4.2",
+    "@nestjs/core": "12.4.2",
+    "@nestjs/platform-express": "12.4.2",
+    "@nestjs/testing": "12.4.2",
     "@types/node": "26.6.6",
     "@types/reflect-metadata": "0.1.0",
     "bullmq": "6.7.2",
