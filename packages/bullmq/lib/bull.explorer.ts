@@ -96,11 +96,12 @@ export class BullExplorer implements OnModuleDestroy {
         this.metadataAccessor.getProcessorMetadata(
           // NOTE: We are relying on `instance.constructor` to properly support
           // `useValue` and `useFactory` providers besides `useClass`.
-          instance.constructor || metatype,
-        );
+          instance?.constructor || metatype,
+        ) ?? {};
+      const targetQueueName = queueName || 'default';
 
-      const queueToken = getQueueToken(queueName);
-      const queueOpts = this.getQueueOptions(queueToken, queueName, configKey);
+      const queueToken = getQueueToken(targetQueueName);
+      const queueOpts = this.getQueueOptions(queueToken, targetQueueName, configKey);
 
       if (!(instance instanceof WorkerHost)) {
         throw new InvalidProcessorClassError(instance.constructor?.name);
@@ -110,7 +111,7 @@ export class BullExplorer implements OnModuleDestroy {
         );
         this.handleProcessor(
           instance,
-          queueName,
+          targetQueueName,
           queueOpts,
           wrapper.host,
           isRequestScoped,
@@ -291,11 +292,12 @@ export class BullExplorer implements OnModuleDestroy {
         this.metadataAccessor.getQueueEventsListenerMetadata(
           // NOTE: We are relying on `instance.constructor` to properly support
           // `useValue` and `useFactory` providers besides `useClass`.
-          instance.constructor || metatype,
-        );
+          instance?.constructor || metatype,
+        ) ?? {};
+      const targetQueueName = queueName || 'default';
 
-      const queueToken = getQueueToken(queueName);
-      const queueOpts = this.getQueueOptions(queueToken, queueName);
+      const queueToken = getQueueToken(targetQueueName);
+      const queueOpts = this.getQueueOptions(queueToken, targetQueueName);
 
       if (!(instance instanceof QueueEventsHost)) {
         throw new InvalidQueueEventsListenerClassError(
@@ -312,8 +314,8 @@ export class BullExplorer implements OnModuleDestroy {
           ...queueEventsOptions,
         };
         const queueEventsInstance = backendFactory
-          ? new QueueEvents(queueName, queueEventsOpts, backendFactory)
-          : new QueueEvents(queueName, queueEventsOpts);
+          ? new QueueEvents(targetQueueName, queueEventsOpts, backendFactory)
+          : new QueueEvents(targetQueueName, queueEventsOpts);
         (instance as any)._queueEvents = queueEventsInstance;
 
         this.metadataScanner.scanFromPrototype(
