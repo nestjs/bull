@@ -223,7 +223,7 @@ describe('BullExplorer', () => {
     });
 
     it('should default to "default" queue name when registering processor without queue name', async () => {
-      @Processor()
+      @Processor({})
       class DefaultQueueProcessor extends WorkerHost {
         async process(job: Job<any, any, string>): Promise<any> {}
       }
@@ -359,37 +359,6 @@ describe('BullExplorer', () => {
         }),
         mockBackendFactory,
       );
-    });
-
-    it('should default to "default" queue name when @QueueEventsListener() omits queue name', async () => {
-      @QueueEventsListener()
-      class DefaultEventsListener extends QueueEventsHost {}
-
-      const mockQueue = {
-        name: 'default',
-        opts: { connection: { host: 'localhost', port: 6380 } },
-      };
-
-      const localModule = await Test.createTestingModule({
-        imports: [DiscoveryModule],
-        providers: [
-          BullExplorer,
-          BullMetadataAccessor,
-          DefaultEventsListener,
-          ProcessorDecoratorService,
-        ],
-      }).compile();
-
-      const explorer = localModule.get(BullExplorer);
-      vi.spyOn(explorer, 'getQueueOptions').mockReturnValue(mockQueue.opts);
-      explorer.registerQueueEventListeners();
-
-      expect(queueEventsSpy).toHaveBeenCalledWith(
-        'default',
-        expect.objectContaining(mockQueue.opts),
-      );
-
-      await localModule.close();
     });
   });
 

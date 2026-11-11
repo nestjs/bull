@@ -96,12 +96,17 @@ export class BullExplorer implements OnModuleDestroy {
         this.metadataAccessor.getProcessorMetadata(
           // NOTE: We are relying on `instance.constructor` to properly support
           // `useValue` and `useFactory` providers besides `useClass`.
-          instance?.constructor || metatype,
-        ) ?? {};
+          instance.constructor || metatype,
+        );
+      // A processor without a name works on the queue `registerQueue()` registers without one
       const targetQueueName = queueName || 'default';
 
       const queueToken = getQueueToken(targetQueueName);
-      const queueOpts = this.getQueueOptions(queueToken, targetQueueName, configKey);
+      const queueOpts = this.getQueueOptions(
+        queueToken,
+        targetQueueName,
+        configKey,
+      );
 
       if (!(instance instanceof WorkerHost)) {
         throw new InvalidProcessorClassError(instance.constructor?.name);
@@ -292,12 +297,11 @@ export class BullExplorer implements OnModuleDestroy {
         this.metadataAccessor.getQueueEventsListenerMetadata(
           // NOTE: We are relying on `instance.constructor` to properly support
           // `useValue` and `useFactory` providers besides `useClass`.
-          instance?.constructor || metatype,
-        ) ?? {};
-      const targetQueueName = queueName || 'default';
+          instance.constructor || metatype,
+        );
 
-      const queueToken = getQueueToken(targetQueueName);
-      const queueOpts = this.getQueueOptions(queueToken, targetQueueName);
+      const queueToken = getQueueToken(queueName);
+      const queueOpts = this.getQueueOptions(queueToken, queueName);
 
       if (!(instance instanceof QueueEventsHost)) {
         throw new InvalidQueueEventsListenerClassError(
@@ -314,8 +318,8 @@ export class BullExplorer implements OnModuleDestroy {
           ...queueEventsOptions,
         };
         const queueEventsInstance = backendFactory
-          ? new QueueEvents(targetQueueName, queueEventsOpts, backendFactory)
-          : new QueueEvents(targetQueueName, queueEventsOpts);
+          ? new QueueEvents(queueName, queueEventsOpts, backendFactory)
+          : new QueueEvents(queueName, queueEventsOpts);
         (instance as any)._queueEvents = queueEventsInstance;
 
         this.metadataScanner.scanFromPrototype(
