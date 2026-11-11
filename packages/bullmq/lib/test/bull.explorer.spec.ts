@@ -222,6 +222,40 @@ describe('BullExplorer', () => {
         mockBackendFactory,
       );
     });
+
+    it('should default to "default" queue name when registering processor without queue name', async () => {
+      @Processor({})
+      class DefaultQueueProcessor extends WorkerHost {
+        async process(job: Job<any, any, string>): Promise<any> {}
+      }
+
+      const mockQueue = {
+        name: 'default',
+        opts: { connection: { host: 'localhost', port: 6380 } },
+      };
+
+      const localModule = await Test.createTestingModule({
+        imports: [DiscoveryModule],
+        providers: [
+          BullExplorer,
+          BullMetadataAccessor,
+          DefaultQueueProcessor,
+          ProcessorDecoratorService,
+        ],
+      }).compile();
+
+      const explorer = localModule.get(BullExplorer);
+      vi.spyOn(explorer, 'getQueueOptions').mockReturnValue(mockQueue.opts);
+      explorer.registerWorkers();
+
+      expect(workerCtorSpy).toHaveBeenCalledWith(
+        'default',
+        expect.any(Function),
+        expect.objectContaining({ connection: mockQueue.opts.connection }),
+      );
+
+      await localModule.close();
+    });
   });
 
   describe('registerWorkers', () => {

@@ -99,9 +99,15 @@ export class BullExplorer implements OnModuleDestroy {
           // `useValue` and `useFactory` providers besides `useClass`.
           instance.constructor || metatype,
         );
+      // A processor without a name works on the queue `registerQueue()` registers without one
+      const targetQueueName = queueName || 'default';
 
-      const queueToken = getQueueToken(queueName);
-      const queueOpts = this.getQueueOptions(queueToken, queueName, configKey);
+      const queueToken = getQueueToken(targetQueueName);
+      const queueOpts = this.getQueueOptions(
+        queueToken,
+        targetQueueName,
+        configKey,
+      );
 
       if (!(instance instanceof WorkerHost)) {
         throw new InvalidProcessorClassError(instance.constructor?.name);
@@ -111,7 +117,7 @@ export class BullExplorer implements OnModuleDestroy {
         );
         this.handleProcessor(
           instance,
-          queueName,
+          targetQueueName,
           queueOpts,
           wrapper.host,
           isRequestScoped,
