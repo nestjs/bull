@@ -2,6 +2,8 @@ import { getQueueToken } from '@nestjs/bull-shared';
 import { DiscoveryModule } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper.js';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Process } from '../decorators/process.decorator.js';
+import { Processor } from '../decorators/processor.decorator.js';
 import { BullMetadataAccessor } from '../bull-metadata.accessor.js';
 import { BullExplorer } from '../bull.explorer.js';
 import { BullModule } from '../bull.module.js';
@@ -133,6 +135,34 @@ describe('BullExplorer', () => {
       expect(queue).toBe(fakeQueue);
 
       await moduleRef.close();
+    });
+  });
+
+  describe('explore', () => {
+    it('should register handlers once for a provider with a useExisting alias', async () => {
+      @Processor('alias-test')
+      class AliasProcessor {
+        @Process()
+        handle() {}
+      }
+
+      const queue = { process: vi.fn(), on: vi.fn() };
+      const testingModule = await Test.createTestingModule({
+        imports: [DiscoveryModule],
+        providers: [
+          BullExplorer,
+          BullMetadataAccessor,
+          { provide: getQueueToken('alias-test'), useValue: queue },
+          AliasProcessor,
+          { provide: 'ALIAS', useExisting: AliasProcessor },
+        ],
+      }).compile();
+
+      testingModule.get(BullExplorer).explore();
+
+      expect(queue.process).toHaveBeenCalledTimes(1);
+
+      await testingModule.close();
     });
   });
 });

@@ -69,6 +69,7 @@ export class BullExplorer implements OnModuleDestroy {
   registerWorkers() {
     const processors: InstanceWrapper[] = this.discoveryService
       .getProviders()
+      .filter((wrapper: InstanceWrapper) => !wrapper.isAlias)
       .filter((wrapper: InstanceWrapper) =>
         this.metadataAccessor.isProcessor(
           // NOTE: Regarding the ternary statement below,
@@ -258,6 +259,7 @@ export class BullExplorer implements OnModuleDestroy {
   registerQueueEventListeners() {
     const eventListeners: InstanceWrapper[] = this.discoveryService
       .getProviders()
+      .filter((wrapper: InstanceWrapper) => !wrapper.isAlias)
       .filter((wrapper: InstanceWrapper) =>
         this.metadataAccessor.isQueueEventsListener(
           // NOTE: Regarding the ternary statement below,

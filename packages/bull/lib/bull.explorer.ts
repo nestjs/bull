@@ -33,6 +33,7 @@ export class BullExplorer implements OnModuleInit {
   explore() {
     const providers: InstanceWrapper[] = this.discoveryService
       .getProviders()
+      .filter((wrapper: InstanceWrapper) => !wrapper.isAlias)
       .filter((wrapper: InstanceWrapper) =>
         this.metadataAccessor.isQueueComponent(
           // NOTE: Regarding the ternary statement below,

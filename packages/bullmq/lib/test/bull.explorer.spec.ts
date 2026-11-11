@@ -4,6 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Job, Queue } from 'bullmq';
 import {
   getQueueToken,
+  OnWorkerEvent,
   Processor,
   ProcessorDecoratorService,
   QueueEventsHost,
@@ -25,6 +26,8 @@ vi.mock('bullmq', async (importOriginal) => {
       constructor() {
         workerCtorSpy(...arguments);
       }
+
+      close = vi.fn();
     },
     QueueEvents: class {
       constructor() {
@@ -221,6 +224,48 @@ describe('BullExplorer', () => {
     });
   });
 
+  describe('registerWorkers', () => {
+    const queueName = 'test_queue';
+
+    @Processor(queueName)
+    class AliasedProcessor extends WorkerHost {
+      async process(job: Job<any, any, string>, token?: string): Promise<any> {}
+
+      @OnWorkerEvent('completed')
+      onCompleted() {}
+    }
+
+    it('should create a single worker for a processor registered with useExisting', async () => {
+      workerCtorSpy.mockClear();
+      const onSpy = vi.fn();
+      const testingModule = await Test.createTestingModule({
+        imports: [DiscoveryModule],
+        providers: [
+          BullExplorer,
+          BullMetadataAccessor,
+          ProcessorDecoratorService,
+          AliasedProcessor,
+          { provide: 'PROCESSOR_ALIAS', useExisting: AliasedProcessor },
+        ],
+      }).compile();
+      const explorer = testingModule.get(BullExplorer);
+      vi.spyOn(explorer, 'getQueueOptions').mockReturnValue({
+        connection: { host: 'localhost', port: 6380 },
+      });
+      vi.spyOn(
+        BullExplorer.prototype as any,
+        'handleWorkerEvents',
+      ).mockImplementation(onSpy);
+
+      explorer.registerWorkers();
+
+      expect(workerCtorSpy).toHaveBeenCalledTimes(1);
+      expect(onSpy).toHaveBeenCalledTimes(1);
+
+      await testingModule.close();
+    });
+  });
+
   describe('registerQueueEventListeners', () => {
     const queueName = 'test_queue';
 
@@ -251,6 +296,29 @@ describe('BullExplorer', () => {
         queueName,
         expect.objectContaining(mockQueue.opts),
       );
+    });
+    it('should instantiate queue events once for a listener registered with useExisting', async () => {
+      queueEventsSpy.mockClear();
+      const testingModule = await Test.createTestingModule({
+        imports: [DiscoveryModule],
+        providers: [
+          BullExplorer,
+          BullMetadataAccessor,
+          EventsListener,
+          { provide: 'LISTENER_ALIAS', useExisting: EventsListener },
+          ProcessorDecoratorService,
+        ],
+      }).compile();
+      const explorer = testingModule.get(BullExplorer);
+      vi.spyOn(explorer, 'getQueueOptions').mockReturnValue({
+        connection: { host: 'localhost', port: 6380 },
+      });
+
+      explorer.registerQueueEventListeners();
+
+      expect(queueEventsSpy).toHaveBeenCalledTimes(1);
+
+      await testingModule.close();
     });
     it('should pass telemetry option to queue events constructor', async () => {
       const mockTelemetry = {
