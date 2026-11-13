@@ -1,6 +1,6 @@
 {
   "name": "@nestjs/bull",
-  "version": "12.0.1",
+  "version": "12.0.2",
   "description": "Queues for NestJS with Bull: background jobs in Redis, with processors as providers, retries, delays and repeatable jobs.",
   "keywords": [
     "nestjs",
@@ -43,7 +43,7 @@
     "test:e2e:dev": "vitest --config vitest.config.e2e.mts"
   },
   "dependencies": {
-    "@nestjs/bull-shared": "^12.0.1",
+    "@nestjs/bull-shared": "^12.0.2",
     "tslib": "2.8.1"
   },
   "devDependencies": {

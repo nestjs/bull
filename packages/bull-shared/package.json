@@ -1,6 +1,6 @@
 {
   "name": "@nestjs/bull-shared",
-  "version": "12.0.1",
+  "version": "12.0.2",
   "description": "Code shared by @nestjs/bull and @nestjs/bullmq. Applications don't install it directly: use one of those for queues in NestJS.",
   "keywords": [
     "nestjs",
