@@ -1680,10 +1680,10 @@ bull@4.16.5:
     semver "^7.5.2"
     uuid "^8.3.0"
 
-bullmq@6.7.5:
-  version "6.7.5"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-6.7.5.tgz#655badf64f554154e182838622606f4464b1bb1e"
-  integrity sha512-6Cd68gsM28pkzlAJQ1AVu2tfrqmcpgmfHUN8etilSUnzdAz77JJa5KmjsbRNtjSmIKsbYRflY1vcH0h8SIqECg==
+bullmq@6.7.6:
+  version "6.7.6"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-6.7.6.tgz#f8272f4a4dab0b8ca3557711a726131ea49f825a"
+  integrity sha512-ykp2HGMkOz8BtuE/FBFRMetpI6RHDyFvAkUawqKJv7sDWIaZPz1cPtpzIad879iwW2oMJY4CFMPvfBKnWdB3Rw==
   dependencies:
     cron-parser "5.10.4"
     msgpackr "2.1.4"
