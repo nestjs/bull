@@ -17,6 +17,7 @@ import {
 } from './utils/index.js';
 import {
   getConnectionStatus,
+  getSharedWorkerOptions,
   isAdvancedProcessor,
   isAdvancedSeparateProcessor,
   isProcessorCallback,
@@ -40,10 +41,7 @@ function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
         const { callback, backendFactory, ...processorOptions } = processor;
         const targetBackendFactory = backendFactory ?? options.backendFactory;
         const workerOpts = {
-          connection: options.connection,
-          sharedConnection: options.sharedConnection,
-          prefix: options.prefix,
-          telemetry: options.telemetry,
+          ...getSharedWorkerOptions(options),
           ...processorOptions,
         };
         return targetBackendFactory
@@ -58,22 +56,14 @@ function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
         const { path, backendFactory, ...processorOptions } = processor;
         const targetBackendFactory = backendFactory ?? options.backendFactory;
         const workerOpts = {
-          connection: options.connection,
-          sharedConnection: options.sharedConnection,
-          prefix: options.prefix,
-          telemetry: options.telemetry,
+          ...getSharedWorkerOptions(options),
           ...processorOptions,
         };
         return targetBackendFactory
           ? new workerClass(queueName, path, workerOpts, targetBackendFactory)
           : new workerClass(queueName, path, workerOpts);
       } else if (isSeparateProcessor(processor)) {
-        const workerOpts = {
-          connection: options.connection,
-          sharedConnection: options.sharedConnection,
-          prefix: options.prefix,
-          telemetry: options.telemetry,
-        };
+        const workerOpts = getSharedWorkerOptions(options);
         return options.backendFactory
           ? new workerClass(
               queueName,
@@ -83,12 +73,7 @@ function createQueueAndWorkers<TQueue = Queue, TWorker extends Worker = Worker>(
             )
           : new workerClass(queueName, processor, workerOpts);
       } else if (isProcessorCallback(processor)) {
-        const workerOpts = {
-          connection: options.connection,
-          sharedConnection: options.sharedConnection,
-          prefix: options.prefix,
-          telemetry: options.telemetry,
-        };
+        const workerOpts = getSharedWorkerOptions(options);
         return options.backendFactory
           ? new workerClass(
               queueName,

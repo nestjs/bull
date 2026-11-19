@@ -33,6 +33,7 @@ import { ProcessorDecoratorService } from './instrument/processor-decorator.serv
 import { NestQueueOptions } from './interfaces/queue-options.interface.js';
 import { NestWorkerOptions } from './interfaces/worker-options.interface.js';
 import { getSharedConfigToken } from './utils/get-shared-config-token.util.js';
+import { getSharedWorkerOptions } from './utils/helpers.js';
 
 @Injectable()
 export class BullExplorer implements OnModuleDestroy {
@@ -211,10 +212,7 @@ export class BullExplorer implements OnModuleDestroy {
     }
     const backendFactory = options.backendFactory ?? queueOpts.backendFactory;
     const workerOpts = {
-      connection: queueOpts.connection,
-      sharedConnection: queueOpts.sharedConnection,
-      prefix: queueOpts.prefix,
-      telemetry: queueOpts.telemetry,
+      ...getSharedWorkerOptions(queueOpts),
       ...options,
     };
     const worker = backendFactory
@@ -313,10 +311,7 @@ export class BullExplorer implements OnModuleDestroy {
         const backendFactory =
           queueEventsOptions?.backendFactory ?? queueOpts.backendFactory;
         const queueEventsOpts = {
-          connection: queueOpts.connection,
-          prefix: queueOpts.prefix,
-          sharedConnection: queueOpts.sharedConnection,
-          telemetry: queueOpts.telemetry,
+          ...getSharedWorkerOptions(queueOpts),
           ...queueEventsOptions,
         };
         const queueEventsInstance = backendFactory

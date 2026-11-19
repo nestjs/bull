@@ -8,6 +8,7 @@ import {
   BullQueueAdvancedSeparateProcessor,
 } from '../interfaces/bull-processor.interfaces.js';
 import { URL } from 'url';
+import { NestQueueOptions } from '../interfaces/queue-options.interface.js';
 
 export function isProcessorCallback(
   processor: BullQueueProcessor,
@@ -39,6 +40,20 @@ export function isAdvancedSeparateProcessor(
     !!(processor as BullQueueAdvancedSeparateProcessor).path &&
     isSeparateProcessor((processor as BullQueueAdvancedSeparateProcessor).path)
   );
+}
+
+/**
+ * Options that workers and queue events inherit from their queue or shared config.
+ * Keep this list in one place so new fields reach every worker.
+ */
+export function getSharedWorkerOptions(queueOpts: NestQueueOptions) {
+  return {
+    connection: queueOpts.connection,
+    sharedConnection: queueOpts.sharedConnection,
+    prefix: queueOpts.prefix,
+    telemetry: queueOpts.telemetry,
+    skipVersionCheck: queueOpts.skipVersionCheck,
+  };
 }
 
 /**

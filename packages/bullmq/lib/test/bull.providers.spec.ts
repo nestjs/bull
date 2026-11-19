@@ -68,6 +68,74 @@ describe('Queue processors', () => {
     }
   });
 
+  it('should pass skipVersionCheck from the queue options to every worker', async () => {
+    const callback = vi.fn() as BullQueueProcessorCallback;
+    const path = '/path/to/processor.js';
+
+    moduleRef = await Test.createTestingModule({
+      imports: [
+        BullModule.registerQueue({
+          name: queueName,
+          skipVersionCheck: true,
+          processors: [
+            callback,
+            path,
+            { callback, concurrency: 2 },
+            { path, concurrency: 2 },
+          ],
+        }),
+      ],
+    }).compile();
+
+    expect(workerCtorSpy).toHaveBeenCalledTimes(4);
+    for (const [, , opts] of workerCtorSpy.mock.calls) {
+      expect(opts).toEqual(expect.objectContaining({ skipVersionCheck: true }));
+    }
+  });
+
+  it('should pass skipVersionCheck from the root options to every worker', async () => {
+    moduleRef = await Test.createTestingModule({
+      imports: [
+        BullModule.forRoot({ connection: {}, skipVersionCheck: true }),
+        BullModule.registerQueue({
+          name: queueName,
+          processors: [vi.fn() as BullQueueProcessorCallback],
+        }),
+      ],
+    }).compile();
+
+    expect(workerCtorSpy).toHaveBeenCalledWith(
+      queueName,
+      expect.any(Function),
+      expect.objectContaining({ skipVersionCheck: true }),
+      undefined,
+    );
+  });
+
+  it('should let processor options override skipVersionCheck', async () => {
+    moduleRef = await Test.createTestingModule({
+      imports: [
+        BullModule.registerQueue({
+          name: queueName,
+          skipVersionCheck: true,
+          processors: [
+            {
+              callback: vi.fn() as BullQueueProcessorCallback,
+              skipVersionCheck: false,
+            },
+          ],
+        }),
+      ],
+    }).compile();
+
+    expect(workerCtorSpy).toHaveBeenCalledWith(
+      queueName,
+      expect.any(Function),
+      expect.objectContaining({ skipVersionCheck: false }),
+      undefined,
+    );
+  });
+
   it('should pass telemetry from the root options to every worker', async () => {
     moduleRef = await Test.createTestingModule({
       imports: [
