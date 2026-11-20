@@ -165,6 +165,46 @@ describe('BullExplorer', () => {
       );
     });
 
+    it('should pass skipVersionCheck option to the worker constructor', () => {
+      const instance = new FixtureProcessor();
+
+      bullExplorer.handleProcessor(
+        instance,
+        queueName,
+        { ...queue.opts, skipVersionCheck: true },
+        null as unknown as Module,
+        false,
+      );
+
+      expect(workerCtorSpy).toHaveBeenCalledWith(
+        queueName,
+        expect.any(Function),
+        expect.objectContaining({
+          connection: queue.opts.connection,
+          skipVersionCheck: true,
+        }),
+      );
+    });
+
+    it('should let worker options override the queue skipVersionCheck option', () => {
+      const instance = new FixtureProcessor();
+
+      bullExplorer.handleProcessor(
+        instance,
+        queueName,
+        { ...queue.opts, skipVersionCheck: true },
+        null as unknown as Module,
+        false,
+        { skipVersionCheck: false },
+      );
+
+      expect(workerCtorSpy).toHaveBeenCalledWith(
+        queueName,
+        expect.any(Function),
+        expect.objectContaining({ skipVersionCheck: false }),
+      );
+    });
+
     it('should pass backendFactory to the worker constructor when provided in worker options', () => {
       const mockBackendFactory = vi.fn();
       const workerOptions = { backendFactory: mockBackendFactory };
@@ -401,6 +441,39 @@ describe('BullExplorer', () => {
         expect.objectContaining({
           connection: mockQueue.opts.connection,
           telemetry: mockTelemetry,
+        }),
+      );
+    });
+
+    it('should pass skipVersionCheck option to queue events constructor', async () => {
+      const mockQueue = {
+        name: queueName,
+        opts: {
+          connection: { host: 'localhost', port: 6380 },
+          skipVersionCheck: true,
+        },
+      };
+
+      moduleRef = await Test.createTestingModule({
+        imports: [DiscoveryModule],
+        providers: [
+          BullExplorer,
+          BullMetadataAccessor,
+          EventsListener,
+          ProcessorDecoratorService,
+        ],
+      }).compile();
+
+      bullExplorer = moduleRef.get(BullExplorer);
+
+      vi.spyOn(bullExplorer, 'getQueueOptions').mockReturnValue(mockQueue.opts);
+      bullExplorer.registerQueueEventListeners();
+
+      expect(queueEventsSpy).toHaveBeenCalledWith(
+        queueName,
+        expect.objectContaining({
+          connection: mockQueue.opts.connection,
+          skipVersionCheck: true,
         }),
       );
     });
