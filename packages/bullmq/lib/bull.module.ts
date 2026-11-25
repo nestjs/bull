@@ -17,6 +17,7 @@ import {
 import { BullRegistrar } from './bull.registrar.js';
 import { ProcessorDecoratorService } from './instrument/processor-decorator.service.js';
 import {
+  BullModuleExtraOptions,
   BullRootModuleOptions,
   RegisterFlowProducerAsyncOptions,
   RegisterFlowProducerOptions,
@@ -127,16 +128,16 @@ export class BullModule {
       useValue: config,
     };
 
-    const extraOptionsProvider: Provider = {
-      provide: BULL_EXTRA_OPTIONS_TOKEN,
-      useValue: { ...extraOptions },
-    };
+    const providers = [
+      sharedBullConfigProvider,
+      ...this.createExtraOptionsProviders(extraOptions),
+    ];
 
     return {
       global: true,
       module: BullModule,
-      providers: [sharedBullConfigProvider, extraOptionsProvider],
-      exports: [sharedBullConfigProvider, extraOptionsProvider],
+      providers,
+      exports: providers,
     };
   }
 
@@ -430,25 +431,42 @@ export class BullModule {
     options: SharedBullAsyncConfiguration,
   ): Provider[] {
     const { extraOptions, ...config } = options;
-
-    const extraOptionsProvider: Provider = {
-      provide: BULL_EXTRA_OPTIONS_TOKEN,
-      useValue: { ...extraOptions },
-    };
+    const extraOptionsProviders =
+      this.createExtraOptionsProviders(extraOptions);
 
     if (options.useExisting || options.useFactory) {
       return [
         this.createAsyncSharedConfigurationProvider(configKey, config),
-        extraOptionsProvider,
+        ...extraOptionsProviders,
       ];
     }
     const useClass = config.useClass;
     return [
       this.createAsyncSharedConfigurationProvider(configKey, config),
-      extraOptionsProvider,
+      ...extraOptionsProviders,
       {
         provide: useClass,
         useClass,
+      },
+    ];
+  }
+
+  /**
+   * "extraOptions" are module-wide, but every "forRoot()"/"forRootAsync()" call
+   * (including the ones with a "configKey") registers its own global module.
+   * Only provide the token when "extraOptions" are set, so a call without them
+   * does not override the ones passed to another call.
+   */
+  private static createExtraOptionsProviders(
+    extraOptions: BullModuleExtraOptions | undefined,
+  ): Provider[] {
+    if (!extraOptions) {
+      return [];
+    }
+    return [
+      {
+        provide: BULL_EXTRA_OPTIONS_TOKEN,
+        useValue: { ...extraOptions },
       },
     ];
   }
