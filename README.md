@@ -41,7 +41,7 @@ $ npm i --save @nestjs/bullmq bullmq
 
 ## Observability
 
-Queue consumers are instrumented automatically by [NestJS Observe](https://observe.nestjs.com), the official observability platform for Nest. `@Processor` classes and their handlers are reported as jobs - duration, outcome, queue wait time and retry attempts - and a failed run carries the resolved stack trace, the logs written during it, and the waterfall of what it did before it threw. A job-silence alert fires when a named job stops reporting. See the [Observability](https://docs.nestjs.com/observability/overview) chapter, or the [queues](https://docs.nestjs.com/techniques/queues) one for what it looks like here.
+Queue consumers are instrumented automatically by [NestJS Observe](https://observe.nestjs.com/?ref=readme-bull), the official observability platform for Nest. `@Processor` classes and their handlers are reported as jobs - duration, outcome, queue wait time and retry attempts - and a failed run carries the resolved stack trace, the logs written during it, and the waterfall of what it did before it threw. A job-silence alert fires when a named job stops reporting. See the [Observability](https://docs.nestjs.com/observability/overview) chapter, or the [queues](https://docs.nestjs.com/techniques/queues) one for what it looks like here.
 
 ## Support
 
