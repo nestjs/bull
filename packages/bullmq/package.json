@@ -49,7 +49,7 @@
     "@nestjs/core": "12.6.0",
     "@nestjs/platform-express": "12.6.0",
     "@nestjs/testing": "12.6.0",
-    "@types/node": "26.6.10",
+    "@types/node": "26.6.11",
     "@types/reflect-metadata": "0.1.0",
     "bullmq": "6.7.10",
     "ioredis": "6.1.0",
