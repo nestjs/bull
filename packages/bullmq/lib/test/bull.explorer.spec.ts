@@ -186,6 +186,24 @@ describe('BullExplorer', () => {
       );
     });
 
+    it('should pass skipWaitingForReady option to the worker constructor', () => {
+      const instance = new FixtureProcessor();
+
+      bullExplorer.handleProcessor(
+        instance,
+        queueName,
+        { ...queue.opts, skipWaitingForReady: true },
+        null as unknown as Module,
+        false,
+      );
+
+      expect(workerCtorSpy).toHaveBeenCalledWith(
+        queueName,
+        expect.any(Function),
+        expect.objectContaining({ skipWaitingForReady: true }),
+      );
+    });
+
     it('should let worker options override the queue skipVersionCheck option', () => {
       const instance = new FixtureProcessor();
 
@@ -474,6 +492,39 @@ describe('BullExplorer', () => {
         expect.objectContaining({
           connection: mockQueue.opts.connection,
           skipVersionCheck: true,
+        }),
+      );
+    });
+
+    it('should pass skipWaitingForReady option to queue events constructor', async () => {
+      const mockQueue = {
+        name: queueName,
+        opts: {
+          connection: { host: 'localhost', port: 6380 },
+          skipWaitingForReady: true,
+        },
+      };
+
+      moduleRef = await Test.createTestingModule({
+        imports: [DiscoveryModule],
+        providers: [
+          BullExplorer,
+          BullMetadataAccessor,
+          EventsListener,
+          ProcessorDecoratorService,
+        ],
+      }).compile();
+
+      bullExplorer = moduleRef.get(BullExplorer);
+
+      vi.spyOn(bullExplorer, 'getQueueOptions').mockReturnValue(mockQueue.opts);
+      bullExplorer.registerQueueEventListeners();
+
+      expect(queueEventsSpy).toHaveBeenCalledWith(
+        queueName,
+        expect.objectContaining({
+          connection: mockQueue.opts.connection,
+          skipWaitingForReady: true,
         }),
       );
     });

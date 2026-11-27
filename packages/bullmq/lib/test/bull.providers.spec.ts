@@ -93,6 +93,33 @@ describe('Queue processors', () => {
     }
   });
 
+  it('should pass skipWaitingForReady from the queue options to every worker', async () => {
+    const callback = vi.fn() as BullQueueProcessorCallback;
+    const path = '/path/to/processor.js';
+
+    moduleRef = await Test.createTestingModule({
+      imports: [
+        BullModule.registerQueue({
+          name: queueName,
+          skipWaitingForReady: true,
+          processors: [
+            callback,
+            path,
+            { callback, concurrency: 2 },
+            { path, concurrency: 2 },
+          ],
+        }),
+      ],
+    }).compile();
+
+    expect(workerCtorSpy).toHaveBeenCalledTimes(4);
+    for (const [, , opts] of workerCtorSpy.mock.calls) {
+      expect(opts).toEqual(
+        expect.objectContaining({ skipWaitingForReady: true }),
+      );
+    }
+  });
+
   it('should pass skipVersionCheck from the root options to every worker', async () => {
     moduleRef = await Test.createTestingModule({
       imports: [

@@ -53,6 +53,7 @@ export function getSharedWorkerOptions(queueOpts: NestQueueOptions) {
     prefix: queueOpts.prefix,
     telemetry: queueOpts.telemetry,
     skipVersionCheck: queueOpts.skipVersionCheck,
+    skipWaitingForReady: queueOpts.skipWaitingForReady,
   };
 }
 
