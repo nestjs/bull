@@ -394,6 +394,34 @@ describe('BullExplorer', () => {
 
       await testingModule.close();
     });
+    it('should look up queue options under the listener configKey', async () => {
+      @QueueEventsListener({ queueName, configKey: 'other' })
+      class ConfigKeyEventsListener extends QueueEventsHost {}
+
+      const testingModule = await Test.createTestingModule({
+        imports: [DiscoveryModule],
+        providers: [
+          BullExplorer,
+          BullMetadataAccessor,
+          ConfigKeyEventsListener,
+          ProcessorDecoratorService,
+        ],
+      }).compile();
+      const explorer = testingModule.get(BullExplorer);
+      const getQueueOptionsSpy = vi
+        .spyOn(explorer, 'getQueueOptions')
+        .mockReturnValue({ connection: { host: 'localhost', port: 6380 } });
+
+      explorer.registerQueueEventListeners();
+
+      expect(getQueueOptionsSpy).toHaveBeenCalledWith(
+        getQueueToken(queueName),
+        queueName,
+        'other',
+      );
+
+      await testingModule.close();
+    });
     it('should pass telemetry option to queue events constructor', async () => {
       const mockTelemetry = {
         instrumentJob: vi.fn(),
