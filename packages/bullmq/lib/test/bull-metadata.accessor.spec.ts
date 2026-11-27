@@ -81,6 +81,26 @@ describe('BullMetadataAccessor', () => {
         queueEventsOptions: opts,
       });
     });
+
+    it('should return queue events listener metadata passed as an options object', () => {
+      const opts = {
+        sharedConnection: true,
+      };
+      @QueueEventsListener({
+        queueName: 'test',
+        queueEventsOptions: opts,
+        configKey: 'other',
+      })
+      class EventsListener {}
+
+      expect(
+        metadataAccessor.getQueueEventsListenerMetadata(EventsListener),
+      ).toEqual({
+        queueName: 'test',
+        queueEventsOptions: opts,
+        configKey: 'other',
+      });
+    });
   });
 
   describe('getOnQueueEventMetadata', () => {

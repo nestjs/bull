@@ -1,6 +1,6 @@
 import { MetadataScanner } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
-import { FlowProducer, Job, Queue } from 'bullmq';
+import { FlowProducer, Job, Queue, Worker } from 'bullmq';
 import {
   BullModule,
   BullRegistrar,
@@ -695,6 +695,76 @@ describe('BullModule', () => {
       expect(queueCompletedEventSpy).toHaveBeenCalled();
       expect(workerCompletedEventSpy).toHaveBeenCalled();
     });
+  });
+
+  describe('queue events listener with a configKey', () => {
+    const queueName = 'config_key_listener_queue';
+    const connection = { host: '0.0.0.0', port: 6380, db: 2 };
+
+    // The listened queue is not registered in these modules: its jobs are
+    // added and processed elsewhere, on the "other" connection.
+    it.each([
+      [
+        'with a default configuration',
+        [
+          BullModule.forRoot({
+            connection: { host: '0.0.0.0', port: 6380, db: 1 },
+          }),
+          BullModule.forRoot('other', { connection }),
+          BullModule.registerQueue({ name: 'unrelated_queue' }),
+        ],
+      ],
+      [
+        'without a default configuration',
+        [
+          BullModule.forRoot('other', { connection }),
+          BullModule.registerQueue({
+            name: 'unrelated_queue',
+            configKey: 'other',
+          }),
+        ],
+      ],
+    ])(
+      'should listen with the connection registered under the given configKey (%s)',
+      async (_, imports) => {
+        const queueCompletedEventSpy = vi.fn();
+
+        @QueueEventsListener({ queueName, configKey: 'other' })
+        class EventsListener extends QueueEventsHost {
+          @OnQueueEvent('completed')
+          onCompleted() {
+            queueCompletedEventSpy();
+          }
+        }
+
+        const testingModule = await Test.createTestingModule({
+          imports,
+          providers: [EventsListener],
+        }).compile();
+        const queue = new Queue(queueName, { connection });
+        const worker = new Worker(queueName, async () => 'done', {
+          connection,
+        });
+
+        try {
+          await testingModule.init();
+          await testingModule.get(EventsListener).queueEvents.waitUntilReady();
+
+          await queue.add('job_name', { test: true });
+
+          await vi.waitFor(
+            () => expect(queueCompletedEventSpy).toHaveBeenCalled(),
+            {
+              timeout: 4000,
+            },
+          );
+        } finally {
+          await worker.close();
+          await queue.close();
+          await testingModule.close();
+        }
+      },
+    );
   });
 
   describe('manual registration', () => {

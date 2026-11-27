@@ -293,7 +293,7 @@ export class BullExplorer implements OnModuleDestroy {
         return;
       }
 
-      const { queueName, queueEventsOptions } =
+      const { queueName, queueEventsOptions, configKey } =
         this.metadataAccessor.getQueueEventsListenerMetadata(
           // NOTE: We are relying on `instance.constructor` to properly support
           // `useValue` and `useFactory` providers besides `useClass`.
@@ -301,7 +301,7 @@ export class BullExplorer implements OnModuleDestroy {
         );
 
       const queueToken = getQueueToken(queueName);
-      const queueOpts = this.getQueueOptions(queueToken, queueName);
+      const queueOpts = this.getQueueOptions(queueToken, queueName, configKey);
 
       if (!(instance instanceof QueueEventsHost)) {
         throw new InvalidQueueEventsListenerClassError(
