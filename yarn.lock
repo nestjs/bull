@@ -3402,14 +3402,14 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.npmjs.org/lines-and-columns/-/lines-and-columns-1.1.6.tgz"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-lint-staged@17.6.2:
-  version "17.6.2"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-17.6.2.tgz#39624370bff9865b66d00fafff2cef2eafe845fa"
-  integrity sha512-c/JaXaXmleubmKUwwp4OAcq55RV9Z3HTUNdqdqPh2srtmP9Of3bcR6o00GoWDUye+9JhMuoYkhYqAVPIOZKcsw==
+lint-staged@17.6.3:
+  version "17.6.3"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-17.6.3.tgz#60705d85fe36e7a404da1f7134a3f71105eea61f"
+  integrity sha512-MuBskhLFmGK37UlEVMRS5GrMEE3lDZsnCuI9jF0zlxJ+sTSeNiTKaPcx3ewVmAHYXQmrQZapeVuC1RMpDARWsQ==
   dependencies:
     picomatch "^4.0.7"
     string-argv "^0.4.0"
-    tinyexec "^1.3.1"
+    tinyexec "^1.4.0"
   optionalDependencies:
     yaml "^2.9.1"
 
@@ -5215,10 +5215,10 @@ tinyexec@^1.0.2:
   resolved "https://registry.yarnpkg.com/tinyexec/-/tinyexec-1.1.1.tgz#e1ff45dfa60d1dedb91b734956b78f6c2a3e821b"
   integrity sha512-VKS/ZaQhhkKFMANmAOhhXVoIfBXblQxGX1myCQ2faQrfmobMftXeJPcZGp0gS07ocvGJWDLZGyOZDadDBqYIJg==
 
-tinyexec@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/tinyexec/-/tinyexec-1.3.1.tgz#16a2e3c6e23fafce72640e678e651db36145b9c6"
-  integrity sha512-GCvB3aoys96IuDFBMcTB46JOR6mdMtAToqwiW8JlWhsoh1mhHi/xn9ss/Dg7N555GiJyEt2qzoG/NHCwM6h1EA==
+tinyexec@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/tinyexec/-/tinyexec-1.4.0.tgz#00ebfefb08f1d608ccbf433743830dffe56c7dee"
+  integrity sha512-PV6lIcJQh57aFeJDwx16JNHmgFRh5xguzallrDW1qe8nAghYgr5MKz2K5k7wEyV/ygZhdnIAP8+HZSarHPBCsg==
 
 tinyglobby@0.2.17, tinyglobby@^0.2.17:
   version "0.2.17"
